@@ -1,0 +1,13 @@
+#!/bin/sh /usr/share/dpatch/dpatch-run
+## 03-configure.dpatch by Patrick Winnertz <patrick.winnertz@skolelinux.org>
+##
+#DP: Don't build the module for testing and don't build any guest additions
+#DP: both depends on kernel headers, which are atm not available
+
+@DPATCH@
+--- /dev/null	2007-07-31 09:40:43.064034525 +0200
++++ ./LocalConfig.kmk	2007-07-31 20:04:18.000000000 +0200
+@@ -0,0 +1,3 @@
++VBOX_WITH_VBOXDRV = 
++VBOX_WITH_LINUX_ADDITIONS = 
++VBOX_WITH_LINUX_ONLY =

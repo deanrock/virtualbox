@@ -1,0 +1,24 @@
+virtualbox: shlib-with-non-pic-code usr/lib/virtualbox/VBoxC.so
+virtualbox: shlib-with-non-pic-code usr/lib/virtualbox/VBoxREM.so
+virtualbox: shlib-with-non-pic-code usr/lib/virtualbox/VBoxVMM.so
+virtualbox: shlib-with-non-pic-code usr/lib/virtualbox/VBoxXML.so
+virtualbox: shlib-with-non-pic-code usr/lib/virtualbox/VBoxSVCM.so
+virtualbox: shlib-with-non-pic-code usr/lib/virtualbox/VBoxDDU.so
+virtualbox: shlib-with-non-pic-code usr/lib/virtualbox/VBoxDD2.so
+virtualbox: shlib-with-non-pic-code usr/lib/virtualbox/VBoxDD.so
+virtualbox: shlib-with-non-pic-code usr/lib/virtualbox/VBoxRT.so
+virtualbox: unstripped-binary-or-object ./usr/lib/virtualbox/VBoxDD2GC.gc
+virtualbox: unstripped-binary-or-object ./usr/lib/virtualbox/VBoxDD2R0.r0
+virtualbox: unstripped-binary-or-object ./usr/lib/virtualbox/VBoxDDGC.gc
+virtualbox: unstripped-binary-or-object ./usr/lib/virtualbox/VBoxDDR0.r0
+virtualbox: unstripped-binary-or-object ./usr/lib/virtualbox/VMMGC.gc
+virtualbox: unstripped-binary-or-object ./usr/lib/virtualbox/VMMR0.r0
+virtualbox: unstripped-binary-or-object ./usr/lib/virtualbox/testcase/tstLdrObj.gc
+virtualbox: unstripped-binary-or-object ./usr/lib/virtualbox/testcase/tstLdrObjR0.r0
+virtualbox: unstripped-binary-or-object ./usr/lib/virtualbox/tstMicroGC.gc
+virtualbox: shlib-with-non-pic-code usr/lib/virtualbox/VBoxSharedClipboard.so
+virtualbox: shlib-with-non-pic-code usr/lib/virtualbox/VBoxSharedFolders.so
+virtualbox: shlib-with-non-pic-code usr/lib/virtualbox/VBoxSharedOpenGL.so
+virtualbox: image-file-in-usr-lib usr/lib/virtualbox/VBox.png
+virtualbox: shlib-with-non-pic-code usr/lib/virtualbox/VBoxKeyboard.so
+

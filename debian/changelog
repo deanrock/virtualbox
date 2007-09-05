@@ -1,0 +1,37 @@
+virtualbox (1.4.0svn4130-dfsg-1) unstable; urgency=low
+
+  [ Philipp Hug ]
+  * Stripped kbuild and yasm from source tarball
+  * Use Debian's kbuild and yasm instead
+  * Added myself as uploader
+  * Build target for module is now all instead of module
+  * Build against correct kernel source
+  * Integrated changes by Patrick Winnertz
+  * clean: rm env.sh AutoConfig.kmk configure.log
+  * Install udev rules to automatically create device
+  * Automatically create vboxusers group
+  * Binary names are now lowercase
+  * Disabled stripping for VMM because it breaks VirtualBox
+  * Don't require kernel module, recommend it instead
+
+  [ Patrick Winnertz ]
+  * Initial release (Closes: #406992, #407001, #409711).
+  * Remove Microsoft license stuff from orig.tar.gz (repackaged it )
+    See dfsg-free section in debian/rules for details.
+  * Added patch to use own yasm
+  * Added patch to remove Additions from the Makefile.kmk
+  * Remove ./src/libs/xpcom18a4/nsprpub/build/autoconf from source tarball.
+  * Doesn't depend on gcc-3.4 and g++-3.4 since they are going to be removed from
+    debian. Use default instead.
+    Therefore I removed the patch, too.
+  * Don't call dh_installdeb twice.  (build-dep & build-indep)
+  * Added section to create dfsg tarball automatically to debian/rules (experimental!!)
+  * Added lintian.overrides for -fPIC since somehow virtualbox doesn't work with
+  * Added patch to prevent building modules and kernel code when building the
+    gui.
+  * Install udev rule with virtualbox and not with the module, since several
+    modules for several kernels could be there.
+  * Improved copyright statements in copyright file.
+  * Corrected .desktop file
+
+ -- Patrick Winnertz <patrick.winnertz@skolelinux.org>  Thu, 30 Aug 2007 12:35:51 +0200

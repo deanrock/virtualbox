@@ -1,0 +1,10 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=InnoTek VirtualBox
+GenericName=Virtual Machine
+Type=Application
+Comment=Run several virtual systems on a single host computer
+Exec=VirtualBox
+TryExec=VirtualBox
+Icon=virtualbox.png
+Categories=Application;Emulator;System;

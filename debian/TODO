@@ -1,0 +1,46 @@
+
+
+libs compile with -fPIC
+dpatch for Config.kmk
+
+check copyright
+check trademark
+
+virtualbox: check install:, maybe to much binaries installed?
+virtualbox-source: device creation needed?
+
+
+SOURCE CLEANUP
+**************
+
+* removed tools
+* removed kBuild
+
+the following file looked suspicous:
+
+./src/recompiler/tests/pi_10.com:                                                             data
+* PI calculator by Betram Felgenhauer
+  * taken from qemu
+
+  ./src/libs/xpcom18a4/xpcom/typelib/xpidl/macplugin/compiler.rsrc:                             AppleSingle encoded Macintosh file
+  ./src/libs/xpcom18a4/xpcom/typelib/xpidl/macplugin/linker.rsrc:                               AppleSingle encoded Macintosh file
+  ./src/libs/xpcom18a4/xpcom/typelib/xpidl/macplugin/version.rsrc:                              AppleSingle encoded Macintosh file
+  ./src/libs/xpcom18a4/xpcom/typelib/xpidl/macplugin/panel.rsrc:                                AppleSingle encoded Macintosh file
+  ./src/VBox/Frontends/VirtualBox/src/darwin/VM-PkgInfo:                                        Macintosh Application (data): PLVBVM
+  ./src/VBox/Frontends/VirtualBox/src/darwin/PkgInfo:                                           Macintosh Application (data): PLVBOX
+  * various MAC resource files
+
+  ./src/libs/xpcom18a4/xpcom/tests/StringFactoringTests/StringTest.mcp:                         data
+
+
+  ./src/VBox/Frontends/VirtualBox/images/ico64x01.icns:                                         data
+  ./src/VBox/Frontends/VirtualBox/images/VirtualBox.icns:                                       data
+  * OSX Icon Files
+
+
+  ./src/VBox/Devices/PC/Etherboot-src/pcnet32.zrom:                                               BIOS (ia32) ROM Ext. (40*512)
+  * source code available in same directory
+
+  ./src/VBox/VMM/testcase/dev.tar.gz:                                                             gzip compressed data, from Unix, last modified: Wed Aug  4 02:31:06 2004
+  * contains a bunch of device files
+

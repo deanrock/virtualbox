@@ -1,0 +1,14 @@
+#!/bin/sh /usr/share/dpatch/dpatch-run
+## 05-localconf-kmk.dpatch by Patrick Winnertz <patrick.winnertz@skolelinux.org>
+##
+## DP: Use Debians kbuild instead ; doesn't build module
+
+@DPATCH@
+
+diff -Naur virtualbox-ose-1.5.0-dfsg.orig/LocalConfig.kmk virtualbox-ose-1.5.0-dfsg/LocalConfig.kmk
+--- virtualbox-ose-1.5.0-dfsg.orig/LocalConfig.kmk	1970-01-01 00:00:00.000000000 +0000
++++ virtualbox-ose-1.5.0-dfsg/LocalConfig.kmk	2007-09-05 05:11:35.000000000 +0000
+@@ -0,0 +1,3 @@
++VBOX_WITH_VBOXDRV = 
++VBOX_WITH_LINUX_ADDITIONS = 
++VBOX_WITH_LINUX_ONLY =

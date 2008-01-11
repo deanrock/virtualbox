@@ -3,7 +3,7 @@ Section: misc
 Priority: extra
 Maintainer: Debian Virtualbox Team  <pkg-virtualbox-devel@lists.alioth.debian.org>
 Uploaders: Philipp Hug <debian@hug.cx>, Marvin Stark <marv@der-marv.de>, Michael Meskes <meskes@debian.org>, Patrick Winnertz <winnie@debian.org>, Daniel Baumann <daniel@debian.org>, Hilko Bengen <bengen@debian.org>
-Build-Depends: debhelper (>= 5), dpatch, bcc, bzip2, g++-multilib [amd64], ia32-libs [amd64], iasl, kbuild, libacl1-dev, libasound-dev, libc6-dev-i386 [amd64], libhal-dev, libidl-dev, libqt3-mt-dev, libsdl1.2-dev, libxalan110-dev, uuid-dev, xalan, xsltproc, yasm
+Build-Depends: debhelper (>= 5), dpatch, bcc, bzip2, g++-multilib [amd64], iasl, kbuild, libacl1-dev, libasound-dev, libhal-dev, libidl-dev, libqt3-mt-dev, libsdl1.2-dev, libxalan110-dev, uuid-dev, xalan, xsltproc, yasm, libpulse-dev, po-debconf (>= 0.5.0)
 Standards-Version: 3.7.3
 Homepage: http://www.virtualbox.org/
 Vcs-Svn: svn://svn.debian.org/svn/pkg-virtualbox/trunk
@@ -11,13 +11,15 @@ Vcs-Browser: http://svn.debian.org/wsvn/pkg-virtualbox/trunk
 
 Package: virtualbox-ose
 Architecture: amd64 i386
-Depends: ${shlibs:Depends}, ${misc:Depends}, adduser, virtualbox-ose-modules
+Depends: ${shlibs:Depends}, ${misc:Depends}, adduser
+Pre-Depends: debconf | debconf-2.0
+Recommends: virtualbox-ose-modules
 Suggests: virtualbox-ose-source
 Conflicts: virtualbox
 Replaces: virtualbox
 Provides: virtualbox
 Description: PC virtualization solution
- VirtualBox is a free PC virtualization solution allowing you to run a wide
+ VirtualBox is a free x86 virtualization solution allowing you to run a wide
  range of PC operating systems on your Linux system. This includes Windows,
  Linux, FreeBSD, DOS, OpenBSD and others.
  .
@@ -65,9 +67,10 @@ Description: Source for the VirtualBox Guest Addition module
  Linux, FreeBSD, DOS, OpenBSD and others.
 
 Package: virtualbox-ose-guest-utils
-Architecture: amd64 i386
+Architecture: i386
 Depends: ${shlibs:Depends}, ${misc:Depends}, pciutils
-Recommends: virtualbox-ose-guest-modules, virtualbox-ose-guest-source
+Recommends: virtualbox-ose-guest-modules
+Suggests: virtualbox-ose-guest-source
 Description: PC virtualization solution - guest utils
  VirtualBox is a free PC virtualization solution allowing you to run a wide
  range of PC operating systems on your Linux system. This includes Windows,

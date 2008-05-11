@@ -1,0 +1,20 @@
+#! /bin/sh /usr/share/dpatch/dpatch-run
+## 14-xpcom-make.dpatch by Michael Meskes <meskes@debian.org>
+##
+## All lines beginning with `## DP:' are a description of the patch.
+## DP: XPCOMBLDPROG should extend VBOXBLDPROG not the non-existing BLDPROG
+
+@DPATCH@
+
+diff -ruN virtualbox-ose-1.5.6-dfsg.orig/src/libs/xpcom18a4/Makefile.kmk virtualbox-ose-1.5.6-dfsg/src/libs/xpcom18a4/Makefile.kmk
+--- virtualbox-ose-1.5.6-dfsg.orig/src/libs/xpcom18a4/Makefile.kmk	2007-08-14 14:26:00.000000000 +0200
++++ virtualbox-ose-1.5.6-dfsg/src/libs/xpcom18a4/Makefile.kmk	2008-05-11 23:12:15.000000000 +0200
+@@ -139,7 +139,7 @@
+ # and CXXFLAGS completely at the moment.
+ #
+ TEMPLATE_XPCOMBLDPROG                   = XPCOM Build programs executables
+-TEMPLATE_XPCOMBLDPROG_EXTENDS           = BLDPROG
++TEMPLATE_XPCOMBLDPROG_EXTENDS           = VBOXBLDPROG
+ 
+ TEMPLATE_XPCOMBLDPROG_DEFS                      = $(TEMPLATE_BLDPROG_DEFS)                      $(TEMPLATE_XPCOMEXE_DEFS)
+ TEMPLATE_XPCOMBLDPROG_DEFS.$(BUILD_TARGET)      = $(TEMPLATE_BLDPROG_DEFS.$(BUILD_TARGET))      $(TEMPLATE_XPCOMEXE_DEFS.$(BUILD_TARGET))

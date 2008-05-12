@@ -1,0 +1,45 @@
+#! /bin/sh /usr/share/dpatch/dpatch-run
+## 15-asm-sed.dpatch by Michael Meskes <meskes@debian.org>
+##
+## All lines beginning with `## DP:' are a description of the patch.
+## DP: Update ASM sed file for newer buildchain
+
+@DPATCH@
+
+--- virtualbox-ose-1.5.6-dfsg/src/VBox/VMM/testcase/tstAsmStructsAsm-lst.sed	2007-03-21 20:57:54.000000000 +0100
++++ virtualbox-ose-1.6.0-dfsg/src/VBox/VMM/testcase/tstAsmStructsAsm-lst.sed	2008-05-01 17:27:48.000000000 +0200
+@@ -17,9 +17,11 @@
+ #
+ # Figure which type of line this is and process it accordingly.
+ #
+-/^[A-Za-z][A-Za-z0-9_]*:/b struct
++/^[A-Za-z_][A-Za-z0-9_]*:/b struct
+ /<gap>/b member
++/^\.[A-Za-z_][A-Za-z0-9_.:]* res.*$/b member_two
+ b error
++b member_two
+ 
+ 
+ #
+@@ -48,6 +50,21 @@
+ 
+ b end
+ 
++
++#
++# Struct member, no address. yasm r1842 and later.
++#
++:member_two
++s/[:]*  *res[bwdtq] .*$//
++s/$/ /
++/^\.[a-zA-Z0-9_.]* *$/!t error
++G
++s/^\([^ ]*\) \(.*\)$/global \2\1 ; member2/
++s/\n//m
++
++b end
++
++
+ :error
+ s/^/\nSed script logic error!\nBuffer: /
+ s/$/\nHold: /

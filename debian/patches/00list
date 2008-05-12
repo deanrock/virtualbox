@@ -13,3 +13,4 @@
 12-gcc-4.3
 13-make-module
 14-xpcom-make
+15-asm-sed

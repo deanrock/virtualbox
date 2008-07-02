@@ -1,10 +1,380 @@
-virtualbox-ose (1.5.2-dfsg2-5) UNRELEASED; urgency=low
+virtualbox-ose (1.6.2-dfsg-2) unstable; urgency=low
 
+  [ Daniel Baumann ]
+  * Using dpkg-architecture rather than dpkg --print-architecture in
+    01-no-64bit-guest.dpatch in order to be more accurate for ia32 subarchs
+    like lpia, thanks to Loic Minier <lool@debian.org>.
+  * Rediffing 02-config-kmk.dpatch.
+  * Adding patch to adjust failure message with Debian specific solution when
+    experiencing kernel module version mismatch.
+
+  [ Hilko Bengen ]
+  * Re-added watch file: Innotek/Sun still want us to use their INTERSHOP
+    system to download the tarball, but luckily, there is an alternative
+    download location.
+  * Enhanced README.Debian
+
+  [ Patrick Winnertz ]
+  * Adding VBoxHeadless to virtualbox. Thanks to Stefan Lippers-Hollmann.
+    (Closes: #486544)
+
+  [ Michael Meskes ]
+  * Remove LocalConfig.kmk in clean target.
+  * Source env.sh before starting to build.
+  * Include our wiki page as simple html file under
+    /usr/share/doc/virtualbox-ose. (Closes: #484998)
+  * Install VBoxRandR into guest-utils package.
+  * Moved udev rule from virtualbox-ose-guest-modules package to
+    virtualbox-ose-guest-utils package. (Closes: #488455)
+
+  [ Loic Minier ]
+  * Build virtualbox-ose, virtualbox-ose-dbg, and virtualbox-ose-guest-utils
+    for lpia.
+  * Wrap uploaders, bdeps, and deps on multiple lines to get cleaner diffs.
+  * Cleanup upstreamversion computation and compute it only once.
+  * Set VBOX_WITH_X11_ADDITIONS in rules when the DEB_HOST_ARCH is i386 or
+    lpia instead of using dpkg --print-architecture.
+  * Use the -s flag to dh_ commands instead of 3 debhelper calls and a shell
+    test; as a bonus, this provides additional detached symbols in -dbg.
+  * Move all -a flags to -s.
+  * Install files into virtualbox-ose-guest-utils unconditionally and ignore
+    errors -- even if these exist, the package is disabled on amd64.
+  * Cleanup rules slightly.
+  * Add ${misc:Depends} as this is recommended nowadays.
+  * Drop now empty debian/virtualbox-ose-guest-utils.postinst which used to
+    call /usr/lib/virtualbox/x11config.pl in the past.
+  * Cleanup debian/virtualbox-ose-source.files/rules and
+    debian/virtualbox-ose-guest-source.files/rules slightly.
+  * Drop trailing exit 0 from "set -e"-ed postinst templates.
+
+ -- Michael Meskes <meskes@debian.org>  Tue, 17 Jun 2008 14:52:36 +0200
+
+virtualbox-ose (1.6.2-dfsg-1) unstable; urgency=low
+
+  [ Michael Meskes ]
+  * New upstream version, closes: #479744, #482504, #483592
+  * Removed unneeded xalan build dependency.
+  * Added build dependency on libxslt and libxml.
+  * Fixed LocalConfig.kmk to list new variables.
+  * Use upstream provided X session file, but patch our changes in there.
+  * Build with gcc/g++ 4.2.
+  * Bumped Standards-Version to 3.8.0.
+
+  [ Daniel Baumann ]
+  * Removing ffmpeg recursively in dfsg-free target in rules.
+  * Rediffing all patches.
+  * Renumbering all patches.
+  * Sanitizing dpatch headers.
+  * Stripping off embedded copy of libpng in dfsg-free target of rules.
+  * Stripping off embedded copy of libxml2 in dfsg-free target of rules.
+  * Stripping off embedded copy of libxslt in dfsg-free target of rules.
+  * Stripping off embedded copy of zlib in dfsg-free target of rules.
+  * Improving long description of virtualbox-ose-guest-utils.
+  * Correcting wrong virtualbox-ose-guest-utils package name in long
+    description of virtuabox-ose-guest-source.
+  * Adding note about kernel module requirement in virtualbox-ose long
+    description.
+
+ -- Michael Meskes <meskes@debian.org>  Sun, 11 May 2008 22:48:59 +0200
+
+virtualbox-ose (1.5.6-dfsg-7) unstable; urgency=low
+
+  [ Michael Meskes ]
+  * Made virtualbox-ose-modules recommend virtualbox-ose-guest-utils.
+  * Added recommendation on up-to-date xserver-xorg-core and conflict on
+    older versions to guest-utils, closes: #476526
+  * Provide xserver-xorg-input-2 and xserver-xorg-video-2 with guest-utils.
+  * Removed watch file, I couldn't find a way to get the orig tarball without
+    first accepting a license.
+  * Rewrote debian/rules for both source packages, hopefully this
+    finally closes: #469882
+  * Patched module Makefile to allow amd64 build in linux-modules-extra-2.6.
+  * Added patch by Pascal Volk <user@localhost.localdomain.org> to prevent
+    init script from overwriting values, closes: #475193
+  * Added patch from upstream SVN to fix FTBFS in xpcom, closes: #479910
+  * Took another change from SVN to update sed file for newer buildchain.
+  * Recompiled against latest libxalan110, closes: #480739
+
+  [ Daniel Baumann ]
+  * Correcting wrong module-assistant manpage section in
+    virtualbox-ose-*source.README.Debian.
+  * Removing some reimported useless whitespaces.
+  * Sanitizing all po headers.
+
+  [ Patrick Winnertz ]
+  * Added patch to make virtualbox-ose-guest-source build with kernels >=
+    2.6.25. Thanks to Stefan Lippers-Hollmann. (Closes: 478373, 478333, 480736)
+
+ -- Michael Meskes <meskes@debian.org>  Sun, 11 May 2008 22:48:50 +0200
+
+virtualbox-ose (1.5.6-dfsg-6) unstable; urgency=low
+
+  * Added two patches from upstream SVN to make virtualbox-ose build with
+    gcc-4.3. However, this compiler is not yet officially supported.
+    Closes: #474907
+
+ -- Michael Meskes <meskes@debian.org>  Tue, 08 Apr 2008 09:58:35 +0200
+
+virtualbox-ose (1.5.6-dfsg-5) unstable; urgency=low
+
+  [ Hilko Bengen ]
+  * Don't fail in guest-utils init script if the vboxadd module cannot
+    get loaded (Closes: #474195)
+
+  [ Michael Meskes ]
+  * Fixed default ARCH setting in module Makefile, closes: #474196
+  * Made initscript even more LSB compliant by using LSB logging
+    functions, closes: #474089
+
+ -- Michael Meskes <meskes@debian.org>  Fri, 04 Apr 2008 10:16:48 +0200
+
+virtualbox-ose (1.5.6-dfsg-4) unstable; urgency=low
+
+  [ Michael Meskes  ]
+  * Set default architecture in debian/rules for module source package.
+  * Fixed and rearranged patches against init script.
+
+  [ Patrick Winnertz ]
+  * Improve init.d script patch to write done also on the first startup.
+    (Closes: #473059)
+
+ -- Michael Meskes <meskes@debian.org>  Wed, 02 Apr 2008 12:08:30 +0200
+
+virtualbox-ose (1.5.6-dfsg-3) unstable; urgency=low
+
+  [ Michael Meskes ]
+  * Fixed arch check in virtualbox-ose-source rules file, closes: #469882
+  * Added just another patch to the initscript. This patch makes sure the tun
+    module is only loaded if it is needed, closes: #470172
+  * Made desktop file comply to the Free Desktop specification, closes: #470937
+  * Replaced $(PWD) with $(CURDIR) in rules file.
+  * Bumped build dependency for debhelper to version >= 5.0.44~ because of
+    dh_installifupdown.
+  * Moved to Hilko's docbook version of README.Debian.
+  * Also added information about VBoxADDIF to README.Debian.
+  * Copied lynx-dump-postprocess script from exim4 package.
+
+  [ Hilko Bengen ]
+  * Added scripts for managing `vbox' interfaces from
+    /etc/network/interfaces
+
+ -- Michael Meskes <meskes@debian.org>  Tue, 18 Mar 2008 15:13:39 +0100
+
+virtualbox-ose (1.5.6-dfsg-2) unstable; urgency=low
+
+  [ Daniel Baumann ]
+  * Added Brazilian-Portuguese debconf translation from Eder L. Marques
+    <eder@edermarques.net> (Closes: #467452).
+
+  [ Michael Meskes ]
+  * Added patch by Frans Pop <elendil@planet.nl> to make modules compile with
+    kernel 2.6.25, closes: #468864
+  * Suggest bridge-utils which is needed for static host networking.
+  * Added patch against init script to remove newly created file again on
+    failure, closes: #468419
+  * Fixed watch file to cope with -1 upstream release.
+
+ -- Michael Meskes <meskes@debian.org>  Sun, 02 Mar 2008 10:38:31 +0100
+
+virtualbox-ose (1.5.6-dfsg-1) unstable; urgency=low
+
+  [ Michael Meskes ]
+  * New upstream version
+  * Fixed LSB headers in init.d scripts, closes: #466311
+  * list x11config.pl with correct path in README file, closes: #466621
+  * Added last changes made by the translation projects, thanks to
+    Christian Perrier <bubulle@debian.org>.
+  * Tweaked dfsg-free target in rules file so it is really executable, first
+    steps made by Hilko.
+
+  [ Hilko Bengen ]
+  * Make module loading in initscript configurable (disabled by default).
+
+  [ Patrick Winnertz ]
+  * prevent initscript from failing if module doesn't exist. (Closes: #466851)
+
+ -- Michael Meskes <meskes@debian.org>  Sat, 23 Feb 2008 10:49:28 +0100
+
+virtualbox-ose (1.5.4-dfsg-5) unstable; urgency=low
+
+  [ Daniel Baumann ]
+  * Again removing reimported useless whitespaces at EOL and EOF in debian/*.
+  * Unified headers of debconf template translations.
+  * Rediffed patches and again fixed their headers.
+  * Added Portuguese debconf translation from Ricardo Silva <ardoric@gmail.com>
+    (Closes: #464761).
+  * Removed extra whitespace in maintainer field of control, thanks to
+    Christoph Berg <myon@debian.org> (Closes: #465327).
+
+  [ Michael Meskes ]
+  * Added Basque debconf translation, closes: #460348
+  * Added Japanese debconf translation, closes: #465682
+  * Added French debconf translation, closes: #465779
+  * Added Russian debconf translation, closes: #466092
+  * Added Italian debconf translation, closes: #466095
+  * Added Dutch debconf translation, closes: #466113
+  * Added Spanish debconf translation, closes: #466280
+  * Updated German translation.
+  * Really use runtime assertion patch.
+  * Replaced two patches for module build process by upstream changes taken
+    from SVN.
+  * Added ARCH setting to virtualbox-ose-source rules file so we can cross
+    compile the module.
+  * Insert module in initscript.
+
+  [ Patrick Winnertz ]
+  * Fix error of postrm if vboxusers is a non-system group (maybe added
+    manually before installation of virtualbox-ose). (Closes: #462885)
+  * Added reviewed debconf templates and translations.
+      (Closes: #463283) Thanks to Christian Perrier
+      (Closes: #463828) Thanks to Jacobo Tarrio.
+      (Closes: #463959) Thanks to Esko Arajärvi
+      (Closes: #464043) Thanks to Miroslav Kure
+      (Closes: #464509) Thanks to Clytie Siddall
+
+ -- Michael Meskes <meskes@debian.org>  Sun, 17 Feb 2008 19:08:04 +0100
+
+virtualbox-ose (1.5.4-dfsg-4) unstable; urgency=low
+
+  [ Daniel Baumann ]
+  * Again removing reimported useless whitespaces at EOL and EOF in debian/*.
+
+  [ Patrick Winnertz ]
+  * Fixed broken symlink (Closes: #458991)
+
+ -- Patrick Winnertz <winnie@debian.org>  Tue, 15 Jan 2008 11:49:18 +0100
+
+virtualbox-ose (1.5.4-dfsg-3) unstable; urgency=low
+
+  * Added patch from SVN send by Frank Mehnert <frank@innotek.de> to fix
+    runtime assertions.
+  * Improved debconf text.
+  * Check for package upgrade in preinst.
+  * Pre-Depend on debconf.
+
+ -- Michael Meskes <meskes@debian.org>  Thu, 10 Jan 2008 15:14:26 +0100
+
+virtualbox-ose (1.5.4-dfsg-2) unstable; urgency=low
+
+  [ Hilko Bengen ]
+  * Added debian/watch
+
+  [ Daniel Baumann ]
+  * Rediffed 02-module-in-kernel.dpatch.
+  * Again removing reimported useless whitespaces at EOL and EOF in debian/*.
+
+  [ Michael Meskes ]
+  * Removed two additional include files from guest-sources again because they
+    were only needed for amd64.
+  * Install VBoxAddIF.sh which was lost during transition, closes: #458991.
+  * Added a recommend to libhal, see #448347 for details.
+  * Added debconf support.
+  * Tell the user about losing snapshots and ask via debconf whether to
+    proceed, closes: #458842.
+  * Clarified error message coming up if module is not loaded, closes: #459440.
+
+ -- Michael Meskes <meskes@debian.org>  Mon, 07 Jan 2008 17:41:32 +0100
+
+virtualbox-ose (1.5.4-dfsg-1) unstable; urgency=low
+
+  [ Michael Meskes ]
+  * Do not build guest-utils on amd64 because 64bit guests are nor support
+    yet.
+  * Removed build time dependency on i32-libs that is not really needed.
+  * New upstream version.
+  * Removed some new files because of licensing problems:
+    ./src/VBox/Additions/linux/selinux-fedora
+    ./src/VBox/Additions/linux/xmouse/Imakefile
+    ./src/VBox/HostServices/SharedClipboard/linux-stub.cpp
+  * Removed the following patches because they are not needed anymore:
+    01-configure.dpatch
+    08-no-kernel.dpatch
+    09-fix-initscript.dpatch
+    12-kcompat-2.6.24.dpatch
+  * Replaced our registration patch by the new config option taken from SVN.
+  * Rediffed and renumbered some of the remaining patches.
+  * Added build dependency on libpulse-dev.
+  * Moved shell scripts from /usr/lib to /usr/share.
+  * g++-multilib on amd64 depends on libc6-dev-i386, no need to specify both
+    as build dependency.
+  * Manually install missing include files for guest-sources.
+  * Changed layout of guest-sources package to not have to patch the Makefile.
+  * Changed patch accordingly.
+  * Removed old 02-host-module patch, it wasn't needed anymore.
+  * Added new patch 02-module-in-kernel to make sure modules build in a kernel
+    build environment.
+
+  [ Hilko Bengen ]
+  * Make dh_strip ignore symlink(s) in /usr/share
+
+  [ Daniel Baumann ]
+  * Again fixing dpatch headers.
+  * Again removing reimported useless whitespaces at EOL and EOF in debian/*.
+  * Correcting the name of Phillip in copyright.
+  * Syncronising Uploaders of control with control.module.in.
+  * Rediffed all patches properly.
+
+ -- Michael Meskes <meskes@debian.org>  Tue, 01 Jan 2008 14:26:51 +0100
+
+virtualbox-ose (1.5.2-dfsg2-7) unstable; urgency=low
+
+  [ Patrick Winnertz ]
+  * Do only recommend the virtualbox-ose-modules package. Maybe someone
+    would like to compile it on it's own, or not with m-a. (Closes: #456989)
+
+  [ Hilko Bengen ]
+  * Build system: a large move towards using dh_install
+    - This requires that we force the build output dir to a fixed location.
+    - The dh_install call needs to go to the `install' target.
+  * Leave out code/data for test cases from virtualbox-ose binary package
+
+  [ Michael Meskes ]
+  * Only suggest guest-sources in guest-utils. With l-m-e expected to include
+    the guest-modules in the near future, this should be sufficient.
+  * Rearranged parts of the debian dir.
+  * Replaced our patch to not need kernel sources by new configure option
+    taken from svn.
+
+  [ Daniel Baumann ]
+  * Bumping policy also in module controls, no other changes needed.
+
+ -- Michael Meskes <meskes@debian.org>  Thu, 20 Dec 2007 15:51:13 +0100
+
+virtualbox-ose (1.5.2-dfsg2-6) unstable; urgency=low
+
+  [ Daniel Baumann ]
+  * Again removing reimported useless whitespaces at EOL and EOF in debian/*.
+  * Fixing dpatch headers.
+  * Rediffed dpatches 6-12.
+  * Removed svn:executable on dpatch 9 and 12.
+
+  [ Michael Meskes ]
+  * Fixed rules file to correctly install module sources, closes: #456916
+
+ -- Michael Meskes <meskes@debian.org>  Tue, 18 Dec 2007 16:21:33 +0100
+
+virtualbox-ose (1.5.2-dfsg2-5) unstable; urgency=low
+
+  [ Daniel Baumann ]
   * Upgrading virtualbox-ose-modules recommends to depends.
   * Downgrading virtualbox-ose-source recommends to suggests.
   * Bumping policy version, no other changes needed.
 
- -- Daniel Baumann <daniel@debian.org>  Fri,  7 Dec 2007 13:46:00 +0100
+  [ Hilko Bengen ]
+  * Added support for vditool to VBox.sh
+  * Build system:
+    - Cleaned up patch/config phase
+    - Added copy of init script to debian directory -- no longer copy it
+      from src/VBox/Installer/linux/vboxnet.sh
+    - symlinks/directories in packages are now created using debhelper
+  * Add 2.6.24 compatibility fix (Closes: #456464)
+
+  [ Patrick Winnertz ]
+  * Moved initscript again out of debian, we should use the upstream one
+    and created a patch for this one. (in order to fix lintian warning)
+  * Add description to 02-host-module.dpatch
+
+ -- Patrick Winnertz <winnie@debian.org>  Mon, 17 Dec 2007 17:37:52 +0100
 
 virtualbox-ose (1.5.2-dfsg2-4) unstable; urgency=low
 

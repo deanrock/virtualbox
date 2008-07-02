@@ -1,0 +1,39 @@
+#!/bin/sh /usr/share/dpatch/dpatch-run
+## 12-make-module.dpatch by Michael Meskes <meskes@debian.org>
+##
+## DP: Fix ARCH setting in module Makefile
+
+@DPATCH@
+
+diff -Naurp virtualbox-ose-1.6.0-dfsg.orig/src/VBox/HostDrivers/Support/linux/Makefile virtualbox-ose-1.6.0-dfsg/src/VBox/HostDrivers/Support/linux/Makefile
+--- virtualbox-ose-1.6.0-dfsg.orig/src/VBox/HostDrivers/Support/linux/Makefile	2008-04-30 14:05:50.000000000 +0000
++++ virtualbox-ose-1.6.0-dfsg/src/VBox/HostDrivers/Support/linux/Makefile	2008-05-09 09:31:52.000000000 +0000
+@@ -43,12 +43,24 @@ ifeq ($(BUILD_TARGET_ARCH),)
+   BUILD_TARGET_ARCH := amd64
+  else
+   ifeq ($(ARCH),i386)
+-   BUILD_TARGET_ARCH := x86
++   ifeq ($(CONFIG_X86_32),y)
++     BUILD_TARGET_ARCH := x86
++   else
++     BUILD_TARGET_ARCH := amd64
++   endif
+   else
+-   ifeq ($(filter-out x86_64 amd64 AMD64,$(shell uname -m)),)
+-    BUILD_TARGET_ARCH := amd64
++   ifeq ($(ARCH),x86)
++    ifeq ($(CONFIG_X86_32),y)
++     BUILD_TARGET_ARCH := x86
++    else
++     BUILD_TARGET_ARCH := amd64
++    endif
+    else
+-    BUILD_TARGET_ARCH := x86
++    ifeq ($(filter-out x86_64 amd64 AMD64,$(shell uname -m)),)
++     BUILD_TARGET_ARCH := amd64
++    else
++     BUILD_TARGET_ARCH := x86
++    endif
+    endif
+   endif
+  endif

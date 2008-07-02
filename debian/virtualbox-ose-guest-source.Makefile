@@ -1,2 +1,0 @@
-obj-m = vboxadd/ vboxvfs/
-

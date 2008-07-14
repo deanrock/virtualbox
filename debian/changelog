@@ -1,4 +1,20 @@
-virtualbox-ose (1.6.2-dfsg-2) UNRELEASED; urgency=low
+virtualbox-ose (1.6.2-dfsg-3) unstable; urgency=medium
+
+  [ Daniel Baumann ]
+  * Removing empty lines at EOF and whitespaces at EOL.
+  * Including vboxvideo.ids in virtualbox-ose-guest-utils to allow xserver to
+    automagically detect the display adapter, thanks to Avi Rozen
+    <avi.rozen@gmail.com> (Closes: #490541).
+  * Adding Turkish debconf translation from Mert Dirik <mertdirik@gmail.com>
+    (Closes: #490725).
+
+  [ Loic Minier ]
+  * Drop useless subshells in rules files and export environment vars
+    explicitely; also change "cd foo; $(MAKE)" patterns to "$(MAKE) -C foo".
+
+ -- Daniel Baumann <daniel@debian.org>  Mon, 14 Jul 2008 07:14:00 +0200
+
+virtualbox-ose (1.6.2-dfsg-2) unstable; urgency=low
 
   [ Daniel Baumann ]
   * Using dpkg-architecture rather than dpkg --print-architecture in
@@ -21,6 +37,31 @@ virtualbox-ose (1.6.2-dfsg-2) UNRELEASED; urgency=low
   [ Michael Meskes ]
   * Remove LocalConfig.kmk in clean target.
   * Source env.sh before starting to build.
+  * Include our wiki page as simple html file under
+    /usr/share/doc/virtualbox-ose. (Closes: #484998)
+  * Install VBoxRandR into guest-utils package.
+  * Moved udev rule from virtualbox-ose-guest-modules package to
+    virtualbox-ose-guest-utils package. (Closes: #488455)
+
+  [ Loic Minier ]
+  * Build virtualbox-ose, virtualbox-ose-dbg, and virtualbox-ose-guest-utils
+    for lpia.
+  * Wrap uploaders, bdeps, and deps on multiple lines to get cleaner diffs.
+  * Cleanup upstreamversion computation and compute it only once.
+  * Set VBOX_WITH_X11_ADDITIONS in rules when the DEB_HOST_ARCH is i386 or
+    lpia instead of using dpkg --print-architecture.
+  * Use the -s flag to dh_ commands instead of 3 debhelper calls and a shell
+    test; as a bonus, this provides additional detached symbols in -dbg.
+  * Move all -a flags to -s.
+  * Install files into virtualbox-ose-guest-utils unconditionally and ignore
+    errors -- even if these exist, the package is disabled on amd64.
+  * Cleanup rules slightly.
+  * Add ${misc:Depends} as this is recommended nowadays.
+  * Drop now empty debian/virtualbox-ose-guest-utils.postinst which used to
+    call /usr/lib/virtualbox/x11config.pl in the past.
+  * Cleanup debian/virtualbox-ose-source.files/rules and
+    debian/virtualbox-ose-guest-source.files/rules slightly.
+  * Drop trailing exit 0 from "set -e"-ed postinst templates.
 
  -- Michael Meskes <meskes@debian.org>  Tue, 17 Jun 2008 14:52:36 +0200
 

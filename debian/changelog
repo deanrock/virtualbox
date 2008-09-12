@@ -1,3 +1,18 @@
+virtualbox-ose (1.6.2-dfsg-5) unstable; urgency=low
+
+  [ Michael Meskes ]
+  * Updated initscript to better handle LSB compatibility, yet again
+    closes: #474089
+  * Added a short note to README.Debian asking user to use only the 486 version
+    of the 2.6.26 kernel. This documents a workaround for #497505 and #497875.
+  * In VBox.sh honor LD_LIBRARY_PATH if already set, closes: #496953
+
+  [ Loic Minier ]
+  * Demote module-assistant deps to Recommends; closes: #495671.
+  * Don't prepend current directory to LD_LIBRARY_PATH if it isn't set.
+
+ -- Michael Meskes <meskes@debian.org>  Sat, 09 Aug 2008 21:46:44 +0200
+
 virtualbox-ose (1.6.2-dfsg-4) unstable; urgency=medium
 
   * Adding patch from Gonéri Le Bouder <goneri@rulezlan.org> to fix FTBFS with

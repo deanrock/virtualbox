@@ -1,3 +1,10 @@
+virtualbox-ose (1.6.2-dfsg-7) testing-proposed-updates; urgency=low
+
+  * Stop spamming log files by using patch provided by Stefan Lippers-Hollmann
+    <s.L-H@gmx.de>, closes: #500484
+
+ -- Michael Meskes <meskes@debian.org>  Fri, 03 Oct 2008 17:28:55 +0200
+
 virtualbox-ose (1.6.2-dfsg-6) unstable; urgency=medium
 
   * Apply changesets 12299, 12303, 12305, 12307 and 12308 from upstream SVN

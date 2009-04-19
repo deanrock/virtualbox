@@ -1,14 +1,14 @@
 #! /bin/sh /usr/share/dpatch/dpatch-run
-## 15_wined3d_guest_addition.dpatch by Michael Meskes <meskes@debian.org>
+## 15-wined3d-guest-addition.dpatch by Robert Millan <rmh@aybabtu.com>
 ##
 ## All lines beginning with `## DP:' are a description of the patch.
 ## DP: Add WineD3D guest additions
 
 @DPATCH@
 
-diff -ur virtualbox-ose-2.1.2-dfsg/src/VBox/Frontends/VirtualBox4/include/VBoxConsoleWnd.h virtualbox-ose-2.1.2-dfsg.new/src/VBox/Frontends/VirtualBox4/include/VBoxConsoleWnd.h
---- virtualbox-ose-2.1.2-dfsg/src/VBox/Frontends/VirtualBox4/include/VBoxConsoleWnd.h	2009-01-14 21:00:46.000000000 +0100
-+++ virtualbox-ose-2.1.2-dfsg.new/src/VBox/Frontends/VirtualBox4/include/VBoxConsoleWnd.h	2009-02-03 23:25:14.000000000 +0100
+diff -ur virtualbox-ose-2.1.2-dfsg/src/VBox/Frontends/VirtualBox/include/VBoxConsoleWnd.h virtualbox-ose-2.1.2-dfsg.new/src/VBox/Frontends/VirtualBox/include/VBoxConsoleWnd.h
+--- virtualbox-ose-2.1.2-dfsg/src/VBox/Frontends/VirtualBox/include/VBoxConsoleWnd.h	2009-01-14 21:00:46.000000000 +0100
++++ virtualbox-ose-2.1.2-dfsg.new/src/VBox/Frontends/VirtualBox/include/VBoxConsoleWnd.h	2009-02-03 23:25:14.000000000 +0100
 @@ -191,6 +191,7 @@
      void devicesSwitchVrdp (bool);
      void devicesOpenSFDialog();
@@ -25,9 +25,9 @@ diff -ur virtualbox-ose-2.1.2-dfsg/src/VBox/Frontends/VirtualBox4/include/VBoxCo
  
  #ifdef VBOX_WITH_DEBUGGER_GUI
      /* Debugger actions */
-diff -ur virtualbox-ose-2.1.2-dfsg/src/VBox/Frontends/VirtualBox4/src/VBoxConsoleWnd.cpp virtualbox-ose-2.1.2-dfsg.new/src/VBox/Frontends/VirtualBox4/src/VBoxConsoleWnd.cpp
---- virtualbox-ose-2.1.2-dfsg/src/VBox/Frontends/VirtualBox4/src/VBoxConsoleWnd.cpp	2009-01-21 09:41:58.000000000 +0100
-+++ virtualbox-ose-2.1.2-dfsg.new/src/VBox/Frontends/VirtualBox4/src/VBoxConsoleWnd.cpp	2009-02-04 02:10:36.000000000 +0100
+diff -ur virtualbox-ose-2.1.2-dfsg/src/VBox/Frontends/VirtualBox/src/VBoxConsoleWnd.cpp virtualbox-ose-2.1.2-dfsg.new/src/VBox/Frontends/VirtualBox/src/VBoxConsoleWnd.cpp
+--- virtualbox-ose-2.1.2-dfsg/src/VBox/Frontends/VirtualBox/src/VBoxConsoleWnd.cpp	2009-01-21 09:41:58.000000000 +0100
++++ virtualbox-ose-2.1.2-dfsg.new/src/VBox/Frontends/VirtualBox/src/VBoxConsoleWnd.cpp	2009-02-04 02:10:36.000000000 +0100
 @@ -357,6 +357,10 @@
      mDevicesInstallGuestToolsAction->setIcon (VBoxGlobal::iconSet (":/guesttools_16px.png",
                                                                       ":/guesttools_disabled_16px.png"));
@@ -95,8 +95,8 @@ diff -ur virtualbox-ose-2.1.2-dfsg/src/VBox/Frontends/VirtualBox4/src/VBoxConsol
 +    CVirtualBox vbox = vboxGlobal().virtualBox();
 +    QString name = QString ("wined3d.iso");
 +
-+    CDVDImage2Vector vec = vbox.GetDVDImages();
-+    for (CDVDImage2Vector::ConstIterator it = vec.begin();
++    CDVDImageVector vec = vbox.GetDVDImages();
++    for (CDVDImageVector::ConstIterator it = vec.begin();
 +         it != vec.end(); ++ it)
 +    {
 +        QString path = it->GetLocation();
@@ -108,7 +108,7 @@ diff -ur virtualbox-ose-2.1.2-dfsg/src/VBox/Frontends/VirtualBox4/src/VBoxConsol
 +
 +    /* Download the required image */
 +    {
-+        QString source = QString ("http://aybabtu.com/rmh/wined3d/pub/latest/wined3d.iso");
++        QString source = QString ("http://download.savannah.nongnu.org/releases/wined3d/latest/wined3d.iso");
 +        QString target = QDir (vboxGlobal().virtualBox().GetHomeFolder())
 +                               .absoluteFilePath (name);
 +

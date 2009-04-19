@@ -1,3 +1,34 @@
+virtualbox-ose (2.2.0-dfsg-2~bpo50+1) lenny-backports; urgency=low
+
+  * Rebuild for lenny-backports.
+
+ -- Michael Meskes <meskes@debian.org>  Sun, 19 Apr 2009 12:42:36 +0200
+
+virtualbox-ose (2.2.0-dfsg-2) unstable; urgency=low
+
+  * Remove obsolete conffiles, closes: #523778
+  * Made package description clearer, closes: #524154
+  * Documented guest utils download, closes: #524171
+  * Made build system use files provided by xserver-xorg instead of local
+    copies, closes: #515631
+
+ -- Michael Meskes <meskes@debian.org>  Sun, 19 Apr 2009 12:37:04 +0200
+
+virtualbox-ose (2.2.0-dfsg-1) unstable; urgency=low
+
+  * New upstream version.
+  * Move X11 guest utils into separate packages, closes: #520438
+  * Also switched them to new X.Org X server version.
+  * Move QT4 based user interface into separate package, closes: #508395
+  * Added new URL for WineD3D guest additions, closes: 522672
+  * Documented problem with kernel 2.6.29, closes: #518739
+  * Documented missing format attribute, closes: #517454
+  * Added patch to disable checking for updates, closes: #516551
+  * Added patch to tell about missing vboxnetflt module, closes: #516819 
+  * Bumped Standards-Version to 3.8.1
+
+ -- Michael Meskes <meskes@debian.org>  Fri, 10 Apr 2009 11:16:49 +0200
+
 virtualbox-ose (2.1.4-dfsg-1~bpo50+1) lenny-backports; urgency=low
 
   * Rebuild for lenny-backports.
@@ -594,7 +625,7 @@ virtualbox-ose (1.5.2-dfsg2-1) unstable; urgency=low
   * Repackaged dfsg orig tarball accordingly.
   * Added linux installer tools, closes: #448749
   * Provide programs with upstream upper/lower case mix as used by upstream.
-  * Added linux additions in two seperate packages, closes: #440517, #449315
+  * Added linux additions in two separate packages, closes: #440517, #449315
   * Install vboxnet.sh as init script.
   * Changed build system to work without kernel sources.
 

@@ -8,72 +8,95 @@ Uploaders: Philipp Hug <debian@hug.cx>,
            Patrick Winnertz <winnie@debian.org>,
            Daniel Baumann <daniel@debian.org>,
            Hilko Bengen <bengen@debian.org>
-Build-Depends:	bcc,
-		bzip2,
-		chrpath,
-		debhelper (>= 5.0.44~),
-		docbook-xml,
-		docbook-xsl,
-		dpatch,
-		g++-4.2,
-		g++-4.2-multilib [amd64],
-		gcc-4.2,
-		gsoap,
-		iasl,
-		kbuild (>= 1:0.1.5svn2243),
-		libacl1-dev,
-		libasound-dev,
-		libcap2-dev,
-		libgl1-mesa-dev,
-		libglu1-mesa-dev,
-		libhal-dev,
-		libidl-dev,
-		libpng12-dev,
-		libpulse-dev,
-		libqt4-dev (>= 4.3.0),
-		libsdl1.2-dev,
-		libx11-dev,
-		libxcursor-dev,
-		libxext-dev,
-		libxi-dev,
-		libxmu-dev,
-		libxrender-dev,
-		libxslt1-dev,
-		lynx-cur,
-		po-debconf (>= 0.5.0),
-		python-dev,
-		uuid-dev,
-		yasm (>= 0.7.0),
-		xsltproc,
-		zlib1g-dev
-Standards-Version: 3.8.0
+Build-Depends: bcc,
+               bzip2,
+               chrpath,
+               debhelper (>= 5.0.44~),
+               docbook-xml,
+               docbook-xsl,
+               dpatch,
+               g++-4.2,
+               g++-4.2-multilib [amd64],
+               gcc-4.2,
+               gsoap,
+               iasl,
+               kbuild (>= 1:0.1.5svn2274),
+               libacl1-dev,
+               libasound-dev,
+               libcap2-dev,
+               libdrm-dev,
+               libgl1-mesa-dev,
+               libglu1-mesa-dev,
+               libhal-dev,
+               libidl-dev,
+               libpng12-dev,
+               libpixman-1-dev,
+               libpulse-dev,
+               libqt4-dev (>= 4.3.0),
+               libsdl1.2-dev,
+               libx11-dev,
+               libxcursor-dev,
+               libxext-dev,
+               libxi-dev,
+               libxmu-dev,
+               libxrender-dev,
+               libxslt1-dev,
+               lynx-cur,
+               po-debconf (>= 0.5.0),
+               python-dev,
+               uuid-dev,
+               x11proto-gl-dev,
+               x11proto-xf86dri-dev,
+               xserver-xorg-dev,
+               xsltproc,
+               yasm (>= 0.7.0),
+               zlib1g-dev
+Standards-Version: 3.8.1
 Homepage: http://www.virtualbox.org/
 Vcs-Git: git://git.debian.org/git/pkg-virtualbox/virtualbox-ose.git
 Vcs-Browser: http://git.debian.org/?p=pkg-virtualbox/virtualbox-ose.git
+
+Package: virtualbox-ose-qt
+Architecture: amd64 i386 lpia
+Depends: ${shlibs:Depends},
+         ${misc:Depends},
+         virtualbox-ose
+Pre-Depends: debconf | debconf-2.0
+Replaces: virtualbox-ose
+Description: x86 virtualization solution - Qt based user interface
+ VirtualBox is a free x86 virtualization solution allowing a wide range
+ of x86 operating systems such as Windows, DOS, BSD or Linux to run on a
+ Linux system.
+ .
+ This package provides the Qt based graphical user interface of the Open Source
+ Edition of VirtualBox.
 
 Package: virtualbox-ose
 Architecture: amd64 i386 lpia
 Depends: ${shlibs:Depends},
          ${misc:Depends},
          adduser,
-	 python
+         python
 Pre-Depends: debconf | debconf-2.0
-Recommends: virtualbox-ose-modules, libgl1
-Suggests: virtualbox-ose-source, bridge-utils
+Recommends: virtualbox-ose-modules,
+            virtualbox-ose-qt,
+            libgl1
+Suggests: virtualbox-ose-source
 Conflicts: virtualbox
-Replaces: virtualbox
 Provides: virtualbox
-Description: x86 virtualization solution - binaries
+Replaces: virtualbox
+Description: x86 virtualization solution - base binaries
  VirtualBox is a free x86 virtualization solution allowing a wide range
  of x86 operating systems such as Windows, DOS, BSD or Linux to run on a
  Linux system.
  .
  This package provides the binaries for the Open Source Edition of
  VirtualBox. The virtualbox-ose-source package is also required in order to
- compile the kernel modules needed for virtualbox-ose.
+ compile the kernel modules needed for virtualbox-ose. A graphical user
+ interface for VirtualBox is provided by the package virtualbox-ose-qt.
 
 Package: virtualbox-ose-dbg
-Section: devel
+Section: debug
 Priority: extra
 Architecture: amd64 i386 lpia
 Depends: ${misc:Depends},
@@ -124,25 +147,37 @@ Description: x86 virtualization solution - guest addition module source
  make use of these modules. Kernel sources or headers are required to compile
  these modules.
 
-Package: virtualbox-ose-guest-utils
+Package: virtualbox-ose-guest-x11
 Architecture: i386 amd64 lpia
 Depends: ${shlibs:Depends},
          ${misc:Depends},
+         ${xserver:Depends},
+         virtualbox-ose-guest-utils,
          pciutils
-Conflicts: xserver-xorg-core (< 2:1.4)
-Recommends: virtualbox-ose-guest-modules,
-            xserver-xorg-core (>= 2:1.4)
-Suggests: virtualbox-ose-guest-source
-Provides: xserver-xorg-video-2,
-          xserver-xorg-input-2
-Description: x86 virtualization solution - guest utilities
+Provides: ${xviddriver:Provides},
+          ${xinpdriver:Provides}
+Description: x86 virtualization solution - X11 guest utilities
  VirtualBox is a free x86 virtualization solution allowing a wide range
  of x86 operating systems such as Windows, DOS, BSD or Linux to run on a
  Linux system.
  .
- This package provides the guest utilities of the Open Source Edition of
+ This package provides the X11 guest utilities of the Open Source Edition of
  VirtualBox. These utilities are meant to be run inside the virtual machine.
- They provide closer integration (e.g. mouse pointer, time synchronization),
- improve the interactive performance (e.g. better video support), and allow to
- share data through shared folders between the host system and the virtual
- machine.
+ They provide closer integration and improve the interactive performance.
+
+Package: virtualbox-ose-guest-utils
+Architecture: i386 amd64 lpia
+Depends: ${shlibs:Depends},
+         ${misc:Depends}
+Recommends: virtualbox-ose-guest-modules,
+            virtualbox-ose-guest-x11
+Suggests: virtualbox-ose-guest-source
+Description: x86 virtualization solution - non-X11 guest utilities
+ VirtualBox is a free x86 virtualization solution allowing a wide range
+ of x86 operating systems such as Windows, DOS, BSD or Linux to run on a
+ Linux system.
+ .
+ This package provides the non-X11 guest utilities of the Open Source Edition of
+ VirtualBox. These utilities are meant to be run inside the virtual machine.
+ They provide closer integration and allow to share data through shared folders
+ between the host system and the virtual machine.

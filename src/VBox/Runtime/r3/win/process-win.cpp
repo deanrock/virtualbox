@@ -1,4 +1,4 @@
-/* $Id: process-win.cpp 13837 2008-11-05 02:54:02Z vboxsync $ */
+/* $Id: process-win.cpp $ */
 /** @file
  * IPRT - Process, Win32.
  */
@@ -93,6 +93,8 @@ RTR3DECL(int)   RTProcCreate(const char *pszExec, const char * const *papszArgs,
     AssertReturn(Env != NIL_RTENV, VERR_INVALID_PARAMETER);
     const char * const *papszEnv = RTEnvGetExecEnvP(Env);
     AssertPtrReturn(papszEnv, VERR_INVALID_HANDLE);
+    AssertPtrReturn(papszArgs, VERR_INVALID_PARAMETER);
+    AssertPtrReturn(*papszArgs, VERR_INVALID_PARAMETER);
     /* later: path searching. */
 
     /*

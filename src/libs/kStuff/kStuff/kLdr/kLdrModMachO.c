@@ -1,33 +1,31 @@
-/* $Id: kLdrModMachO.c 25 2009-02-19 00:56:15Z bird $ */
+/* $Id: kLdrModMachO.c 29 2009-07-01 20:30:29Z bird $ */
 /** @file
  * kLdr - The Module Interpreter for the MACH-O format.
  */
 
 /*
- * Copyright (c) 2006-2007 knut st. osmundsen <bird-kStuff-spam@anduin.net>
+ * Copyright (c) 2006-2007 Knut St. Osmundsen <bird-kStuff-spamix@anduin.net>
  *
- * This file is part of kStuff.
+ * Permission is hereby granted, free of charge, to any person
+ * obtaining a copy of this software and associated documentation
+ * files (the "Software"), to deal in the Software without
+ * restriction, including without limitation the rights to use,
+ * copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the
+ * Software is furnished to do so, subject to the following
+ * conditions:
  *
- * kStuff is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
  *
- * In addition to the permissions in the GNU Lesser General Public
- * License, you are granted unlimited permission to link the compiled
- * version of this file into combinations with other programs, and to
- * distribute those combinations without any restriction coming from
- * the use of this file.
- *
- * kStuff is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with kStuff; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
- * 02110-1301, USA
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+ * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+ * OTHER DEALINGS IN THE SOFTWARE.
  */
 
 /*******************************************************************************
@@ -1079,10 +1077,16 @@ static int  kldrModMachOParseLoadCommands(PKLDRMODMACHO pModMachO, char *pbStrin
                             pSectExtra->cb = pSect->size;
                             pSectExtra->RVA = pSect->addr;
                             pSectExtra->LinkAddress = pSect->addr;
-                            pSectExtra->offFile = pSect->offset ? pSect->offset + pModMachO->offImage : -1;
+                            if (pSect->offset)
+                                pSectExtra->offFile = pSect->offset + pModMachO->offImage;
+                            else
+                                pSectExtra->offFile = -1;
                             pSectExtra->cFixups = pSect->nreloc;
                             pSectExtra->paFixups = NULL;
-                            pSectExtra->offFixups = pSect->nreloc ? pSect->reloff + pModMachO->offImage : -1;
+                            if (pSect->nreloc)
+                                pSectExtra->offFixups = pSect->reloff + pModMachO->offImage;
+                            else
+                                pSectExtra->offFixups = -1;
                             pSectExtra->fFlags = pSect->flags;
                             pSectExtra->iSegment = pSegExtra - &pModMachO->aSegments[0];
                             pSectExtra->pvMachoSection = pSect;
@@ -1116,8 +1120,16 @@ static int  kldrModMachOParseLoadCommands(PKLDRMODMACHO pModMachO, char *pbStrin
                                 pSeg->cb = pSect->size;
                                 pSeg->Alignment = (1 << pSect->align);
                                 pSeg->LinkAddress = pSect->addr;
-                                pSeg->offFile = pSect->offset ? pSect->offset + pModMachO->offImage : -1;
-                                pSeg->cbFile  = pSect->offset ? pSect->size : -1;
+                                if (pSect->offset)
+                                {
+                                    pSeg->offFile = pSect->offset + pModMachO->offImage;
+                                    pSeg->cbFile  = pSect->size;
+                                }
+                                else
+                                {
+                                    pSeg->offFile = -1;
+                                    pSeg->cbFile  = -1;
+                                }
                                 pSeg->RVA = pSect->addr - pModMachO->LinkAddress;
                                 pSeg->cbMapped = 0;
                                 pSeg->MapAddress = 0;
@@ -1132,19 +1144,19 @@ static int  kldrModMachOParseLoadCommands(PKLDRMODMACHO pModMachO, char *pbStrin
                             else
                             {
                                 /* update exiting segment */
-                                if (pSeg[-1].Alignment < (1 << pSect->align))
-                                    pSeg[-1].Alignment = (1 << pSect->align);
+                                if (pSeg[-1].Alignment < K_BIT64(pSect->align))
+                                    pSeg[-1].Alignment = K_BIT64(pSect->align);
                                 if (pSect->addr < pSeg[-1].LinkAddress)
                                     return KLDR_ERR_MACHO_BAD_SECTION; /** @todo move up! */
 
                                 /* If there are file bits, ensure they are in the current flow.
                                    (yes, we are very very careful here, I know.) */
                                 if (    pSect->offset
-                                    &&  pSeg[-1].cbFile == pSeg[-1].cb)
+                                    &&  (KU64)pSeg[-1].cbFile == pSeg[-1].cb)
                                 {
-                                    int fOk = pSeg[-1].offFile + (pSect->addr - pSeg[-1].LinkAddress) == pSect->offset + pModMachO->offImage
+                                    int fOk = (KU64)pSeg[-1].offFile + (pSect->addr - pSeg[-1].LinkAddress) == pSect->offset + (KU64)pModMachO->offImage
                                            && pSect[-1].offset
-                                           && pSeg[-1].offFile + pSeg[-1].cbFile == pSect[-1].offset + pModMachO->offImage + pSect[-1].size;
+                                           && (KU64)pSeg[-1].offFile + pSeg[-1].cbFile == pSect[-1].offset + (KU64)pModMachO->offImage + pSect[-1].size;
                                     /* more checks? */
                                     if (fOk)
                                         pSeg[-1].cbFile = (KLDRFOFF)(pSect->addr - pSeg[-1].LinkAddress) + pSect->size;
@@ -1196,10 +1208,16 @@ static int  kldrModMachOParseLoadCommands(PKLDRMODMACHO pModMachO, char *pbStrin
                             pSectExtra->cb = pSect->size;
                             pSectExtra->RVA = pSect->addr;
                             pSectExtra->LinkAddress = pSect->addr;
-                            pSectExtra->offFile = pSect->offset ? pSect->offset + pModMachO->offImage : -1;
+                            if (pSect->offset)
+                                pSectExtra->offFile = pSect->offset + pModMachO->offImage;
+                            else
+                                pSectExtra->offFile = -1;
                             pSectExtra->cFixups = pSect->nreloc;
                             pSectExtra->paFixups = NULL;
-                            pSectExtra->offFixups = pSect->nreloc ? pSect->reloff + pModMachO->offImage : -1;
+                            if (pSect->nreloc)
+                                pSectExtra->offFixups = pSect->reloff + pModMachO->offImage;
+                            else
+                                pSectExtra->offFixups = -1;
                             pSectExtra->fFlags = pSect->flags;
                             pSectExtra->iSegment = pSegExtra - &pModMachO->aSegments[0];
                             pSectExtra->pvMachoSection = pSect;
@@ -1233,8 +1251,16 @@ static int  kldrModMachOParseLoadCommands(PKLDRMODMACHO pModMachO, char *pbStrin
                                 pSeg->cb = pSect->size;
                                 pSeg->Alignment = (1 << pSect->align);
                                 pSeg->LinkAddress = pSect->addr;
-                                pSeg->offFile = pSect->offset ? pSect->offset + pModMachO->offImage : -1;
-                                pSeg->cbFile  = pSect->offset ? pSect->size : -1;
+                                if (pSect->offset)
+                                {
+                                    pSeg->offFile = pSect->offset + pModMachO->offImage;
+                                    pSeg->cbFile  = pSect->size;
+                                }
+                                else
+                                {
+                                    pSeg->offFile = -1;
+                                    pSeg->cbFile  = -1;
+                                }
                                 pSeg->RVA = pSect->addr - pModMachO->LinkAddress;
                                 pSeg->cbMapped = 0;
                                 pSeg->MapAddress = 0;
@@ -1249,19 +1275,19 @@ static int  kldrModMachOParseLoadCommands(PKLDRMODMACHO pModMachO, char *pbStrin
                             else
                             {
                                 /* update exiting segment */
-                                if (pSeg[-1].Alignment < (1 << pSect->align))
-                                    pSeg[-1].Alignment = (1 << pSect->align);
+                                if (pSeg[-1].Alignment < K_BIT64(pSect->align))
+                                    pSeg[-1].Alignment = K_BIT64(pSect->align);
                                 if (pSect->addr < pSeg[-1].LinkAddress)
                                     return KLDR_ERR_MACHO_BAD_SECTION; /** @todo move up! */
 
                                 /* If there are file bits, ensure they are in the current flow.
                                    (yes, we are very very careful here, I know.) */
                                 if (    pSect->offset
-                                    &&  pSeg[-1].cbFile == pSeg[-1].cb)
+                                    &&  (KU64)pSeg[-1].cbFile == pSeg[-1].cb)
                                 {
-                                    int fOk = pSeg[-1].offFile + (pSect->addr - pSeg[-1].LinkAddress) == pSect->offset + pModMachO->offImage
+                                    int fOk = (KU64)pSeg[-1].offFile + (pSect->addr - pSeg[-1].LinkAddress) == pSect->offset + (KU64)pModMachO->offImage
                                            && pSect[-1].offset
-                                           && pSeg[-1].offFile + pSeg[-1].cbFile == pSect[-1].offset + pModMachO->offImage + pSect[-1].size;
+                                           && (KU64)pSeg[-1].offFile + pSeg[-1].cbFile == pSect[-1].offset + (KU64)pModMachO->offImage + pSect[-1].size;
                                     /* more checks? */
                                     if (fOk)
                                         pSeg[-1].cbFile = (KLDRFOFF)(pSect->addr - pSeg[-1].LinkAddress) + pSect->size;
@@ -2565,7 +2591,7 @@ static int  kldrModMachOFixupSectionGeneric32Bit(PKLDRMODMACHO pModMachO, KU8 *p
     KU32 iFixup;
     KLDRPU uFixVirgin;
     KLDRPU uFix;
-    KLDRADDR SymAddr;
+    KLDRADDR SymAddr = ~(KLDRADDR)0;
     int rc;
 
     /*

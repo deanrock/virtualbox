@@ -1,4 +1,4 @@
-/* $Id: thread2-r0drv-solaris.c 11770 2008-08-28 15:35:52Z vboxsync $ */
+/* $Id: thread2-r0drv-solaris.c $ */
 /** @file
  * IPRT - Threads (Part 2), Ring-0 Driver, Solaris.
  */
@@ -36,6 +36,7 @@
 #include <iprt/assert.h>
 #include <iprt/err.h>
 #include <iprt/thread.h>
+#include <iprt/process.h>
 
 #include "internal/thread.h"
 
@@ -102,7 +103,7 @@ int rtThreadNativeCreate(PRTTHREADINT pThreadInt, PRTNATIVETHREAD pNativeThread)
 {
     int rc;
     kthread_t* pKernThread = thread_create(NULL, NULL, rtThreadNativeMain, pThreadInt, 0,
-                                           curproc, TS_RUN, minclsyspri);
+                                           (void *)RTR0ProcHandleSelf(), TS_RUN, minclsyspri);
     if (pKernThread)
     {
         *pNativeThread = (RTNATIVETHREAD)pKernThread;

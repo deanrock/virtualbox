@@ -1,5 +1,5 @@
 #ifdef VBOX
-/* $Id: $ */
+/* $Id:  $ */
 /** @file
  * DevPS2 - PS/2 keyboard & mouse controller device.
  */
@@ -63,12 +63,12 @@
 /*******************************************************************************
 *   Internal Functions                                                         *
 *******************************************************************************/
-__BEGIN_DECLS
+RT_C_DECLS_BEGIN
 PDMBOTHCBDECL(int) kbdIOPortDataRead(PPDMDEVINS pDevIns, void *pvUser, RTIOPORT Port, uint32_t *pu32, unsigned cb);
 PDMBOTHCBDECL(int) kbdIOPortDataWrite(PPDMDEVINS pDevIns, void *pvUser, RTIOPORT Port, uint32_t u32, unsigned cb);
 PDMBOTHCBDECL(int) kbdIOPortStatusRead(PPDMDEVINS pDevIns, void *pvUser, RTIOPORT Port, uint32_t *pu32, unsigned cb);
 PDMBOTHCBDECL(int) kbdIOPortCommandWrite(PPDMDEVINS pDevIns, void *pvUser, RTIOPORT Port, uint32_t u32, unsigned cb);
-__END_DECLS
+RT_C_DECLS_END
 #endif /* !VBOX_DEVICE_STRUCT_TESTCASE */
 #endif /* VBOX */
 
@@ -778,10 +778,15 @@ static void pc_kbd_mouse_event(void *opaque,
     s->mouse_dx += dx;
     s->mouse_dy -= dy;
     s->mouse_dz += dz;
+#ifndef VBOX
     /* XXX: SDL sometimes generates nul events: we delete them */
     if (s->mouse_dx == 0 && s->mouse_dy == 0 && s->mouse_dz == 0 &&
         s->mouse_buttons == buttons_state)
 	return;
+#else
+    /* This issue does not affect VBox, and under some circumstances (which?)
+     * we may wish to send null events to make mouse integration work. */
+#endif
     s->mouse_buttons = buttons_state;
 
 #ifdef VBOX

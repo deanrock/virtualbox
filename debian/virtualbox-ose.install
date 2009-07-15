@@ -1,4 +1,3 @@
-debian/virtualbox-ose.files/vbox.cfg /etc/vbox
 debian/virtualbox-ose.files/*.sh /usr/share/virtualbox
 
 debian/lintian/virtualbox-ose /usr/share/lintian/overrides
@@ -13,6 +12,7 @@ out/bin/VBoxHeadless /usr/lib/virtualbox
 out/bin/VBoxManage /usr/lib/virtualbox
 out/bin/VBoxSDL /usr/lib/virtualbox
 out/bin/VBoxSVC /usr/lib/virtualbox
+out/bin/VBoxTestOGL /usr/lib/virtualbox
 out/bin/VBoxXPCOM* /usr/lib/virtualbox
 out/bin/VMM* /usr/lib/virtualbox
 out/bin/vboxwebsrv /usr/lib/virtualbox

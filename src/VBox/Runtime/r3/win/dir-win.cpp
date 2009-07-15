@@ -1,4 +1,4 @@
-/* $Id: dir-win.cpp 14062 2008-11-10 23:23:05Z vboxsync $ */
+/* $Id: dir-win.cpp $ */
 /** @file
  * IPRT - Directory, win32.
  */
@@ -34,6 +34,7 @@
 *******************************************************************************/
 #define LOG_GROUP RTLOGGROUP_DIR
 #include <Windows.h>
+#include <io.h>
 
 #include <iprt/dir.h>
 #include <iprt/path.h>

@@ -1,4 +1,4 @@
-/* $Id: VirtualBoxErrorInfo.h 15051 2008-12-05 17:20:00Z vboxsync $ */
+/* $Id: VirtualBoxErrorInfo.h $ */
 
 /** @file
  * MS COM / XPCOM Abstraction Layer:
@@ -84,7 +84,7 @@ public:
                   IVirtualBoxErrorInfo *aNext = NULL);
 
     // IVirtualBoxErrorInfo properties
-    STDMETHOD(COMGETTER(ResultCode)) (HRESULT *aResultCode);
+    STDMETHOD(COMGETTER(ResultCode)) (LONG *aResultCode);
     STDMETHOD(COMGETTER(InterfaceID)) (OUT_GUID aIID);
     STDMETHOD(COMGETTER(Component)) (BSTR *aComponent);
     STDMETHOD(COMGETTER(Text)) (BSTR *aText);
@@ -104,8 +104,7 @@ public:
 
     HRESULT init (nsIException *aInfo);
 
-    NS_DECL_NSIEXCEPTION
-
+    NS_DECL_NSIEXCEPTION   
 #endif
 
 private:

@@ -1,4 +1,4 @@
-/* $Id: ConsoleVRDPServer.cpp 17669 2009-03-11 09:56:29Z vboxsync $ */
+/* $Id: ConsoleVRDPServer.cpp $ */
 
 /** @file
  *
@@ -40,7 +40,8 @@
 #include <VBox/VRDPOrders.h>
 #endif /* VBOX_WITH_VRDP */
 
-class VRDPConsoleCallback : public IConsoleCallback
+class VRDPConsoleCallback : 
+    VBOX_SCRIPTABLE_IMPL(IConsoleCallback)
 {
 public:
     VRDPConsoleCallback (ConsoleVRDPServer *server) :

@@ -1,4 +1,4 @@
-/* $Id: time.h 13832 2008-11-05 02:01:12Z vboxsync $ */
+/* $Id: time.h $ */
 /** @file
  * IPRT - Internal RTTime header
  */
@@ -33,7 +33,7 @@
 
 #include <iprt/types.h>
 
-__BEGIN_DECLS
+RT_C_DECLS_BEGIN
 
 #if defined(IN_RING3) || defined(IN_RC)
 
@@ -43,6 +43,6 @@ extern uint64_t g_u64ProgramStartMilliTS;
 
 #endif
 
-__END_DECLS
+RT_C_DECLS_END
 
 #endif

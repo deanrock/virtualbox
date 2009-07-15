@@ -1,4 +1,4 @@
-/* $Id: CPUMStack.cpp 14994 2008-12-04 15:44:25Z vboxsync $ */
+/* $Id: CPUMStack.cpp $ */
 /** @file
  * CPUM - CPU Monitor(/Manager) - Stack manipulation.
  */
@@ -34,10 +34,10 @@
 #endif
 
 
-VMMDECL(void) CPUMPushHyper(PVM pVM, uint32_t u32)
+VMMDECL(void) CPUMPushHyper(PVMCPU pVCpu, uint32_t u32)
 {
     /* ASSUME always on flat stack within hypervisor memory for now */
-    pVM->cpum.s.Hyper.esp -= sizeof(u32);
-    *(uint32_t *)MMHyperRCToR3(pVM, (RTRCPTR)pVM->cpum.s.Hyper.esp) = u32;
+    pVCpu->cpum.s.Hyper.esp -= sizeof(u32);
+    *(uint32_t *)MMHyperRCToR3(pVCpu->CTXALLSUFF(pVM), (RTRCPTR)pVCpu->cpum.s.Hyper.esp) = u32;
 }
 

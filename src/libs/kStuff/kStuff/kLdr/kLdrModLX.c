@@ -1,33 +1,31 @@
-/* $Id: kLdrModLX.c 25 2009-02-19 00:56:15Z bird $ */
+/* $Id: kLdrModLX.c 29 2009-07-01 20:30:29Z bird $ */
 /** @file
  * kLdr - The Module Interpreter for the Linear eXecutable (LX) Format.
  */
 
 /*
- * Copyright (c) 2006-2007 knut st. osmundsen <bird-kStuff-spam@anduin.net>
+ * Copyright (c) 2006-2007 Knut St. Osmundsen <bird-kStuff-spamix@anduin.net>
  *
- * This file is part of kStuff.
+ * Permission is hereby granted, free of charge, to any person
+ * obtaining a copy of this software and associated documentation
+ * files (the "Software"), to deal in the Software without
+ * restriction, including without limitation the rights to use,
+ * copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the
+ * Software is furnished to do so, subject to the following
+ * conditions:
  *
- * kStuff is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
  *
- * In addition to the permissions in the GNU Lesser General Public
- * License, you are granted unlimited permission to link the compiled
- * version of this file into combinations with other programs, and to
- * distribute those combinations without any restriction coming from
- * the use of this file.
- *
- * kStuff is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with kStuff; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
- * 02110-1301, USA
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+ * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+ * OTHER DEALINGS IN THE SOFTWARE.
  */
 
 /*******************************************************************************
@@ -1075,6 +1073,11 @@ static int kldrModLXEnumSymbols(PKLDRMOD pMod, const void *pvBits, KLDRADDR Base
                         uValue = 0; /** @todo implement enumeration of forwarders properly. */
                         fKind = KLDRSYMKIND_FORWARDER;
                         break;
+
+                    default: /* shut up gcc. */
+                        uValue = 0;
+                        fKind = KLDRSYMKIND_NO_BIT | KLDRSYMKIND_NO_TYPE;
+                        break;
                 }
 
                 /*
@@ -1671,7 +1674,7 @@ static int kldrModLXDoIterData2Unpacking(KU8 *pbDst, const KU8 *pbSrc, int cbSrc
                     pbDst += cb1;
                     pbSrc += cb1;
 
-                    if (off > OBJPAGELEN - cbDst)
+                    if (off > OBJPAGELEN - (unsigned)cbDst)
                         return KLDR_ERR_LX_BAD_ITERDATA2;
                     cbDst -= cb2;
                     if (cbDst < 0)
@@ -1706,7 +1709,7 @@ static int kldrModLXDoIterData2Unpacking(KU8 *pbDst, const KU8 *pbSrc, int cbSrc
                     const int       cb = ((*pbSrc >> 2) & 3) + 3;
 
                     pbSrc += 2;
-                    if (off > OBJPAGELEN - cbDst)
+                    if (off > OBJPAGELEN - (unsigned)cbDst)
                         return KLDR_ERR_LX_BAD_ITERDATA2;
                     cbDst -= cb;
                     if (cbDst < 0)
@@ -1752,7 +1755,7 @@ static int kldrModLXDoIterData2Unpacking(KU8 *pbDst, const KU8 *pbSrc, int cbSrc
                     pbDst += cb1;
                     pbSrc += cb1;
 
-                    if (off > OBJPAGELEN - cbDst)
+                    if (off > OBJPAGELEN - (unsigned)cbDst)
                         return KLDR_ERR_LX_BAD_ITERDATA2;
                     cbDst -= cb2;
                     if (cbDst < 0)
@@ -2407,6 +2410,7 @@ static int kldrModLXRelocateBits(PKLDRMOD pMod, void *pvBits, KLDRADDR NewBaseAd
                     case NRRENT:
                         KLDRMODLX_ASSERT(!"NRRENT");
                     default:
+                        iSelector = -1;
                         break;
                 }
 

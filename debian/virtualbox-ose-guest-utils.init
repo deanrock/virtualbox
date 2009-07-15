@@ -28,8 +28,8 @@ case "$1" in
   start)
   	in_virtual_machine || exit 0
   	log_action_begin_msg 'Starting VirtualBox Additions';
+
 	# udev should have already handled this module
-	# double check if kernel support is present or die
 	modprobe --quiet vboxadd
 	if [ "$?" -ne 0 ]; then
 		# vboxadd not installed, or has a problem
@@ -38,13 +38,25 @@ case "$1" in
 		exit 0
 	fi
 
-	start-stop-daemon --start --quiet --exec /usr/sbin/vboxadd-timesync -- --daemonize
+	# this one is not handled by udev
+	modprobe --quiet vboxvfs
+	if [ "$?" -ne 0 ]; then
+		# vboxvfs not installed, or has a problem
+		log_action_msg 'shared folders not available, kernel module not loadable';
+		log_end_msg 1
+		exit 0
+	fi
+	# Mount all shared folders from /etc/fstab. Normally this is done by some
+	# other startup script but this requires the vboxdrv kernel module loaded.
+	mount -a -t vboxsf
+
+	start-stop-daemon --start --quiet --exec /usr/sbin/VBoxService
 	log_end_msg $?
 	;;
   stop)
   	in_virtual_machine || exit 0
   	log_action_begin_msg 'Stopping VirtualBox Additions';
-	start-stop-daemon --stop --quiet --oknodo --exec /usr/sbin/vboxadd-timesync
+	start-stop-daemon --stop --quiet --oknodo --exec /usr/sbin/VBoxService
 	log_end_msg $?
 	;;
   restart|force-reload)

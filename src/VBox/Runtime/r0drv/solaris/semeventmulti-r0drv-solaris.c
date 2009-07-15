@@ -1,4 +1,4 @@
-/* $Id: semeventmulti-r0drv-solaris.c 8245 2008-04-21 17:24:28Z vboxsync $ */
+/* $Id: semeventmulti-r0drv-solaris.c $ */
 /** @file
  * IPRT - Multiple Release Event Semaphores, Ring-0 Driver, Solaris.
  */
@@ -78,7 +78,7 @@ RTDECL(int)  RTSemEventMultiCreate(PRTSEMEVENTMULTI pEventMultiSem)
         pThis->cWaiters = 0;
         pThis->cWaking = 0;
         pThis->fSignaled = 0;
-        mutex_init(&pThis->Mtx, "IPRT Multiple Release Event Semaphore", MUTEX_DRIVER, NULL);
+        mutex_init(&pThis->Mtx, "IPRT Multiple Release Event Semaphore", MUTEX_DRIVER, (void *)ipltospl(DISP_LEVEL));
         cv_init(&pThis->Cnd, "IPRT CV", CV_DRIVER, NULL);
         *pEventMultiSem = pThis;
         return VINF_SUCCESS;
@@ -136,7 +136,7 @@ RTDECL(int)  RTSemEventMultiSignal(RTSEMEVENTMULTI EventMultiSem)
     {
         ASMAtomicXchgU32(&pThis->cWaking, pThis->cWaking + pThis->cWaiters);
         ASMAtomicXchgU32(&pThis->cWaiters, 0);
-        cv_signal(&pThis->Cnd);
+        cv_broadcast(&pThis->Cnd);
     }
 
     mutex_exit(&pThis->Mtx);

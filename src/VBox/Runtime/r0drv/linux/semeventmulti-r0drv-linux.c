@@ -1,4 +1,4 @@
-/* $Id: semeventmulti-r0drv-linux.c 8245 2008-04-21 17:24:28Z vboxsync $ */
+/* $Id: semeventmulti-r0drv-linux.c $ */
 /** @file
  * IPRT - Multiple Release Event Semaphores, Ring-0 Driver, Linux.
  */
@@ -66,6 +66,7 @@ RTDECL(int) RTSemEventMultiCreate(PRTSEMEVENTMULTI pEventMultiSem)
     if (pThis)
     {
         pThis->u32Magic = RTSEMEVENTMULTI_MAGIC;
+        pThis->fState   = 0;
         init_waitqueue_head(&pThis->Head);
         *pEventMultiSem = pThis;
         return VINF_SUCCESS;

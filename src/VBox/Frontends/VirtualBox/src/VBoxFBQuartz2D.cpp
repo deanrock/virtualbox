@@ -1,4 +1,4 @@
-/* $Id: VBoxFBQuartz2D.cpp 17201 2009-02-27 12:51:37Z vboxsync $ */
+/* $Id: VBoxFBQuartz2D.cpp $ */
 /** @file
  * Qt GUI (aka VirtualBox) - Quartz2D framebuffer implementation.
  */
@@ -63,16 +63,12 @@ VBoxQuartz2DFrameBuffer::~VBoxQuartz2DFrameBuffer()
 
 /** @note This method is called on EMT from under this object's lock */
 STDMETHODIMP VBoxQuartz2DFrameBuffer::NotifyUpdate (ULONG aX, ULONG aY,
-                                                 ULONG aW, ULONG aH,
-                                                 BOOL *aFinished)
+                                                 ULONG aW, ULONG aH)
 {
 /*    Log (("Quartz2D: NotifyUpdate %d,%d %dx%d\n", aX, aY, aW, aH));*/
 
     QApplication::postEvent (mView,
                              new VBoxRepaintEvent (aX, aY, aW, aH));
-    /* the update has been finished, return TRUE */
-    *aFinished = TRUE;
-
     return S_OK;
 }
 

@@ -35,6 +35,18 @@ int vbglLockLinear (void **ppvCtx, void *pv, uint32_t u32Size, bool fWriteAccess
 {
     int rc = VINF_SUCCESS;
 
+    /* Zero size buffers shouldn't be locked. */
+    if (u32Size == 0)
+    {
+        Assert(pv == NULL);
+#ifdef RT_OS_WINDOWS
+        *ppvCtx = NULL;
+#else
+        *ppvCtx = NIL_RTR0MEMOBJ;
+#endif
+        return VINF_SUCCESS;
+    }
+
 #ifdef RT_OS_WINDOWS
     PMDL pMdl = IoAllocateMdl (pv, u32Size, FALSE, FALSE, NULL);
 
@@ -67,7 +79,13 @@ int vbglLockLinear (void **ppvCtx, void *pv, uint32_t u32Size, bool fWriteAccess
 
     /** @todo r=frank: Linux: pv is at least in some cases, e.g. with VBoxMapFolder,
      *  an R0 address -- the memory was allocated with kmalloc(). I don't know
-     *  if this is true in any case. */
+     *  if this is true in any case.
+     * r=michael: on Linux, we sometimes have R3 addresses (e.g. shared
+     *  clipboard) and sometimes R0 (e.g. shared folders).  We really ought
+     *  to have two separate paths here - at any rate, Linux R0 shouldn't
+     *  end up calling this API.  In practice, Linux R3 does it's own thing
+     *  before winding up in the R0 path - which calls this stub API.
+     */
     NOREF(ppvCtx);
     NOREF(pv);
     NOREF(u32Size);
@@ -123,37 +141,37 @@ void vbglUnlockLinear (void *pvCtx, void *pv, uint32_t u32Size)
 #endif
 
 #ifdef RT_OS_LINUX
-__BEGIN_DECLS
+RT_C_DECLS_BEGIN
 extern DECLVBGL(void *) vboxadd_cmc_open (void);
 extern DECLVBGL(void) vboxadd_cmc_close (void *);
 extern DECLVBGL(int) vboxadd_cmc_call (void *opaque, uint32_t func, void *data);
-__END_DECLS
+RT_C_DECLS_END
 #endif /* RT_OS_LINUX */
 
 #ifdef RT_OS_OS2
-__BEGIN_DECLS
+RT_C_DECLS_BEGIN
 /*
  * On OS/2 we'll do the connecting in the assembly code of the
  * client driver, exporting a g_VBoxGuestIDC symbol containing
  * the connection information obtained from the 16-bit IDC.
  */
 extern VBOXGUESTOS2IDCCONNECT g_VBoxGuestIDC;
-__END_DECLS
+RT_C_DECLS_END
 #endif
 
 #ifdef RT_OS_SOLARIS
-__BEGIN_DECLS
+RT_C_DECLS_BEGIN
 extern DECLVBGL(void *) VBoxGuestSolarisServiceOpen (uint32_t *pu32Version);
 extern DECLVBGL(void) VBoxGuestSolarisServiceClose (void *pvOpaque);
 extern DECLVBGL(int) VBoxGuestSolarisServiceCall (void *pvOpaque, unsigned int iCmd, void *pvData, size_t cbSize, size_t *pcbReturn);
-__END_DECLS
+RT_C_DECLS_END
 
 #elif defined (RT_OS_FREEBSD)
-__BEGIN_DECLS
+RT_C_DECLS_BEGIN
 extern DECLVBGL(void *) VBoxGuestFreeBSDServiceOpen (uint32_t *pu32Version);
 extern DECLVBGL(void) VBoxGuestFreeBSDServiceClose (void *pvOpaque);
 extern DECLVBGL(int) VBoxGuestFreeBSDServiceCall (void *pvOpaque, unsigned int iCmd, void *pvData, size_t cbSize, size_t *pcbReturn);
-__END_DECLS
+RT_C_DECLS_END
 
 #endif
 

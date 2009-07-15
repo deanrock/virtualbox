@@ -1,4 +1,4 @@
-/* $Id: PDMQueue.cpp 14074 2008-11-11 00:02:26Z vboxsync $ */
+/* $Id: PDMQueue.cpp $ */
 /** @file
  * PDM Queue - Transport data and tasks to EMT and R3.
  */
@@ -126,7 +126,7 @@ static int pdmR3QueueCreate(PVM pVM, RTUINT cbItem, RTUINT cItems, uint32_t cMil
             if (RT_FAILURE(rc))
             {
                 AssertMsgFailed(("TMTimerSetMillies failed rc=%Rrc\n", rc));
-                int rc2 = TMTimerDestroy(pQueue->pTimer); AssertRC(rc2);
+                int rc2 = TMR3TimerDestroy(pQueue->pTimer); AssertRC(rc2);
             }
         }
         else
@@ -143,8 +143,10 @@ static int pdmR3QueueCreate(PVM pVM, RTUINT cbItem, RTUINT cItems, uint32_t cMil
         /*
          * Insert into the queue list for timer driven queues.
          */
+        pdmLock(pVM);
         pQueue->pNext = pVM->pdm.s.pQueuesTimer;
         pVM->pdm.s.pQueuesTimer = pQueue;
+        pdmUnlock(pVM);
     }
     else
     {
@@ -158,6 +160,7 @@ static int pdmR3QueueCreate(PVM pVM, RTUINT cbItem, RTUINT cItems, uint32_t cMil
          * - Update, the critical sections are no longer using queues, so this isn't a real
          *   problem any longer. The priority might be a nice feature for later though.
          */
+        pdmLock(pVM);
         if (!pVM->pdm.s.pQueuesForced)
             pVM->pdm.s.pQueuesForced = pQueue;
         else
@@ -167,6 +170,7 @@ static int pdmR3QueueCreate(PVM pVM, RTUINT cbItem, RTUINT cItems, uint32_t cMil
                 pPrev = pPrev->pNext;
             pPrev->pNext = pQueue;
         }
+        pdmUnlock(pVM);
     }
 
     *ppQueue = pQueue;
@@ -198,7 +202,7 @@ VMMR3DECL(int) PDMR3QueueCreateDevice(PVM pVM, PPDMDEVINS pDevIns, RTUINT cbItem
     /*
      * Validate input.
      */
-    VM_ASSERT_EMT(pVM);
+    VMCPU_ASSERT_EMT(&pVM->aCpus[0]);
     if (!pfnCallback)
     {
         AssertMsgFailed(("No consumer callback!\n"));
@@ -247,7 +251,7 @@ VMMR3DECL(int) PDMR3QueueCreateDriver(PVM pVM, PPDMDRVINS pDrvIns, RTUINT cbItem
     /*
      * Validate input.
      */
-    VM_ASSERT_EMT(pVM);
+    VMCPU_ASSERT_EMT(&pVM->aCpus[0]);
     if (!pfnCallback)
     {
         AssertMsgFailed(("No consumer callback!\n"));
@@ -296,7 +300,7 @@ VMMR3DECL(int) PDMR3QueueCreateInternal(PVM pVM, RTUINT cbItem, RTUINT cItems, u
     /*
      * Validate input.
      */
-    VM_ASSERT_EMT(pVM);
+    VMCPU_ASSERT_EMT(&pVM->aCpus[0]);
     if (!pfnCallback)
     {
         AssertMsgFailed(("No consumer callback!\n"));
@@ -342,7 +346,7 @@ VMMR3DECL(int) PDMR3QueueCreateExternal(PVM pVM, RTUINT cbItem, RTUINT cItems, u
     /*
      * Validate input.
      */
-    VM_ASSERT_EMT(pVM);
+    VMCPU_ASSERT_EMT(&pVM->aCpus[0]);
     if (!pfnCallback)
     {
         AssertMsgFailed(("No consumer callback!\n"));
@@ -386,7 +390,8 @@ VMMR3DECL(int) PDMR3QueueDestroy(PPDMQUEUE pQueue)
         return VERR_INVALID_PARAMETER;
     Assert(pQueue && pQueue->pVMR3);
     PVM pVM = pQueue->pVMR3;
-    VM_ASSERT_EMT(pVM);
+
+    pdmLock(pVM);
 
     /*
      * Unlink it.
@@ -431,13 +436,14 @@ VMMR3DECL(int) PDMR3QueueDestroy(PPDMQUEUE pQueue)
     }
     pQueue->pNext = NULL;
     pQueue->pVMR3 = NULL;
+    pdmUnlock(pVM);
 
     /*
      * Destroy the timer and free it.
      */
     if (pQueue->pTimer)
     {
-        TMTimerDestroy(pQueue->pTimer);
+        TMR3TimerDestroy(pQueue->pTimer);
         pQueue->pTimer = NULL;
     }
     if (pQueue->pVMRC)
@@ -470,7 +476,8 @@ VMMR3DECL(int) PDMR3QueueDestroyDevice(PVM pVM, PPDMDEVINS pDevIns)
      */
     if (!pDevIns)
         return VERR_INVALID_PARAMETER;
-    VM_ASSERT_EMT(pVM);
+
+    pdmLock(pVM);
 
     /*
      * Unlink it.
@@ -498,6 +505,7 @@ VMMR3DECL(int) PDMR3QueueDestroyDevice(PVM pVM, PPDMDEVINS pDevIns)
         pQueueNext = NULL;
     } while (pQueue);
 
+    pdmUnlock(pVM);
     return VINF_SUCCESS;
 }
 
@@ -519,7 +527,8 @@ VMMR3DECL(int) PDMR3QueueDestroyDriver(PVM pVM, PPDMDRVINS pDrvIns)
      */
     if (!pDrvIns)
         return VERR_INVALID_PARAMETER;
-    VM_ASSERT_EMT(pVM);
+
+    pdmLock(pVM);
 
     /*
      * Unlink it.
@@ -547,6 +556,7 @@ VMMR3DECL(int) PDMR3QueueDestroyDriver(PVM pVM, PPDMDRVINS pDrvIns)
         pQueueNext = NULL;
     } while (pQueue);
 
+    pdmUnlock(pVM);
     return VINF_SUCCESS;
 }
 
@@ -616,18 +626,30 @@ VMMR3DECL(void) PDMR3QueueFlushAll(PVM pVM)
     VM_ASSERT_EMT(pVM);
     LogFlow(("PDMR3QueuesFlush:\n"));
 
+    /*
+     * Only let one EMT flushing queues at any one time to queue preserve order
+     * and to avoid wasting time. The FF is always cleared here, because it's
+     * only used to get someones attention. Queue inserts occuring during the
+     * flush are caught using the pending bit.
+     *
+     * Note. The order in which the FF and pending bit are set and cleared is important.
+     */
     VM_FF_CLEAR(pVM, VM_FF_PDM_QUEUES);
-    for (PPDMQUEUE pCur = pVM->pdm.s.pQueuesForced; pCur; pCur = pCur->pNext)
+    if (!ASMAtomicBitTestAndSet(&pVM->pdm.s.fQueueFlushing, PDM_QUEUE_FLUSH_FLAG_ACTIVE_BIT))
     {
-        if (    pCur->pPendingR3
-            ||  pCur->pPendingR0
-            ||  pCur->pPendingRC)
+        ASMAtomicBitClear(&pVM->pdm.s.fQueueFlushing, PDM_QUEUE_FLUSH_FLAG_PENDING_BIT);
+        do
         {
-            if (    pdmR3QueueFlush(pCur)
-                &&  pCur->pPendingR3)
-                /* new items arrived while flushing. */
-                pdmR3QueueFlush(pCur);
-        }
+            VM_FF_CLEAR(pVM, VM_FF_PDM_QUEUES);
+            for (PPDMQUEUE pCur = pVM->pdm.s.pQueuesForced; pCur; pCur = pCur->pNext)
+                if (    pCur->pPendingR3
+                    ||  pCur->pPendingR0
+                    ||  pCur->pPendingRC)
+                    pdmR3QueueFlush(pCur);
+        } while (   ASMAtomicBitTestAndClear(&pVM->pdm.s.fQueueFlushing, PDM_QUEUE_FLUSH_FLAG_PENDING_BIT)
+                 || VM_FF_ISPENDING(pVM, VM_FF_PDM_QUEUES));
+
+        ASMAtomicBitClear(&pVM->pdm.s.fQueueFlushing, PDM_QUEUE_FLUSH_FLAG_ACTIVE_BIT);
     }
 }
 
@@ -648,8 +670,11 @@ static bool pdmR3QueueFlush(PPDMQUEUE pQueue)
     RTRCPTR           pItemsRC = ASMAtomicXchgRCPtr(&pQueue->pPendingRC, NIL_RTRCPTR);
     RTR0PTR           pItemsR0 = ASMAtomicXchgR0Ptr(&pQueue->pPendingR0, NIL_RTR0PTR);
 
-    AssertMsg(pItems || pItemsRC || pItemsR0, ("ERROR: can't all be NULL now!\n"));
-
+    if (    !pItems
+        &&  !pItemsRC
+        &&  !pItemsR0)
+        /* Somebody may be racing us ... never mind. */
+        return true;
 
     /*
      * Reverse the list (it's inserted in LIFO order to avoid semaphores, remember).
@@ -697,10 +722,10 @@ static bool pdmR3QueueFlush(PPDMQUEUE pQueue)
         case PDMQUEUETYPE_DEV:
             while (pItems)
             {
+                if (!pQueue->u.Dev.pfnCallback(pQueue->u.Dev.pDevIns, pItems))
+                    break;
                 pCur = pItems;
                 pItems = pItems->pNextR3;
-                if (!pQueue->u.Dev.pfnCallback(pQueue->u.Dev.pDevIns, pCur))
-                    break;
                 pdmR3QueueFree(pQueue, pCur);
             }
             break;
@@ -708,10 +733,10 @@ static bool pdmR3QueueFlush(PPDMQUEUE pQueue)
         case PDMQUEUETYPE_DRV:
             while (pItems)
             {
+                if (!pQueue->u.Drv.pfnCallback(pQueue->u.Drv.pDrvIns, pItems))
+                    break;
                 pCur = pItems;
                 pItems = pItems->pNextR3;
-                if (!pQueue->u.Drv.pfnCallback(pQueue->u.Drv.pDrvIns, pCur))
-                    break;
                 pdmR3QueueFree(pQueue, pCur);
             }
             break;
@@ -719,10 +744,10 @@ static bool pdmR3QueueFlush(PPDMQUEUE pQueue)
         case PDMQUEUETYPE_INTERNAL:
             while (pItems)
             {
+                if (!pQueue->u.Int.pfnCallback(pQueue->pVMR3, pItems))
+                    break;
                 pCur = pItems;
                 pItems = pItems->pNextR3;
-                if (!pQueue->u.Int.pfnCallback(pQueue->pVMR3, pCur))
-                    break;
                 pdmR3QueueFree(pQueue, pCur);
             }
             break;
@@ -730,10 +755,10 @@ static bool pdmR3QueueFlush(PPDMQUEUE pQueue)
         case PDMQUEUETYPE_EXTERNAL:
             while (pItems)
             {
+                if (!pQueue->u.Ext.pfnCallback(pQueue->u.Ext.pvUser, pItems))
+                    break;
                 pCur = pItems;
                 pItems = pItems->pNextR3;
-                if (!pQueue->u.Ext.pfnCallback(pQueue->u.Ext.pvUser, pCur))
-                    break;
                 pdmR3QueueFree(pQueue, pCur);
             }
             break;
@@ -749,30 +774,34 @@ static bool pdmR3QueueFlush(PPDMQUEUE pQueue)
     if (pItems)
     {
         /*
-         * Shit, no!
-         *      1. Insert pCur.
-         *      2. Reverse the list.
-         *      3. Insert the LIFO at the tail of the pending list.
+         * Reverse the list.
          */
-        pCur->pNextR3 = pItems;
-        pItems = pCur;
-
-        //pCur = pItems;
+        pCur = pItems;
         pItems = NULL;
         while (pCur)
         {
             PPDMQUEUEITEMCORE pInsert = pCur;
-            pCur = pCur->pNextR3;
+            pCur = pInsert->pNextR3;
             pInsert->pNextR3 = pItems;
             pItems = pInsert;
         }
 
-        if (!ASMAtomicCmpXchgPtr((void * volatile *)&pQueue->pPendingR3, pItems, NULL))
+        /*
+         * Insert the list at the tail of the pending list.
+         */
+        for (;;)
         {
-            pCur = pQueue->pPendingR3;
-            while (pCur->pNextR3)
-                pCur = pCur->pNextR3;
-            pCur->pNextR3 = pItems;
+            if (ASMAtomicCmpXchgPtr((void * volatile *)&pQueue->pPendingR3, pItems, NULL))
+                break;
+            PPDMQUEUEITEMCORE pPending = (PPDMQUEUEITEMCORE)ASMAtomicXchgPtr((void * volatile *)&pQueue->pPendingR3, NULL);
+            if (pPending)
+            {
+                pCur = pPending;
+                while (pCur->pNextR3)
+                    pCur = pCur->pNextR3;
+                pCur->pNextR3 = pItems;
+                pItems = pPending;
+            }
         }
         return false;
     }

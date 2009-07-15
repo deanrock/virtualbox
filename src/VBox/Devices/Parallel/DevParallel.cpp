@@ -1,4 +1,4 @@
-/* $Id: DevParallel.cpp 12978 2008-10-03 23:28:44Z vboxsync $ */
+/* $Id: DevParallel.cpp $ */
 /** @file
  * DevParallel - Parallel (Port) Device Emulation.
  *
@@ -152,14 +152,14 @@ typedef DEVPARALLELSTATE ParallelState;
 /*******************************************************************************
 *   Internal Functions                                                         *
 *******************************************************************************/
-__BEGIN_DECLS
+RT_C_DECLS_BEGIN
 PDMBOTHCBDECL(int) parallelIOPortRead(PPDMDEVINS pDevIns, void *pvUser, RTIOPORT Port, uint32_t *pu32, unsigned cb);
 PDMBOTHCBDECL(int) parallelIOPortWrite(PPDMDEVINS pDevIns, void *pvUser, RTIOPORT Port, uint32_t u32, unsigned cb);
 #if 0
 PDMBOTHCBDECL(int) parallelIOPortReadECP(PPDMDEVINS pDevIns, void *pvUser, RTIOPORT Port, uint32_t *pu32, unsigned cb);
 PDMBOTHCBDECL(int) parallelIOPortWriteECP(PPDMDEVINS pDevIns, void *pvUser, RTIOPORT Port, uint32_t u32, unsigned cb);
 #endif
-__END_DECLS
+RT_C_DECLS_END
 
 
 #ifdef IN_RING3

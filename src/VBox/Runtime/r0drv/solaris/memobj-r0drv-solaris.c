@@ -1,4 +1,4 @@
-/* $Id: memobj-r0drv-solaris.c 16722 2009-02-13 00:37:20Z vboxsync $ */
+/* $Id: memobj-r0drv-solaris.c $ */
 /** @file
  * IPRT - Ring-0 Memory Objects, Solaris.
  */
@@ -397,6 +397,16 @@ int rtR0MemObjNativeMapUser(PPRTR0MEMOBJINTERNAL ppMem, PRTR0MEMOBJINTERNAL pMem
     pMemSolaris->Core.pv = addr;
     *ppMem = &pMemSolaris->Core;
     return VINF_SUCCESS;
+}
+
+
+int rtR0MemObjNativeProtect(PRTR0MEMOBJINTERNAL pMem, size_t offSub, size_t cbSub, uint32_t fProt)
+{
+    NOREF(pMem);
+    NOREF(offSub);
+    NOREF(cbSub);
+    NOREF(fProt);
+    return VERR_NOT_SUPPORTED;
 }
 
 

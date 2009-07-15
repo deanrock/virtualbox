@@ -1,4 +1,4 @@
-# $Id: Makefile.kmk 18186 2009-03-24 14:21:59Z vboxsync $
+# $Id: Makefile.kmk $
 ## @file
 # Top-level makefile for src/VBox.
 #
@@ -44,6 +44,7 @@ else ifdef VBOX_ONLY_SDK
   include $(PATH_SUB_CURRENT)/RDP/Makefile.kmk
  endif
  include $(PATH_SUB_CURRENT)/Installer/Makefile.kmk
+ include $(PATH_SUB_CURRENT)/Frontends/VBoxShell/Makefile.kmk
 
 else
  ifdef VBOX_WITH_MAIN

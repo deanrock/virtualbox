@@ -1,4 +1,4 @@
-/* $Id: spinlock-r0drv-solaris.c 13248 2008-10-14 11:27:51Z vboxsync $ */
+/* $Id: spinlock-r0drv-solaris.c $ */
 /** @file
  * IPRT - Spinlocks, Ring-0 Driver, Solaris.
  */
@@ -32,7 +32,6 @@
 *   Header Files                                                               *
 *******************************************************************************/
 #include "the-solaris-kernel.h"
-#include <sys/spl.h>
 
 #include <iprt/spinlock.h>
 #include <iprt/err.h>

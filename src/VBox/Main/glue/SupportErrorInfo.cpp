@@ -1,4 +1,4 @@
-/* $Id: SupportErrorInfo.cpp 13580 2008-10-27 14:04:18Z vboxsync $ */
+/* $Id: SupportErrorInfo.cpp $ */
 
 /** @file
  * MS COM / XPCOM Abstraction Layer:
@@ -252,7 +252,8 @@ HRESULT SupportErrorInfoBase::setErrorInternal (
                 }
 
                 /* we want to return the head's result code */
-                rc = info->COMGETTER(ResultCode) (&aResultCode);
+                PRInt32 lrc;
+                rc = info->COMGETTER(ResultCode) (&lrc); aResultCode = lrc;
                 CheckComRCBreakRC (rc);
             }
             else

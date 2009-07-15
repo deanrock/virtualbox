@@ -1,4 +1,4 @@
-/* $Id: NetIf-solaris.cpp 18732 2009-04-06 09:01:53Z vboxsync $ */
+/* $Id: NetIf-solaris.cpp $ */
 /** @file
  * Main - NetIfList, Solaris implementation.
  */
@@ -385,9 +385,16 @@ int NetIfList(std::list <ComObjPtr <HostNetworkInterface> > &list)
 
     return VINF_SUCCESS;
 }
+
 #else
 int NetIfList(std::list <ComObjPtr <HostNetworkInterface> > &list)
 {
     return VERR_NOT_IMPLEMENTED;
 }
 #endif
+
+int NetIfGetConfigByName(PNETIFINFO pInfo)
+{
+    return VERR_NOT_IMPLEMENTED;
+}
+

@@ -1,4 +1,4 @@
-/* $Id: ldrELFRelocatable.cpp.h 16933 2009-02-18 23:42:57Z vboxsync $ */
+/* $Id: ldrELFRelocatable.cpp.h $ */
 /** @file
  * IPRT - Binary Image Loader, Template for ELF Relocatable Images.
  */
@@ -74,8 +74,8 @@
 #define Elf_Sword           RTLDRELF_MID(Elf,_Sword)
 #define Elf_Word            RTLDRELF_MID(Elf,_Word)
 
-#define RTLDRMODELF         RTLDRELF_MID(RTLDRMODELF,)
-#define PRTLDRMODELF        RTLDRELF_MID(PRTLDRMODELF,)
+#define RTLDRMODELF         RTLDRELF_MID(RTLDRMODELF,RT_NOTHING)
+#define PRTLDRMODELF        RTLDRELF_MID(PRTLDRMODELF,RT_NOTHING)
 
 #define ELF_R_SYM(info)     RTLDRELF_MID(ELF,_R_SYM)(info)
 #define ELF_R_TYPE(info)    RTLDRELF_MID(ELF,_R_TYPE)(info)

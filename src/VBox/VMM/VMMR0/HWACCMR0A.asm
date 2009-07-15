@@ -1,4 +1,4 @@
-; $Id: HWACCMR0A.asm 15415 2008-12-13 05:29:54Z vboxsync $
+; $Id: HWACCMR0A.asm $
 ;; @file
 ; VMXM - R0 vmx helpers
 ;
@@ -53,7 +53,20 @@
 %endif
 %ifdef VBOX_WITH_HYBRID_32BIT_KERNEL
  %define MAYBE_64_BIT
+%else
+ %ifdef RT_OS_DARWIN
+  %ifdef RT_ARCH_AMD64
+   ;;
+   ; Load the NULL selector into DS, ES, FS and GS on 64-bit darwin so we don't
+   ; risk loading a stale LDT value or something invalid.
+   %define HWACCM_64_BIT_USE_NULL_SEL
+  %endif
+ %endif
 %endif
+
+;; The offset of the XMM registers in X86FXSTATE.
+; Use define because I'm too lazy to convert the struct.
+%define XMM_OFF_IN_X86FXSTATE   160
 
 
 ;; This is too risky wrt. stability, performance and correctness.
@@ -147,46 +160,66 @@
 
 ; trashes, rax, rdx & rcx
 %macro MYPUSHSEGS64 2
+ %ifndef HWACCM_64_BIT_USE_NULL_SEL
    mov     %2, es
    push    %1
    mov     %2, ds
    push    %1
+ %endif
 
    ; Special case for FS; Windows and Linux either don't use it or restore it when leaving kernel mode, Solaris OTOH doesn't and we must save it.
    mov     ecx, MSR_K8_FS_BASE
    rdmsr
    push    rdx
    push    rax
+ %ifndef HWACCM_64_BIT_USE_NULL_SEL
    push    fs
+ %endif
 
    ; Special case for GS; OSes typically use swapgs to reset the hidden base register for GS on entry into the kernel. The same happens on exit
    mov     ecx, MSR_K8_GS_BASE
    rdmsr
    push    rdx
    push    rax
+ %ifndef HWACCM_64_BIT_USE_NULL_SEL
    push    gs
+ %endif
 %endmacro
 
 ; trashes, rax, rdx & rcx
 %macro MYPOPSEGS64 2
    ; Note: do not step through this code with a debugger!
+ %ifndef HWACCM_64_BIT_USE_NULL_SEL
+   xor     eax, eax
+   mov     ds, ax
+   mov     es, ax
+   mov     fs, ax
+   mov     gs, ax
+ %endif
+
+ %ifndef HWACCM_64_BIT_USE_NULL_SEL
    pop     gs
+ %endif
    pop     rax
    pop     rdx
    mov     ecx, MSR_K8_GS_BASE
    wrmsr
 
+ %ifndef HWACCM_64_BIT_USE_NULL_SEL
    pop     fs
+ %endif
    pop     rax
    pop     rdx
    mov     ecx, MSR_K8_FS_BASE
    wrmsr
    ; Now it's safe to step again
 
+ %ifndef HWACCM_64_BIT_USE_NULL_SEL
    pop     %1
    mov     ds, %2
    pop     %1
    mov     es, %2
+ %endif
 %endmacro
 
 %macro MYPUSHAD32 0
@@ -219,6 +252,9 @@ extern NAME(SUPR0Abs64bitKernelCS)
 extern NAME(SUPR0Abs64bitKernelSS)
 extern NAME(SUPR0Abs64bitKernelDS)
 extern NAME(SUPR0AbsKernelCS)
+%endif
+%ifdef VBOX_WITH_KERNEL_USING_XMM
+extern NAME(CPUMIsGuestFPUStateActive)
 %endif
 
 
@@ -989,7 +1025,265 @@ ENDPROC   hwaccmR0Get64bitCR3
 
 %endif ; VBOX_WITH_HYBRID_32BIT_KERNEL
 
+%ifdef VBOX_WITH_KERNEL_USING_XMM
 
+;;
+; Wrapper around vmx.pfnStartVM that preserves host XMM registers and
+; load the guest ones when necessary.
+;
+; @cproto       DECLASM(int) hwaccmR0VMXStartVMWrapXMM(RTHCUINT fResume, PCPUMCTX pCtx, PVMCSCACHE pCache, PVM pVM, PVMCPU pVCpu, PFNHWACCMVMXSTARTVM pfnStartVM);
+;
+; @returns      eax
+;
+; @param        fResumeVM       msc:rcx
+; @param        pCtx            msc:rdx
+; @param        pVMCSCache      msc:r8
+; @param        pVM             msc:r9
+; @param        pVCpu           msc:[rbp+30h]
+; @param        pfnStartVM      msc:[rbp+38h]
+;
+; @remarks      This is essentially the same code as hwaccmR0SVMRunWrapXMM, only the parameters differ a little bit.
+;
+; ASSUMING 64-bit and windows for now.
+ALIGNCODE(16)
+BEGINPROC hwaccmR0VMXStartVMWrapXMM
+        push    xBP
+        mov     xBP, xSP
+        sub     xSP, 0a0h + 040h        ; Don't bother optimizing the frame size.
+
+        ; spill input parameters.
+        mov     [xBP + 010h], rcx       ; fResumeVM
+        mov     [xBP + 018h], rdx       ; pCtx
+        mov     [xBP + 020h], r8        ; pVMCSCache
+        mov     [xBP + 028h], r9        ; pVM
+
+        ; Ask CPUM whether we've started using the FPU yet.
+        mov     rcx, [xBP + 30h]        ; pVCpu
+        call    NAME(CPUMIsGuestFPUStateActive)
+        test    al, al
+        jnz     .guest_fpu_state_active
+
+        ; No need to mess with XMM registers just call the start routine and return.
+        mov     r11, [xBP + 38h]        ; pfnStartVM
+        mov     r10, [xBP + 30h]        ; pVCpu
+        mov     [xSP + 020h], r10
+        mov     rcx, [xBP + 010h]       ; fResumeVM
+        mov     rdx, [xBP + 018h]       ; pCtx
+        mov     r8,  [xBP + 020h]       ; pVMCSCache
+        mov     r9,  [xBP + 028h]       ; pVM
+        call    r11
+
+        leave
+        ret
+
+ALIGNCODE(8)
+.guest_fpu_state_active:
+        ; Save the host XMM registers.
+        movdqa  [rsp + 040h + 000h], xmm6
+        movdqa  [rsp + 040h + 010h], xmm7
+        movdqa  [rsp + 040h + 020h], xmm8
+        movdqa  [rsp + 040h + 030h], xmm9
+        movdqa  [rsp + 040h + 040h], xmm10
+        movdqa  [rsp + 040h + 050h], xmm11
+        movdqa  [rsp + 040h + 060h], xmm12
+        movdqa  [rsp + 040h + 070h], xmm13
+        movdqa  [rsp + 040h + 080h], xmm14
+        movdqa  [rsp + 040h + 090h], xmm15
+
+        ; Load the full guest XMM register state.
+        mov     r10, [xBP + 018h]       ; pCtx
+        lea     r10, [r10 + XMM_OFF_IN_X86FXSTATE]
+        movdqa  xmm0,  [r10 + 000h]
+        movdqa  xmm1,  [r10 + 010h]
+        movdqa  xmm2,  [r10 + 020h]
+        movdqa  xmm3,  [r10 + 030h]
+        movdqa  xmm4,  [r10 + 040h]
+        movdqa  xmm5,  [r10 + 050h]
+        movdqa  xmm6,  [r10 + 060h]
+        movdqa  xmm7,  [r10 + 070h]
+        movdqa  xmm8,  [r10 + 080h]
+        movdqa  xmm9,  [r10 + 090h]
+        movdqa  xmm10, [r10 + 0a0h]
+        movdqa  xmm11, [r10 + 0b0h]
+        movdqa  xmm12, [r10 + 0c0h]
+        movdqa  xmm13, [r10 + 0d0h]
+        movdqa  xmm14, [r10 + 0e0h]
+        movdqa  xmm15, [r10 + 0f0h]
+
+        ; Make the call (same as in the other case ).
+        mov     r11, [xBP + 38h]        ; pfnStartVM
+        mov     r10, [xBP + 30h]        ; pVCpu
+        mov     [xSP + 020h], r10
+        mov     rcx, [xBP + 010h]       ; fResumeVM
+        mov     rdx, [xBP + 018h]       ; pCtx
+        mov     r8,  [xBP + 020h]       ; pVMCSCache
+        mov     r9,  [xBP + 028h]       ; pVM
+        call    r11
+
+        ; Save the guest XMM registers.
+        mov     r10, [xBP + 018h]       ; pCtx
+        lea     r10, [r10 + XMM_OFF_IN_X86FXSTATE]
+        movdqa  [r10 + 000h], xmm0
+        movdqa  [r10 + 010h], xmm1
+        movdqa  [r10 + 020h], xmm2
+        movdqa  [r10 + 030h], xmm3
+        movdqa  [r10 + 040h], xmm4
+        movdqa  [r10 + 050h], xmm5
+        movdqa  [r10 + 060h], xmm6
+        movdqa  [r10 + 070h], xmm7
+        movdqa  [r10 + 080h], xmm8
+        movdqa  [r10 + 090h], xmm9
+        movdqa  [r10 + 0a0h], xmm10
+        movdqa  [r10 + 0b0h], xmm11
+        movdqa  [r10 + 0c0h], xmm12
+        movdqa  [r10 + 0d0h], xmm13
+        movdqa  [r10 + 0e0h], xmm14
+        movdqa  [r10 + 0f0h], xmm15
+
+        ; Load the host XMM registers.
+        movdqa  xmm6,  [rsp + 040h + 000h]
+        movdqa  xmm7,  [rsp + 040h + 010h]
+        movdqa  xmm8,  [rsp + 040h + 020h]
+        movdqa  xmm9,  [rsp + 040h + 030h]
+        movdqa  xmm10, [rsp + 040h + 040h]
+        movdqa  xmm11, [rsp + 040h + 050h]
+        movdqa  xmm12, [rsp + 040h + 060h]
+        movdqa  xmm13, [rsp + 040h + 070h]
+        movdqa  xmm14, [rsp + 040h + 080h]
+        movdqa  xmm15, [rsp + 040h + 090h]
+        leave
+        ret
+ENDPROC   hwaccmR0VMXStartVMWrapXMM
+
+;;
+; Wrapper around svm.pfnVMRun that preserves host XMM registers and
+; load the guest ones when necessary.
+;
+; @cproto       DECLASM(int) hwaccmR0SVMRunWrapXMM(RTHCPHYS pVMCBHostPhys, RTHCPHYS pVMCBPhys, PCPUMCTX pCtx, PVM pVM, PVMCPU pVCpu, PFNHWACCMSVMVMRUN pfnVMRun);
+;
+; @returns      eax
+;
+; @param        pVMCBHostPhys   msc:rcx
+; @param        pVMCBPhys       msc:rdx
+; @param        pCtx            msc:r8
+; @param        pVM             msc:r9
+; @param        pVCpu           msc:[rbp+30h]
+; @param        pfnVMRun        msc:[rbp+38h]
+;
+; @remarks      This is essentially the same code as hwaccmR0VMXStartVMWrapXMM, only the parameters differ a little bit.
+;
+; ASSUMING 64-bit and windows for now.
+ALIGNCODE(16)
+BEGINPROC hwaccmR0SVMRunWrapXMM
+        push    xBP
+        mov     xBP, xSP
+        sub     xSP, 0a0h + 040h        ; Don't bother optimizing the frame size.
+
+        ; spill input parameters.
+        mov     [xBP + 010h], rcx       ; pVMCBHostPhys
+        mov     [xBP + 018h], rdx       ; pVMCBPhys
+        mov     [xBP + 020h], r8        ; pCtx
+        mov     [xBP + 028h], r9        ; pVM
+
+        ; Ask CPUM whether we've started using the FPU yet.
+        mov     rcx, [xBP + 30h]        ; pVCpu
+        call    NAME(CPUMIsGuestFPUStateActive)
+        test    al, al
+        jnz     .guest_fpu_state_active
+
+        ; No need to mess with XMM registers just call the start routine and return.
+        mov     r11, [xBP + 38h]        ; pfnVMRun
+        mov     r10, [xBP + 30h]        ; pVCpu
+        mov     [xSP + 020h], r10
+        mov     rcx, [xBP + 010h]       ; pVMCBHostPhys
+        mov     rdx, [xBP + 018h]       ; pVMCBPhys
+        mov     r8,  [xBP + 020h]       ; pCtx
+        mov     r9,  [xBP + 028h]       ; pVM
+        call    r11
+
+        leave
+        ret
+
+ALIGNCODE(8)
+.guest_fpu_state_active:
+        ; Save the host XMM registers.
+        movdqa  [rsp + 040h + 000h], xmm6
+        movdqa  [rsp + 040h + 010h], xmm7
+        movdqa  [rsp + 040h + 020h], xmm8
+        movdqa  [rsp + 040h + 030h], xmm9
+        movdqa  [rsp + 040h + 040h], xmm10
+        movdqa  [rsp + 040h + 050h], xmm11
+        movdqa  [rsp + 040h + 060h], xmm12
+        movdqa  [rsp + 040h + 070h], xmm13
+        movdqa  [rsp + 040h + 080h], xmm14
+        movdqa  [rsp + 040h + 090h], xmm15
+
+        ; Load the full guest XMM register state.
+        mov     r10, [xBP + 020h]       ; pCtx
+        lea     r10, [r10 + XMM_OFF_IN_X86FXSTATE]
+        movdqa  xmm0,  [r10 + 000h]
+        movdqa  xmm1,  [r10 + 010h]
+        movdqa  xmm2,  [r10 + 020h]
+        movdqa  xmm3,  [r10 + 030h]
+        movdqa  xmm4,  [r10 + 040h]
+        movdqa  xmm5,  [r10 + 050h]
+        movdqa  xmm6,  [r10 + 060h]
+        movdqa  xmm7,  [r10 + 070h]
+        movdqa  xmm8,  [r10 + 080h]
+        movdqa  xmm9,  [r10 + 090h]
+        movdqa  xmm10, [r10 + 0a0h]
+        movdqa  xmm11, [r10 + 0b0h]
+        movdqa  xmm12, [r10 + 0c0h]
+        movdqa  xmm13, [r10 + 0d0h]
+        movdqa  xmm14, [r10 + 0e0h]
+        movdqa  xmm15, [r10 + 0f0h]
+
+        ; Make the call (same as in the other case ).
+        mov     r11, [xBP + 38h]        ; pfnVMRun
+        mov     r10, [xBP + 30h]        ; pVCpu
+        mov     [xSP + 020h], r10
+        mov     rcx, [xBP + 010h]       ; pVMCBHostPhys
+        mov     rdx, [xBP + 018h]       ; pVMCBPhys
+        mov     r8,  [xBP + 020h]       ; pCtx
+        mov     r9,  [xBP + 028h]       ; pVM
+        call    r11
+
+        ; Save the guest XMM registers.
+        mov     r10, [xBP + 020h]       ; pCtx
+        lea     r10, [r10 + XMM_OFF_IN_X86FXSTATE]
+        movdqa  [r10 + 000h], xmm0
+        movdqa  [r10 + 010h], xmm1
+        movdqa  [r10 + 020h], xmm2
+        movdqa  [r10 + 030h], xmm3
+        movdqa  [r10 + 040h], xmm4
+        movdqa  [r10 + 050h], xmm5
+        movdqa  [r10 + 060h], xmm6
+        movdqa  [r10 + 070h], xmm7
+        movdqa  [r10 + 080h], xmm8
+        movdqa  [r10 + 090h], xmm9
+        movdqa  [r10 + 0a0h], xmm10
+        movdqa  [r10 + 0b0h], xmm11
+        movdqa  [r10 + 0c0h], xmm12
+        movdqa  [r10 + 0d0h], xmm13
+        movdqa  [r10 + 0e0h], xmm14
+        movdqa  [r10 + 0f0h], xmm15
+
+        ; Load the host XMM registers.
+        movdqa  xmm6,  [rsp + 040h + 000h]
+        movdqa  xmm7,  [rsp + 040h + 010h]
+        movdqa  xmm8,  [rsp + 040h + 020h]
+        movdqa  xmm9,  [rsp + 040h + 030h]
+        movdqa  xmm10, [rsp + 040h + 040h]
+        movdqa  xmm11, [rsp + 040h + 050h]
+        movdqa  xmm12, [rsp + 040h + 060h]
+        movdqa  xmm13, [rsp + 040h + 070h]
+        movdqa  xmm14, [rsp + 040h + 080h]
+        movdqa  xmm15, [rsp + 040h + 090h]
+        leave
+        ret
+ENDPROC   hwaccmR0SVMRunWrapXMM
+
+%endif ; VBOX_WITH_KERNEL_USING_XMM
 
 ;
 ; The default setup of the StartVM routines.

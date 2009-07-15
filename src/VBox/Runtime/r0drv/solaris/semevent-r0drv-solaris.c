@@ -1,4 +1,4 @@
-/* $Id: semevent-r0drv-solaris.c 8245 2008-04-21 17:24:28Z vboxsync $ */
+/* $Id: semevent-r0drv-solaris.c $ */
 /** @file
  * IPRT - Semaphores, Ring-0 Driver, Solaris.
  */
@@ -32,7 +32,6 @@
 *   Header Files                                                               *
 *******************************************************************************/
 #include "the-solaris-kernel.h"
-#include <time.h>
 
 #include <iprt/semaphore.h>
 #include <iprt/alloc.h>
@@ -78,7 +77,7 @@ RTDECL(int)  RTSemEventCreate(PRTSEMEVENT pEventSem)
         pEventInt->cWaiters = 0;
         pEventInt->cWaking = 0;
         pEventInt->fSignaled = 0;
-        mutex_init(&pEventInt->Mtx, "IPRT Event Semaphore", MUTEX_DRIVER, NULL);
+        mutex_init(&pEventInt->Mtx, "IPRT Event Semaphore", MUTEX_DRIVER, (void *)ipltospl(DISP_LEVEL));
         cv_init(&pEventInt->Cnd, "IPRT CV", CV_DRIVER, NULL);
         *pEventSem = pEventInt;
         return VINF_SUCCESS;

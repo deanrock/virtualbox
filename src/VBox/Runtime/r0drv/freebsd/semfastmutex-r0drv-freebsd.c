@@ -1,4 +1,4 @@
-/* $Id: semfastmutex-r0drv-freebsd.c 8245 2008-04-21 17:24:28Z vboxsync $ */
+/* $Id: semfastmutex-r0drv-freebsd.c $ */
 /** @file
  * IPRT - Fast Mutex Semaphores, Ring-0 Driver, FreeBSD.
  */
@@ -62,7 +62,7 @@ RTDECL(int)  RTSemFastMutexCreate(PRTSEMFASTMUTEX pMutexSem)
     AssertCompile(sizeof(RTSEMFASTMUTEXINTERNAL) > sizeof(void *));
     AssertPtrReturn(pMutexSem, VERR_INVALID_POINTER);
 
-    PRTSEMFASTMUTEXINTERNAL pFastInt = (PRTSEMFASTMUTEXINTERNAL)RTMemAlloc(sizeof(*pFastInt));
+    PRTSEMFASTMUTEXINTERNAL pFastInt = (PRTSEMFASTMUTEXINTERNAL)RTMemAllocZ(sizeof(*pFastInt));
     if (pFastInt)
     {
         pFastInt->u32Magic = RTSEMFASTMUTEX_MAGIC;

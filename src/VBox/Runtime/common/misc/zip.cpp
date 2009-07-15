@@ -1,4 +1,4 @@
-/* $Id: zip.cpp 18426 2009-03-28 01:50:51Z vboxsync $ */
+/* $Id: zip.cpp $ */
 /** @file
  * IPRT - Compression.
  */
@@ -110,11 +110,7 @@ typedef const RTZIPLZFHDR *PCRTZIPLZFHDR;
 typedef struct RTZIPCOMP
 {
     /** Output buffer. */
-#ifdef RTZIP_USE_LZF
-    uint8_t             abBuffer[128 * 1024];
-#else
-    uint8_t             abBuffer[64 * 1024];
-#endif
+    uint8_t             abBuffer[_128K];
     /** Compression output consumer. */
     PFNRTZIPOUT         pfnOut;
     /** User argument for the callback. */
@@ -182,7 +178,7 @@ typedef struct RTZIPCOMP
 typedef struct RTZIPDECOMP
 {
     /** Input buffer. */
-    uint8_t             abBuffer[1024 * 64];
+    uint8_t             abBuffer[_128K];
     /** Decompression input producer. */
     PFNRTZIPIN          pfnIn;
     /** User argument for the callback. */

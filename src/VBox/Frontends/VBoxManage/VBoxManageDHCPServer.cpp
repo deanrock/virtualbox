@@ -1,4 +1,4 @@
-/* $Id: VBoxManageDHCPServer.cpp 18323 2009-03-26 15:29:16Z vboxsync $ */
+/* $Id: VBoxManageDHCPServer.cpp $ */
 /** @file
  * VBoxManage - Implementation of dhcpserver command.
  */
@@ -26,7 +26,7 @@
 #include <VBox/com/com.h>
 #include <VBox/com/array.h>
 #include <VBox/com/ErrorInfo.h>
-#include <VBox/com/errorprint2.h>
+#include <VBox/com/errorprint.h>
 #include <VBox/com/EventQueue.h>
 
 #include <VBox/com/VirtualBox.h>

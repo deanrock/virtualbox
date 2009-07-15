@@ -1,4 +1,4 @@
-/* $Id: path-posix.cpp 15813 2009-01-05 16:06:55Z vboxsync $ */
+/* $Id: path-posix.cpp $ */
 /** @file
  * IPRT - Path Manipulation, POSIX.
  */
@@ -44,6 +44,7 @@
 #include <pwd.h>
 
 #include <iprt/path.h>
+#include <iprt/env.h>
 #include <iprt/assert.h>
 #include <iprt/string.h>
 #include <iprt/err.h>
@@ -392,7 +393,7 @@ static int rtPathUserHomeByEnv(char *pszPath, size_t cchPath)
      * Get HOME env. var it and validate it's existance.
      */
     int rc = VERR_PATH_NOT_FOUND;
-    const char *pszHome = getenv("HOME");
+    const char *pszHome = RTEnvGet("HOME");
     if (pszHome)
 
     {

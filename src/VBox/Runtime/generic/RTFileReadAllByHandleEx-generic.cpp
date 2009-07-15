@@ -1,4 +1,4 @@
-/* $Id: RTFileReadAllByHandleEx-generic.cpp 8954 2008-05-20 14:02:01Z vboxsync $ */
+/* $Id: RTFileReadAllByHandleEx-generic.cpp $ */
 /** @file
  * IPRT - RTFileReadAllByHandleEx, generic implementation.
  */
@@ -42,7 +42,7 @@
 
 RTDECL(int) RTFileReadAllByHandleEx(RTFILE File, RTFOFF off, RTFOFF cbMax, uint32_t fFlags, void **ppvFile, size_t *pcbFile)
 {
-    AssertReturn(!fFlags, VERR_INVALID_PARAMETER);
+    AssertReturn(!(fFlags & ~RTFILE_RDALL_VALID_MASK), VERR_INVALID_PARAMETER);
 
     /*
      * Save the current offset first.

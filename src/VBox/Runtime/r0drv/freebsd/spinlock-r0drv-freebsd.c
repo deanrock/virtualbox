@@ -1,4 +1,4 @@
-/* $Id: spinlock-r0drv-freebsd.c 8245 2008-04-21 17:24:28Z vboxsync $ */
+/* $Id: spinlock-r0drv-freebsd.c $ */
 /** @file
  * IPRT - Spinlocks, Ring-0 Driver, FreeBSD.
  */
@@ -63,7 +63,7 @@ RTDECL(int)  RTSpinlockCreate(PRTSPINLOCK pSpinlock)
      * Allocate.
      */
     AssertCompile(sizeof(RTSPINLOCKINTERNAL) > sizeof(void *));
-    PRTSPINLOCKINTERNAL pSpinlockInt = (PRTSPINLOCKINTERNAL)RTMemAlloc(sizeof(*pSpinlockInt));
+    PRTSPINLOCKINTERNAL pSpinlockInt = (PRTSPINLOCKINTERNAL)RTMemAllocZ(sizeof(*pSpinlockInt));
     if (!pSpinlockInt)
         return VERR_NO_MEMORY;
 

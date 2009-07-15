@@ -1,4 +1,4 @@
-/* $Id: ldr.h 16933 2009-02-18 23:42:57Z vboxsync $ */
+/* $Id: ldr.h $ */
 /** @file
  * IPRT - Loader Internals.
  */
@@ -34,7 +34,7 @@
 #include <iprt/types.h>
 #include "internal/magics.h"
 
-__BEGIN_DECLS
+RT_C_DECLS_BEGIN
 
 
 /*******************************************************************************
@@ -378,7 +378,7 @@ int rtldrkLdrOpen(PRTLDRREADER pReader, uint32_t fFlags, RTLDRARCH enmArch, PRTL
 int rtldrMachoOpen(PRTLDRREADER pReader, uint32_t fFlags, RTLDRARCH enmArch, RTFOFF offSomething, PRTLDRMOD phLdrMod);*/
 
 
-__END_DECLS
+RT_C_DECLS_END
 
 #endif
 

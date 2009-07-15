@@ -1,4 +1,4 @@
-/* $Id: memobj-r0drv-nt.cpp 14824 2008-11-30 07:52:59Z vboxsync $ */
+/* $Id: memobj-r0drv-nt.cpp $ */
 /** @file
  * IPRT - Ring-0 Memory Objects, NT.
  */
@@ -757,6 +757,16 @@ int rtR0MemObjNativeMapUser(PPRTR0MEMOBJINTERNAL ppMem, RTR0MEMOBJ pMemToMap, RT
 {
     AssertReturn(R0Process == RTR0ProcHandleSelf(), VERR_NOT_SUPPORTED);
     return rtR0MemObjNtMap(ppMem, pMemToMap, (void *)R3PtrFixed, uAlignment, fProt, R0Process);
+}
+
+
+int rtR0MemObjNativeProtect(PRTR0MEMOBJINTERNAL pMem, size_t offSub, size_t cbSub, uint32_t fProt)
+{
+    NOREF(pMem);
+    NOREF(offSub);
+    NOREF(cbSub);
+    NOREF(fProt);
+    return VERR_NOT_SUPPORTED;
 }
 
 

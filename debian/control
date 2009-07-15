@@ -15,15 +15,16 @@ Build-Depends: bcc,
                docbook-xml,
                docbook-xsl,
                dpatch,
-               g++-4.2,
-               g++-4.2-multilib [amd64],
-               gcc-4.2,
+               g++-4.3,
+               g++-4.3-multilib [amd64],
+               gcc-4.3,
                gsoap,
                iasl,
                kbuild (>= 1:0.1.5svn2274),
                libacl1-dev,
                libasound-dev,
                libcap2-dev,
+               libcurl4-openssl-dev | libcurl3-openssl-dev,
                libdrm-dev,
                libgl1-mesa-dev,
                libglu1-mesa-dev,
@@ -34,6 +35,7 @@ Build-Depends: bcc,
                libpulse-dev,
                libqt4-dev (>= 4.3.0),
                libsdl1.2-dev,
+               libssl-dev,
                libx11-dev,
                libxcursor-dev,
                libxext-dev,
@@ -51,7 +53,7 @@ Build-Depends: bcc,
                xsltproc,
                yasm (>= 0.7.0),
                zlib1g-dev
-Standards-Version: 3.8.1
+Standards-Version: 3.8.2
 Homepage: http://www.virtualbox.org/
 Vcs-Git: git://git.debian.org/git/pkg-virtualbox/virtualbox-ose.git
 Vcs-Browser: http://git.debian.org/?p=pkg-virtualbox/virtualbox-ose.git
@@ -62,7 +64,7 @@ Depends: ${shlibs:Depends},
          ${misc:Depends},
          virtualbox-ose
 Pre-Depends: debconf | debconf-2.0
-Replaces: virtualbox-ose
+Replaces: virtualbox-ose (<< 2.2.0-dfsg-1) 
 Description: x86 virtualization solution - Qt based user interface
  VirtualBox is a free x86 virtualization solution allowing a wide range
  of x86 operating systems such as Windows, DOS, BSD or Linux to run on a
@@ -81,7 +83,7 @@ Pre-Depends: debconf | debconf-2.0
 Recommends: virtualbox-ose-modules,
             virtualbox-ose-qt,
             libgl1
-Suggests: virtualbox-ose-source
+Suggests: virtualbox-ose-source, virtualbox-guest-additions
 Conflicts: virtualbox
 Provides: virtualbox
 Replaces: virtualbox
@@ -97,7 +99,6 @@ Description: x86 virtualization solution - base binaries
 
 Package: virtualbox-ose-dbg
 Section: debug
-Priority: extra
 Architecture: amd64 i386 lpia
 Depends: ${misc:Depends},
          virtualbox-ose (= ${binary:Version})
@@ -158,7 +159,7 @@ Depends: ${shlibs:Depends},
          pciutils
 Provides: ${xviddriver:Provides},
           ${xinpdriver:Provides}
-Replaces: virtualbox-ose-guest-utils
+Replaces: virtualbox-ose-guest-utils (<< 2.2.0-dfsg-1) 
 Description: x86 virtualization solution - X11 guest utilities
  VirtualBox is a free x86 virtualization solution allowing a wide range
  of x86 operating systems such as Windows, DOS, BSD or Linux to run on a

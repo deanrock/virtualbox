@@ -1,5 +1,5 @@
+/* $Id: VBox-CodingGuidelines.cpp $ */
 /** @file
- *
  * VBox - Coding Guidelines.
  */
 

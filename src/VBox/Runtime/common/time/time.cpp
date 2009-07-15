@@ -1,4 +1,4 @@
-/* $Id: time.cpp 14318 2008-11-18 16:56:53Z vboxsync $ */
+/* $Id: time.cpp $ */
 /** @file
  * IPRT - Time.
  */
@@ -233,6 +233,7 @@ DECLINLINE(bool) rtTimeIsLeapYear(int32_t i32Year)
         && (    i32Year % 100 != 0
             ||  i32Year % 400 == 0);
 }
+
 
 /**
  * Checks if a year is a leap year or not.

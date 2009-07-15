@@ -1,4 +1,4 @@
-/* $Id: config-host.h 8168 2008-04-18 16:58:27Z vboxsync $ */
+/* $Id: config-host.h $ */
 /** @file
  * Sun host config - maintained by hand
  */
@@ -20,7 +20,7 @@
  */
 
 
-#if defined(RT_ARCH_AMD64) || defined(HOST_X86_64) /* The latter, for dyngen when cross compiling (windows, l4, etc). */
+#if defined(RT_ARCH_AMD64)
 # define HOST_X86_64 1
 # define HOST_LONG_BITS 64
 #else

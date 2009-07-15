@@ -1,4 +1,4 @@
-/* $Id: SUPSvcInternal.h 11725 2008-08-27 22:21:47Z vboxsync $ */
+/* $Id: SUPSvcInternal.h $ */
 /** @file
  * VirtualBox Support Service - Internal header.
  */
@@ -36,7 +36,7 @@
 #include <iprt/stdarg.h>
 #include <iprt/getopt.h>
 
-__BEGIN_DECLS
+RT_C_DECLS_BEGIN
 
 /** @name Common Helpers
  * @{ */
@@ -89,7 +89,7 @@ DECLCALLBACK(int)  supSvcGlobalTryStop(void *pvInstance);
 DECLCALLBACK(void) supSvcGlobalStopAndDestroy(void *pvInstance, bool fRunning);
 /** @} */
 
-__END_DECLS
+RT_C_DECLS_END
 
 #endif
 

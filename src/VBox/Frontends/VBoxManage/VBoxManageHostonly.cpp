@@ -1,4 +1,4 @@
-/* $Id: VBoxManageHostonly.cpp 18108 2009-03-20 11:04:44Z vboxsync $ */
+/* $Id: VBoxManageHostonly.cpp $ */
 /** @file
  * VBoxManage - Implementation of hostonlyif command.
  */
@@ -26,7 +26,7 @@
 #include <VBox/com/com.h>
 #include <VBox/com/array.h>
 #include <VBox/com/ErrorInfo.h>
-#include <VBox/com/errorprint2.h>
+#include <VBox/com/errorprint.h>
 #include <VBox/com/EventQueue.h>
 
 #include <VBox/com/VirtualBox.h>
@@ -81,9 +81,9 @@ static int handleCreate(HandlerArg *a, int iStart, int *pcProcessed)
     {
         com::ProgressErrorInfo info(progress);
         if (info.isBasicAvailable())
-            RTPrintf("Error: failed to remove the host-only adapter. Error message: %lS\n", info.getText().raw());
+            RTPrintf("Error: failed to create the host-only adapter. Error message: %lS\n", info.getText().raw());
         else
-            RTPrintf("Error: failed to remove the host-only adapter. No error message available, HRESULT code: 0x%x\n", hr);
+            RTPrintf("Error: failed to create the host-only adapter. No error message available, HRESULT code: 0x%x\n", hr);
 
         return 1;
     }
@@ -113,8 +113,8 @@ static int handleRemove(HandlerArg *a, int iStart, int *pcProcessed)
     ComPtr<IHostNetworkInterface> hif;
     CHECK_ERROR(host, FindHostNetworkInterfaceByName(name, hif.asOutParam()));
 
-    GUID guid;
-    CHECK_ERROR(hif, COMGETTER(Id)(&guid));
+    Bstr guid;
+    CHECK_ERROR(hif, COMGETTER(Id)(guid.asOutParam()));
 
     ComPtr<IProgress> progress;
     CHECK_ERROR(host, RemoveHostOnlyNetworkInterface (guid, hif.asOutParam(),progress.asOutParam()));

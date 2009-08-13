@@ -16,3 +16,4 @@
 18-xorg-1.6.dpatch
 20-hide-help-buttons.dpatch
 21-lp-integration.dpatch
+22-pulseaudio-stubs.dpatch

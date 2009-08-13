@@ -1,7 +1,8 @@
 Source: virtualbox-ose
 Section: misc
 Priority: extra
-Maintainer: Debian Virtualbox Team <pkg-virtualbox-devel@lists.alioth.debian.org>
+Maintainer: Ubuntu MOTU Developers <ubuntu-motu@lists.ubuntu.com>
+XSBC-Original-Maintainer: Debian Virtualbox Team <pkg-virtualbox-devel@lists.alioth.debian.org>
 Uploaders: Philipp Hug <debian@hug.cx>,
            Marvin Stark <marv@der-marv.de>,
            Michael Meskes <meskes@debian.org>,
@@ -55,14 +56,15 @@ Build-Depends: bcc,
                zlib1g-dev
 Standards-Version: 3.8.2
 Homepage: http://www.virtualbox.org/
-Vcs-Git: git://git.debian.org/git/pkg-virtualbox/virtualbox-ose.git
-Vcs-Browser: http://git.debian.org/?p=pkg-virtualbox/virtualbox-ose.git
+XS-Original-Vcs-Git: git://git.debian.org/git/pkg-virtualbox/virtualbox-ose.git
+XS-Original-Vcs-Browser: http://git.debian.org/?p=pkg-virtualbox/virtualbox-ose.git
 
 Package: virtualbox-ose-qt
 Architecture: amd64 i386 lpia
 Depends: ${shlibs:Depends},
          ${misc:Depends},
-         virtualbox-ose
+         virtualbox-ose,
+         launchpad-integration
 Pre-Depends: debconf | debconf-2.0
 Replaces: virtualbox-ose (<< 2.2.0-dfsg-1) 
 Description: x86 virtualization solution - Qt based user interface
@@ -80,13 +82,11 @@ Depends: ${shlibs:Depends},
          adduser,
          python
 Pre-Depends: debconf | debconf-2.0
-Recommends: virtualbox-ose-modules,
+Recommends: virtualbox-ose-source,
             virtualbox-ose-qt,
             libgl1
-Suggests: virtualbox-ose-source, virtualbox-guest-additions
-Conflicts: virtualbox
-Provides: virtualbox
-Replaces: virtualbox
+Suggests: virtualbox-guest-additions
+Conflicts: virtualbox, virtualbox-2.0, virtualbox-2.1, virtualbox-2.2, virtualbox-3.0
 Description: x86 virtualization solution - base binaries
  VirtualBox is a free x86 virtualization solution allowing a wide range
  of x86 operating systems such as Windows, DOS, BSD or Linux to run on a
@@ -114,14 +114,10 @@ Package: virtualbox-ose-source
 Section: kernel
 Architecture: all
 Depends: ${misc:Depends},
-         debhelper (>= 5),
-         dpatch,
-         bzip2,
-         kbuild
-Recommends: module-assistant
-Conflicts: virtualbox-source
-Replaces: virtualbox-source
-Provides: virtualbox-source
+         dkms,
+         libc6-dev,
+         linux-headers-generic | linux-headers
+Conflicts: virtualbox, virtualbox-2.0, virtualbox-2.1, virtualbox-2.2, virtualbox-3.0
 Description: x86 virtualization solution - kernel module source
  VirtualBox is a free x86 virtualization solution allowing a wide range
  of x86 operating systems such as Windows, DOS, BSD or Linux to run on a
@@ -135,11 +131,9 @@ Package: virtualbox-ose-guest-source
 Section: kernel
 Architecture: all
 Depends: ${misc:Depends},
-         debhelper (>= 5),
-         dpatch,
-         bzip2,
-         kbuild
-Recommends: module-assistant
+         dkms,
+         libc6-dev,
+         linux-headers-generic | linux-headers
 Description: x86 virtualization solution - guest addition module source
  VirtualBox is a free x86 virtualization solution allowing a wide range
  of x86 operating systems such as Windows, DOS, BSD or Linux to run on a
@@ -173,9 +167,8 @@ Package: virtualbox-ose-guest-utils
 Architecture: i386 amd64 lpia
 Depends: ${shlibs:Depends},
          ${misc:Depends}
-Recommends: virtualbox-ose-guest-modules,
+Recommends: virtualbox-ose-guest-source,
             virtualbox-ose-guest-x11
-Suggests: virtualbox-ose-guest-source
 Description: x86 virtualization solution - non-X11 guest utilities
  VirtualBox is a free x86 virtualization solution allowing a wide range
  of x86 operating systems such as Windows, DOS, BSD or Linux to run on a

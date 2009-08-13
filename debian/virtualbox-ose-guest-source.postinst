@@ -1,0 +1,35 @@
+#!/bin/sh
+# Copyright (C) 2008 Mario Limonciello
+
+CVERSION=`dpkg-query -W -f='${Version}' virtualbox-ose-guest-source | awk -F "-" '{print $1}' | cut -d\: -f2`
+
+case "$1" in
+	configure)
+                #Refresh groups
+                if [ -x /etc/init.d/udev ]; then
+                        if [ -x "`which invoke-rc.d 2>/dev/null`" ]; then
+                                invoke-rc.d udev reload || /bin/true
+                        else
+                                /etc/init.d/udev reload || /bin/true
+                        fi
+                fi
+
+		#Create DKMS modules
+		echo "Adding Module to DKMS build system"
+		dkms add -m virtualbox-ose-guest -v $CVERSION > /dev/null
+		echo "Doing initial module build"
+		dkms build -m virtualbox-ose-guest -v $CVERSION > /dev/null
+		echo "Installing initial module"
+		dkms install -m virtualbox-ose-guest -v $CVERSION --force > /dev/null
+		echo "Done."
+
+                #restart VBox service due to new modules
+                if [ -x "`which invoke-rc.d 2>/dev/null`" ]; then
+                        invoke-rc.d virtualbox-ose-guest-utils restart || /bin/true
+                else
+                        /etc/init.d/virtualbox-ose-guest-utils restart || /bin/true
+                fi
+
+	;;
+esac
+#DEBHELPER#

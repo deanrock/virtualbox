@@ -1,3 +1,13 @@
+virtualbox-ose (3.0.2-dfsg-1ubuntu1) karmic; urgency=low
+
+  * Merge from debian unstable (LP: #394188)
+  * Install virtual network management tool
+  * Improve apport hook
+  * Add launchpad integration
+  * Conflict with virtualbox-3.0
+
+ -- Felix Geyer <debfx-pkg@fobos.de>  Mon, 13 Jul 2009 21:56:50 +0200
+
 virtualbox-ose (3.0.2-dfsg-1) unstable; urgency=low
 
   * New Upstream Version, closes: #536338, #536371, #536578
@@ -35,6 +45,20 @@ virtualbox-ose (2.2.4-dfsg-2) unstable; urgency=low
 
  -- Michael Meskes <meskes@debian.org>  Sun, 28 Jun 2009 14:56:19 +0200
 
+virtualbox-ose (2.2.4-dfsg-1ubuntu1) karmic; urgency=low
+
+  * Merge from debian unstable, fixes the following bugs:
+    - Virtualbox OSE mouse integration doesn't work (LP: #379057)
+    - vboxwebsrv/vboxwebserv name confusion (LP: #383134)
+    - virtualbox-ose help buttons don't work (LP: #383823)
+  * Automatically load vboxvfs kernel module and mount all shared folders
+    from /etc/fstab (LP: #385494)
+  * Stop providing/replacing virtualbox, virtualbox-* and virtualbox-source,
+    so that virtualbox-ose and virtualbox-ose-source can conflict with
+    virtualbox, virtualbox-2.0, virtualbox-2.1 and virtualbox-2.2 (LP: #379878)
+
+ -- Felix Geyer <debfx-pkg@fobos.de>  Sun, 14 Jun 2009 12:40:03 +0200
+
 virtualbox-ose (2.2.4-dfsg-1) unstable; urgency=low
 
   * New Upstream Version, closes: #531468
@@ -59,6 +83,110 @@ virtualbox-ose (2.2.2-dfsg-3) unstable; urgency=low
     <debian-bugs@thequod.de>, closes: #530321
 
  -- Michael Meskes <meskes@debian.org>  Fri, 29 May 2009 13:12:07 +0200
+
+virtualbox-ose (2.2.2-dfsg-2ubuntu3) karmic; urgency=low
+
+  * Rollback my last change in the last upload: do not conflict
+    with packages we're providing ourselves (LP: #379878).
+    - debian/control
+
+ -- Daniel Hahler <ubuntu@thequod.de>  Mon, 25 May 2009 01:02:11 +0200
+
+virtualbox-ose (2.2.2-dfsg-2ubuntu2) karmic; urgency=low
+
+  [ Felix Geyer ]
+  * Install virtualbox-ose-source udev rules
+    - debian/rules
+  * Add missing vboxuser udev rule and fix permissions for
+    vboxadd (Closes: #530302)
+    - debian/virtualbox-ose-guest-source.udev
+  * Auto-detect mouse driver by installing HAL device information
+    (Closes: #530299)
+    - debian/virtualbox-ose-guest-x11.install
+
+  [ Daniel Hahler ]
+  * Remove usage/references to /etc/vbox/vbox.cfg (as handled
+    upstream) (LP: #280973).
+    This prevents "Could not find VirtualBox installation.
+    Please reinstall." error, after having installed the
+    upstream debian package.
+    - debian/virtualbox-ose.files/VBox.sh: do not source
+      vbox.cfg anymore.
+    - Delete debian/virtualbox-ose.files/vbox.cfg
+    - debian/virtualbox-ose.preinst: remove vbox.cfg on
+      upgrades.
+  * Move debian/virtualbox-ose.udev => virtualbox-ose-source.udev,
+    to complement virtualbox-ose-guest-source.udev.
+  * virtualbox-ose-source: conflict with virtualbox.org packages
+    (LP: #379878).
+    - debian/control
+
+ -- Daniel Hahler <ubuntu@thequod.de>  Sun, 24 May 2009 02:22:17 +0200
+
+virtualbox-ose (2.2.2-dfsg-2ubuntu1) karmic; urgency=low
+
+  * Merge from debian unstable (LP: #358215), remaining changes:
+    - Disable update action
+      - patches/13-disable-update-action.dpatch
+    - Disable Help Contents menu item
+      - patches/17-disable-help-contents.dpatch
+    - Enable DKMS support on virtualbox host and guest modules (LP: #267097)
+      - Drop:
+        - virtualbox-ose-source.files/rules
+        - virtualbox-ose-source.files/postinst.modules.in
+        - virtualbox-ose-source.files/control.modules.in
+        - virtualbox-ose-source.files/Makefile
+        - virtualbox-ose-guest-source.files/rules
+        - virtualbox-ose-guest-source.files/postinst.modules.in
+        - virtualbox-ose-guest-source.files/control.modules.in
+        - virtualbox-ose-source.links
+      - Rename / Add version to .in files:
+        - virtualbox-ose-source.dirs -> virtualbox-ose-source.dirs.in
+        - virtualbox-ose-guest-utils.udev -> virtualbox-ose-guest-source.udev
+        - virtualbox-ose-guest-source.install -> 
+          virtualbox-ose-guest-source.install.in
+        - virtualbox-ose-guest-source.dirs ->
+          virtualbox-ose-guest-source.dirs.in
+        - virtualbox-ose-guest-source.links -> 
+          virtualbox-ose-guest-source.links.in
+      - New:
+        - virtualbox-ose-source.files/dkms.conf.in
+        - virtualbox-ose-source.postinst
+        - virtualbox-ose-source.prerm
+        - virtualbox-ose-guest-source.prerm
+        - virtualbox-ose-guest-source.postinst
+        - virtualbox-ose-guest-source.files/dkms.conf.in
+      - debian/rules:
+        - Add support to update all ".in" files in install target
+        - Add support to remove all sed produced ".in" files in clean target
+        - Drop extra rules that were modifying the "debian" directory in -source
+        - Make sure to include postinst/prerm scripts for arch indep packages.
+      - debian/control:
+        - Recommends on the source package instead of modules packages
+        - Depends on the source packages for dkms and libc6-dev
+      - Replace error messages related to missing/mismatched
+        kernel module accordingly:
+        - patches/04-vboxdrv-references.dpatch
+        - patches/13-module-mismatch.dpatch
+        - virtualbox-ose.files/VBox.sh
+    - Autoload kernel module
+      - LOAD_VBOXDRV_MODULE=1 in virtualbox-ose.default
+    - Virtualbox should go in Accessories, not in System tools (LP: #288590)
+      - virtualbox-ose-qt.files/virtualbox-ose.desktop
+    - Change Vcs-Svn and Vcs-Browser to XS-Original-Vcs-*
+      - debian/control
+    - Add apport hook
+      - virtualbox-ose.files/source_virtualbox-ose.py
+      - virtualbox-ose.install
+    - Remove old vboxdrv init script
+      - virtualbox-ose.preinst
+  * Add virtualbox-2.0, virtualbox-2.1, virtualbox-2.2 to
+    Conflicts, Provides, Replaces (names of the upstream proprietary packages)
+    - debian/control
+  * Install apport hook to the correct location: /usr/share/apport/package-hooks
+    - debian/virtualbox-ose.install
+
+ -- Felix Geyer <debfx-pkg@fobos.de>  Sat, 16 May 2009 15:42:23 +0200
 
 virtualbox-ose (2.2.2-dfsg-2) unstable; urgency=low
 
@@ -108,6 +236,64 @@ virtualbox-ose (2.2.0-dfsg-1) unstable; urgency=low
 
  -- Michael Meskes <meskes@debian.org>  Fri, 10 Apr 2009 11:16:49 +0200
 
+virtualbox-ose (2.1.4-dfsg-1ubuntu5) karmic; urgency=low
+
+  * Merge proper fix for LP: #369550 from Debian.
+    - debian/patches/00list
+    - debian/patches/09-initscript.dpatch
+    - Drop debian/patches/08-
+
+ -- Daniel Hahler <ubuntu@thequod.de>  Tue, 05 May 2009 23:54:28 +0200
+
+virtualbox-ose (2.1.4-dfsg-1ubuntu4) karmic; urgency=low
+
+  * Do not use find in virtulbox-ose init script, which saves about
+    ~10s during boot/init (LP: #369550).
+    Thanks to Marius Gedminas for the suggestion and bug report.
+    - debian/patches/09-initscript.dpatch:
+
+ -- Daniel Hahler <ubuntu@thequod.de>  Thu, 30 Apr 2009 23:06:48 +0200
+
+virtualbox-ose (2.1.4-dfsg-1ubuntu3) jaunty; urgency=low
+
+  * Use source_virtualbox-ose.py to provide an apport hook for all
+    packages. (LP: #340149)
+    - debian/virtualbox-ose.install
+    - virtualbox-ose.files/virtualbox-ose.py
+
+ -- Daniel Hahler <ubuntu@thequod.de>  Sun, 29 Mar 2009 21:06:29 +0200
+
+virtualbox-ose (2.1.4-dfsg-1ubuntu2) jaunty; urgency=low
+
+  * Add apport hook to provide output of "dpkg -l | grep virtualbox"
+    (LP: #340149)
+    - debian/virtualbox-ose.install
+    - virtualbox-ose.files/virtualbox-ose.py
+  * Provides: xserver-xorg-video-5, xserver-xorg-input-4 (LP: #313510)
+    - debian/control
+  * Install vbox{video,mouse}_drv_16.so (instead of *_15.*)
+    - debian/rules
+
+ -- Daniel Hahler <ubuntu@thequod.de>  Fri, 20 Mar 2009 01:19:13 +0100
+
+virtualbox-ose (2.1.4-dfsg-1ubuntu1) jaunty; urgency=low
+
+  * Merge from debian unstable (LP: #328161), remaining changes:
+    - See 2.1.0-dfsg-1ubuntu1
+  * Drop 15-fix-byteorder-hack-jaunty.dpatch, applied upstream.
+  * Drop Conflicts, Replaces, Provides: virtualbox-2.0. No real
+    reason.
+    - debian/control
+  * Add debian/patches/17-disable-help-contents.dpatch,
+    Disable Help>Contents... menu item (LP: #323988)
+  * Refreshed 13-disable-update-action.dpatch
+  * debian/rules: add CXXFLAGS+=-fpermissive to fix FTBFS
+    (see LP: #328161)
+  * Drop Ubuntu specific patches/16-fix-ftbfs-morePadding.dpatch.
+    Not required anymore and caused build failure in tests now.
+
+ -- Daniel Hahler <ubuntu@thequod.de>  Sun, 01 Mar 2009 23:51:51 +0100
+
 virtualbox-ose (2.1.4-dfsg-1) unstable; urgency=high
 
   * New upstream version.
@@ -145,6 +331,12 @@ virtualbox-ose (2.1.2-dfsg-1) experimental; urgency=low
 
  -- Michael Meskes <meskes@debian.org>  Thu, 22 Jan 2009 11:47:53 +0100
 
+virtualbox-ose (2.1.0-dfsg-2ubuntu1) jaunty; urgency=low
+
+  * Merge from Debian experimental. Closes LP: #253933
+
+ -- Daniel Hahler <ubuntu@thequod.de>  Thu, 22 Jan 2009 21:41:50 +0100
+
 virtualbox-ose (2.1.0-dfsg-2) experimental; urgency=low
 
   * Added versioned build dependency for kbuild. Closes: #510736
@@ -153,6 +345,71 @@ virtualbox-ose (2.1.0-dfsg-2) experimental; urgency=low
     re-add a line lost in the transition. Closes: #474089
 
  -- Michael Meskes <meskes@debian.org>  Sun, 04 Jan 2009 16:58:38 +0100
+
+virtualbox-ose (2.1.0-dfsg-1ubuntu2) jaunty; urgency=low
+
+  * Remove vboxnetflt dkms module in virtualbox-ose-source.prerm
+  * Make script used for DKMS "interlinking" executable, so DKMS
+    executes it (LP: #314650)
+    - debian/rules
+
+ -- Daniel Hahler <ubuntu@thequod.de>  Wed, 07 Jan 2009 20:27:10 +0100
+
+virtualbox-ose (2.1.0-dfsg-1ubuntu1) jaunty; urgency=low
+
+  * Merge from Debian experimental (LP: #304859). Remaining Ubuntu changes:
+    - DKMS support
+      - For the complete list of added, moved and dropped files see the
+        log of 2.0.2-dfsg-0ubuntu1
+        - virtualbox-ose-guest-utils.udev => virtualbox-ose-guest-source.udev
+      - debian/rules
+      - Refer to virtualbox-ose-source instead of -modules:
+        - virtualbox-ose.files/VBox.sh
+        - patches/04-vboxdrv-references.dpatch
+        - patches/13-module-mismatch.dpatch
+      - debian/control:
+        - Recommend virtualbox-ose-source instead of -modules
+        - The -source packages depends are changed for DKMS
+    - Autoload kernel module
+      - LOAD_VBOXDRV_MODULE=1 in virtualbox-ose.default
+      - Keep adjusted debian/virtualbox-ose.preinst.in to remove old vboxdrv
+        conffile
+      - debian/virtualbox-ose-source.postinst: call "virtualbox-ose restart",
+        depending on LOAD_VBOXDRV_MODULE
+    - virtualbox-ose-guest-utils: Install vboxvideo_drv_15.so instead
+      of vboxvideo_drv_14.so (LP: #292856)
+      - debian/rules
+    - Enable 64 bit guest support when building on AMD64 (LP: #271651)
+      - debian/rules (VBOX_WITH_64_BITS_GUESTS)
+    - Virtualbox should go in Accessories, not in System tools (LP: #288590) 
+      - virtualbox-ose.files/virtualbox-ose.desktop
+    - debian/patches/13-disable-update-action.dpatch
+    - Change Vcs-Svn and Vcs-Browser to XS-Original-Vcs-*
+      - debian/control
+    - virtualbox-ose Conflicts, Replaces, Provides: virtualbox-2.0
+      - debian/control
+    - debian/control: 
+      - Bump provides of guest-utils to xserver-xorg-input-2.1
+      - Bump provides of guest-utils to xserver-xorg-video-2.9
+    - patches/15-fix-byteorder-hack-jaunty.dpatch to
+      fix FTBFS on Jaunty (patch from Nathan, LP: #278466)
+  * virtualbox-ose-guest-source.links.in: fix install of r0drv to vboxvfs
+    (there have been two lines for vboxadd only) (LP: #310647)
+  * Add vboxnetflt to DKMS system
+    - add virtualbox-ose-source.files/do_Module.symvers which is used
+      in PRE_BUILD/POST_BUILD (dkms.conf)
+  * Add patches/16-fix-ftbfs-morePadding.dpatch to fix FTBFS on i386
+    during tests (Thanks Nathan Summers)
+  * Fix grammar in virtualbox-ose.README.Debian.xml
+  * mv virtualbox-ose.preinst{.in,} and fix
+    Lintian error "maintainer-script-uses-dpkg-status-directly"
+    - debian/rules
+  * Closes the following bugs in Launchpad:
+    - VirtualBox virtual machines are frozen after suspend-resume
+      (LP: #292794)
+    - Clean LocalConfig.kmk in clean target (LP: #286854)
+
+ -- Daniel Hahler <ubuntu@thequod.de>  Wed, 07 Jan 2009 06:39:04 +0100
 
 virtualbox-ose (2.1.0-dfsg-1) experimental; urgency=low
 
@@ -172,6 +429,177 @@ virtualbox-ose (2.0.6-dfsg-1) experimental; urgency=low
   * Documented need for hardware virtualization if running a 64-bit guest.
 
  -- Michael Meskes <meskes@debian.org>  Thu, 20 Nov 2008 14:09:54 +0100
+
+virtualbox-ose (2.0.4-dfsg-0ubuntu3) jaunty; urgency=low
+
+  [ Nathan Summers ]
+  * Add alloc/heapsimple.c to fix build on amd64. (LP: #278466)
+    - virtualbox-ose-guest-source.install.in
+  * Add link to alloc/ so that dkms can find it.
+    - virtualbox-ose-guest-source.links.in
+
+  [ Daniel Hahler ]
+  * debian/rules: expand bash-style shell expansion in "clean"
+    target, so the generated files get removed actually.
+  * Add debian/patches/15-fix-byteorder-hack-jaunty.dpatch to
+    fix FTBFS on Jaunty (patch from Nathan, LP: #278466)
+
+ -- Daniel Hahler <ubuntu@thequod.de>  Sat, 06 Dec 2008 02:39:14 +0100
+
+virtualbox-ose (2.0.4-dfsg-0ubuntu2) jaunty; urgency=low
+
+  * Upload as non-native package. (Discussion at LP: #288957)
+  * Do not recommend non-existant package virtualbox-ose-guest-modules,
+    recommend virtualbox-ose-guest-source instead (for DKMS)
+    (LP: #293237)
+    - debian/control
+  * virtualbox-ose-guest-utils: Install vboxvideo_drv_15.so instead
+    of vboxvideo_drv_14.so. Thanks for the patch, packet.
+    (LP: #292856)
+    - debian/rules
+  * Remove vboxdrv init script and set LOAD_VBOXDRV_MODULE=1 instead,
+    to trigger kernel module loading in virtualbox-ose init script
+    (LP: #293109)
+    - debian/virtualbox-ose.preinst.in modified
+    - debian/virtualbox-ose.vboxdrv.init.in removed
+    - debian/virtualbox-ose.default
+    - debian/patches/09-initscript.dpatch:
+      - Re-add parts from Debian to handle LOAD_VBOXDRV_MODULE
+      - Make "restart" and "force-reload" call "stop"/"start",
+        not stop_networt/start_network only
+      - Add info about kernel module to "status"
+    - debian/rules
+    - debian/virtualbox-ose-source.postinst: call "virtualbox-ose restart",
+      depending on LOAD_VBOXDRV_MODULE
+  * Refer to virtualbox-ose-source in error messages
+    - debian/patches/04-vboxdrv-references.dpatch updated
+  * Fix indent for reference to virtualbox-ose-source in
+    - debian/virtualbox-ose.files/VBox.sh
+  * virtualbox-ose Conflicts, Replaces, Provides: virtualbox-2.0
+    - debian/control
+
+ -- Daniel Hahler <ubuntu@thequod.de>  Tue, 04 Nov 2008 18:29:14 +0100
+
+virtualbox-ose (2.0.4-dfsg-0ubuntu1) intrepid; urgency=low
+
+  [ Jonathan Ernst ]
+  * Virtualbox should go in Accessories, not in System tools (LP: #288590) 
+
+  [ Daniel Hahler ]
+  * New upstream version (LP: #288957)
+    - Updated debian/patches/09-initscript.dpatch (one hunk rejected/obsolete)
+  * Drop debconf question about losing snapshots because of upgrading: it is
+    no longer relevant and the default (cancel upgrade) caused a lot of
+    trouble (LP: #288178, #221736)
+    - debian/virtualbox-ose.preinst.in, debian/virtualbox-ose.templates,
+      debian/rules
+  * Improve patch for disabling the "check for updates" dialog (LP: #272212)
+    - debian/patches/13-disable-update-action.dpatch
+  * Disable registration request at Sun (LP: #285684, #271603)
+    - debian/patches/14-disable-registration-request.dpatch
+
+ -- Daniel Hahler <ubuntu@thequod.de>  Sun, 26 Oct 2008 02:23:42 +0100
+
+virtualbox-ose (2.0.2-dfsg-0ubuntu3) intrepid; urgency=low
+
+  * debian/patches/13-disable-update-action.dpatch:
+    Disable update action menu entry (LP: #272212)
+
+ -- Daniel Hahler <ubuntu@thequod.de>  Fri, 19 Sep 2008 23:33:32 +0200
+
+virtualbox-ose (2.0.2-dfsg-0ubuntu2) intrepid; urgency=low
+
+  * debian/virtualbox-ose.install:
+    - Install VBoxHeadless (LP: #271753)
+  * debian/virtualbox-ose.links:
+    - Include symlink for VBoxHeadless
+  * debian/virtualbox-ose.files/VBox.sh:
+    - Remove check for vboxusers, not necessary w/
+      hardening.
+  * debian/virtualbox-ose.udev:
+    - Don't set vboxdrv to vboxusers, not necessary
+      w/ hardening.
+  * debian/virtualbox-ose.vboxdrv.init:
+    - Remove permissions check for vboxdrv.
+  * debian/rules:
+    - Enable 64 bit guest support when building on 
+      AMD64 (LP: #271651)
+    - Set VBoxHeadless suid.
+  * debian/control:
+    - Add depends for linux-headers to make sure
+      that the modules can compile initially (LP: #271534)
+
+ -- Mario Limonciello <mario_limonciello@dell.com>  Thu, 18 Sep 2008 12:49:02 -0500
+
+virtualbox-ose (2.0.2-dfsg-0ubuntu1) intrepid; urgency=low
+
+  * New upstream version (LP: #268795)
+    - Introduces support for Intrepid Guests
+    - Introduces support for kernel 2.6.27
+  * Update patches for new upstream version:
+    - 02-config-kmk
+    - 09-initscript
+  * Drop patches no longer necessary (or absorbed upstream):
+    - 05-vboxadd-udev
+    - 01-no-64bit-guest
+  * New patches:
+    - 01-64bit, for making sure we query the target arch properly.
+  * debian/control:
+    - Build depend on libqt4-dev for new upstream version.
+    - Build depend on python2.5-dev for new upstream version.
+    - Drop libqt3-mt-dev from build depends
+    - Bump provides of guest-utils to xserver-xorg-input-2.1
+    - Bump provides of guest-utils to xserver-xorg-video-2.9
+    - Enable 64 bit guest utils support.
+  * debian/rules:
+    - Disable QT3 support as we are using the QT4 frontend by
+      default.
+    - Set VirtualBox binaries to suid root per new hardening
+      requirements in this release.
+    - Add amd64 to a valid arch in the X11 additions check.
+  * debian/virtualbox-ose.install:
+    - Update location that xpidl is installed from.
+  * debian/virtualbox-ose.vboxdrv.init:
+    - Start at runlevels 2,3,4,5 rather than just 3,5
+  * Enable DKMS support on virtualbox host and guest modules. (LP: #267097)
+    - Rebuilding is no longer necessary for new kernels (LP: #268367)
+    - Drop:
+      + virtualbox-ose-source.files/rules
+      + virtualbox-ose-source.files/postinst.modules.in
+      + virtualbox-ose-source.files/control.modules.in
+      + virtualbox-ose-guest-source.files/rules
+      + virtualbox-ose-guest-source.files/postinst.modules.in
+      + virtualbox-ose-guest-source.files/control.modules.in
+      + virtualbox-ose-source.links
+    - Rename / Add version to .in files:
+      + virtualbox-ose-guest-source.files/udev -> 
+        virtualbox-ose-guest-source.udev
+      + virtualbox-ose-guest-source.install -> 
+        virtualbox-ose-guest-source.install.in
+      + virtualbox-ose-source.dirs -> virtualbox-ose-source.dirs.in
+      + virtualbox-ose-guest-source.dirs -> virtualbox-ose-guest-source.dirs.in
+      + virtualbox-ose-guest-source.links -> 
+        virtualbox-ose-guest-source.links.in
+    - New:
+      + virtualbox-ose-source.files/dkms.conf.in
+      + virtualbox-ose-source.postinst
+      + virtualbox-ose-source.prerm
+      + virtualbox-ose-guest-source.prerm
+      + virtualbox-ose-guest-source.postinst
+      + virtualbox-ose-guest-source.files/dkms.conf.in
+      + virtualbox-ose-guest-source.files/Makefile
+    - debian/rules:
+      + Add support to update all ".in" files in install target
+      + Add support to remove all sed produced ".in" files in clean target
+      + Drop extra rules that were modifying the "debian" directory in -source.
+      + Make sure to include postinst/prerm scripts for arch indep packages.
+    - debian/control:
+      + Recommends on the source package instead of modules packages
+      + Depends on the source packages for dkms and libc6-dev
+    - debian/virtualbox-ose.vboxdrv.init:
+      + Search for module in proper location
+
+ -- Mario Limonciello <mario_limonciello@dell.com>  Wed, 10 Sep 2008 13:50:20 -0500
 
 virtualbox-ose (1.6.6-dfsg-3) unstable; urgency=high
 
@@ -308,6 +736,52 @@ virtualbox-ose (1.6.2-dfsg-2) unstable; urgency=low
 
  -- Michael Meskes <meskes@debian.org>  Tue, 17 Jun 2008 14:52:36 +0200
 
+virtualbox-ose (1.6.2-dfsg-1ubuntu2) intrepid; urgency=low
+
+  * Fix dpatch 01-no-64bit-guest to change upstream's uname -m into
+    dpkg-architecture -qDEB_HOST_GNU_CPU instead of dpkg --print-architecture;
+    fixes build on lpia.
+  * Build virtualbox-ose, virtualbox-ose-dbg, and virtualbox-ose-guest-utils
+    for lpia.
+  * Set VBOX_WITH_X11_ADDITIONS in rules when the DEB_HOST_ARCH is i386 or
+    lpia instead of using dpkg --print-architecture.
+  * Use the -s flag to dh_ commands instead of 3 debhelper calls and a shell
+    test; as a bonus, this provides additional detached symbols in -dbg.
+  * Install files into virtualbox-ose-guest-utils unconditionally and ignore
+    errors -- even if these exist, the package is disabled on amd64.
+  * Cleanup upstreamversion computation and compute it only once.
+  * Change Vcs-Svn and Vcs-Browser to XS-Original-Vcs-*.
+
+ -- Loic Minier <lool@dooz.org>  Tue, 24 Jun 2008 19:20:10 +0200
+
+virtualbox-ose (1.6.2-dfsg-1ubuntu1) intrepid; urgency=low
+
+  * Merge from Debian unstable (LP: #236221). Remaining Ubuntu changes:
+    - debian/virtualbox-ose.vboxdrv.init: init script to load vboxdrv kernel
+      module
+    - debian/rules: install vboxdrv init script
+    - debian/control:
+      - DebianMaintainerField
+    - debian/patches/09-initscript.dpatch:
+      - do not source /etc/default/virtualbox-ose
+      - do not load vboxdrv in here, gets done in separate vboxdrv init script
+    - debian/virtualbox-ose.default:
+      - Dropped, not used in Ubuntu (see 10-initscript.dpatch)
+    - debian/virtualbox-ose.preinst:
+      - Remove /etc/default/virtualbox-ose
+    - debian/virtualbox-ose-guest-utils.init:
+      Use log_action_cont_msg instead of log_warning_msg to not cause display
+      issues in usplash (without "quiet"), when not running in VirtualBox.
+      (Forwarded to Debian at bug #475297)
+    - debian/patches/04-vboxdrv-references.dpatch:
+      Do not mention "modprobe vboxdrv", because it's already done when
+      installing the module package.
+    - debian/virtualbox-ose.files/VBox.sh:
+      Improve error message for missing vboxdrv module and what package to
+      install. Use "uname -r" in the virtualbox wrapper script for this.
+
+ -- Daniel Hahler <ubuntu@thequod.de>  Tue, 17 Jun 2008 01:10:51 +0200
+
 virtualbox-ose (1.6.2-dfsg-1) unstable; urgency=low
 
   [ Michael Meskes ]
@@ -366,6 +840,34 @@ virtualbox-ose (1.5.6-dfsg-7) unstable; urgency=low
 
  -- Michael Meskes <meskes@debian.org>  Sun, 11 May 2008 22:48:50 +0200
 
+virtualbox-ose (1.5.6-dfsg-6ubuntu1) hardy; urgency=low
+
+  * Merge from Debian unstable. Remaining Ubuntu changes:
+    - debian/virtualbox-ose.vboxdrv.init: init script to load vboxdrv kernel
+      module
+    - debian/rules: install vboxdrv init script
+    - debian/control:
+      - DebianMaintainerField
+      - Breaks on virtualbox-ose-modules (can be dropped after Hardy)
+    - debian/patches/10-initscript.dpatch:
+      - do not source /etc/default/virtualbox-ose
+      - do not load vboxdrv in here, gets done in separate vboxdrv init script
+    - debian/virtualbox-ose.default:
+      - Dropped, not used in Ubuntu (see 10-initscript.dpatch)
+    - debian/virtualbox-ose.preinst:
+      - Remove /etc/default/virtualbox-ose
+  * debian/virtualbox-ose-guest-utils.init:
+    Use log_action_cont_msg instead of log_warning_msg to not cause display
+    issues in usplash (without "quiet"), when not running in VirtualBox.
+  * debian/patches/05-vboxdrv-references.dpatch,
+    debian/virtualbox-ose.files/VBox.sh:
+    Improve error message for missing vboxdrv module and what package to
+    install. Use "uname -r" in the virtualbox wrapper script for this.
+    Do not mention "modprobe vboxdrv", because it's already done when
+    installing the module package.
+
+ -- Daniel Hahler <ubuntu@thequod.de>  Wed, 09 Apr 2008 03:01:59 +0200
+
 virtualbox-ose (1.5.6-dfsg-6) unstable; urgency=low
 
   * Added two patches from upstream SVN to make virtualbox-ose build with
@@ -386,6 +888,34 @@ virtualbox-ose (1.5.6-dfsg-5) unstable; urgency=low
     functions, closes: #474089
 
  -- Michael Meskes <meskes@debian.org>  Fri, 04 Apr 2008 10:16:48 +0200
+
+virtualbox-ose (1.5.6-dfsg-4ubuntu2) hardy; urgency=low
+
+  * Move the removal of /etc/default/virtualbox-ose from postinst to preinst,
+    where it belongs
+
+ -- Daniel Hahler <ubuntu@thequod.de>  Fri, 04 Apr 2008 03:17:43 +0200
+
+virtualbox-ose (1.5.6-dfsg-4ubuntu1) hardy; urgency=low
+
+  * Merge from Debian unstable. Remaining Ubuntu changes:
+    - debian/virtualbox-ose-guest-utils.init: "exit 0" in case the module
+      cannot be loaded
+    - debian/virtualbox-ose.vboxdrv.init: init script to load vboxdrv kernel
+      module
+    - debian/rules: install vboxdrv init script
+    - debian/control:
+      - DebianMaintainerField
+      - Breaks on virtualbox-ose-modules (can be dropped after Hardy)
+  * debian/patches/10-initscript.dpatch:
+    - do not source /etc/default/virtualbox-ose
+    - do not load vboxdrv in here, gets done in separate vboxdrv init script
+  * debian/virtualbox-ose.default:
+    - Dropped, not used in Ubuntu (see 10-initscript.dpatch)
+  * debian/virtualbox-ose.postinst:
+    - Remove /etc/default/virtualbox-ose
+
+ -- Daniel Hahler <ubuntu@thequod.de>  Fri, 04 Apr 2008 01:44:25 +0200
 
 virtualbox-ose (1.5.6-dfsg-4) unstable; urgency=low
 
@@ -418,6 +948,47 @@ virtualbox-ose (1.5.6-dfsg-3) unstable; urgency=low
     /etc/network/interfaces
 
  -- Michael Meskes <meskes@debian.org>  Tue, 18 Mar 2008 15:13:39 +0100
+
+virtualbox-ose (1.5.6-dfsg-2ubuntu2) hardy; urgency=low
+
+  * debian/control: change Depends of modules to Recommends (LP: #188579)
+    - virtualbox-ose-guest-utils only recommends virtualbox-ose-guest-modules
+    - virtualbox-ose only recommends virtualbox-ose-modules
+  * debian/virtualbox-ose-guest-utils.init:
+    Exit with status 0 in case "vboxadd" cannot get loaded in "start"
+  * debian/virtualbox-ose.vboxdrv.init:
+    Fix test for existing kernel module. Forwarded upstream as #1357.
+
+ -- Daniel Hahler <ubuntu@thequod.de>  Thu, 20 Mar 2008 20:36:30 +0100
+
+virtualbox-ose (1.5.6-dfsg-2ubuntu1) hardy; urgency=low
+
+  * Merge from Debian unstable (LP: #202727). Remaining Ubuntu changes:
+    - Move virtualbox-ose-modules from recommends
+      to depends for virtualbox-ose. We can drop this change when Synaptic
+      installs recommended packages by default.
+    - Fix deprecated values in desktop file (LP: #196714)
+    - Change Maintainer to Ubuntu MOTU Developers.
+  * debian/virtualbox-ose.vboxdrv.init, debian/rules:
+    Move init script from virtualbox-ose-modules to here (LP: #200380).
+    This also makes sure that the udev rule to handle permissions of
+    /dev/vboxdrv is installed, when this init script to modprobe the
+    module is run (LP: #147076).
+    debian/control: Add Breaks for virtualbox-ose-modules* meta packages
+    (<< 17)
+  * debian/control: virtualbox-ose-guest-utils depends on
+    virtualbox-ose-guest-modules, instead of "recommends". The "vboxadd"
+    module is required by the guest-utils init script (LP: #189444).
+    This is also in line with the Depends for virtualbox-ose on the vboxdrv module.
+  * debian/control: Drop "suggest uml-utilities" for virtualbox-ose again
+    (LP: #154305)
+  * Fixes the following bugs in Ubuntu:
+    - Clearer message about losing snapshots during upgrade (LP: #187082)
+    - virtualbox-ose conditionally modprobes vboxdrv
+      (from virtualbox-ose-modules) in its init script, so that the
+      modules do not need any init scripts anymore (LP: #200380)
+
+ -- Daniel Hahler <ubuntu@thequod.de>  Sun, 16 Mar 2008 23:53:00 +0100
 
 virtualbox-ose (1.5.6-dfsg-2) unstable; urgency=low
 
@@ -492,6 +1063,36 @@ virtualbox-ose (1.5.4-dfsg-5) unstable; urgency=low
       (Closes: #464509) Thanks to Clytie Siddall
 
  -- Michael Meskes <meskes@debian.org>  Sun, 17 Feb 2008 19:08:04 +0100
+
+virtualbox-ose (1.5.4-dfsg-4ubuntu3) hardy; urgency=low
+
+  * Ignore delgroup failures in postrm as it's called a second time by
+    debconf; see also Debian #462885 for the same fix but related to a
+    seemingly different cause.
+
+ -- Loic Minier <lool@dooz.org>  Mon, 03 Mar 2008 16:34:05 +0100
+
+virtualbox-ose (1.5.4-dfsg-4ubuntu2) hardy; urgency=low
+
+  [ Saïvann Carignan ]
+  * Fix deprecated values in desktop file (LP: #196714)
+
+  [ Daniel Hahler ]
+  * debian/control: Suggest bridge-utils and uml-utilities (LP: #154305)
+
+ -- Daniel Hahler <ubuntu@thequod.de>  Fri, 29 Feb 2008 02:26:49 +0100
+
+virtualbox-ose (1.5.4-dfsg-4ubuntu1) hardy; urgency=low
+
+  * Sync with Debian (LP: #156210). Remaining changes are:
+    - Move virtualbox-ose-modules from recommends
+      to depends for virtualbox-ose. We can drop this change when Synaptic
+      installs recommended packages by default.
+    - Change Maintainer to Ubuntu MOTU Developers.
+
+  * The new 1.5.4 release closes LP: #179807, #185628.
+
+ -- Emilio Pozuelo Monfort <pochu@ubuntu.com>  Sat, 26 Jan 2008 16:11:06 +0100
 
 virtualbox-ose (1.5.4-dfsg-4) unstable; urgency=low
 
@@ -865,3 +1466,4 @@ virtualbox (1.4.0svn4130-dfsg-1) unstable; urgency=low
   * Corrected .desktop file
 
  -- Patrick Winnertz <patrick.winnertz@skolelinux.org>  Thu, 30 Aug 2007 12:35:51 +0200
+

@@ -1,0 +1,17 @@
+#!/bin/sh
+# Copyright (C) 2008 Mario Limonciello
+
+#DEBHELPER#
+
+CVERSION=`dpkg-query -W -f='${Version}' virtualbox-ose-source | awk -F "-" '{print $1}' | cut -d\: -f2`
+case "$1" in
+    remove|upgrade|purge)
+		echo "Removing all DKMS Modules"
+		dkms remove -m vboxdrv -v $CVERSION --all > /dev/null
+		dkms remove -m vboxnetflt -v $CVERSION --all > /dev/null
+		dkms remove -m vboxnetadp -v $CVERSION --all > /dev/null
+		echo "Done."
+	;;
+esac
+
+

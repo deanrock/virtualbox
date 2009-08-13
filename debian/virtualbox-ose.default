@@ -8,4 +8,4 @@
 
 # Set this to 1 if you would like the virtualbox-ose modules to be loaded by
 # the init script.
-LOAD_VBOXDRV_MODULE=0
+LOAD_VBOXDRV_MODULE=1

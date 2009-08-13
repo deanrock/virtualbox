@@ -1,4 +1,5 @@
 debian/virtualbox-ose.files/*.sh /usr/share/virtualbox
+debian/virtualbox-ose.files/source_virtualbox-ose.py /usr/share/apport/package-hooks
 
 debian/lintian/virtualbox-ose /usr/share/lintian/overrides
 
@@ -10,6 +11,7 @@ out/bin/VBox*.r0 /usr/lib/virtualbox
 out/bin/VBoxBFE /usr/lib/virtualbox
 out/bin/VBoxHeadless /usr/lib/virtualbox
 out/bin/VBoxManage /usr/lib/virtualbox
+out/bin/VBoxNetAdpCtl /usr/lib/virtualbox
 out/bin/VBoxSDL /usr/lib/virtualbox
 out/bin/VBoxSVC /usr/lib/virtualbox
 out/bin/VBoxTestOGL /usr/lib/virtualbox

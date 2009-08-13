@@ -1,0 +1,46 @@
+#!/bin/sh
+# Copyright (C) 2008 Mario Limonciello
+
+CVERSION=`dpkg-query -W -f='${Version}' virtualbox-ose-source | awk -F "-" '{print $1}' | cut -d\: -f2`
+
+case "$1" in
+	configure)
+		#Refresh groups
+		if [ -x /etc/init.d/udev ]; then
+			if [ -x "`which invoke-rc.d 2>/dev/null`" ]; then
+				invoke-rc.d udev reload || /bin/true
+			else
+				/etc/init.d/udev reload || /bin/true
+			fi
+		fi
+
+		#Create DKMS modules
+		echo "Adding modules to DKMS build system"
+		dkms add -m vboxdrv -v $CVERSION > /dev/null
+		dkms add -m vboxnetflt -v $CVERSION > /dev/null
+		dkms add -m vboxnetadp -v $CVERSION > /dev/null
+		echo "Doing initial module builds"
+		dkms build -m vboxdrv -v $CVERSION > /dev/null
+		dkms build -m vboxnetflt -v $CVERSION > /dev/null
+		dkms build -m vboxnetadp -v $CVERSION > /dev/null
+		echo "Installing initial modules"
+		dkms install -m vboxdrv -v $CVERSION --force > /dev/null
+		dkms install -m vboxnetflt -v $CVERSION --force > /dev/null
+		dkms install -m vboxnetadp -v $CVERSION --force > /dev/null
+		echo "Done."
+
+		#restart VBox service due to new modules
+        if [ -f /etc/default/virtualbox-ose ] ; then
+            . /etc/default/virtualbox-ose
+        fi
+		if [ "$LOAD_VBOXDRV_MODULE" = 1 ]; then
+            if [ -x "`which invoke-rc.d 2>/dev/null`" ]; then
+	    		invoke-rc.d virtualbox-ose restart || /bin/true
+		    else
+			    /etc/init.d/virtualbox-ose restart || /bin/true
+    		fi
+        fi
+
+	;;
+esac
+#DEBHELPER#

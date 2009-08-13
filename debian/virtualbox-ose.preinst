@@ -24,11 +24,15 @@ rm_conffile() {
 
 case "$1" in
   install|upgrade)
+    # Remove /etc/init.d/vboxdrv
+    if dpkg --compare-versions "$2" le "2.0.4-dfsg-0ubuntu2"; then
+      rm_conffile virtualbox-ose /etc/init.d/vboxdrv
+    fi
     rm_conffile virtualbox-ose /etc/network/if-post-down.d/virtualbox-ose
     rm_conffile virtualbox-ose /etc/network/if-pre-up.d/virtualbox-ose
     rm_conffile virtualbox-ose /etc/vbox/interfaces
     # Remove /etc/vbox/vbox.cfg
-    if dpkg --compare-versions "$2" lt "2.2.2-dfsg-3"; then
+    if dpkg --compare-versions "$2" le "2.2.2-dfsg-2ubuntu2"; then
       rm_conffile virtualbox-ose /etc/vbox/vbox.cfg
     fi
   ;;

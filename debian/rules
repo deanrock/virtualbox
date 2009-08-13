@@ -151,6 +151,9 @@ binary-arch: build install serverabi
 	dh_installdocs -s
 	dh_installmenu -s
 	dh_install -s
+	-chmod 644 debian/$(sname)/usr/lib/virtualbox/sdk/bindings/xpcom/python/xpcom/*.py
+	-chmod 644 debian/$(sname)/usr/lib/virtualbox/sdk/bindings/xpcom/python/xpcom/server/*.py
+	-chmod 644 debian/$(sname)/usr/lib/virtualbox/sdk/bindings/xpcom/python/xpcom/client/*.py
 	-chmod 755 debian/$(uxname)/usr/share/virtualbox/x11config.pl
 	-install -m 755 src/VBox/Additions/x11/Installer/VBoxRandR.sh debian/$(uxname)/usr/bin/VBoxRandR
 	-chrpath -d debian/$(uxname)/usr/bin/VBoxClient
@@ -166,8 +169,9 @@ binary-arch: build install serverabi
 	dh_compress -s
 	dh_fixperms -s
 	chmod +s debian/$(sname)/usr/lib/virtualbox/VBoxSDL
-	chmod +s debian/$(sname)/usr/lib/virtualbox/VBoxBFE
 	chmod +s debian/$(sname)/usr/lib/virtualbox/VBoxHeadless
+	chmod +s debian/$(sname)/usr/lib/virtualbox/VBoxNetDHCP
+	chmod +s debian/$(sname)/usr/lib/virtualbox/VBoxNetAdpCtl
 	chmod +s debian/$(sxname)/usr/lib/virtualbox/VirtualBox
 	dh_installudev -s
 	dh_installdebconf -s

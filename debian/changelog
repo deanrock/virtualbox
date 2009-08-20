@@ -1,6 +1,6 @@
 virtualbox-ose (3.0.4-dfsg-1ubuntu1) karmic; urgency=low
 
-  * Merge from debian unstable
+  * Merge from debian unstable (LP: #416314)
   * Fix FTBFS with PulseAudio 0.9.16
     - debian/patches/00list
     - debian/patches/22-pulseaudio-stubs.dpatch

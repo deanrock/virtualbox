@@ -1,3 +1,31 @@
+virtualbox-ose (3.0.6-dfsg-1ubuntu1) karmic; urgency=low
+
+  * Merge from debian unstable, remaining changes:
+    - Enable DKMS support on virtualbox host and guest modules (LP: #267097)
+      - Drop virtualbox-ose{-guest,}-modules-* package templates
+      - Recommend *-source instead of *-modules packages
+      - Replace error messages related to missing/mismatched
+        kernel module accordingly
+    - Autoload kernel module
+      - LOAD_VBOXDRV_MODULE=1 in virtualbox-ose.default
+    - Disable update action
+      - patches/13-disable-update-action.dpatch
+    - Virtualbox should go in Accessories, not in System tools (LP: #288590)
+      - virtualbox-ose-qt.files/virtualbox-ose.desktop
+    - Add apport hook
+      - virtualbox-ose.files/source_virtualbox-ose.py
+      - virtualbox-ose.install
+    - Add launchpad integration
+      - debian/control
+      - debian/lpi-bug.xpm
+      - debian/patches/21-lp-integration.dpatch
+    - virtualbox, virtualbox-* (names of the upstream proprietary packages)
+      conflict with virtualbox-ose (LP: #379878)
+  * Make debug package depend on normal or guest package
+  * Drop debian/patches/22-pulseaudio-stubs.dpatch (applied upstream)
+
+ -- Felix Geyer <debfx-pkg@fobos.de>  Fri, 11 Sep 2009 23:44:31 +0200
+
 virtualbox-ose (3.0.6-dfsg-1) unstable; urgency=low
 
   [ Felix Geyer ]

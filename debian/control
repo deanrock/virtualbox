@@ -3,11 +3,8 @@ Section: misc
 Priority: extra
 Maintainer: Ubuntu MOTU Developers <ubuntu-motu@lists.ubuntu.com>
 XSBC-Original-Maintainer: Debian Virtualbox Team <pkg-virtualbox-devel@lists.alioth.debian.org>
-Uploaders: Philipp Hug <debian@hug.cx>,
-           Marvin Stark <marv@der-marv.de>,
-           Michael Meskes <meskes@debian.org>,
+Uploaders: Michael Meskes <meskes@debian.org>,
            Patrick Winnertz <winnie@debian.org>,
-           Daniel Baumann <daniel@debian.org>,
            Hilko Bengen <bengen@debian.org>
 Build-Depends: bcc,
                bzip2,
@@ -16,9 +13,7 @@ Build-Depends: bcc,
                docbook-xml,
                docbook-xsl,
                dpatch,
-               g++-4.3,
-               g++-4.3-multilib [amd64],
-               gcc-4.3,
+               g++-multilib [amd64],
                gsoap,
                iasl,
                kbuild (>= 1:0.1.5svn2274),
@@ -40,6 +35,7 @@ Build-Depends: bcc,
                libx11-dev,
                libxcomposite-dev,
                libxcursor-dev,
+               libxdamage-dev,
                libxext-dev,
                libxi-dev,
                libxmu-dev,
@@ -55,7 +51,7 @@ Build-Depends: bcc,
                xsltproc,
                yasm (>= 0.7.0),
                zlib1g-dev
-Standards-Version: 3.8.2
+Standards-Version: 3.8.3
 Homepage: http://www.virtualbox.org/
 Vcs-Git: git://git.debian.org/git/pkg-virtualbox/virtualbox-ose.git
 Vcs-Browser: http://git.debian.org/?p=pkg-virtualbox/virtualbox-ose.git
@@ -64,7 +60,7 @@ Package: virtualbox-ose-qt
 Architecture: amd64 i386 lpia
 Depends: ${shlibs:Depends},
          ${misc:Depends},
-         virtualbox-ose,
+         virtualbox-ose (= ${binary:Version}),
          launchpad-integration
 Pre-Depends: debconf | debconf-2.0
 Replaces: virtualbox-ose (<< 2.2.0-dfsg-1) 
@@ -83,8 +79,8 @@ Depends: ${shlibs:Depends},
          adduser,
          python
 Pre-Depends: debconf | debconf-2.0
-Recommends: virtualbox-ose-source,
-            virtualbox-ose-qt,
+Recommends: virtualbox-ose-source (= ${binary:Version}),
+            virtualbox-ose-qt (= ${binary:Version}),
             libgl1
 Suggests: virtualbox-guest-additions
 Conflicts: virtualbox, virtualbox-2.0, virtualbox-2.1, virtualbox-2.2, virtualbox-3.0
@@ -101,8 +97,7 @@ Description: x86 virtualization solution - base binaries
 Package: virtualbox-ose-dbg
 Section: debug
 Architecture: amd64 i386 lpia
-Depends: ${misc:Depends},
-         virtualbox-ose (= ${binary:Version})
+Depends: ${misc:Depends}, virtualbox-ose (= ${binary:Version}) | virtualbox-ose-qt (= ${binary:Version})
 Description: x86 virtualization solution - debugging symbols
  VirtualBox is a free x86 virtualization solution allowing a wide range
  of x86 operating systems such as Windows, DOS, BSD or Linux to run on a
@@ -150,7 +145,7 @@ Architecture: i386 amd64 lpia
 Depends: ${shlibs:Depends},
          ${misc:Depends},
          ${xserver:Depends},
-         virtualbox-ose-guest-utils,
+         virtualbox-ose-guest-utils (= ${binary:Version}),
          pciutils
 Provides: ${xviddriver:Provides},
           ${xinpdriver:Provides}
@@ -168,8 +163,8 @@ Package: virtualbox-ose-guest-utils
 Architecture: i386 amd64 lpia
 Depends: ${shlibs:Depends},
          ${misc:Depends}
-Recommends: virtualbox-ose-guest-source,
-            virtualbox-ose-guest-x11
+Recommends: virtualbox-ose-guest-source (= ${binary:Version}),
+            virtualbox-ose-guest-x11 (= ${binary:Version})
 Description: x86 virtualization solution - non-X11 guest utilities
  VirtualBox is a free x86 virtualization solution allowing a wide range
  of x86 operating systems such as Windows, DOS, BSD or Linux to run on a

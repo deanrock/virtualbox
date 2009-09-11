@@ -5,7 +5,6 @@
 06-xsession.dpatch
 07-vboxnetflt-reference.dpatch
 09-initscript.dpatch
-11-gcc-4.3.dpatch
 12-make-module.dpatch
 13-disable-update-action.dpatch
 13-module-mismatch.dpatch
@@ -15,5 +14,5 @@
 17-disable-help-contents.dpatch
 18-xorg-1.6.dpatch
 20-hide-help-buttons.dpatch
+21-dont-strip-x11-drivers.dpatch
 21-lp-integration.dpatch
-22-pulseaudio-stubs.dpatch

@@ -1,5 +1,5 @@
 #! /bin/sh /usr/share/dpatch/dpatch-run
-## 13-disable-update-action.dpatch by Daniel Hahler <ubuntu@thequod.de>
+## u01-disable-update-action.dpatch by Daniel Hahler <ubuntu@thequod.de>
 ##
 ## All lines beginning with `## DP:' are a description of the patch.
 ## DP: Disable "Check for Updates" action (LP: #272212)

@@ -6,7 +6,6 @@
 07-vboxnetflt-reference.dpatch
 09-initscript.dpatch
 12-make-module.dpatch
-13-disable-update-action.dpatch
 13-module-mismatch.dpatch
 14-disable-registration-request.dpatch
 15-wined3d-guest-addition.dpatch
@@ -15,4 +14,5 @@
 18-xorg-1.6.dpatch
 20-hide-help-buttons.dpatch
 21-dont-strip-x11-drivers.dpatch
-21-lp-integration.dpatch
+u01-disable-update-action.dpatch
+u02-lp-integration.dpatch

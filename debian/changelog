@@ -9,22 +9,23 @@ virtualbox-ose (3.0.6-dfsg-1ubuntu1) karmic; urgency=low
     - Autoload kernel module
       - LOAD_VBOXDRV_MODULE=1 in virtualbox-ose.default
     - Disable update action
-      - patches/13-disable-update-action.dpatch
+      - patches/u01-disable-update-action.dpatch
     - Virtualbox should go in Accessories, not in System tools (LP: #288590)
       - virtualbox-ose-qt.files/virtualbox-ose.desktop
     - Add apport hook
       - virtualbox-ose.files/source_virtualbox-ose.py
       - virtualbox-ose.install
     - Add launchpad integration
-      - debian/control
-      - debian/lpi-bug.xpm
-      - debian/patches/21-lp-integration.dpatch
+      - control
+      - lpi-bug.xpm
+      - patches/u02-lp-integration.dpatch
     - virtualbox, virtualbox-* (names of the upstream proprietary packages)
       conflict with virtualbox-ose (LP: #379878)
-  * Make debug package depend on normal or guest package
-  * Drop debian/patches/22-pulseaudio-stubs.dpatch (applied upstream)
+  * Make debug package depend on normal or guest utils package
+  * Drop patches/22-pulseaudio-stubs.dpatch (applied upstream)
+  * Rename Ubuntu specific patches to uXX-*.dpatch
 
- -- Felix Geyer <debfx-pkg@fobos.de>  Fri, 11 Sep 2009 23:44:31 +0200
+ -- Felix Geyer <debfx-pkg@fobos.de>  Mon, 14 Sep 2009 18:25:07 +0200
 
 virtualbox-ose (3.0.6-dfsg-1) unstable; urgency=low
 

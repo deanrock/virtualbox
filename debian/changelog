@@ -24,6 +24,7 @@ virtualbox-ose (3.0.6-dfsg-1ubuntu1) karmic; urgency=low
   * Make debug package depend on normal or guest utils package
   * Drop patches/22-pulseaudio-stubs.dpatch (applied upstream)
   * Rename Ubuntu specific patches to uXX-*.dpatch
+  * Fix lintian warnings in maintainer scripts
 
  -- Felix Geyer <debfx-pkg@fobos.de>  Mon, 14 Sep 2009 18:25:07 +0200
 

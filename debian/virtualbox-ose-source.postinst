@@ -1,6 +1,10 @@
 #!/bin/sh
 # Copyright (C) 2008 Mario Limonciello
 
+set -e
+
+#DEBHELPER#
+
 CVERSION=`dpkg-query -W -f='${Version}' virtualbox-ose-source | awk -F "-" '{print $1}' | cut -d\: -f2`
 
 case "$1" in
@@ -8,9 +12,9 @@ case "$1" in
 		#Refresh groups
 		if [ -x /etc/init.d/udev ]; then
 			if [ -x "`which invoke-rc.d 2>/dev/null`" ]; then
-				invoke-rc.d udev reload || /bin/true
+				invoke-rc.d udev reload || true
 			else
-				/etc/init.d/udev reload || /bin/true
+				/etc/init.d/udev reload || true
 			fi
 		fi
 
@@ -30,17 +34,16 @@ case "$1" in
 		echo "Done."
 
 		#restart VBox service due to new modules
-        if [ -f /etc/default/virtualbox-ose ] ; then
-            . /etc/default/virtualbox-ose
-        fi
+		if [ -f /etc/default/virtualbox-ose ] ; then
+			. /etc/default/virtualbox-ose
+		fi
 		if [ "$LOAD_VBOXDRV_MODULE" = 1 ]; then
-            if [ -x "`which invoke-rc.d 2>/dev/null`" ]; then
-	    		invoke-rc.d virtualbox-ose restart || /bin/true
-		    else
-			    /etc/init.d/virtualbox-ose restart || /bin/true
-    		fi
-        fi
+			if [ -x "`which invoke-rc.d 2>/dev/null`" ]; then
+				invoke-rc.d virtualbox-ose restart || true
+			else
+				/etc/init.d/virtualbox-ose restart || true
+			fi
+		fi
 
 	;;
 esac
-#DEBHELPER#

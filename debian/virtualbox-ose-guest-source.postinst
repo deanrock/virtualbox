@@ -1,18 +1,22 @@
 #!/bin/sh
 # Copyright (C) 2008 Mario Limonciello
 
+set -e
+
+#DEBHELPER#
+
 CVERSION=`dpkg-query -W -f='${Version}' virtualbox-ose-guest-source | awk -F "-" '{print $1}' | cut -d\: -f2`
 
 case "$1" in
 	configure)
-                #Refresh groups
-                if [ -x /etc/init.d/udev ]; then
-                        if [ -x "`which invoke-rc.d 2>/dev/null`" ]; then
-                                invoke-rc.d udev reload || /bin/true
-                        else
-                                /etc/init.d/udev reload || /bin/true
-                        fi
-                fi
+		#Refresh groups
+		if [ -x /etc/init.d/udev ]; then
+			if [ -x "`which invoke-rc.d 2>/dev/null`" ]; then
+				invoke-rc.d udev reload || true
+			else
+				/etc/init.d/udev reload || true
+			fi
+		fi
 
 		#Create DKMS modules
 		echo "Adding Module to DKMS build system"
@@ -23,13 +27,11 @@ case "$1" in
 		dkms install -m virtualbox-ose-guest -v $CVERSION --force > /dev/null
 		echo "Done."
 
-                #restart VBox service due to new modules
-                if [ -x "`which invoke-rc.d 2>/dev/null`" ]; then
-                        invoke-rc.d virtualbox-ose-guest-utils restart || /bin/true
-                else
-                        /etc/init.d/virtualbox-ose-guest-utils restart || /bin/true
-                fi
-
+		#restart VBox service due to new modules
+		if [ -x "`which invoke-rc.d 2>/dev/null`" ]; then
+			invoke-rc.d virtualbox-ose-guest-utils restart || true
+		else
+			/etc/init.d/virtualbox-ose-guest-utils restart || true
+		fi
 	;;
 esac
-#DEBHELPER#

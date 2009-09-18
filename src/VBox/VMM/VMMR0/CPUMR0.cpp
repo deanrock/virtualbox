@@ -60,24 +60,34 @@ VMMR0DECL(int) CPUMR0Init(PVM pVM)
     }
 
     /*
-     * Check for sysenter if it's used.
+     * Check for sysenter and syscall usage.
      */
     if (ASMHasCpuId())
     {
+        /*
+         * SYSENTER/SYSEXIT
+         *
+         * Intel docs claim you should test both the flag and family, model &
+         * stepping because some Pentium Pro CPUs have the SEP cpuid flag set,
+         * but don't support it.  AMD CPUs may support this feature in legacy
+         * mode, they've banned it from long mode.  Since we switch to 32-bit
+         * mode when entering raw-mode context the feature would become
+         * accessible again on AMD CPUs, so we have to check regardless of
+         * host bitness.
+         */
         uint32_t u32CpuVersion;
         uint32_t u32Dummy;
-        uint32_t u32Features;
-        ASMCpuId(1, &u32CpuVersion, &u32Dummy, &u32Dummy, &u32Features);
+        uint32_t fFeatures;
+        ASMCpuId(1, &u32CpuVersion, &u32Dummy, &u32Dummy, &fFeatures);
         uint32_t u32Family   = u32CpuVersion >> 8;
         uint32_t u32Model    = (u32CpuVersion >> 4) & 0xF;
         uint32_t u32Stepping = u32CpuVersion & 0xF;
-
-        /*
-         * Intel docs claim you should test both the flag and family, model & stepping.
-         * Some Pentium Pro cpus have the SEP cpuid flag set, but don't support it.
-         */
-        if (    (u32Features & X86_CPUID_FEATURE_EDX_SEP)
-            && !(u32Family == 6 && u32Model < 3 && u32Stepping < 3))
+        if (    (fFeatures & X86_CPUID_FEATURE_EDX_SEP)
+            &&  (   u32Family   != 6    /* (> pentium pro) */
+                 || u32Model    >= 3
+                 || u32Stepping >= 3
+                 || !ASMIsIntelCpu())
+           )
         {
             /*
              * Read the MSR and see if it's in use or not.
@@ -85,14 +95,44 @@ VMMR0DECL(int) CPUMR0Init(PVM pVM)
             uint32_t u32 = ASMRdMsr_Low(MSR_IA32_SYSENTER_CS);
             if (u32)
             {
-                for (unsigned i=0;i<pVM->cCPUs;i++)
-                    pVM->aCpus[i].cpum.s.fUseFlags |= CPUM_USE_SYSENTER;
-
+                pVM->cpum.s.fHostUseFlags |= CPUM_USE_SYSENTER;
                 Log(("CPUMR0Init: host uses sysenter cs=%08x%08x\n", ASMRdMsr_High(MSR_IA32_SYSENTER_CS), u32));
             }
         }
 
-        /** @todo check for AMD and syscall!!!!!! */
+        /*
+         * SYSCALL/SYSRET
+         *
+         * This feature is indicated by the SEP bit returned in EDX by CPUID
+         * function 0x80000001.  Intel CPUs only supports this feature in
+         * long mode.  Since we're not running 64-bit guests in raw-mode there
+         * are no issues with 32-bit intel hosts.
+         */
+        uint32_t cExt = 0;
+        ASMCpuId(0x80000000, &cExt, &u32Dummy, &u32Dummy, &u32Dummy);
+        if (    cExt >= 0x80000001
+            &&  cExt <= 0x8000ffff)
+        {
+            uint32_t fExtFeaturesEDX = ASMCpuId_EDX(0x80000001);
+            if (fExtFeaturesEDX & X86_CPUID_AMD_FEATURE_EDX_SEP)
+            {
+#ifdef RT_ARCH_X86
+# ifdef VBOX_WITH_HYBRID_32BIT_KERNEL
+                if (fExtFeaturesEDX & X86_CPUID_AMD_FEATURE_EDX_LONG_MODE)
+# else
+                if (!ASMIsIntelCpu())
+# endif
+#endif
+                {
+                    uint64_t fEfer = ASMRdMsr(MSR_K6_EFER);
+                    if (fEfer & MSR_K6_EFER_SCE)
+                    {
+                        pVM->cpum.s.fHostUseFlags |= CPUM_USE_SYSCALL;
+                        Log(("CPUMR0Init: host uses syscall\n"));
+                    }
+                }
+            }
+        }
     }
 
 
@@ -183,6 +223,7 @@ VMMR0DECL(int) CPUMR0LoadGuestFPU(PVM pVM, PVMCPU pVCpu, PCPUMCTX pCtx)
     {
 #ifndef CPUM_CAN_HANDLE_NM_TRAPS_IN_KERNEL_MODE
 # if defined(VBOX_WITH_HYBRID_32BIT_KERNEL) || defined(VBOX_WITH_KERNEL_USING_XMM) /** @todo remove the #else here and move cpumHandleLazyFPUAsm back to VMMGC after branching out 3.0!!. */
+        Assert(!(pVCpu->cpum.s.fUseFlags & CPUM_MANUAL_XMM_RESTORE));
         /** @todo Move the FFXR handling down into
          *        cpumR0SaveHostRestoreguestFPUState to optimize the
          *        VBOX_WITH_KERNEL_USING_XMM handling. */
@@ -403,19 +444,8 @@ VMMR0DECL(int) CPUMR0SaveGuestDebugState(PVM pVM, PVMCPU pVCpu, PCPUMCTX pCtx, b
      * Restore the host's debug state. DR0-3, DR6 and only then DR7!
      * DR7 contains 0x400 right now.
      */
-#ifdef VBOX_WITH_HYBRID_32BIT_KERNEL
-    AssertCompile((uintptr_t)&pVCpu->cpum.s.Host.dr3 - (uintptr_t)&pVCpu->cpum.s.Host.dr0 == sizeof(uint64_t) * 3);
-    cpumR0LoadDRx(&pVCpu->cpum.s.Host.dr0);
-#else
-    ASMSetDR0(pVCpu->cpum.s.Host.dr0);
-    ASMSetDR1(pVCpu->cpum.s.Host.dr1);
-    ASMSetDR2(pVCpu->cpum.s.Host.dr2);
-    ASMSetDR3(pVCpu->cpum.s.Host.dr3);
-#endif
-    ASMSetDR6(pVCpu->cpum.s.Host.dr6);
-    ASMSetDR7(pVCpu->cpum.s.Host.dr7);
-
-    pVCpu->cpum.s.fUseFlags &= ~CPUM_USE_DEBUG_REGS;
+    CPUMR0LoadHostDebugState(pVM, pVCpu);
+    Assert(!(pVCpu->cpum.s.fUseFlags & CPUM_USE_DEBUG_REGS));
     return VINF_SUCCESS;
 }
 
@@ -432,20 +462,8 @@ VMMR0DECL(int) CPUMR0SaveGuestDebugState(PVM pVM, PVMCPU pVCpu, PCPUMCTX pCtx, b
 VMMR0DECL(int) CPUMR0LoadGuestDebugState(PVM pVM, PVMCPU pVCpu, PCPUMCTX pCtx, bool fDR6)
 {
     /* Save the host state. */
-#ifdef VBOX_WITH_HYBRID_32BIT_KERNEL
-    AssertCompile((uintptr_t)&pVCpu->cpum.s.Host.dr3 - (uintptr_t)&pVCpu->cpum.s.Host.dr0 == sizeof(uint64_t) * 3);
-    cpumR0SaveDRx(&pVCpu->cpum.s.Host.dr0);
-#else
-    pVCpu->cpum.s.Host.dr0 = ASMGetDR0();
-    pVCpu->cpum.s.Host.dr1 = ASMGetDR1();
-    pVCpu->cpum.s.Host.dr2 = ASMGetDR2();
-    pVCpu->cpum.s.Host.dr3 = ASMGetDR3();
-#endif
-    pVCpu->cpum.s.Host.dr6 = ASMGetDR6();
-    /** @todo dr7 might already have been changed to 0x400; don't care right now as it's harmless. */
-    pVCpu->cpum.s.Host.dr7 = ASMGetDR7();
-    /* Make sure DR7 is harmless or else we could trigger breakpoints when restoring dr0-3 (!) */
-    ASMSetDR7(X86_DR7_INIT_VAL);
+    CPUMR0SaveHostDebugState(pVM, pVCpu);
+    Assert(ASMGetDR7() == X86_DR7_INIT_VAL);
 
     /* Activate the guest state DR0-3; DR7 is left to the caller. */
 #if HC_ARCH_BITS == 32 && defined(VBOX_WITH_64_BITS_GUESTS) && !defined(VBOX_WITH_HYBRID_32BIT_KERNEL)
@@ -470,6 +488,108 @@ VMMR0DECL(int) CPUMR0LoadGuestDebugState(PVM pVM, PVMCPU pVCpu, PCPUMCTX pCtx, b
     }
 
     pVCpu->cpum.s.fUseFlags |= CPUM_USE_DEBUG_REGS;
+    return VINF_SUCCESS;
+}
+
+/**
+ * Save the host debug state
+ *
+ * @returns VBox status code.
+ * @param   pVM         VM handle.
+ * @param   pVCpu       VMCPU handle.
+ */
+VMMR0DECL(int) CPUMR0SaveHostDebugState(PVM pVM, PVMCPU pVCpu)
+{
+    /* Save the host state. */
+#ifdef VBOX_WITH_HYBRID_32BIT_KERNEL
+    AssertCompile((uintptr_t)&pVCpu->cpum.s.Host.dr3 - (uintptr_t)&pVCpu->cpum.s.Host.dr0 == sizeof(uint64_t) * 3);
+    cpumR0SaveDRx(&pVCpu->cpum.s.Host.dr0);
+#else
+    pVCpu->cpum.s.Host.dr0 = ASMGetDR0();
+    pVCpu->cpum.s.Host.dr1 = ASMGetDR1();
+    pVCpu->cpum.s.Host.dr2 = ASMGetDR2();
+    pVCpu->cpum.s.Host.dr3 = ASMGetDR3();
+#endif
+    pVCpu->cpum.s.Host.dr6 = ASMGetDR6();
+    /** @todo dr7 might already have been changed to 0x400; don't care right now as it's harmless. */
+    pVCpu->cpum.s.Host.dr7 = ASMGetDR7();
+    /* Make sure DR7 is harmless or else we could trigger breakpoints when restoring dr0-3 (!) */
+    ASMSetDR7(X86_DR7_INIT_VAL);
+
+    return VINF_SUCCESS;
+}
+
+/**
+ * Load the host debug state
+ *
+ * @returns VBox status code.
+ * @param   pVM         VM handle.
+ * @param   pVCpu       VMCPU handle.
+ */
+VMMR0DECL(int) CPUMR0LoadHostDebugState(PVM pVM, PVMCPU pVCpu)
+{
+    Assert(pVCpu->cpum.s.fUseFlags & (CPUM_USE_DEBUG_REGS | CPUM_USE_DEBUG_REGS_HYPER));
+
+    /*
+     * Restore the host's debug state. DR0-3, DR6 and only then DR7!
+     * DR7 contains 0x400 right now.
+     */
+#ifdef VBOX_WITH_HYBRID_32BIT_KERNEL
+    AssertCompile((uintptr_t)&pVCpu->cpum.s.Host.dr3 - (uintptr_t)&pVCpu->cpum.s.Host.dr0 == sizeof(uint64_t) * 3);
+    cpumR0LoadDRx(&pVCpu->cpum.s.Host.dr0);
+#else
+    ASMSetDR0(pVCpu->cpum.s.Host.dr0);
+    ASMSetDR1(pVCpu->cpum.s.Host.dr1);
+    ASMSetDR2(pVCpu->cpum.s.Host.dr2);
+    ASMSetDR3(pVCpu->cpum.s.Host.dr3);
+#endif
+    ASMSetDR6(pVCpu->cpum.s.Host.dr6);
+    ASMSetDR7(pVCpu->cpum.s.Host.dr7);
+
+    pVCpu->cpum.s.fUseFlags &= ~(CPUM_USE_DEBUG_REGS | CPUM_USE_DEBUG_REGS_HYPER);
+    return VINF_SUCCESS;
+}
+
+
+/**
+ * Lazily sync in the hypervisor debug state
+ *
+ * @returns VBox status code.
+ * @param   pVM         VM handle.
+ * @param   pVCpu       VMCPU handle.
+ * @param   pCtx        CPU context
+ * @param   fDR6        Include DR6 or not
+ */
+VMMR0DECL(int) CPUMR0LoadHyperDebugState(PVM pVM, PVMCPU pVCpu, PCPUMCTX pCtx, bool fDR6)
+{
+    /* Save the host state. */
+    CPUMR0SaveHostDebugState(pVM, pVCpu);
+    Assert(ASMGetDR7() == X86_DR7_INIT_VAL);
+
+    /* Activate the guest state DR0-3; DR7 is left to the caller. */
+#if HC_ARCH_BITS == 32 && defined(VBOX_WITH_64_BITS_GUESTS) && !defined(VBOX_WITH_HYBRID_32BIT_KERNEL)
+    if (CPUMIsGuestInLongModeEx(pCtx))
+    {
+        AssertFailed();
+        return VERR_NOT_IMPLEMENTED;
+    }
+    else
+#endif
+    {
+#ifdef VBOX_WITH_HYBRID_32BIT_KERNEL
+        AssertFailed();
+        return VERR_NOT_IMPLEMENTED;
+#else
+        ASMSetDR0(CPUMGetHyperDR0(pVCpu));
+        ASMSetDR1(CPUMGetHyperDR1(pVCpu));
+        ASMSetDR2(CPUMGetHyperDR2(pVCpu));
+        ASMSetDR3(CPUMGetHyperDR3(pVCpu));
+#endif
+        if (fDR6)
+            ASMSetDR6(CPUMGetHyperDR6(pVCpu));
+    }
+
+    pVCpu->cpum.s.fUseFlags |= CPUM_USE_DEBUG_REGS_HYPER;
     return VINF_SUCCESS;
 }
 

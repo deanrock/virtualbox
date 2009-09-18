@@ -309,6 +309,9 @@ struct tcpcb *tcp_drop(PNATState, struct tcpcb *tp, int err);
 
 uint16_t slirp_get_service(int proto, uint16_t dport, uint16_t sport);
 
+/*slirp.c*/
+void slirp_arp_who_has(PNATState pData, uint32_t dst);
+int slirp_update_arp_cache(PNATState pData, uint32_t dst, const uint8_t *mac);
 #define MIN_MRU 128
 #define MAX_MRU 16384
 
@@ -358,26 +361,26 @@ AssertCompileSize(struct ethhdr, 14);
 # undef malloc
 # undef calloc
 # undef free
-# define	malloc(x) RTMemAlloc((x))
-# define	calloc(x, n) RTMemAllocZ((x)*(n))
-# define	free(x)	RTMemFree((x))
+# define malloc(x)    RTMemAlloc((x))
+# define calloc(x, n) RTMemAllocZ((x)*(n))
+# define free(x)      RTMemFree((x))
 # ifndef __unused
 #  define __unused
 # endif
 
 # define strncasecmp RTStrNICmp
 
+# ifdef DEBUG
 # define LIBALIAS_DEBUG
-
 # ifdef fprintf
-#   undef fprintf
-# endif /*fprintf*/
+#  undef fprintf
+# endif
 # ifdef fflush
-#   undef fflush
-# endif /*fflush*/
+#  undef fflush
+# endif
 # ifdef printf
-#   undef printf
-# endif /*printf*/
+#  undef printf
+# endif
 #define fflush(x) do{}while(0)
 # define fprintf vbox_slirp_fprintf
 # define printf vbox_slirp_printf
@@ -403,13 +406,14 @@ static void vbox_slirp_fprintf(void *ignored, char *format, ...)
     vbox_slirp_printV(format, args);
     va_end(args);
 }
+# endif /* DEBUG */
 #endif /*VBOX_WITH_SLIRP_ALIAS && VBOX_SLIRP_ALIAS*/
 
 #ifdef VBOX_WITH_SLIRP_ALIAS
-int ftp_alias_load(void);
-int ftp_alias_unload(void);
-int nbt_alias_load(void);
-int nbt_alias_unload(void);
+int ftp_alias_load(PNATState);
+int ftp_alias_unload(PNATState);
+int nbt_alias_load(PNATState);
+int nbt_alias_unload(PNATState);
 #endif /*VBOX_WITH_SLIRP_ALIAS*/
 
 #endif

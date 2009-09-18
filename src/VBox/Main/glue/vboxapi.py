@@ -24,7 +24,7 @@ if VboxBinDir is None:
     VboxBinDir = "%VBOX_INSTALL_PATH%"
 
 if VboxSdkDir is None:
-    VboxSdkDir = VboxBinDir+"/sdk"
+    VboxSdkDir = os.path.join(VboxBinDir,"sdk")
 
 os.environ["VBOX_PROGRAM_PATH"] = VboxBinDir
 os.environ["VBOX_SDK_PATH"] = VboxSdkDir
@@ -45,12 +45,13 @@ class PerfCollector:
     collection.
     """
 
-    def __init__(self, vb):
+    def __init__(self, mgr, vbox):
         """ Initializes the instance.
 
-        Pass an instance of IVirtualBox as parameter.
         """
-        self.collector = vb.performanceCollector
+        self.mgr = mgr
+        self.isMscom = (mgr.type == 'MSCOM')
+        self.collector = vbox.performanceCollector
 
     def setup(self, names, objects, period, nsamples):
         """ Discards all previously collected values for the specified
@@ -80,8 +81,14 @@ class PerfCollector:
         'values': collected data
         'values_as_string': pre-processed values ready for 'print' statement
         """
-        (values, names_out, objects_out, units, scales, sequence_numbers,
-            indices, lengths) = self.collector.queryMetricsData(names, objects)
+        # Get around the problem with input arrays returned in output
+        # parameters (see #3953) for MSCOM.
+        if self.isMscom:
+            (values, names, objects, names_out, objects_out, units, scales, sequence_numbers,
+                indices, lengths) = self.collector.queryMetricsData(names, objects)
+        else:
+            (values, names_out, objects_out, units, scales, sequence_numbers,
+                indices, lengths) = self.collector.queryMetricsData(names, objects)
         out = []
         for i in xrange(0, len(names_out)):
             scale = int(scales[i])
@@ -98,6 +105,33 @@ class PerfCollector:
                 'values_as_string':'['+', '.join([fmt % (int(values[j])/scale, units[i]) for j in xrange(int(indices[i]), int(indices[i])+int(lengths[i]))])+']'
             })
         return out
+
+def ComifyName(name):
+    return name[0].capitalize()+name[1:]
+
+_COMForward = { 'getattr' : None,
+                'setattr' : None}
+
+def CustomGetAttr(self, attr):
+    # fastpath
+    if self.__class__.__dict__.get(attr) != None:
+        return self.__class__.__dict__.get(attr)
+
+    # try case-insensitivity workaround for class attributes (COM methods)
+    for k in self.__class__.__dict__.keys():
+        if k.lower() == attr.lower():
+            self.__class__.__dict__[attr] = self.__class__.__dict__[k]
+            return getattr(self, k)
+    try:
+        return _COMForward['getattr'](self,ComifyName(attr))
+    except AttributeError:
+        return _COMForward['getattr'](self,attr)
+
+def CustomSetAttr(self, attr, value):
+    try:
+        return _COMForward['setattr'](self, ComifyName(attr), value)
+    except AttributeError:
+        return _COMForward['setattr'](self, attr, value)
 
 class PlatformMSCOM:
     # Class to fake access to constants in style of foo.bar.boo
@@ -165,12 +199,11 @@ class PlatformMSCOM:
 
     def __init__(self, params):
             from win32com import universal
-            from win32com.client import gencache, DispatchWithEvents, Dispatch
+            from win32com.client import gencache, DispatchBaseClass
             from win32com.client import constants, getevents
             import win32com
             import pythoncom
             import win32api
-            self.constants = PlatformMSCOM.InterfacesWrapper()
             from win32con import DUPLICATE_SAME_ACCESS
             from win32api import GetCurrentThread,GetCurrentThreadId,DuplicateHandle,GetCurrentProcess
             pid = GetCurrentProcess()
@@ -178,20 +211,23 @@ class PlatformMSCOM:
             handle = DuplicateHandle(pid, GetCurrentThread(), pid, 0, 0, DUPLICATE_SAME_ACCESS)
             self.handles = []
             self.handles.append(handle)
-
+            _COMForward['getattr'] = DispatchBaseClass.__dict__['__getattr__']
+            DispatchBaseClass.__dict__['__getattr__'] = CustomGetAttr
+            _COMForward['setattr'] = DispatchBaseClass.__dict__['__setattr__']
+            DispatchBaseClass.__dict__['__setattr__'] = CustomSetAttr
+            win32com.client.gencache.EnsureDispatch('VirtualBox.Session')
+            win32com.client.gencache.EnsureDispatch('VirtualBox.VirtualBox')
+            win32com.client.gencache.EnsureDispatch('VirtualBox.CallbackWrapper')
 
     def getSessionObject(self, vbox):
         import win32com
         from win32com.client import Dispatch
-	return win32com.client.Dispatch("VirtualBox.Session")
+        return win32com.client.Dispatch("VirtualBox.Session")
 
     def getVirtualBox(self):
-	import win32com
+        import win32com
         from win32com.client import Dispatch
         return win32com.client.Dispatch("VirtualBox.VirtualBox")
-
-    def getConstants(self):
-        return self.constants
 
     def getType(self):
         return 'MSCOM'
@@ -217,31 +253,25 @@ class PlatformMSCOM:
         d['tlb_guid'] = PlatformMSCOM.VBOX_TLB_GUID
         str = ""
         str += "import win32com.server.util\n"
-        #str += "import win32com.server.register\n"
-        #str += "from win32com import universal\n"
         str += "import pythoncom\n"
-        #str += "universal.RegisterInterfaces(tlb_guid, 0, 1, 0, ['"+iface+"'])\n"
 
         str += "class "+iface+"Impl(BaseClass):\n"
         str += "   _com_interfaces_ = ['"+iface+"']\n"
         str += "   _typelib_guid_ = tlb_guid\n"
         str += "   _typelib_version_ = 1, 0\n"
-        #str += "   _reg_clsctx_ = pythoncom.CLSCTX_LOCAL_SERVER\n"
-        #str += "   _reg_clsid_ = '{F21202A2-959A-4149-B1C3-68B9013F3335}'\n"
-        #str += "   _reg_progid_ = 'VirtualBox."+iface+"Impl'\n"
-        #str += "   _reg_desc_ = 'Generated callback implementation class'\n"
-        #str += "   _reg_policy_spec_ = 'win32com.server.policy.EventHandlerPolicy'\n"
+        str += "   _reg_clsctx_ = pythoncom.CLSCTX_INPROC_SERVER\n"
+        # Maybe we'd better implement Dynamic invoke policy, to be more flexible here
+        str += "   _reg_policy_spec_ = 'win32com.server.policy.EventHandlerPolicy'\n"
 
-        # generate capitalized version of callbacks - that's how Python COM
-        # looks them up on Windows
+        # generate capitalized version of callback methods -
+        # that's how Python COM looks them up
         for m in dir(impl):
-           if m.startswith("on"):      
-             str += "   "+m[0].capitalize()+m[1:]+"=BaseClass."+m+"\n"
+           if m.startswith("on"):
+             str += "   "+ComifyName(m)+"=BaseClass."+m+"\n"
 
         str += "   def __init__(self): BaseClass.__init__(self, arg)\n"
-        #str += "win32com.server.register.UseCommandLine("+iface+"Impl)\n"
-
-        str += "result = win32com.server.util.wrap("+iface+"Impl())\n"
+        str += "result = win32com.client.Dispatch('VirtualBox.CallbackWrapper')\n"
+        str += "result.SetLocalObject(win32com.server.util.wrap("+iface+"Impl()))\n"
         exec (str,d,d)
         return d['result']
 
@@ -265,6 +295,11 @@ class PlatformMSCOM:
             # Timeout
             pass
 
+    def interruptWaitEvents(self):
+        from win32api import PostThreadMessage
+        from win32con import WM_USER
+        PostThreadMessage(self.tid, WM_USER, None, None)
+
     def deinit(self):
         import pythoncom
         from win32file import CloseHandle
@@ -275,10 +310,6 @@ class PlatformMSCOM:
         self.handles = None
         pythoncom.CoUninitialize()
         pass
-
-    def getPerfCollector(self, vbox):
-        # MS COM cannot invoke performance collector methods yet
-        return None
 
 
 class PlatformXPCOM:
@@ -296,10 +327,6 @@ class PlatformXPCOM:
         import xpcom.components
         return xpcom.components.classes["@virtualbox.org/VirtualBox;1"].createInstance()
 
-    def getConstants(self):
-        import xpcom.components
-        return xpcom.components.interfaces
-
     def getType(self):
         return 'XPCOM'
 
@@ -307,13 +334,15 @@ class PlatformXPCOM:
         return False
 
     def getArray(self, obj, field):
-        return obj.__getattr__('get'+field.capitalize())()
+        return obj.__getattr__('get'+ComifyName(field))()
 
     def initPerThread(self):
-        pass
+        import xpcom
+        xpcom._xpcom.AttachThread()
 
     def deinitPerThread(self):
-        pass
+        import xpcom
+        xpcom._xpcom.DetachThread()
 
     def createCallback(self, iface, impl, arg):
         d = {}
@@ -324,7 +353,9 @@ class PlatformXPCOM:
         str += "class "+iface+"Impl(BaseClass):\n"
         str += "   _com_interfaces_ = xpcom.components.interfaces."+iface+"\n"
         str += "   def __init__(self): BaseClass.__init__(self, arg)\n"
-        str += "result = "+iface+"Impl()\n"
+        str += "result = xpcom.components.classes['@virtualbox.org/CallbackWrapper;1'].createInstance()\n"
+        # This wrapping is not entirely correct - we shall create a local object
+        str += "result.setLocalObject("+iface+"Impl())\n"
         exec (str,d,d)
         return d['result']
 
@@ -332,19 +363,22 @@ class PlatformXPCOM:
         import xpcom
         xpcom._xpcom.WaitForEvents(timeout)
 
+    def interruptWaitEvents(self):
+        import xpcom
+        xpcom._xpcom.InterruptWait()
+
     def deinit(self):
         import xpcom
         xpcom._xpcom.DeinitCOM()
 
-    def getPerfCollector(self, vbox):
-        return PerfCollector(vbox)
-
 class PlatformWEBSERVICE:
     def __init__(self, params):
-        sys.path.append(VboxSdkDir+'/bindings/webservice/python/lib')
+        sys.path.append(os.path.join(VboxSdkDir,'bindings', 'webservice', 'python', 'lib'))
+        # not really needed, but just fail early if misconfigured
         import VirtualBox_services
         import VirtualBox_wrappers
         from VirtualBox_wrappers import IWebsessionManager2
+
         if params is not None:
             self.user = params.get("user", "")
             self.password = params.get("password", "")
@@ -353,16 +387,38 @@ class PlatformWEBSERVICE:
             self.user = ""
             self.password = ""
             self.url = None
-        self.wsmgr = IWebsessionManager2(self.url)
+        self.vbox = None
 
     def getSessionObject(self, vbox):
         return self.wsmgr.getSessionObject(vbox)
 
     def getVirtualBox(self):
-        self.vbox = self.wsmgr.logon(self.user, self.password)
+        return self.connect(self.url, self.user, self.password)
 
-    def getConstants(self):
-        return None
+    def connect(self, url, user, passwd):
+        if self.vbox is not None:
+             self.disconnect()
+        from VirtualBox_wrappers import IWebsessionManager2
+        if url is None:
+            url = ""
+        self.url = url
+        if user is None:
+            user = ""
+        self.user = user
+        if passwd is None:
+            passwd = ""
+        self.password = passwd
+        self.wsmgr = IWebsessionManager2(self.url)
+        self.vbox = self.wsmgr.logon(self.user, self.password)
+        if not self.vbox.handle:
+            raise Exception("cannot connect to '"+self.url+"' as '"+self.user+"'")
+        return self.vbox
+
+    def disconnect(self):
+        if self.vbox is not None and self.wsmgr is not None:
+                self.wsmgr.logoff(self.vbox)
+                self.vbox = None
+                self.wsmgr = None
 
     def getType(self):
         return 'WEBSERVICE'
@@ -386,16 +442,15 @@ class PlatformWEBSERVICE:
         # Webservices cannot do that yet
         pass
 
+    def interruptWaitEvents(self, timeout):
+        # Webservices cannot do that yet
+        pass
+
     def deinit(self):
         try:
-            if self.vbox is not None:
-                self.wsmg.logoff(self.vbox)
-                self.vbox = None
+           disconnect()
         except:
-            pass
-
-    def getPerfCollector(self, vbox):
-        return PerfCollector(vbox)    
+           pass
 
 class SessionManager:
     def __init__(self, mgr):
@@ -411,18 +466,29 @@ class VirtualBoxManager:
                 style = "MSCOM"
             else:
                 style = "XPCOM"
+
+
+        exec "self.platform = Platform"+style+"(platparams)"
+        # for webservices, enums are symbolic
+        self.constants = VirtualBoxReflectionInfo(style == "WEBSERVICE")
+        self.type = self.platform.getType()
+        self.remote = self.platform.getRemote()
+        self.style = style
+        self.mgr = SessionManager(self)
+
         try:
-            exec "self.platform = Platform"+style+"(platparams)"
             self.vbox = self.platform.getVirtualBox()
-            self.mgr = SessionManager(self)
-            self.constants = VirtualBoxReflectionInfo()
-            self.type = self.platform.getType()
-            self.remote = self.platform.getRemote()
-            self.style = style            
+        except NameError,ne:
+            print "Installation problem: check that appropriate libs in place"
+            traceback.print_exc()
+            raise ne
         except Exception,e:
             print "init exception: ",e
             traceback.print_exc()
-            raise e
+            if self.remote:
+                self.vbox = None
+            else:
+                raise e
 
     def getArray(self, obj, field):
         return self.platform.getArray(obj, field)
@@ -461,5 +527,8 @@ class VirtualBoxManager:
     def waitForEvents(self, timeout):
         return self.platform.waitForEvents(timeout)
 
+    def interruptWaitEvents(self):
+        return self.platform.interruptWaitEvents()
+
     def getPerfCollector(self, vbox):
-        return self.platform.getPerfCollector(vbox)       
+        return PerfCollector(self, vbox)

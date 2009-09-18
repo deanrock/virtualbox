@@ -1,3 +1,42 @@
+virtualbox-ose (3.0.6-dfsg-1~bpo50+1) lenny-backports; urgency=low
+
+  * Rebuild for lenny-backports.
+
+ -- Michael Meskes <meskes@debian.org>  Wed, 15 Jul 2009 15:52:30 +0200
+
+virtualbox-ose (3.0.6-dfsg-1) unstable; urgency=low
+
+  [ Felix Geyer ]
+  * New Upstream Version, closes: #543234
+  * Add 21-dont-strip-x11-drivers.dpatch:
+    Don't strip debugging symbols from x11 guest drivers
+  * Strip more unneeded library header files
+  * Drop 11-gcc-4.3.dpatch (not needed anymore)
+
+  [ Michael Meskes ]
+  * Made debug package depend on normal package. 
+
+ -- Michael Meskes <meskes@debian.org>  Fri, 11 Sep 2009 14:10:04 +0200
+
+virtualbox-ose (3.0.4-dfsg-2) unstable; urgency=low
+
+  * Made sure installed packages have the same version, closes: #538945
+
+ -- Michael Meskes <meskes@debian.org>  Mon, 17 Aug 2009 13:31:47 +0200
+
+virtualbox-ose (3.0.4-dfsg-1) unstable; urgency=low
+
+  [ Felix Geyer ]
+  * New Upstream Version
+  * Install network management tools and guest dri driver
+  * Drop vboxvideo.ids as the X server now uses an internal table to
+    pick a driver during autoconfig
+
+  [ Michael Meskes ]
+  * Provide python stuff needed by vboxgtk, closes: #539445
+
+ -- Michael Meskes <meskes@debian.org>  Mon, 10 Aug 2009 13:27:41 +0200
+
 virtualbox-ose (3.0.2-dfsg-1~bpo50+1) lenny-backports; urgency=low
 
   * Rebuild for lenny-backports.

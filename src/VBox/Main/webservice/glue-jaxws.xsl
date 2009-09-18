@@ -210,16 +210,6 @@
   <xsl:param name="idltype"/>
   <xsl:param name="safearray"/>
   <xsl:choose>
-    <xsl:when test="$idltype='uuid'">
-      <xsl:choose>
-        <xsl:when test="$safearray">
-          <xsl:value-of select="concat('Helper.uuidWrap(',$value,')')" />
-        </xsl:when>
-        <xsl:otherwise>
-          <xsl:value-of select="concat('UUID.fromString(',$value,')')" />
-        </xsl:otherwise>
-      </xsl:choose>
-    </xsl:when>
     <xsl:when test="//collection[@name=$idltype]">
       <xsl:variable name="elemtype">
         <xsl:call-template name="typeIdl2Glue">
@@ -303,9 +293,6 @@
           </xsl:choose>
         </xsl:otherwise>
       </xsl:choose>
-    </xsl:when>
-    <xsl:when test="$paramtype='uuid'">
-      <xsl:value-of select="concat($paramname, '.toString()')" />
     </xsl:when>
     <xsl:otherwise>
       <xsl:value-of select="$paramname" />
@@ -441,14 +428,6 @@ class Helper {
         }
     }
 
-    public static List<UUID> uuidWrap(List<String> uuidVals) {
-         List<UUID> ret = new ArrayList<UUID>(uuidVals.size());
-         for (String uuid : uuidVals) {
-              ret.add(UUID.fromString(uuid));
-         }
-         return ret;
-    }
-
     public static <T extends IUnknown> List<String> unwrap(List<T> thisPtrs) {
         if (thisPtrs==null)  return Collections.emptyList();
 
@@ -534,11 +513,15 @@ class PortPool
     synchronized VboxPortType getPort()
     {
         VboxPortType port = null;
+        int ttl = 0;
+
         for (VboxPortType cur: known.keySet())
         {
-            if (known.get(cur) == 0)
+            int value = known.get(cur);
+            if ((value & 0x10000) == 0)
             {
                 port = cur;
+                ttl = value & 0xffff;
                 break;
             }
         }
@@ -554,8 +537,11 @@ class PortPool
                                                 "vboxService"));
             }
             port = svc.getVboxServicePort();
+            // reuse this object 0x10 times
+            ttl = 0x10;
         }
-        known.put(port, new Integer(1));
+        // mark as used
+        known.put(port, new Integer(0x10000 | ttl));
         return port;
     }
 
@@ -567,7 +553,18 @@ class PortPool
             // know you not
             return;
         }
-        known.put(port, val - 1);
+        int v = val;
+        int ttl = v & 0xffff;
+        // decrement TTL, and throw away port if used too much times
+        if (--ttl <= 0)
+        {
+            known.remove(port);
+        }
+        else
+        {
+            v = ttl; // set new TTL and clear busy bit
+            known.put(port, v);
+        }
     }
 }
 
@@ -604,30 +601,50 @@ public class IWebsessionManager {
     public void connect(String url)
     {
         this.port = pool.getPort();
-        ((BindingProvider)port).getRequestContext().
+        try {
+          ((BindingProvider)port).getRequestContext().
                 put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, url);
+        }  catch (Throwable t) {
+             if (this.port != null)
+                pool.releasePort(this.port);
+             // we have to throw smth derived from RuntimeException
+             throw new WebServiceException(t);
+        }
     }
 
     public void connect(String url, Map<String, Object> requestContext, Map<String, Object> responseContext)
     {
          this.port = pool.getPort();
 
-         ((BindingProvider)port).getRequestContext();
-         if (requestContext != null)
+         try {
+            ((BindingProvider)port).getRequestContext();
+            if (requestContext != null)
                ((BindingProvider)port).getRequestContext().putAll(requestContext);
 
-         if (responseContext != null)
+            if (responseContext != null)
                ((BindingProvider)port).getResponseContext().putAll(responseContext);
 
-         ((BindingProvider)port).getRequestContext().
+            ((BindingProvider)port).getRequestContext().
                 put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, url);
+         } catch (Throwable t) {
+             if (this.port != null)
+                pool.releasePort(port);
+             // we have to throw smth derived from RuntimeException
+             throw new WebServiceException(t);
+          }
     }
 
 
     public void disconnect(IVirtualBox refIVirtualBox)
     {
-        logoff(refIVirtualBox);
-        pool.releasePort(port);
+        try {
+           logoff(refIVirtualBox);
+        } finally {
+           if (this.port != null) {
+             pool.releasePort(this.port);
+             this.port = null;
+           }
+        }
     }
 
     public void cleanupUnused()
@@ -814,7 +831,7 @@ public class IWebsessionManager {
 
           <xsl:variable name="extends" select="//interface[@name=$ifname]/@extends" />
           <xsl:choose>
-            <xsl:when test="($extends = '$unknown') or ($extends = '$dispatched')">
+            <xsl:when test="($extends = '$unknown') or ($extends = '$dispatched') or ($extends = '$errorinfo')">
               <xsl:value-of select="concat('public class ', $ifname, ' extends IUnknown {&#10;&#10;')" />
             </xsl:when>
             <xsl:when test="//interface[@name=$extends]">

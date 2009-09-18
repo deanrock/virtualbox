@@ -144,7 +144,7 @@ static PciChipsets VBOXPCIchipsets[] = {
  * this DriverRec be an upper-case version of the driver name.
  */
 
-_X_EXPORT DriverRec VBOXDRV = {
+_X_EXPORT DriverRec VBOXVIDEO = {
     VBOX_VERSION,
     VBOX_DRIVER_NAME,
     VBOXIdentify,
@@ -205,15 +205,9 @@ VBOXCrtcResize(ScrnInfoPtr scrn, int width, int height)
     Bool rc = TRUE;
 
     TRACE_LOG("width=%d, height=%d\n", width, height);
-    /* We only support horizontal resolutions which are a multiple of 8.  Round down if
-       necessary. */
-    if (width % 8 != 0)
-    {
-        xf86DrvMsg(scrn->scrnIndex, X_WARNING,
-                   "VirtualBox only supports virtual screen widths which are a multiple of 8.  Rounding down from %d to %d\n",
-                   width, width - (width % 8));
-        width = width - (width % 8);
-    }
+    /* We only support horizontal resolutions which are a multiple of 8. 
+     * Round up if necessary. */
+    width = (width + 7) & ~7;
     if (width * height * bpp / 8 >= scrn->videoRam * 1024)
     {
         xf86DrvMsg(scrn->scrnIndex, X_ERROR,
@@ -248,6 +242,8 @@ VBOXCrtcResize(ScrnInfoPtr scrn, int width, int height)
         if (pVBox->useDRI)
             VBOXDRIUpdateStride(scrn, pVBox);
 #endif
+        /* Write the new values to the hardware */
+        rc = xf86SetDesiredModes(scrn);
     }
     TRACE_LOG("returning %s\n", rc ? "TRUE" : "FALSE");
     return rc;
@@ -475,76 +471,6 @@ static const xf86OutputFuncsRec VBOXOutputFuncs = {
     .destroy = vbox_output_stub
 };
 
-/*
- * List of symbols from other modules that this module references.  This
- * list is used to tell the loader that it is OK for symbols here to be
- * unresolved providing that it hasn't been told that they are essential
- * via a call to xf86LoaderReqSymbols() or xf86LoaderReqSymLists().  The
- * purpose is this is to avoid warnings about unresolved symbols that are
- * not required.
- */
-static const char *fbSymbols[] = {
-    "fbPictureInit",
-    "fbScreenInit",
-    NULL
-};
-
-static const char *shadowfbSymbols[] = {
-  "ShadowFBInit2",
-  NULL
-};
-
-static const char *vbeSymbols[] = {
-    "VBEExtendedInit",
-    "VBEFindSupportedDepths",
-    "VBEGetModeInfo",
-    "VBEGetVBEInfo",
-    "VBEGetVBEMode",
-    "VBEPrintModes",
-    "VBESaveRestore",
-    "VBESetDisplayStart",
-    "VBESetGetDACPaletteFormat",
-    "VBESetGetLogicalScanlineLength",
-    "VBESetGetPaletteData",
-    "VBESetModeNames",
-    "VBESetModeParameters",
-    "VBESetVBEMode",
-    "VBEValidateModes",
-    "vbeDoEDID",
-    "vbeFree",
-    NULL
-};
-
-static const char *ramdacSymbols[] = {
-    "xf86InitCursor",
-    "xf86CreateCursorInfoRec",
-    NULL
-};
-
-#ifdef VBOX_DRI
-static const char *drmSymbols[] = {
-    "drmFreeVersion",
-    "drmGetVersion",
-    NULL
-};
-
-static const char *driSymbols[] = {
-    "DRICloseScreen",
-    "DRICreateInfoRec",
-    "DRIDestroyInfoRec",
-    "DRIFinishScreenInit",
-    "DRIGetSAREAPrivate",
-    "DRILock",
-    "DRIMoveBuffersHelper",
-    "DRIQueryVersion",
-    "DRIScreenInit",
-    "DRIUnlock",
-    "GlxSetVisualConfigs",
-    "DRICreatePCIBusID",
-    NULL
-};
-#endif
-
 #ifdef XFree86LOADER
 /* Module loader interface */
 static MODULESETUPPROTO(vboxSetup);
@@ -580,18 +506,12 @@ vboxSetup(pointer Module, pointer Options, int *ErrorMajor, int *ErrorMinor)
     {
         Initialised = TRUE;
 #ifdef PCIACCESS
-        xf86AddDriver(&VBOXDRV, Module, HaveDriverFuncs);
+        xf86AddDriver(&VBOXVIDEO, Module, HaveDriverFuncs);
 #else
-        xf86AddDriver(&VBOXDRV, Module, 0);
+        xf86AddDriver(&VBOXVIDEO, Module, 0);
 #endif
-        LoaderRefSymLists(fbSymbols,
-                          shadowfbSymbols,
-                          vbeSymbols,
-                          ramdacSymbols,
-#ifdef VBOX_DRI
-                          drmSymbols, driSymbols,
-#endif
-                          NULL);
+        xf86Msg(X_CONFIG, "Load address of symbol \"VBOXVIDEO\" is %p\n",
+                (void *)&VBOXVIDEO);
         return (pointer)TRUE;
     }
 
@@ -767,7 +687,6 @@ VBOXPreInit(ScrnInfoPtr pScrn, int flags)
        text mode, in order to keep our code simple. */
     if (!xf86LoadSubModule(pScrn, "vbe"))
         return (FALSE);
-    xf86LoaderReqSymLists(vbeSymbols, NULL);
 
     if ((pVBox->pVbe = VBEExtendedInit(NULL, pVBox->pEnt->index,
                                        SET_BIOS_SCRATCH
@@ -787,16 +706,13 @@ VBOXPreInit(ScrnInfoPtr pScrn, int flags)
     /* The ramdac module is needed for the hardware cursor. */
     if (!xf86LoadSubModule(pScrn, "ramdac"))
         return FALSE;
-    xf86LoaderReqSymLists(ramdacSymbols, NULL);
 
     /* The framebuffer module. */
     if (xf86LoadSubModule(pScrn, "fb") == NULL)
         return (FALSE);
-    xf86LoaderReqSymLists(fbSymbols, NULL);
 
     if (!xf86LoadSubModule(pScrn, "shadowfb"))
         return FALSE;
-    xf86LoaderReqSymLists(shadowfbSymbols, NULL);
 
     /* Set up our ScrnInfoRec structure to describe our virtual
        capabilities to X. */
@@ -853,30 +769,8 @@ VBOXPreInit(ScrnInfoPtr pScrn, int flags)
     /* Set up our single virtual output. */
     output = xf86OutputCreate(pScrn, &VBOXOutputFuncs, "VBOX1");
 
-    /* Set a sane minimum mode size and the maximum allowed by the available VRAM */
-    {
-#if 0
-        unsigned maxSize, trySize = 512;
-
-        do {
-            maxSize = trySize;
-            trySize += 128;
-        } while (trySize * trySize * pScrn->bitsPerPixel / 8 < pScrn->videoRam * 1024);
-#else
-        unsigned maxSize = 32000;
-#endif
-
-        xf86CrtcSetSizeRange(pScrn, 64, 64, maxSize, maxSize);
-
-        /* I don't know exactly what these are for (and they are only used in a couple
-           of places in the X server code), but due to a bug in RandR 1.2 they place
-           an upper limit on possible resolutions.  To add to the fun, they get set
-           automatically if we don't do it ourselves. */
-        pScrn->display->virtualX = maxSize;
-        pScrn->display->virtualY = maxSize;
-        xf86DrvMsg(pScrn->scrnIndex, X_INFO,
-                   "The maximum supported resolution is currently %dx%d\n", maxSize, maxSize);
-    }
+    /* Set a sane minimum and maximum mode size */
+    xf86CrtcSetSizeRange(pScrn, 64, 64, 32000, 32000);
 
     /* We are not interested in the monitor section in the configuration file. */
     xf86OutputUseScreenMonitor(output, FALSE);
@@ -908,9 +802,8 @@ VBOXPreInit(ScrnInfoPtr pScrn, int flags)
 
 #ifdef VBOX_DRI
     /* Load the dri module. */
-    if (xf86LoadSubModule(pScrn, "dri")) {
-        xf86LoaderReqSymLists(driSymbols, drmSymbols, NULL);
-    }
+    if (!xf86LoadSubModule(pScrn, "dri"))
+        return FALSE;
 #endif
     return (TRUE);
 }
@@ -990,6 +883,7 @@ VBOXScreenInit(int scrnIndex, ScreenPtr pScreen, int argc, char **argv)
         return (FALSE);
 
     /* Needed before we initialise DRI. */
+    pScrn->virtualX = (pScrn->virtualX + 7) & ~7;
     pScrn->displayWidth = pScrn->virtualX;
 
 #ifdef VBOX_DRI
@@ -1001,7 +895,7 @@ VBOXScreenInit(int scrnIndex, ScreenPtr pScreen, int argc, char **argv)
     if (!fbScreenInit(pScreen, pVBox->base,
                       pScrn->virtualX, pScrn->virtualY,
                       pScrn->xDpi, pScrn->yDpi,
-                      pScrn->virtualX, pScrn->bitsPerPixel))
+                      pScrn->displayWidth, pScrn->bitsPerPixel))
         return (FALSE);
 
     /* Fixup RGB ordering */
@@ -1041,13 +935,10 @@ VBOXScreenInit(int scrnIndex, ScreenPtr pScreen, int argc, char **argv)
         return FALSE;
     }
 
-    /* set the viewport */
-    VBOXAdjustFrame(scrnIndex, pScrn->frameX0, pScrn->frameY0, 0);
-
     /* software cursor */
     miDCInitialize(pScreen, xf86GetPointerScreenFuncs());
 
-    /* colourmap code - apparently, we need this even in Truecolour */
+    /* colourmap code */
     if (!miCreateDefColormap(pScreen))
 	return (FALSE);
 
@@ -1085,7 +976,6 @@ VBOXScreenInit(int scrnIndex, ScreenPtr pScreen, int argc, char **argv)
             xf86DrvMsg(scrnIndex, X_INFO,
                       "The VBox video extensions are now enabled.\n");
         vboxEnableGraphicsCap(pVBox);
-        /* Report the largest resolution that we support */
     }
 
 #ifdef VBOX_DRI
@@ -1261,7 +1151,8 @@ VBOXSetMode(ScrnInfoPtr pScrn, DisplayModePtr pMode)
     Bool rc = TRUE;
 
     int bpp = pScrn->depth == 24 ? 32 : 16;
-    TRACE_LOG("HDisplay=%d, VDisplay=%d\n", pMode->HDisplay, pMode->VDisplay);
+    TRACE_LOG("HDisplay=%d, VDisplay=%d, displayWidth=%d\n",
+              pMode->HDisplay, pMode->VDisplay, pScrn->displayWidth);
     pVBox = VBOXGetRec(pScrn);
     /* Don't fiddle with the hardware if we are switched
      * to a virtual terminal. */

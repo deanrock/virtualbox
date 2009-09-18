@@ -142,32 +142,34 @@ struct proto_handler handlers[] = {
     { EOH }
 };
 #else /* !VBOX */
-static struct proto_handler handlers[2];
+#define handlers pData->ftp_module
 #endif /* VBOX */
 
 #ifndef VBOX
 static int
 mod_handler(module_t mod, int type, void *data)
 #else
-static int ftp_alias_handler(int type);
+static int ftp_alias_handler(PNATState pData, int type);
 
 int
-ftp_alias_load(void)
+ftp_alias_load(PNATState pData)
 {
-    return ftp_alias_handler(MOD_LOAD);
+    return ftp_alias_handler(pData, MOD_LOAD);
 }
 
 int
-ftp_alias_unload(void)
+ftp_alias_unload(PNATState pData)
 {
-    return ftp_alias_handler(MOD_UNLOAD);
+    return ftp_alias_handler(pData, MOD_UNLOAD);
 }
 static int
-ftp_alias_handler(int type)
+ftp_alias_handler(PNATState pData, int type)
 #endif
 {
     int error;
 #ifdef VBOX
+    if (handlers == NULL)
+        handlers = RTMemAllocZ(2 * sizeof(struct proto_handler));
     handlers[0].pri = 80;
     handlers[0].dir = OUT;
     handlers[0].proto = TCP;
@@ -179,11 +181,21 @@ ftp_alias_handler(int type)
     switch (type) {   
     case MOD_LOAD:
         error = 0;
+#ifdef VBOX
+        LibAliasAttachHandlers(pData, handlers);
+#else
         LibAliasAttachHandlers(handlers);
+#endif
         break;
     case MOD_UNLOAD:
         error = 0;
+#ifdef VBOX
+        LibAliasDetachHandlers(pData, handlers);
+        RTMemFree(handlers);
+        handlers = NULL;
+#else
         LibAliasDetachHandlers(handlers);
+#endif
         break;
     default:
         error = EINVAL;

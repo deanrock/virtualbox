@@ -88,6 +88,9 @@ public:
 
     bool isMouseAbsolute() const { return mMouseAbsolute; }
 
+    bool shouldHideHostPointer() const
+    { return mMouseCaptured || (mMouseAbsolute && mHideHostPointer); }
+
     void setAutoresizeGuest (bool on);
 
     void onFullscreenChange (bool on);
@@ -340,6 +343,7 @@ private:
     QRect mLastSizeHint;
     bool mPassCAD;
     bool mHideHostPointer;
+    QCursor mLastCursor;
 };
 
 #endif // !___VBoxConsoleView_h___

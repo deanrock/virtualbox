@@ -45,6 +45,10 @@
 #include <QLocale>
 #include <QTranslator>
 
+#ifdef Q_WS_X11
+# include <X11/Xlib.h>
+#endif
+
 #include <iprt/err.h>
 #include <iprt/initterm.h>
 #include <iprt/process.h>
@@ -63,13 +67,7 @@
 /* XXX Temporarily. Don't rely on ther user to hack the Makefile himsef! */
 QString g_QStrHintLinuxNoMemory = QApplication::tr(
   "This error means that the kernel driver was either not able to "
-  "allocate enough memory or that some mapping operation failed.<br/><br/>"
-  "There are known problems with Linux 2.6.29. If you are running "
-  "such a kernel, please edit /usr/src/vboxdrv-*/Makefile and enable "
-  "<i>VBOX_USE_INSERT_PAGE = 1</i>. After that, re-compile the kernel "
-  "module by executing<br/><br/>"
-  "  <font color=blue>'/etc/init.d/vboxdrv setup'</font><br/><br/>"
-  "as root."
+  "allocate enough memory or that some mapping operation failed."
   );
 
 QString g_QStrHintLinuxNoDriver = QApplication::tr(
@@ -158,7 +156,7 @@ void bt_sighandler (int sig, siginfo_t *info, void *secret) {
 
 #endif /* DEBUG && X11 && LINUX*/
 
-#if defined(RT_OS_DARWIN) && defined(RT_ARCH_AMD64)
+#if defined(RT_OS_DARWIN)
 # include <dlfcn.h>
 # include <sys/mman.h>
 # include <iprt/asm.h>
@@ -174,7 +172,7 @@ static void ShutUpAppKit(void)
     if (!rc)
         ASMAtomicWriteU32((volatile uint32_t *)addr, 0xccc3c031); /* xor eax, eax; ret; int3 */
 }
-#endif /* DARWIN + AMD64 */
+#endif /* DARWIN */
 
 static void QtMessageOutput (QtMsgType type, const char *msg)
 {
@@ -273,7 +271,7 @@ static void showHelp()
 extern "C" DECLEXPORT(int) TrustedMain (int argc, char **argv, char ** /*envp*/)
 {
     LogFlowFuncEnter();
-# if defined(RT_OS_DARWIN) && defined(RT_ARCH_AMD64)
+# if defined(RT_OS_DARWIN)
     ShutUpAppKit();
 # endif
 
@@ -327,36 +325,44 @@ extern "C" DECLEXPORT(int) TrustedMain (int argc, char **argv, char ** /*envp*/)
     /* scope the QIApplication variable */
     {
 #ifdef Q_WS_X11
-        /* There are some buggy/strange driver/compiz combinations which lead
-         * to transparent backgrounds on ARGB visuals. Try to fix it by not
-         * allowing an ARGB visual with the help of the Xlib. After that we
-         * restore the original environment, so that others like the OpenGL
-         * service will proper work. */
-        char *pchOldVar = NULL;
-        bool fHackARGB = !RTEnvExist ("VBOX_NO_ARGB_VISUALS_HACK") && VBoxGlobal::qtRTVersion() >= 0x040500;
-        if (fHackARGB)
+        /* Qt has a complex algorithm for selecting the right visual which
+         * doesn't always seem to work.  So we naively choose a visual - the
+         * default one - ourselves and pass that to Qt.  This means that we
+         * also have to open the display ourselves.
+         * We check the Qt parameter list and handle Qt's -display argument
+         * ourselves, since we open the display connection.  We also check the
+         * to see if the user has passed Qt's -visual parameter, and if so we
+         * assume that the user wants Qt to handle visual selection after all,
+         * and don't supply a visual. */
+        char *pszDisplay = NULL;
+        bool useDefaultVisual = true;
+        for (int i = 0; i < argc; ++i)
         {
-            const char *pchVar = RTEnvGet ("XLIB_SKIP_ARGB_VISUALS");
-            if (pchVar)
-                pchOldVar = RTStrDup (pchVar);
-            RTEnvSet ("XLIB_SKIP_ARGB_VISUALS", "1");
-        }
-        /* Now create the application object */
-        QIApplication a (argc, argv);
-        /* Restore previous environment */
-        if (fHackARGB)
-        {
-            if (pchOldVar)
+            if (!::strcmp(argv[i], "-display") && (i + 1 < argc))
+            /* What if it isn't?  Rely on QApplication to complain? */
             {
-                RTEnvSet ("XLIB_SKIP_ARGB_VISUALS", pchOldVar);
-                RTStrFree (pchOldVar);
+                pszDisplay = argv[i + 1];
+                ++i;
             }
-            else
-                RTEnvUnset ("XLIB_SKIP_ARGB_VISUALS");
+            else if (!::strcmp(argv[i], "-visual"))
+                useDefaultVisual = false;
         }
-#else /* defined(Q_WS_X11) && (QT_VERSION >= 0x040500) */
+        Display *pDisplay = XOpenDisplay(pszDisplay);
+        if (!pDisplay)
+        {
+            RTPrintf(pszDisplay ? "Failed to open the X11 display \"%s\"!\n"
+                                : "Failed to open the X11 display!\n",
+                     pszDisplay);
+            return 0;
+        }
+        Visual *pVisual =   useDefaultVisual
+                          ? DefaultVisual(pDisplay, DefaultScreen(pDisplay))
+                          : NULL;
+        /* Now create the application object */
+        QIApplication a (pDisplay, argc, argv, (Qt::HANDLE) pVisual);
+#else /* Q_WS_X11 */
         QIApplication a (argc, argv);
-#endif /* defined(Q_WS_X11) && (QT_VERSION >= 0x040500) */
+#endif /* Q_WS_X11 */
 
         /* Qt4.3 version has the QProcess bug which freezing the application
          * for 30 seconds. This bug is internally used at initialization of
@@ -622,7 +628,7 @@ int main (int argc, char **argv, char **envp)
  */
 extern "C" DECLEXPORT(void) TrustedError (const char *pszWhere, SUPINITOP enmWhat, int rc, const char *pszMsgFmt, va_list va)
 {
-# if defined(RT_OS_DARWIN) && defined(RT_ARCH_AMD64)
+# if defined(RT_OS_DARWIN)
     ShutUpAppKit();
 # endif
 

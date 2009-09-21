@@ -1,6 +1,8 @@
 virtualbox-ose (3.0.6-dfsg-1~bpo50+1) lenny-backports; urgency=low
 
   * Rebuild for lenny-backports.
+  * Re-created 18-xorg-1.4.dpatch.
+  * Re-added vboxvideo.ids for Xorg 1.4.
 
  -- Michael Meskes <meskes@debian.org>  Wed, 15 Jul 2009 15:52:30 +0200
 

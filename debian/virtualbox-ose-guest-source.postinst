@@ -18,6 +18,8 @@ case "$1" in
 			fi
 		fi
 
+		#Silently remove existing modules
+		dkms remove -m virtualbox-ose-guest -v $CVERSION --all > /dev/null 2>&1 || true
 		#Create DKMS modules
 		echo "Adding Module to DKMS build system"
 		dkms add -m virtualbox-ose-guest -v $CVERSION > /dev/null

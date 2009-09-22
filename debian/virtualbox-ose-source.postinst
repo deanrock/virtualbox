@@ -18,6 +18,10 @@ case "$1" in
 			fi
 		fi
 
+		#Silently remove existing modules
+		dkms remove -m vboxdrv -v $CVERSION --all > /dev/null 2>&1 || true
+		dkms remove -m vboxnetflt -v $CVERSION --all > /dev/null 2>&1 || true
+		dkms remove -m vboxnetadp -v $CVERSION --all > /dev/null 2>&1 || true
 		#Create DKMS modules
 		echo "Adding modules to DKMS build system"
 		dkms add -m vboxdrv -v $CVERSION > /dev/null

@@ -1,3 +1,15 @@
+virtualbox-ose (3.0.6-dfsg-1ubuntu2) karmic; urgency=low
+
+  * Try to remove existing dkms modules before adding the new modules
+    (LP: #434503)
+    - debian/virtualbox-ose-source.postinst
+    - debian/virtualbox-ose-guest-source.postinst
+  * Don't fail if dkms modules have already been removed
+    - debian/virtualbox-ose-source.prerm
+    - debian/virtualbox-ose-guest-source.prerm
+
+ -- Felix Geyer <debfx-pkg@fobos.de>  Sun, 27 Sep 2009 12:36:46 +0200
+
 virtualbox-ose (3.0.6-dfsg-1ubuntu1) karmic; urgency=low
 
   * Merge from debian unstable (LP: #429697), remaining changes:

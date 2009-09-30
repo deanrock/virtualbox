@@ -10,12 +10,10 @@ CVERSION=`dpkg-query -W -f='${Version}' virtualbox-ose-guest-source | awk -F "-"
 case "$1" in
 	configure)
 		#Refresh groups
-		if [ -x /etc/init.d/udev ]; then
-			if [ -x "`which invoke-rc.d 2>/dev/null`" ]; then
-				invoke-rc.d udev reload || true
-			else
-				/etc/init.d/udev reload || true
-			fi
+		if [ -x "`which service 2>/dev/null`" ]; then
+			service udev reload || true
+		else
+			/etc/init.d/udev reload || true
 		fi
 
 		#Silently remove existing modules

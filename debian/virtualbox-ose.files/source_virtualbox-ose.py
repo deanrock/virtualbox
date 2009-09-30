@@ -6,6 +6,6 @@ def add_info(report):
     
     """Add information about installed VirtualBox kernel modules"""
     report['VirtualBoxOse.ModInfo'] = apport.hookutils.command_output(["sh", "-c",
-        "find /lib/modules/`uname -r` -name \"vbox*\" | xargs modinfo"])
+        "find /lib/modules/`uname -r` -name \"vbox*\" | xargs -r modinfo"])
     
     report['LsMod'] = apport.hookutils.command_output(["lsmod"])

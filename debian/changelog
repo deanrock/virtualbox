@@ -7,7 +7,7 @@ virtualbox-ose (3.0.6-dfsg-1ubuntu2) karmic; urgency=low
   * Don't fail if dkms modules have already been removed
     - debian/virtualbox-ose-source.prerm
     - debian/virtualbox-ose-guest-source.prerm
-  * Call "service" instad of "invoke-rc.d" to reload udev rules
+  * Call "service" instead of "invoke-rc.d" to reload udev rules
 
  -- Felix Geyer <debfx-pkg@fobos.de>  Wed, 30 Sep 2009 10:31:53 +0200
 

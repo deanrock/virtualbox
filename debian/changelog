@@ -1,4 +1,4 @@
-virtualbox-ose (3.0.6-dfsg-1ubuntu2) karmic; urgency=low
+virtualbox-ose (3.0.8-dfsg-1ubuntu1) UNRELEASED; urgency=low
 
   * Try to remove existing dkms modules before adding the new modules
     (LP: #434503)
@@ -10,6 +10,28 @@ virtualbox-ose (3.0.6-dfsg-1ubuntu2) karmic; urgency=low
   * Call "service" instead of "invoke-rc.d" to reload udev rules
 
  -- Felix Geyer <debfx-pkg@fobos.de>  Wed, 30 Sep 2009 10:31:53 +0200
+
+virtualbox-ose (3.0.8-dfsg-1) UNRELEASED; urgency=high
+
+  [ Felix Geyer ]
+  * New Upstream Version
+    - Fixes security vulnerability in VBoxNetAdpCtl (SunSolve #268188)
+  * Conflict with upstream proprietary packages
+  * Use an own cleaned-up virtualbox-ose init script instead of
+    patching the upstream script
+  * The guest init script doesn't fail anymore if it's already running
+  * Remove vboxusers group as it's not needed anymore
+  * Don't statically link VBoxClient with libstdc++
+    - Add patch 22-no-static-libstdcpp.dpatch from Fedora
+  * Pass more build options through the command line, which allows us to drop
+    02-config-kmk.dpatch, 03-localconf-kmk.dpatch and
+    14-disable-registration-request.dpatch
+  * Add lintian overrides for non PIC code in /usr/lib/virtualbox/*.so
+
+  [ Michael Meskes ]
+  * Made debug package also depend on guest utilities package.
+
+ -- Felix Geyer <debfx-pkg@fobos.de>  Wed, 07 Oct 2009 20:45:31 +0200
 
 virtualbox-ose (3.0.6-dfsg-1ubuntu1) karmic; urgency=low
 

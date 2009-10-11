@@ -9,13 +9,6 @@ CVERSION=`dpkg-query -W -f='${Version}' virtualbox-ose-source | awk -F "-" '{pri
 
 case "$1" in
 	configure)
-		#Refresh groups
-		if [ -x "`which service 2>/dev/null`" ]; then
-			service udev reload || true
-		else
-			/etc/init.d/udev reload || true
-		fi
-
 		#Silently remove existing modules
 		dkms remove -m vboxdrv -v $CVERSION --all > /dev/null 2>&1 || true
 		dkms remove -m vboxnetflt -v $CVERSION --all > /dev/null 2>&1 || true
@@ -34,18 +27,5 @@ case "$1" in
 		dkms install -m vboxnetflt -v $CVERSION --force > /dev/null
 		dkms install -m vboxnetadp -v $CVERSION --force > /dev/null
 		echo "Done."
-
-		#restart VBox service due to new modules
-		if [ -f /etc/default/virtualbox-ose ] ; then
-			. /etc/default/virtualbox-ose
-		fi
-		if [ "$LOAD_VBOXDRV_MODULE" = 1 ]; then
-			if [ -x "`which invoke-rc.d 2>/dev/null`" ]; then
-				invoke-rc.d virtualbox-ose restart || true
-			else
-				/etc/init.d/virtualbox-ose restart || true
-			fi
-		fi
-
 	;;
 esac

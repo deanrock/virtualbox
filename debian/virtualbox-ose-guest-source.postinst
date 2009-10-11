@@ -9,13 +9,6 @@ CVERSION=`dpkg-query -W -f='${Version}' virtualbox-ose-guest-source | awk -F "-"
 
 case "$1" in
 	configure)
-		#Refresh groups
-		if [ -x "`which service 2>/dev/null`" ]; then
-			service udev reload || true
-		else
-			/etc/init.d/udev reload || true
-		fi
-
 		#Silently remove existing modules
 		dkms remove -m virtualbox-ose-guest -v $CVERSION --all > /dev/null 2>&1 || true
 		#Create DKMS modules
@@ -26,12 +19,5 @@ case "$1" in
 		echo "Installing initial module"
 		dkms install -m virtualbox-ose-guest -v $CVERSION --force > /dev/null
 		echo "Done."
-
-		#restart VBox service due to new modules
-		if [ -x "`which invoke-rc.d 2>/dev/null`" ]; then
-			invoke-rc.d virtualbox-ose-guest-utils restart || true
-		else
-			/etc/init.d/virtualbox-ose-guest-utils restart || true
-		fi
 	;;
 esac

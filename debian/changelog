@@ -7,21 +7,21 @@ virtualbox-ose (3.0.8-dfsg-1ubuntu1) UNRELEASED; urgency=low
   * Don't fail if dkms modules have already been removed
     - debian/virtualbox-ose-source.prerm
     - debian/virtualbox-ose-guest-source.prerm
-  * Call "service" instead of "invoke-rc.d" to reload udev rules
 
- -- Felix Geyer <debfx-pkg@fobos.de>  Wed, 30 Sep 2009 10:31:53 +0200
+ -- Felix Geyer <debfx-pkg@fobos.de>  Tue, 13 Oct 2009 17:02:42 +0200
 
-virtualbox-ose (3.0.8-dfsg-1) UNRELEASED; urgency=high
+virtualbox-ose (3.0.8-dfsg-1) unstable; urgency=high
 
   [ Felix Geyer ]
   * New Upstream Version
     - Fixes security vulnerability in VBoxNetAdpCtl (SunSolve #268188)
   * Conflict with upstream proprietary packages
-  * Install vboxapi python module
+  * Install vboxapi python module, closes: #549542
   * Use an own cleaned-up virtualbox-ose init script instead of
     patching the upstream script
   * Only restart virtualbox-ose after upgrade if it's not running; do not
     restart virtualbox-ose-guest-utils at all
+  * Call notify-reboot-required after guest utils upgrade
   * Remove vboxusers group as it's not needed anymore
   * Don't statically link VBoxClient with libstdc++
     - Add patch 22-no-static-libstdcpp.dpatch from Fedora
@@ -33,8 +33,9 @@ virtualbox-ose (3.0.8-dfsg-1) UNRELEASED; urgency=high
 
   [ Michael Meskes ]
   * Made debug package also depend on guest utilities package.
+  * Added option to close down all active VMs from init script.
 
- -- Felix Geyer <debfx-pkg@fobos.de>  Sat, 10 Oct 2009 22:59:59 +0200
+ -- Michael Meskes <meskes@debian.org>  Tue, 13 Oct 2009 13:46:44 +0200
 
 virtualbox-ose (3.0.6-dfsg-1ubuntu1) karmic; urgency=low
 

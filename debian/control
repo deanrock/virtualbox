@@ -1,7 +1,7 @@
 Source: virtualbox-ose
 Section: misc
 Priority: extra
-Maintainer: Ubuntu MOTU Developers <ubuntu-motu@lists.ubuntu.com>
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
 XSBC-Original-Maintainer: Debian Virtualbox Team <pkg-virtualbox-devel@lists.alioth.debian.org>
 Uploaders: Michael Meskes <meskes@debian.org>,
            Patrick Winnertz <winnie@debian.org>,

@@ -1,3 +1,31 @@
+=======
+virtualbox-ose (3.0.8-dfsg-1) unstable; urgency=high
+
+  [ Felix Geyer ]
+  * New Upstream Version
+    - Fixes security vulnerability in VBoxNetAdpCtl (SunSolve #268188)
+  * Conflict with upstream proprietary packages
+  * Install vboxapi python module, closes: #549542
+  * Use an own cleaned-up virtualbox-ose init script instead of
+    patching the upstream script
+  * Only restart virtualbox-ose after upgrade if it's not running; do not
+    restart virtualbox-ose-guest-utils at all
+  * Call notify-reboot-required after guest utils upgrade
+  * Remove vboxusers group as it's not needed anymore
+  * Don't statically link VBoxClient with libstdc++
+    - Add patch 22-no-static-libstdcpp.dpatch from Fedora
+  * Pass more build options through the command line, which allows us to drop
+    02-config-kmk.dpatch, 03-localconf-kmk.dpatch and
+    14-disable-registration-request.dpatch
+  * No longer reload udev rules in postinst as they are reloaded automatically
+  * Add lintian overrides for non-PIC code in /usr/lib/virtualbox/*.so
+
+  [ Michael Meskes ]
+  * Made debug package also depend on guest utilities package.
+  * Added option to close down all active VMs from init script.
+
+ -- Michael Meskes <meskes@debian.org>  Tue, 13 Oct 2009 13:46:44 +0200
+
 virtualbox-ose (3.0.6-dfsg-1~bpo50+1) lenny-backports; urgency=low
 
   * Rebuild for lenny-backports.

@@ -4,7 +4,8 @@ Priority: extra
 Maintainer: Debian Virtualbox Team <pkg-virtualbox-devel@lists.alioth.debian.org>
 Uploaders: Michael Meskes <meskes@debian.org>,
            Patrick Winnertz <winnie@debian.org>,
-           Hilko Bengen <bengen@debian.org>
+           Hilko Bengen <bengen@debian.org>,
+           Felix Geyer <debfx-pkg@fobos.de>
 Build-Depends: bcc,
                bzip2,
                chrpath,
@@ -16,17 +17,15 @@ Build-Depends: bcc,
                gsoap,
                iasl,
                kbuild (>= 1:0.1.5svn2274),
-               libacl1-dev,
-               libasound-dev,
+               libasound2-dev,
                libcap2-dev,
-               libcurl4-openssl-dev | libcurl3-openssl-dev,
+               libcurl4-openssl-dev | libcurl3-openssl-dev (>= 7.16.1),
                libdrm-dev,
                libgl1-mesa-dev,
                libglu1-mesa-dev,
-               libhal-dev,
                libidl-dev,
-               libpng12-dev,
                libpixman-1-dev,
+               libpng12-dev,
                libpulse-dev,
                libqt4-dev (>= 4.3.0),
                libsdl1.2-dev,
@@ -41,8 +40,8 @@ Build-Depends: bcc,
                libxrender-dev,
                libxslt1-dev,
                lynx-cur,
-               po-debconf (>= 0.5.0),
-               python-dev,
+               python-central,
+               python-dev (>= 2.4),
                uuid-dev,
                x11proto-gl-dev,
                x11proto-xf86dri-dev,
@@ -50,6 +49,7 @@ Build-Depends: bcc,
                xsltproc,
                yasm (>= 0.7.0),
                zlib1g-dev
+XS-Python-Version: >= 2.4
 Standards-Version: 3.8.3
 Homepage: http://www.virtualbox.org/
 Vcs-Git: git://git.debian.org/git/pkg-virtualbox/virtualbox-ose.git
@@ -60,8 +60,7 @@ Architecture: amd64 i386 lpia
 Depends: ${shlibs:Depends},
          ${misc:Depends},
          virtualbox-ose (= ${binary:Version})
-Pre-Depends: debconf | debconf-2.0
-Replaces: virtualbox-ose (<< 2.2.0-dfsg-1) 
+Replaces: virtualbox-ose (<< 2.2.0-dfsg-1)
 Description: x86 virtualization solution - Qt based user interface
  VirtualBox is a free x86 virtualization solution allowing a wide range
  of x86 operating systems such as Windows, DOS, BSD or Linux to run on a
@@ -74,16 +73,16 @@ Package: virtualbox-ose
 Architecture: amd64 i386 lpia
 Depends: ${shlibs:Depends},
          ${misc:Depends},
-         adduser,
-         python
-Pre-Depends: debconf | debconf-2.0
+         ${python:Depends},
+         adduser
 Recommends: virtualbox-ose-modules,
             virtualbox-ose-qt (= ${binary:Version}),
-            libgl1
-Suggests: virtualbox-ose-source (= ${binary:Version}), virtualbox-guest-additions
-Conflicts: virtualbox
-Provides: virtualbox
-Replaces: virtualbox
+            libgl1,
+            libhal1
+Suggests: virtualbox-ose-source (= ${binary:Version}), virtualbox-guest-additions,
+          libasound2, libpulse0
+Conflicts: virtualbox, virtualbox-2.0, virtualbox-2.1, virtualbox-2.2, virtualbox-3.0
+XB-Python-Version: ${python:Versions}
 Description: x86 virtualization solution - base binaries
  VirtualBox is a free x86 virtualization solution allowing a wide range
  of x86 operating systems such as Windows, DOS, BSD or Linux to run on a
@@ -97,7 +96,8 @@ Description: x86 virtualization solution - base binaries
 Package: virtualbox-ose-dbg
 Section: debug
 Architecture: amd64 i386 lpia
-Depends: ${misc:Depends}, virtualbox-ose (= ${binary:Version}) | virtualbox-ose-qt (= ${binary:Version})
+Depends: ${misc:Depends},
+         virtualbox-ose (= ${binary:Version}) | virtualbox-ose-guest-utils (= ${binary:Version})
 Description: x86 virtualization solution - debugging symbols
  VirtualBox is a free x86 virtualization solution allowing a wide range
  of x86 operating systems such as Windows, DOS, BSD or Linux to run on a
@@ -115,9 +115,6 @@ Depends: ${misc:Depends},
          bzip2,
          kbuild
 Recommends: module-assistant
-Conflicts: virtualbox-source
-Replaces: virtualbox-source
-Provides: virtualbox-source
 Description: x86 virtualization solution - kernel module source
  VirtualBox is a free x86 virtualization solution allowing a wide range
  of x86 operating systems such as Windows, DOS, BSD or Linux to run on a
@@ -155,7 +152,7 @@ Depends: ${shlibs:Depends},
          pciutils
 Provides: ${xviddriver:Provides},
           ${xinpdriver:Provides}
-Replaces: virtualbox-ose-guest-utils (<< 2.2.0-dfsg-1) 
+Replaces: virtualbox-ose-guest-utils (<< 2.2.0-dfsg-1)
 Description: x86 virtualization solution - X11 guest utilities
  VirtualBox is a free x86 virtualization solution allowing a wide range
  of x86 operating systems such as Windows, DOS, BSD or Linux to run on a

@@ -75,11 +75,11 @@ Depends: ${shlibs:Depends},
          ${misc:Depends},
          ${python:Depends},
          adduser
-Recommends: virtualbox-ose-modules,
+Recommends: virtualbox-ose-source (= ${binary:Version}), 
             virtualbox-ose-qt (= ${binary:Version}),
             libgl1,
             libhal1
-Suggests: virtualbox-ose-source (= ${binary:Version}), virtualbox-guest-additions,
+Suggests: virtualbox-guest-additions,
           libasound2, libpulse0
 Conflicts: virtualbox, virtualbox-2.0, virtualbox-2.1, virtualbox-2.2, virtualbox-3.0
 XB-Python-Version: ${python:Versions}
@@ -109,12 +109,12 @@ Description: x86 virtualization solution - debugging symbols
 Package: virtualbox-ose-source
 Section: kernel
 Architecture: all
-Depends: ${misc:Depends},
-         debhelper (>= 5),
-         dpatch,
-         bzip2,
-         kbuild
-Recommends: module-assistant
+Depends: ${misc:Depends}, make | build-essential | dpkg-dev
+Recommends: dkms
+Suggests: debhelper (>= 5),
+	  bzip2,
+	  kbuild,
+	  module-assistant
 Description: x86 virtualization solution - kernel module source
  VirtualBox is a free x86 virtualization solution allowing a wide range
  of x86 operating systems such as Windows, DOS, BSD or Linux to run on a
@@ -127,12 +127,12 @@ Description: x86 virtualization solution - kernel module source
 Package: virtualbox-ose-guest-source
 Section: kernel
 Architecture: all
-Depends: ${misc:Depends},
-         debhelper (>= 5),
-         dpatch,
-         bzip2,
-         kbuild
-Recommends: module-assistant
+Depends: ${misc:Depends}, make | build-essential | dpkg-dev
+Recommends: dkms
+Suggests: debhelper (>= 5),
+	  bzip2,
+	  kbuild,
+	  module-assistant
 Description: x86 virtualization solution - guest addition module source
  VirtualBox is a free x86 virtualization solution allowing a wide range
  of x86 operating systems such as Windows, DOS, BSD or Linux to run on a
@@ -148,8 +148,7 @@ Architecture: i386 amd64 lpia
 Depends: ${shlibs:Depends},
          ${misc:Depends},
          ${xserver:Depends},
-         virtualbox-ose-guest-utils (= ${binary:Version}),
-         pciutils
+         virtualbox-ose-guest-utils (= ${binary:Version})
 Provides: ${xviddriver:Provides},
           ${xinpdriver:Provides}
 Replaces: virtualbox-ose-guest-utils (<< 2.2.0-dfsg-1)
@@ -165,10 +164,10 @@ Description: x86 virtualization solution - X11 guest utilities
 Package: virtualbox-ose-guest-utils
 Architecture: i386 amd64 lpia
 Depends: ${shlibs:Depends},
-         ${misc:Depends}
-Recommends: virtualbox-ose-guest-modules,
+         ${misc:Depends},
+         pciutils
+Recommends: virtualbox-ose-guest-source (= ${binary:Version}),
             virtualbox-ose-guest-x11 (= ${binary:Version})
-Suggests: virtualbox-ose-guest-source (= ${binary:Version})
 Description: x86 virtualization solution - non-X11 guest utilities
  VirtualBox is a free x86 virtualization solution allowing a wide range
  of x86 operating systems such as Windows, DOS, BSD or Linux to run on a

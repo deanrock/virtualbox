@@ -1,3 +1,32 @@
+virtualbox-ose (3.0.12-dfsg-1) UNRELEASED; urgency=low
+
+  * New Upstream Version
+
+ -- Felix Geyer <debfx-pkg@fobos.de>  Mon, 23 Nov 2009 11:33:24 +0100
+
+virtualbox-ose (3.0.10-dfsg-2) unstable; urgency=low
+
+  * Downgrade dkms dependency to recommendation. (Closes: #553918)
+  * Added dependencies for building with m-a.
+  * Changed source packages to also build modules via module-assistant.
+    (Closes: #554385)
+
+ -- Michael Meskes <meskes@debian.org>  Sat, 14 Nov 2009 20:43:09 +0100
+
+virtualbox-ose (3.0.10-dfsg-1) unstable; urgency=low
+
+  [ Felix Geyer ]
+  * Fix SHUTDOWN_USERS=all only parses the first user
+  * New Upstream version
+  * Added dependency upon pciutils to virtualbox-ose-guest-utils.
+    (Closes: #551390)
+
+  [ Michael Meskes ]
+  * Converted virtualbox-ose to dkms. (Closes: #551531) - thanks to
+    Ubuntu
+
+ -- Michael Meskes <meskes@debian.org>  Sat, 31 Oct 2009 19:58:01 +0100
+
 virtualbox-ose (3.0.8-dfsg-1ubuntu1) karmic; urgency=low
 
   * Merge from debian unstable (LP: #444812), remaining changes:

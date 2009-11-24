@@ -151,7 +151,8 @@ sf_init_inode (struct sf_glob_info *sf_g, struct inode *inode,
 #if LINUX_VERSION_CODE >= KERNEL_VERSION (2, 4, 11)
         inode->i_blkbits = 12;
 #endif
-        inode->i_blocks = (info->cbObject + 4095) / 4096;
+        /* i_blocks always in units of 512 bytes! */
+        inode->i_blocks = (info->cbAllocated + 511) / 512;
 
         sf_ftime_from_timespec (&inode->i_atime, &info->AccessTime);
         sf_ftime_from_timespec (&inode->i_ctime, &info->ChangeTime);
@@ -366,11 +367,9 @@ sf_setattr (struct dentry *dentry, struct iattr *iattr)
             memset(&info, 0, sizeof(info));
             info.cbObject = iattr->ia_size;
             cbBuffer = sizeof(info);
-            printk("set size %lld\n", (long long)info.cbObject);
             rc = vboxCallFSInfo(&client_handle, &sf_g->map, params.Handle,
                                 SHFL_INFO_SET | SHFL_INFO_SIZE, &cbBuffer,
                                 (PSHFLDIRINFO)&info);
-            printk(" => %d\n", rc);
             if (VBOX_FAILURE (rc)) {
                 LogFunc(("vboxCallFSInfo(%s, SIZE) failed rc=%Rrc\n",
                         sf_i->path->String.utf8, rc));

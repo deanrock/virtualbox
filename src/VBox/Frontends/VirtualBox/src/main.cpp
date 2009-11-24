@@ -471,6 +471,8 @@ extern "C" DECLEXPORT(int) TrustedMain (int argc, char **argv, char ** /*envp*/)
 #endif
 #endif
 
+            vboxProblem().checkForMountedWrongUSB();
+
             VBoxGlobalSettings settings = vboxGlobal().settings();
             /* Process known keys */
             bool noSelector = settings.isFeatureActive ("noSelector");
@@ -554,8 +556,11 @@ int main (int argc, char **argv, char **envp)
     bool fInitSUPLib = false;
     for (int i = 1; i < argc; i++)
     {
-        if (    !::strcmp(argv[i], "--startvm")
-            ||  !::strcmp(argv[i], "-startvm"))
+        /* NOTE: the check here must match the corresponding check for the
+         * options to start a VM in hardenedmain.cpp and VBoxGlobal.cpp exactly,
+         * otherwise there will be weird error messages. */
+        if (   !::strcmp(argv[i], "--startvm")
+            || !::strcmp(argv[i], "-startvm"))
         {
             fInitSUPLib = true;
             break;

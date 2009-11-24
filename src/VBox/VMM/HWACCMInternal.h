@@ -276,9 +276,12 @@ typedef struct HWACCM
     /** Set when TPR patching is allowed. */
     bool                        fTRPPatchingAllowed;
 
-    /** Explicit alignment padding to make 32-bit gcc align u64RegisterMask
-     *  naturally. */
-    bool                        padding[1];
+    /** Set when we initialize VT-x or AMD-V once for all CPUs. */
+    bool                        fGlobalInit;
+
+    /** Set when TPR patching is active. */
+    bool                        fTPRPatchingActive;
+    bool                        u8Alignment[7];
 
     /** And mask for copying register contents. */
     uint64_t                    u64RegisterMask;
@@ -413,8 +416,7 @@ typedef struct HWACCM
         bool                        fEnabled;
         /** Set if erratum 170 affects the AMD cpu. */
         bool                        fAlwaysFlushTLB;
-        /** Set when TPR patching is active. */
-        bool                        fTPRPatchingActive;
+        bool                        u8Alignment;
 
         /** R0 memory object for the IO bitmap (12kb). */
         RTR0MEMOBJ                  pMemObjIOBitmap;
@@ -428,14 +430,14 @@ typedef struct HWACCM
 
         /** SVM feature bits from cpuid 0x8000000a */
         uint32_t                    u32Features;
-
-        /**
-         * AVL tree with all patches (active or disabled) sorted by guest instruction address
-         */
-        AVLOU32TREE                 PatchTree;
-        uint32_t                    cPatches;
-        HWACCMTPRPATCH              aPatches[64];
     } svm;
+
+    /**
+     * AVL tree with all patches (active or disabled) sorted by guest instruction address
+     */
+    AVLOU32TREE                     PatchTree;
+    uint32_t                        cPatches;
+    HWACCMTPRPATCH                  aPatches[64];
 
     struct
     {
@@ -448,7 +450,7 @@ typedef struct HWACCM
 
     /** HWACCMR0Init was run */
     bool                    fHWACCMR0Init;
-    bool                    u8Alignment[7];
+    bool                    u8Alignment1[7];
 
     STAMCOUNTER             StatTPRPatchSuccess;
     STAMCOUNTER             StatTPRPatchFailure;
@@ -547,17 +549,25 @@ typedef struct HWACCMCPU
     /** Set when we're using VT-x or AMD-V at that moment. */
     bool                        fActive;
 
+    /** Set when the TLB has been checked until we return from the world switch. */
+    volatile uint8_t            fCheckedTLBFlush;
+    uint8_t                     bAlignment[3];
+
     /** HWACCM_CHANGED_* flags. */
     RTUINT                      fContextUseFlags;
 
-    /* Id of the last cpu we were executing code on (NIL_RTCPUID for the first time) */
+    /** Id of the last cpu we were executing code on (NIL_RTCPUID for the first time) */
     RTCPUID                     idLastCpu;
 
-    /* TLB flush count */
+    /** TLB flush count */
     RTUINT                      cTLBFlushes;
 
-    /* Current ASID in use by the VM */
+    /** Current ASID in use by the VM */
     RTUINT                      uCurrentASID;
+
+    /** World switch exit counter. */ 
+    volatile uint32_t           cWorldSwitchExit;
+    uint32_t                    u32Alignment;
 
     struct
     {
@@ -570,6 +580,10 @@ typedef struct HWACCMCPU
 
         /** Ring 0 handlers for VT-x. */
         PFNHWACCMVMXSTARTVM         pfnStartVM;
+
+#if HC_ARCH_BITS == 32
+        uint32_t                    u32Alignment;
+#endif
 
         /** Current VMX_VMCS_CTRL_PROC_EXEC_CONTROLS. */
         uint64_t                    proc_ctls;
@@ -757,6 +771,9 @@ typedef struct HWACCMCPU
 #if HC_ARCH_BITS == 32 && defined(VBOX_ENABLE_64_BITS_GUESTS) && !defined(VBOX_WITH_HYBRID_32BIT_KERNEL)
     STAMPROFILEADV          StatWorldSwitch3264;
 #endif
+    STAMPROFILEADV          StatPoke;
+    STAMPROFILEADV          StatSpinPoke;
+    STAMPROFILEADV          StatSpinPokeFailed;
 
     STAMCOUNTER             StatIntInject;
 

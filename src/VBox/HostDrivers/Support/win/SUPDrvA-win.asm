@@ -98,7 +98,7 @@ NtWrapDyn2DrvFunctionWithAllRegParams  supdrvNtWrap, RTR0MemObjAllocPhys
 NtWrapDyn2DrvFunctionWithAllRegParams  supdrvNtWrap, RTR0MemObjAllocPhysNC
 NtWrapDyn2DrvFunctionWithAllRegParams  supdrvNtWrap, RTR0MemObjAllocCont
 NtWrapDyn2DrvFunctionWithAllRegParams  supdrvNtWrap, RTR0MemObjEnterPhys
-NtWrapDyn2DrvFunctionWithAllRegParams  supdrvNtWrap, RTR0MemObjLockUser
+NtWrapDyn2DrvFunctionWith5Params       supdrvNtWrap, RTR0MemObjLockUser
 NtWrapDyn2DrvFunctionWith5Params       supdrvNtWrap, RTR0MemObjMapKernel
 NtWrapDyn2DrvFunctionWith7Params       supdrvNtWrap, RTR0MemObjMapKernelEx
 NtWrapDyn2DrvFunctionWith6Params       supdrvNtWrap, RTR0MemObjMapUser
@@ -156,7 +156,7 @@ NtWrapDyn2DrvFunctionWithAllRegParams  supdrvNtWrap, RTThreadUserWaitNoResume
 ;NtWrapDyn2DrvFunctionWithAllRegParams  supdrvNtWrap, RTThreadPreemptIsEnabled - not necessary
 ;NtWrapDyn2DrvFunctionWithAllRegParams  supdrvNtWrap, RTThreadPreemptIsPending - not necessary
 ;NtWrapDyn2DrvFunctionWithAllRegParams  supdrvNtWrap, RTThreadPreemptIsPendingTrusty - not necessary
-;NtWrapDyn2DrvFunctionWithAllRegParams  supdrvNtWrap, RTThreadPreemptDisable - not necessary
+NtWrapDyn2DrvFunctionWithAllRegParams  supdrvNtWrap, RTThreadPreemptDisable
 NtWrapDyn2DrvFunctionWithAllRegParams  supdrvNtWrap, RTThreadPreemptRestore
 ;NtWrapDyn2DrvFunctionWithAllRegParams  supdrvNtWrap, RTLogDefaultInstance   - a bit of a gamble, but we do not want the overhead!
 ;NtWrapDyn2DrvFunctionWithAllRegParams  supdrvNtWrap, RTMpCpuId              - not necessary

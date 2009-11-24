@@ -3649,7 +3649,7 @@ static int vmdkCreateRegularImage(PVMDKIMAGE pImage, uint64_t cbSize,
         pExtent->enmAccess = VMDKACCESS_READWRITE;
         pExtent->fUncleanShutdown = true;
         pExtent->cNominalSectors = VMDK_BYTE2SECTOR(cbExtent);
-        pExtent->uSectorOffset = VMDK_BYTE2SECTOR(cbOffset);
+        pExtent->uSectorOffset = 0;
         pExtent->fMetaDirty = true;
 
         if (!(uImageFlags & VD_IMAGE_FLAGS_FIXED))
@@ -5802,9 +5802,9 @@ static int vmdkAsyncRead(void *pvBackendData, uint64_t uOffset, size_t cbRead,
             goto out;
         }
 
-        /* Clip write range to remain in this extent. */
+        /* Clip read range to remain in this extent. */
         cbToRead = RT_MIN(cbRead, VMDK_SECTOR2BYTE(pExtent->uSectorOffset + pExtent->cNominalSectors - uSectorExtentRel));
-        /* Clip write range to remain into current data segment. */
+        /* Clip read range to remain into current data segment. */
         cbToRead = RT_MIN(cbToRead, cbLeftInCurrentSegment);
 
         switch (pExtent->enmType)

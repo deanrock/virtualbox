@@ -1,4 +1,4 @@
-/* $Revision: 51674 $ */
+/* $Revision: 54555 $ */
 /** @file
  * VBoxDrv - The VirtualBox Support Driver - Common code.
  */
@@ -201,7 +201,7 @@ DECLASM(int)    UNWIND_WRAP(RTR0MemObjAllocPhys)(PRTR0MEMOBJ pMemObj, size_t cb,
 DECLASM(int)    UNWIND_WRAP(RTR0MemObjAllocPhysNC)(PRTR0MEMOBJ pMemObj, size_t cb, RTHCPHYS PhysHighest);
 DECLASM(int)    UNWIND_WRAP(RTR0MemObjAllocCont)(PRTR0MEMOBJ pMemObj, size_t cb, bool fExecutable);
 DECLASM(int)    UNWIND_WRAP(RTR0MemObjEnterPhys)(PRTR0MEMOBJ pMemObj, RTHCPHYS Phys, size_t cb);
-DECLASM(int)    UNWIND_WRAP(RTR0MemObjLockUser)(PRTR0MEMOBJ pMemObj, RTR3PTR R3Ptr, size_t cb, RTR0PROCESS R0Process);
+DECLASM(int)    UNWIND_WRAP(RTR0MemObjLockUser)(PRTR0MEMOBJ pMemObj, RTR3PTR R3Ptr, size_t cb, uint32_t fFlags, RTR0PROCESS R0Process);
 DECLASM(int)    UNWIND_WRAP(RTR0MemObjMapKernel)(PRTR0MEMOBJ pMemObj, RTR0MEMOBJ MemObjToMap, void *pvFixed, size_t uAlignment, unsigned fProt);
 DECLASM(int)    UNWIND_WRAP(RTR0MemObjMapKernelEx)(PRTR0MEMOBJ pMemObj, RTR0MEMOBJ MemObjToMap, void *pvFixed, size_t uAlignment, unsigned fProt, size_t offSub, size_t cbSub);
 DECLASM(int)    UNWIND_WRAP(RTR0MemObjMapUser)(PRTR0MEMOBJ pMemObj, RTR0MEMOBJ MemObjToMap, RTR3PTR R3PtrFixed, size_t uAlignment, unsigned fProt, RTR0PROCESS R0Process);
@@ -260,7 +260,7 @@ DECLASM(int)    UNWIND_WRAP(RTThreadUserWaitNoResume)(RTTHREAD Thread, unsigned 
 /* RTThreadPreemptIsEnabled - not necessary */
 /* RTThreadPreemptIsPending - not necessary */
 /* RTThreadPreemptIsPendingTrusty - not necessary */
-/* RTThreadPreemptDisable - not necessary */
+DECLASM(void)   UNWIND_WRAP(RTThreadPreemptDisable)(RTTHREADPREEMPTSTATE pState);
 DECLASM(void)   UNWIND_WRAP(RTThreadPreemptRestore)(RTTHREADPREEMPTSTATE pState);
 /* RTLogDefaultInstance   - a bit of a gamble, but we do not want the overhead! */
 /* RTMpCpuId              - not necessary */
@@ -421,7 +421,7 @@ static SUPFUNC g_aFunctions[] =
     { "RTThreadPreemptIsEnabled",               (void *)RTThreadPreemptIsEnabled },
     { "RTThreadPreemptIsPending",               (void *)RTThreadPreemptIsPending },
     { "RTThreadPreemptIsPendingTrusty",         (void *)RTThreadPreemptIsPendingTrusty },
-    { "RTThreadPreemptDisable",                 (void *)RTThreadPreemptDisable },
+    { "RTThreadPreemptDisable",                 (void *)UNWIND_WRAP(RTThreadPreemptDisable) },
     { "RTThreadPreemptRestore",                 (void *)UNWIND_WRAP(RTThreadPreemptRestore) },
 
     { "RTLogDefaultInstance",                   (void *)RTLogDefaultInstance },
@@ -2303,7 +2303,7 @@ SUPR0DECL(int) SUPR0LockMem(PSUPDRVSESSION pSession, RTR3PTR pvR3, uint32_t cPag
      * Let IPRT do the job.
      */
     Mem.eType = MEMREF_TYPE_LOCKED;
-    rc = RTR0MemObjLockUser(&Mem.MemObj, pvR3, cb, RTR0ProcHandleSelf());
+    rc = RTR0MemObjLockUser(&Mem.MemObj, pvR3, cb, RTMEM_PROT_READ | RTMEM_PROT_WRITE, RTR0ProcHandleSelf());
     if (RT_SUCCESS(rc))
     {
         uint32_t iPage = cPages;

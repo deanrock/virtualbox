@@ -77,7 +77,7 @@ Depends: ${shlibs:Depends},
          ${misc:Depends},
          ${python:Depends},
          adduser
-Recommends: virtualbox-ose-source (= ${binary:Version}),
+Recommends: virtualbox-ose-source (= ${binary:Version}), 
             virtualbox-ose-qt (= ${binary:Version}),
             libgl1,
             libhal1
@@ -111,10 +111,7 @@ Description: x86 virtualization solution - debugging symbols
 Package: virtualbox-ose-source
 Section: kernel
 Architecture: all
-Depends: ${misc:Depends},
-         dkms,
-         libc6-dev,
-         linux-headers-generic | linux-headers
+Depends: ${misc:Depends}, dkms
 Recommends: virtualbox-ose
 Conflicts: virtualbox, virtualbox-2.0, virtualbox-2.1, virtualbox-2.2, virtualbox-3.0
 Description: x86 virtualization solution - kernel module source
@@ -129,10 +126,7 @@ Description: x86 virtualization solution - kernel module source
 Package: virtualbox-ose-guest-source
 Section: kernel
 Architecture: all
-Depends: ${misc:Depends},
-         dkms,
-         libc6-dev,
-         linux-headers-generic | linux-headers
+Depends: ${misc:Depends}, dkms
 Recommends: virtualbox-ose-guest-utils
 Description: x86 virtualization solution - guest addition module source
  VirtualBox is a free x86 virtualization solution allowing a wide range
@@ -149,8 +143,7 @@ Architecture: i386 amd64 lpia
 Depends: ${shlibs:Depends},
          ${misc:Depends},
          ${xserver:Depends},
-         virtualbox-ose-guest-utils (= ${binary:Version}),
-         pciutils
+         virtualbox-ose-guest-utils (= ${binary:Version})
 Provides: ${xviddriver:Provides},
           ${xinpdriver:Provides}
 Replaces: virtualbox-ose-guest-utils (<< 2.2.0-dfsg-1)
@@ -166,7 +159,8 @@ Description: x86 virtualization solution - X11 guest utilities
 Package: virtualbox-ose-guest-utils
 Architecture: i386 amd64 lpia
 Depends: ${shlibs:Depends},
-         ${misc:Depends}
+         ${misc:Depends},
+         pciutils
 Recommends: virtualbox-ose-guest-source (= ${binary:Version}),
             virtualbox-ose-guest-x11 (= ${binary:Version})
 Description: x86 virtualization solution - non-X11 guest utilities

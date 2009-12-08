@@ -1,3 +1,16 @@
+virtualbox-ose (3.0.12-dfsg-1~bpo50+1) lenny-backports; urgency=low
+
+  * Rebuild for lenny-backports.
+
+ -- Michael Meskes <meskes@debian.org>  Tue, 08 Dec 2009 10:52:45 +0100
+
+virtualbox-ose (3.0.12-dfsg-1) unstable; urgency=low
+
+  [ Felix Geyer ]
+  * New Upstream Version
+
+ -- Michael Meskes <meskes@debian.org>  Fri, 27 Nov 2009 11:56:21 +0100
+
 virtualbox-ose (3.0.10-dfsg-2~bpo50+1) lenny-backports; urgency=low
 
   * Rebuild for lenny-backports.

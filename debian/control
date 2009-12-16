@@ -163,7 +163,8 @@ Description: Transitional package for virtualbox-ose-guest-dkms
  of x86 operating systems such as Windows, DOS, BSD or Linux to run on a
  Linux system.
  .
- This package can be safely removed after virtualbox-ose-guest-dkms is installed.
+ This package can be safely removed after virtualbox-ose-guest-dkms
+ is installed.
 
 Package: virtualbox-ose-guest-x11
 Architecture: i386 amd64 lpia

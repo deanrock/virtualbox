@@ -91,10 +91,10 @@ diff -Nur virtualbox-ose-3.0.0-dfsg/src/VBox/Frontends/VirtualBox/src/VBoxProble
  void VBoxProblemReporter::showHelpAboutDialog()
  {
      CVirtualBox vbox = vboxGlobal().virtualBox();
-diff -Nur virtualbox-ose-3.0.0-dfsg/src/VBox/Frontends/VirtualBox/VirtualBox.qrc virtualbox-ose-3.0.0-dfsg.patch/src/VBox/Frontends/VirtualBox/VirtualBox.qrc
---- virtualbox-ose-3.0.0-dfsg/src/VBox/Frontends/VirtualBox/VirtualBox.qrc	2009-07-01 09:47:13.000000000 +0200
-+++ virtualbox-ose-3.0.0-dfsg.patch/src/VBox/Frontends/VirtualBox/VirtualBox.qrc	2009-07-09 17:40:48.140636318 +0200
-@@ -136,6 +136,7 @@
+diff -Nur virtualbox-ose-3.0.0-dfsg/src/VBox/Frontends/VirtualBox/VirtualBox1.qrc virtualbox-ose-3.0.0-dfsg.patch/src/VBox/Frontends/VirtualBox/VirtualBox1.qrc
+--- virtualbox-ose-3.0.0-dfsg/src/VBox/Frontends/VirtualBox/VirtualBox1.qrc	2009-07-01 09:47:13.000000000 +0200
++++ virtualbox-ose-3.0.0-dfsg.patch/src/VBox/Frontends/VirtualBox/VirtualBox1.qrc	2009-07-09 17:40:48.140636318 +0200
+@@ -39,6 +39,7 @@
      <file alias="site_16px.png">images/site_16px.png</file>
      <file alias="site_32px.png">images/site_32px.png</file>
      <file alias="site_disabled_32px.png">images/site_disabled_32px.png</file>

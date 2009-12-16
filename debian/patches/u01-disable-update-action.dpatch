@@ -21,15 +21,15 @@ diff -urNad virtualbox-ose-2.2.2-dfsg/src/VBox/Frontends/VirtualBox/src/VBoxGlob
 diff -urNad virtualbox-ose-2.2.2-dfsg/src/VBox/Frontends/VirtualBox/src/VBoxGLSettingsUpdate.cpp virtualbox-ose-2.2.2-dfsg.patch/src/VBox/Frontends/VirtualBox/src/VBoxGLSettingsUpdate.cpp
 --- virtualbox-ose-2.2.2-dfsg/src/VBox/Frontends/VirtualBox/src/VBoxGLSettingsUpdate.cpp	2009-04-29 09:12:58.000000000 +0200
 +++ virtualbox-ose-2.2.2-dfsg.patch/src/VBox/Frontends/VirtualBox/src/VBoxGLSettingsUpdate.cpp	2009-05-16 16:07:06.586518040 +0200
-@@ -46,7 +46,7 @@
-     VBoxUpdateData data (vboxGlobal().virtualBox().
-                          GetExtraData (VBoxDefs::GUI_UpdateDate));
+@@ -45,7 +45,7 @@
+ {
+     VBoxUpdateData data (vboxGlobal().virtualBox().GetExtraData (VBoxDefs::GUI_UpdateDate));
  
--    mCbCheck->setChecked (!data.isNeverCheck());
+-    mCbCheck->setChecked (!data.isNoNeedToCheck());
 +    mCbCheck->setChecked (false);
      if (mCbCheck->isChecked())
-         mCbOncePer->setCurrentIndex (data.index());
-     mTxDate->setText (data.date());
+     {
+         mCbOncePer->setCurrentIndex (data.periodIndex());
 diff -urNad virtualbox-ose-2.2.2-dfsg/src/VBox/Frontends/VirtualBox/src/VBoxHelpActions.cpp virtualbox-ose-2.2.2-dfsg.patch/src/VBox/Frontends/VirtualBox/src/VBoxHelpActions.cpp
 --- virtualbox-ose-2.2.2-dfsg/src/VBox/Frontends/VirtualBox/src/VBoxHelpActions.cpp	2009-04-29 09:12:58.000000000 +0200
 +++ virtualbox-ose-2.2.2-dfsg.patch/src/VBox/Frontends/VirtualBox/src/VBoxHelpActions.cpp	2009-05-16 16:11:47.386517660 +0200

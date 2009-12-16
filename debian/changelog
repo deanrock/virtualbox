@@ -13,6 +13,7 @@ virtualbox-ose (3.1.0-dfsg-3ubuntu1) lucid; urgency=low
       - debian/lpi-bug.xpm
       - debian/patches/u02-lp-integration.dpatch
   * Replace *-source packages with transitional packages for *-dkms
+  * Refresh u01-disable-update-action.dpatch and u02-lp-integration.dpatch
 
  -- Felix Geyer <debfx-pkg@fobos.de>  Wed, 16 Dec 2009 16:35:54 +0100
 

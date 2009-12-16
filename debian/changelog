@@ -1,8 +1,55 @@
-virtualbox-ose (3.0.12-dfsg-1) UNRELEASED; urgency=low
+virtualbox-ose (3.1.0-dfsg-3ubuntu1) lucid; urgency=low
 
+  * Merge from debian unstable (LP: #), remaining changes:
+    - Disable update action
+      - debian/patches/u01-disable-update-action.dpatch
+    - Virtualbox should go in Accessories, not in System tools (LP: #288590)
+      - debian/virtualbox-ose-qt.files/virtualbox-ose.desktop
+    - Add apport hook
+      - debian/virtualbox-ose.files/source_virtualbox-ose.py
+      - debian/virtualbox-ose.install
+    - Add launchpad integration
+      - debian/control
+      - debian/lpi-bug.xpm
+      - debian/patches/u02-lp-integration.dpatch
+  * Replace *-source packages with transitional packages for *-dkms
+
+ -- Felix Geyer <debfx-pkg@fobos.de>  Wed, 16 Dec 2009 16:35:54 +0100
+
+virtualbox-ose (3.1.0-dfsg-3) unstable; urgency=low
+
+  * Removed yet another mentioning of upstream's init script. (Closes:
+    #560320)
+  * Adjusted dependencies to new setup. (Closes: #556595)
+
+ -- Michael Meskes <meskes@debian.org>  Fri, 11 Dec 2009 11:45:14 +0100
+
+virtualbox-ose (3.1.0-dfsg-2) unstable; urgency=low
+
+  [ Michael Meskes ]
+  * Check for right package in postinst. (Closes: #559502)
+
+  [ Felix Geyer ]
+  * Made *-dkms packages only replace older *-source packages
+  * Promote dkms to a dependency
+  * Build-depend on libqt4-opengl-dev
+
+ -- Michael Meskes <meskes@debian.org>  Tue, 08 Dec 2009 08:11:09 +0100
+
+virtualbox-ose (3.1.0-dfsg-1) experimental; urgency=low
+
+  * Imported Upstream version 3.1.0-dfsg (Closes: #559172)
+  * Divided -source packages into a classical -source package and
+    a -dkms package.
+
+ -- Michael Meskes <meskes@debian.org>  Thu, 03 Dec 2009 09:46:14 +0100
+
+virtualbox-ose (3.0.12-dfsg-1) unstable; urgency=low
+
+  [ Felix Geyer ]
   * New Upstream Version
 
- -- Felix Geyer <debfx-pkg@fobos.de>  Mon, 23 Nov 2009 11:33:24 +0100
+ -- Michael Meskes <meskes@debian.org>  Fri, 27 Nov 2009 11:56:21 +0100
 
 virtualbox-ose (3.0.10-dfsg-2) unstable; urgency=low
 

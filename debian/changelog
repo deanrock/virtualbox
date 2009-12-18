@@ -1,4 +1,4 @@
-virtualbox-ose (3.1.0-dfsg-3ubuntu1) lucid; urgency=low
+virtualbox-ose (3.1.2-dfsg-1ubuntu1) lucid; urgency=low
 
   * Merge from debian unstable (LP: #), remaining changes:
     - Disable update action
@@ -16,6 +16,20 @@ virtualbox-ose (3.1.0-dfsg-3ubuntu1) lucid; urgency=low
   * Refresh u01-disable-update-action.dpatch and u02-lp-integration.dpatch
 
  -- Felix Geyer <debfx-pkg@fobos.de>  Wed, 16 Dec 2009 16:35:54 +0100
+
+virtualbox-ose (3.1.2-dfsg-1) unstable; urgency=low
+
+  [ Felix Geyer ]
+  * New upstream version.
+    - Fixes FTBFS with binutils-gold. (Closes: #556918)
+  * Adapt patches for new upstream version.
+  * Change priority to optional (except for the debug package).
+  * virtualbox-ose-guest-utils: Recommend dkms or source package instead
+    of both.
+  * Use common dkms postinst script instead of custom code. (LP: #497149)
+  * Check for right package in dkms prerm.
+
+ -- Michael Meskes <meskes@debian.org>  Fri, 18 Dec 2009 08:23:16 +0100
 
 virtualbox-ose (3.1.0-dfsg-3) unstable; urgency=low
 

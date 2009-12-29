@@ -1,4 +1,4 @@
-/** $Id: VBoxGuestR3LibTime.cpp $ */
+/* $Id: VBoxGuestR3LibTime.cpp $ */
 /** @file
  * VBoxGuestR3Lib - Ring-3 Support Library for VirtualBox guest additions, Time.
  */

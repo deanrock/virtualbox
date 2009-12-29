@@ -48,10 +48,10 @@
 # include <errno.h>
 #endif
 
-#include <iprt/string.h>
 #include <iprt/file.h>
 #include <iprt/process.h>
-#include <VBox/VBoxGuest.h>
+#include <iprt/string.h>
+#include "VBGLR3Internal.h"
 
 
 /**
@@ -146,7 +146,7 @@ VBGLR3DECL(int) VbglR3Daemonize(bool fNoChDir, bool fNoClose)
 
     struct sigaction OldSigAct;
     struct sigaction SigAct;
-    memset(&SigAct, 0, sizeof(SigAct));
+    RT_ZERO(SigAct);
     SigAct.sa_handler = SIG_IGN;
     int rcSigAct = sigaction(SIGHUP, &SigAct, &OldSigAct);
 

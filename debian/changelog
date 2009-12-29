@@ -1,3 +1,51 @@
+virtualbox-ose (3.1.2-dfsg-1~bpo50+1) lenny-backports; urgency=low
+
+  * Rebuild for lenny-backports.
+
+ -- Michael Meskes <meskes@debian.org>  Tue, 29 Dec 2009 10:51:31 +0100
+
+virtualbox-ose (3.1.2-dfsg-1) unstable; urgency=low
+
+  [ Felix Geyer ]
+  * New upstream version.
+    - Fixes FTBFS with binutils-gold. (Closes: #556918)
+  * Adapt patches for new upstream version.
+  * Change priority to optional (except for the debug package).
+  * virtualbox-ose-guest-utils: Recommend dkms or source package instead
+    of both.
+  * Use common dkms postinst script instead of custom code. (LP: #497149)
+  * Check for right package in dkms prerm.
+
+ -- Michael Meskes <meskes@debian.org>  Fri, 18 Dec 2009 08:23:16 +0100
+
+virtualbox-ose (3.1.0-dfsg-3) unstable; urgency=low
+
+  * Removed yet another mentioning of upstream's init script. (Closes:
+    #560320)
+  * Adjusted dependencies to new setup. (Closes: #556595)
+
+ -- Michael Meskes <meskes@debian.org>  Fri, 11 Dec 2009 11:45:14 +0100
+
+virtualbox-ose (3.1.0-dfsg-2) unstable; urgency=low
+
+  [ Michael Meskes ]
+  * Check for right package in postinst. (Closes: #559502)
+
+  [ Felix Geyer ]
+  * Made *-dkms packages only replace older *-source packages
+  * Promote dkms to a dependency
+  * Build-depend on libqt4-opengl-dev
+
+ -- Michael Meskes <meskes@debian.org>  Tue, 08 Dec 2009 08:11:09 +0100
+
+virtualbox-ose (3.1.0-dfsg-1) experimental; urgency=low
+
+  * Imported Upstream version 3.1.0-dfsg (Closes: #559172)
+  * Divided -source packages into a classical -source package and
+    a -dkms package.
+
+ -- Michael Meskes <meskes@debian.org>  Thu, 03 Dec 2009 09:46:14 +0100
+
 virtualbox-ose (3.0.12-dfsg-1~bpo50+1) lenny-backports; urgency=low
 
   * Rebuild for lenny-backports.

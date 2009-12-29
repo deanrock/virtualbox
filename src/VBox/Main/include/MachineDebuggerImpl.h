@@ -29,9 +29,9 @@
 class Console;
 
 class ATL_NO_VTABLE MachineDebugger :
-    public VirtualBoxBaseNEXT,
-    public VirtualBoxSupportErrorInfoImpl <MachineDebugger, IMachineDebugger>,
-    public VirtualBoxSupportTranslation <MachineDebugger>,
+    public VirtualBoxBase,
+    public VirtualBoxSupportErrorInfoImpl<MachineDebugger, IMachineDebugger>,
+    public VirtualBoxSupportTranslation<MachineDebugger>,
     VBOX_SCRIPTABLE_IMPL(IMachineDebugger)
 {
 public:
@@ -47,8 +47,6 @@ public:
         COM_INTERFACE_ENTRY (IMachineDebugger)
         COM_INTERFACE_ENTRY (IDispatch)
     END_COM_MAP()
-
-    NS_DECL_ISUPPORTS
 
     DECLARE_EMPTY_CTOR_DTOR (MachineDebugger)
 
@@ -97,7 +95,7 @@ private:
     // private methods
     bool queueSettings() const;
 
-    const ComObjPtr <Console, ComWeakRef> mParent;
+    const ComObjPtr<Console, ComWeakRef> mParent;
     // flags whether settings have been queued because
     // they could not be sent to the VM (not up yet, etc.)
     int mSinglestepQueued;

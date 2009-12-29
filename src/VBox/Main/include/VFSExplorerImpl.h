@@ -29,9 +29,9 @@
 class VirtualBox;
 
 class ATL_NO_VTABLE VFSExplorer :
-    public VirtualBoxBaseNEXT,
-    public VirtualBoxSupportErrorInfoImpl <VFSExplorer, IVFSExplorer>,
-    public VirtualBoxSupportTranslation <VFSExplorer>,
+    public VirtualBoxBase,
+    public VirtualBoxSupportErrorInfoImpl<VFSExplorer, IVFSExplorer>,
+    public VirtualBoxSupportTranslation<VFSExplorer>,
     VBOX_SCRIPTABLE_IMPL(IVFSExplorer)
 {
     VIRTUALBOXBASE_ADD_ERRORINFO_SUPPORT (VFSExplorer)
@@ -45,8 +45,6 @@ class ATL_NO_VTABLE VFSExplorer :
         COM_INTERFACE_ENTRY(IVFSExplorer)
         COM_INTERFACE_ENTRY(IDispatch)
     END_COM_MAP()
-
-    NS_DECL_ISUPPORTS
 
     DECLARE_EMPTY_CTOR_DTOR(VFSExplorer)
 

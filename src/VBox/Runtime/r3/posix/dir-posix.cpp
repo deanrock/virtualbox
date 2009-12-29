@@ -88,12 +88,23 @@ RTDECL(int) RTDirCreate(const char *pszPath, RTFMODE fMode)
         {
             if (mkdir(pszNativePath, fMode & RTFS_UNIX_MASK))
             {
+                rc = errno;
 #ifdef RT_OS_SOLARIS
-                if (errno == ENOSYS) /* ENOSYS has a slight different meaning (mkdir on nfs mount point). */
-                    rc = VERR_ALREADY_EXISTS;
-                else
+                /*
+                 * mkdir on nfs mount points has been/is busted in various
+                 * during the Nevada development cycle. We've observed:
+                 *  - Build 111b (2009.06) returns EACCES.
+                 *  - Build ca. 70-80 returns ENOSYS.
+                 */
+                if (    rc == ENOSYS
+                    ||  rc == EACCES)
+                {
+                    struct stat st;
+                    if (!stat(pszNativePath, &st))
+                        rc = EEXIST;
+                }
 #endif
-                    rc = RTErrConvertFromErrno(errno);
+                rc = RTErrConvertFromErrno(rc);
             }
         }
 
@@ -377,7 +388,7 @@ static void rtDirSetDummyInfo(PRTFSOBJINFO pInfo, RTDIRENTRYTYPE enmType)
 }
 
 
-RTDECL(int) RTDirReadEx(PRTDIR pDir, PRTDIRENTRYEX pDirEntry, size_t *pcbDirEntry, RTFSOBJATTRADD enmAdditionalAttribs)
+RTDECL(int) RTDirReadEx(PRTDIR pDir, PRTDIRENTRYEX pDirEntry, size_t *pcbDirEntry, RTFSOBJATTRADD enmAdditionalAttribs, uint32_t fFlags)
 {
     /*
      * Validate and digest input.
@@ -389,6 +400,7 @@ RTDECL(int) RTDirReadEx(PRTDIR pDir, PRTDIRENTRYEX pDirEntry, size_t *pcbDirEntr
                     &&  enmAdditionalAttribs <= RTFSOBJATTRADD_LAST,
                     ("Invalid enmAdditionalAttribs=%p\n", enmAdditionalAttribs),
                     VERR_INVALID_PARAMETER);
+    AssertMsgReturn(RTPATH_F_IS_VALID(fFlags, 0), ("%#x\n", fFlags), VERR_INVALID_PARAMETER);
     size_t cbDirEntry = sizeof(*pDirEntry);
     if (pcbDirEntry)
     {
@@ -436,7 +448,7 @@ RTDECL(int) RTDirReadEx(PRTDIR pDir, PRTDIRENTRYEX pDirEntry, size_t *pcbDirEntr
             {
                 memcpy(pszNamePath, pDir->pszPath, pDir->cchPath);
                 memcpy(pszNamePath + pDir->cchPath, pszName, cchName + 1);
-                rc = RTPathQueryInfo(pszNamePath, &pDirEntry->Info, enmAdditionalAttribs);
+                rc = RTPathQueryInfoEx(pszNamePath, &pDirEntry->Info, enmAdditionalAttribs, fFlags);
             }
             else
                 rc = VERR_NO_MEMORY;

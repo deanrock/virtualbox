@@ -37,7 +37,7 @@
 #include <iprt/asm.h>
 #include <iprt/path.h>
 #include <VBox/log.h>
-#include <VBox/VBoxGuest.h>
+#include <VBox/VBoxGuestLib.h>
 #include "VBoxServiceInternal.h"
 
 
@@ -280,14 +280,16 @@ int VBoxServiceStartServices(unsigned iMain)
      */
     VBoxServiceVerbose(2, "Initializing services ...\n");
     for (unsigned j = 0; j < RT_ELEMENTS(g_aServices); j++)
-    {
-        rc = g_aServices[j].pDesc->pfnInit();
-        if (RT_FAILURE(rc))
+        if (g_aServices[j].fEnabled)
         {
-            VBoxServiceError("Service '%s' failed pre-init: %Rrc\n", g_aServices[j].pDesc->pszName);
-            return rc;
+            rc = g_aServices[j].pDesc->pfnInit();
+            if (RT_FAILURE(rc))
+            {
+                VBoxServiceError("Service '%s' failed to initialize: %Rrc\n",
+                                 g_aServices[j].pDesc->pszName, rc);
+                return rc;
+            }
         }
-    }
 
     /*
      * Start the service(s).
@@ -313,7 +315,10 @@ int VBoxServiceStartServices(unsigned iMain)
         /* wait for the thread to initialize */
         RTThreadUserWait(g_aServices[j].Thread, 60 * 1000);
         if (g_aServices[j].fShutdown)
+        {
+            VBoxServiceError("Service '%s' failed to start!\n", g_aServices[j].pDesc->pszName);
             rc = VERR_GENERAL_FAILURE;
+        }
     }
     if (RT_SUCCESS(rc))
     {
@@ -325,8 +330,6 @@ int VBoxServiceStartServices(unsigned iMain)
             VBoxServiceError("Service '%s' stopped unexpected; rc=%Rrc\n", g_aServices[iMain].pDesc->pszName, rc);
         }
     }
-
-    /* Should never get here. */
     return rc;
 }
 
@@ -347,15 +350,28 @@ int VBoxServiceStopServices(void)
         if (g_aServices[j].fStarted)
             g_aServices[j].pDesc->pfnStop();
     for (unsigned j = 0; j < RT_ELEMENTS(g_aServices); j++)
-    {
-        if (g_aServices[j].Thread != NIL_RTTHREAD)
+        if (g_aServices[j].fEnabled)
         {
-            int rc = RTThreadWait(g_aServices[j].Thread, 30*1000, NULL);
-            if (RT_FAILURE(rc))
-                VBoxServiceError("Service '%s' failed to stop. (%Rrc)\n", g_aServices[j].pDesc->pszName, rc);
+            if (g_aServices[j].Thread != NIL_RTTHREAD)
+            {
+                int rc;
+                VBoxServiceVerbose(2, "Waiting for service '%s' to stop ...\n", g_aServices[j].pDesc->pszName);
+                for (int i=0; i<30; i++) /* Wait 30 seconds in total */
+                {
+                    rc = RTThreadWait(g_aServices[j].Thread, 1000 /* Wait 1 second */, NULL);
+                    if (RT_SUCCESS(rc))
+                        break;
+#ifdef RT_OS_WINDOWS
+                    /* Notify SCM that it takes a bit longer ... */
+                    VBoxServiceWinSetStatus(SERVICE_STOP_PENDING, i);
+#endif
+                }
+                if (RT_FAILURE(rc))
+                    VBoxServiceError("Service '%s' failed to stop. (%Rrc)\n", g_aServices[j].pDesc->pszName, rc);
+            }
+            VBoxServiceVerbose(3, "Terminating service '%s' (%d) ...\n", g_aServices[j].pDesc->pszName, j);
+            g_aServices[j].pDesc->pfnTerm();
         }
-        g_aServices[j].pDesc->pfnTerm();
-    }
 
     VBoxServiceVerbose(2, "Stopping services returned: rc=%Rrc\n", rc);
     return rc;
@@ -365,11 +381,23 @@ int VBoxServiceStopServices(void)
 int main(int argc, char **argv)
 {
     int rc = VINF_SUCCESS;
-
     /*
      * Init globals and such.
      */
     RTR3Init();
+
+    /*
+     * Connect to the kernel part before daemonizing so we can fail
+     * and complain if there is some kind of problem. We need to initialize
+     * the guest lib *before* we do the pre-init just in case one of services
+     * needs do to some initial stuff with it.
+     */
+    VBoxServiceVerbose(2, "Calling VbgR3Init()\n");
+    rc = VbglR3Init();
+    if (RT_FAILURE(rc))
+        return VBoxServiceError("VbglR3Init failed with rc=%Rrc.\n", rc);
+
+    /* Do pre-init of services. */
     g_pszProgName = RTPathFilename(argv[0]);
     for (unsigned j = 0; j < RT_ELEMENTS(g_aServices); j++)
     {
@@ -520,15 +548,6 @@ int main(int argc, char **argv)
     unsigned iMain = VBoxServiceGetStartedServices();
     if (iMain == ~0U)
         return VBoxServiceSyntax("At least one service must be enabled.\n");
-
-    /*
-     * Connect to the kernel part before daemonizing so we can fail
-     * and complain if there is some kind of problem.
-     */
-    VBoxServiceVerbose(2, "Calling VbgR3Init()\n");
-    rc = VbglR3Init();
-    if (RT_FAILURE(rc))
-        return VBoxServiceError("VbglR3Init failed with rc=%Rrc.\n", rc);
 
     VBoxServiceVerbose(0, "Started. Verbose level = %d\n", g_cVerbosity);
 

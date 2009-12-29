@@ -31,9 +31,9 @@ struct _VRDPUSBDEVICEDESC;
 typedef _VRDPUSBDEVICEDESC VRDPUSBDEVICEDESC;
 
 class ATL_NO_VTABLE RemoteUSBDevice :
-    public VirtualBoxBaseNEXT,
-    public VirtualBoxSupportErrorInfoImpl <RemoteUSBDevice, IHostUSBDevice>,
-    public VirtualBoxSupportTranslation <RemoteUSBDevice>,
+    public VirtualBoxBase,
+    public VirtualBoxSupportErrorInfoImpl<RemoteUSBDevice, IHostUSBDevice>,
+    public VirtualBoxSupportTranslation<RemoteUSBDevice>,
     VBOX_SCRIPTABLE_IMPL(IHostUSBDevice)
 {
 public:
@@ -50,8 +50,6 @@ public:
         COM_INTERFACE_ENTRY  (IUSBDevice)
         COM_INTERFACE_ENTRY2 (IDispatch, IUSBDevice)
     END_COM_MAP()
-
-    NS_DECL_ISUPPORTS
 
     DECLARE_EMPTY_CTOR_DTOR (RemoteUSBDevice)
 

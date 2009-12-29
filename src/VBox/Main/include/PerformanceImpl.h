@@ -51,8 +51,8 @@ class Machine;
 class HostUSBDevice;
 
 class ATL_NO_VTABLE PerformanceMetric :
-    public VirtualBoxBaseNEXT,
-    public VirtualBoxSupportTranslation <PerformanceMetric>,
+    public VirtualBoxBase,
+    public VirtualBoxSupportTranslation<PerformanceMetric>,
     VBOX_SCRIPTABLE_IMPL(IPerformanceMetric)
 {
 public:
@@ -65,8 +65,6 @@ public:
         COM_INTERFACE_ENTRY (IPerformanceMetric)
         COM_INTERFACE_ENTRY (IDispatch)
     END_COM_MAP()
-
-    NS_DECL_ISUPPORTS
 
     DECLARE_EMPTY_CTOR_DTOR (PerformanceMetric)
 
@@ -120,9 +118,9 @@ private:
 
 
 class ATL_NO_VTABLE PerformanceCollector :
-    public VirtualBoxBaseNEXT,
-    public VirtualBoxSupportErrorInfoImpl <PerformanceCollector, IPerformanceCollector>,
-    public VirtualBoxSupportTranslation <PerformanceCollector>,
+    public VirtualBoxBase,
+    public VirtualBoxSupportErrorInfoImpl<PerformanceCollector, IPerformanceCollector>,
+    public VirtualBoxSupportTranslation<PerformanceCollector>,
     VBOX_SCRIPTABLE_IMPL(IPerformanceCollector)
 {
 public:
@@ -138,8 +136,6 @@ public:
         COM_INTERFACE_ENTRY(IPerformanceCollector)
         COM_INTERFACE_ENTRY(IDispatch)
     END_COM_MAP()
-
-    NS_DECL_ISUPPORTS
 
     DECLARE_EMPTY_CTOR_DTOR (PerformanceCollector)
 
@@ -185,8 +181,8 @@ public:
 
     void registerBaseMetric (pm::BaseMetric *baseMetric);
     void registerMetric (pm::Metric *metric);
-    void unregisterBaseMetricsFor (const ComPtr <IUnknown> &object);
-    void unregisterMetricsFor (const ComPtr <IUnknown> &object);
+    void unregisterBaseMetricsFor (const ComPtr<IUnknown> &object);
+    void unregisterMetricsFor (const ComPtr<IUnknown> &object);
 
     void suspendSampling();
     void resumeSampling();

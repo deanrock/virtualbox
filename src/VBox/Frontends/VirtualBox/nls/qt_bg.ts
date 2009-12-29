@@ -3638,11 +3638,11 @@ Please choose a different file name.</source>
     </message>
     <message>
         <source>Insert</source>
-        <translation type="unfinished">Вмъкване</translation>
+        <translation>Вмъкване</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished">Изтриване</translation>
+        <translation>Изтриване</translation>
     </message>
     <message>
         <source>Escape</source>

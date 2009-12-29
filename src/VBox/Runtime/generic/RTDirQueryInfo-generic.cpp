@@ -29,7 +29,6 @@
  */
 
 
-
 /*******************************************************************************
 *   Header Files                                                               *
 *******************************************************************************/
@@ -41,6 +40,8 @@
 #endif
 
 #include <iprt/dir.h>
+#include "internal/iprt.h"
+
 #include <iprt/path.h>
 #include <iprt/assert.h>
 #include <iprt/err.h>
@@ -54,6 +55,6 @@ RTR3DECL(int) RTDirQueryInfo(PRTDIR pDir, PRTFSOBJINFO pObjInfo, RTFSOBJATTRADD 
      */
     if (!rtDirValidHandle(pDir))
         return VERR_INVALID_PARAMETER;
-    return RTPathQueryInfo(pDir->pszPath, pObjInfo, enmAdditionalAttribs);
+    return RTPathQueryInfoEx(pDir->pszPath, pObjInfo, enmAdditionalAttribs, RTPATH_F_FOLLOW_LINK);
 }
 

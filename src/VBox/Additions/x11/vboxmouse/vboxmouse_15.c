@@ -47,10 +47,11 @@
  *      Adam Jackson (ajax@redhat.com)
  */
 
-#include <VBox/VBoxGuest.h>
+#include <VBox/VMMDev.h>
+#include <VBox/VBoxGuestLib.h>
+#include <iprt/err.h>
 #include <xf86.h>
 #include <xf86Xinput.h>
-#include <exevents.h>
 #include <mipointer.h>
 
 #include <xf86Module.h>
@@ -63,10 +64,21 @@ VBoxReadInput(InputInfoPtr pInfo)
 {
     uint32_t cx, cy, fFeatures;
 
-    /* The first test here is a workaround for an apparant bug in Xorg Server 1.5 */
-    if (   miPointerGetScreen(pInfo->dev) != NULL
-        && RT_SUCCESS(VbglR3GetMouseStatus(&fFeatures, &cx, &cy))
-        && (fFeatures & VBOXGUEST_MOUSE_HOST_CAN_ABSOLUTE))
+    /* The first test here is a workaround for an apparent bug in Xorg Server 1.5 */
+    if (
+#if GET_ABI_MAJOR(ABI_XINPUT_VERSION) < 2
+           miPointerCurrentScreen() != NULL
+#else
+           miPointerGetScreen(pInfo->dev) != NULL
+#endif
+        &&  RT_SUCCESS(VbglR3GetMouseStatus(&fFeatures, &cx, &cy))
+        && (fFeatures & VMMDEV_MOUSE_HOST_CAN_ABSOLUTE))
+#if ABI_XINPUT_VERSION == SET_ABI_VERSION(2, 0)
+        /* Bug in the 1.4 X server series - conversion_proc was no longer
+         * called, but the server didn't yet do the conversion itself. */
+        cx = xf86ScaleAxis(cx, 0, screenInfo.screens[0]->width, 0, 65536);
+        cy = xf86ScaleAxis(cy, 0, screenInfo.screens[0]->height, 0, 65536);
+#endif
         /* send absolute movement */
         xf86PostMotionEvent(pInfo->dev, 1, 0, 2, cx, cy);
 }
@@ -87,12 +99,21 @@ VBoxInit(DeviceIntPtr device)
 
     pInfo = device->public.devicePrivate;
     if (!InitValuatorClassDeviceStruct(device, 2,
-#if GET_ABI_MAJOR(ABI_XINPUT_VERSION) < 3
+#if GET_ABI_MAJOR(ABI_XINPUT_VERSION) < 2
+                                       miPointerGetMotionEvents,
+                                       miPointerGetMotionBufferSize(),
+#elif GET_ABI_MAJOR(ABI_XINPUT_VERSION) < 3
                                        GetMotionHistory,
+                                       GetMotionHistorySize(),
+#elif GET_ABI_MAJOR(ABI_XINPUT_VERSION) < 7
+                                       GetMotionHistorySize(),
 #elif GET_ABI_MAJOR(ABI_XINPUT_VERSION) >= 7
                                        axis_labels,
+                                       GetMotionHistorySize(),
+#else
+# error Unsupported version of X.Org
 #endif
-                                       GetMotionHistorySize(), Absolute))
+                                       Absolute))
         return !Success;
 
     /* Pretend we have buttons so the server accepts us as a pointing device. */
@@ -106,20 +127,25 @@ VBoxInit(DeviceIntPtr device)
         return !Success;
 
     /* Tell the server about the range of axis values we report */
+#if ABI_XINPUT_VERSION <= SET_ABI_VERSION(2, 0)
+    xf86InitValuatorAxisStruct(device, 0, 0, -1, 1, 0, 1);
+    xf86InitValuatorAxisStruct(device, 1, 0, -1, 1, 0, 1);
+#else
     xf86InitValuatorAxisStruct(device, 0,
-#if GET_ABI_MAJOR(ABI_XINPUT_VERSION) >= 7
+# if GET_ABI_MAJOR(ABI_XINPUT_VERSION) >= 7
                                axis_labels[0],
-#endif
+# endif
                                0 /* min X */, 65536 /* max X */,
                                10000, 0, 10000);
-    xf86InitValuatorDefaults(device, 0);
 
     xf86InitValuatorAxisStruct(device, 1,
-#if GET_ABI_MAJOR(ABI_XINPUT_VERSION) >= 7
+# if GET_ABI_MAJOR(ABI_XINPUT_VERSION) >= 7
                                axis_labels[1],
-#endif
+# endif
                                0 /* min Y */, 65536 /* max Y */,
                                10000, 0, 10000);
+#endif
+    xf86InitValuatorDefaults(device, 0);
     xf86InitValuatorDefaults(device, 1);
     xf86MotionHistoryAllocate(pInfo);
 
@@ -131,6 +157,7 @@ VBoxProc(DeviceIntPtr device, int what)
 {
     InputInfoPtr pInfo;
     int rc, xrc;
+    uint32_t fFeatures = 0;
 
     pInfo = device->public.devicePrivate;
 
@@ -142,9 +169,6 @@ VBoxProc(DeviceIntPtr device, int what)
             VbglR3Term();
             return xrc;
         }
-        xf86Msg(X_CONFIG, "%s: Mouse Integration associated with screen %d\n",
-                pInfo->name,
-                xf86SetIntOption(pInfo->options, "ScreenNumber", 0));
         break;
 
     case DEVICE_ON:
@@ -152,8 +176,11 @@ VBoxProc(DeviceIntPtr device, int what)
         if (device->public.on)
             break;
         /* Tell the host that we want absolute co-ordinates */
-        rc = VbglR3SetMouseStatus(  VBOXGUEST_MOUSE_GUEST_CAN_ABSOLUTE
-                                  | VBOXGUEST_MOUSE_GUEST_USES_VMMDEV);
+        rc = VbglR3GetMouseStatus(&fFeatures, NULL, NULL);
+        if (RT_SUCCESS(rc))
+            rc = VbglR3SetMouseStatus(  fFeatures
+                                      | VMMDEV_MOUSE_GUEST_CAN_ABSOLUTE
+                                      | VMMDEV_MOUSE_GUEST_USES_VMMDEV);
         if (!RT_SUCCESS(rc)) {
             xf86Msg(X_ERROR, "%s: Failed to switch guest mouse into absolute mode\n",
                     pInfo->name);
@@ -163,10 +190,14 @@ VBoxProc(DeviceIntPtr device, int what)
         xf86AddEnabledDevice(pInfo);
         device->public.on = TRUE;
         break;
-    
+
     case DEVICE_OFF:
         xf86Msg(X_INFO, "%s: Off.\n", pInfo->name);
-        VbglR3SetMouseStatus(0);
+        rc = VbglR3GetMouseStatus(&fFeatures, NULL, NULL);
+        if (RT_SUCCESS(rc))
+            rc = VbglR3SetMouseStatus(  fFeatures
+                                      & ~VMMDEV_MOUSE_GUEST_CAN_ABSOLUTE
+                                      & ~VMMDEV_MOUSE_GUEST_USES_VMMDEV);
         xf86RemoveEnabledDevice(pInfo);
         device->public.on = FALSE;
         break;
@@ -193,6 +224,18 @@ VBoxProbe(InputInfoPtr pInfo)
     return Success;
 }
 
+static Bool
+VBoxConvert(InputInfoPtr pInfo, int first, int num, int v0, int v1, int v2,
+            int v3, int v4, int v5, int *x, int *y)
+{
+    if (first == 0) {
+        *x = xf86ScaleAxis(v0, 0, screenInfo.screens[0]->width, 0, 65536);
+        *y = xf86ScaleAxis(v1, 0, screenInfo.screens[0]->height, 0, 65536);
+        return TRUE;
+    } else
+        return FALSE;
+}
+
 static InputInfoPtr
 VBoxPreInit(InputDriverPtr drv, IDevPtr dev, int flags)
 {
@@ -209,14 +252,15 @@ VBoxPreInit(InputDriverPtr drv, IDevPtr dev, int flags)
     pInfo->conf_idev = dev;
     /* Unlike evdev, we set this unconditionally, as we don't handle keyboards. */
     pInfo->type_name = XI_MOUSE;
+    pInfo->conversion_proc = VBoxConvert;
     pInfo->flags = XI86_POINTER_CAPABLE | XI86_SEND_DRAG_EVENTS |
             XI86_ALWAYS_CORE;
 
     xf86CollectInputOptions(pInfo, NULL, NULL);
-    xf86ProcessCommonOptions(pInfo, pInfo->options); 
+    xf86ProcessCommonOptions(pInfo, pInfo->options);
 
     device = xf86CheckStrOption(dev->commonOptions, "Device",
-                                "/dev/vboxadd");
+                                "/dev/vboxguest");
 
     xf86Msg(X_CONFIG, "%s: Device: \"%s\"\n", pInfo->name, device);
     do {

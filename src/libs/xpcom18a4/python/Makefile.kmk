@@ -76,7 +76,7 @@ VBoxPython23_INCS       = $(VBOX_PYTHON23_INC)
 VBoxPython23_LIBS       = $(VBOX_PYTHON23_LIB)
 
 ifdef VBOX_PYTHON23_INC
- KNOWN_GLUE += VBoxPython23
+  KNOWN_GLUE += VBoxPython23
 endif
 
 # Python 2.4 version

@@ -49,8 +49,11 @@ RT_C_DECLS_BEGIN
 /**
  * Check for the existence of a directory.
  *
+ * All symbolic links will be attemped resolved.  If that is undesirable, please
+ * use RTPathQueryInfo instead.
+ *
  * @returns true if exist and is a directory.
- * @returns flase if exists or isn't a directory.
+ * @returns false if not exists or isn't a directory.
  * @param   pszPath     Path to the directory.
  */
 RTDECL(bool) RTDirExists(const char *pszPath);
@@ -310,8 +313,9 @@ RTDECL(int) RTDirRead(PRTDIR pDir, PRTDIRENTRY pDirEntry, size_t *pcbDirEntry);
  * @param   enmAdditionalAttribs
  *                      Which set of additional attributes to request.
  *                      Use RTFSOBJATTRADD_NOTHING if this doesn't matter.
+ * @param   fFlags      RTPATH_F_ON_LINK or RTPATH_F_FOLLOW_LINK.
  */
-RTDECL(int) RTDirReadEx(PRTDIR pDir, PRTDIRENTRYEX pDirEntry, size_t *pcbDirEntry, RTFSOBJATTRADD enmAdditionalAttribs);
+RTDECL(int) RTDirReadEx(PRTDIR pDir, PRTDIRENTRYEX pDirEntry, size_t *pcbDirEntry, RTFSOBJATTRADD enmAdditionalAttribs, uint32_t fFlags);
 
 
 /**

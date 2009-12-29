@@ -51,33 +51,6 @@
 
 
 
-RTDECL(bool) RTDirExists(const char *pszPath)
-{
-    bool fRc = false;
-
-    /*
-     * Convert to UTF-16.
-     */
-    PRTUTF16 pwszString;
-    int rc = RTStrToUtf16(pszPath, &pwszString);
-    AssertRC(rc);
-    if (RT_SUCCESS(rc))
-    {
-        /*
-         * Query and check attributes.
-         */
-        DWORD dwAttr = GetFileAttributesW((LPCWSTR)pwszString);
-        fRc = dwAttr != INVALID_FILE_ATTRIBUTES
-            && (dwAttr & FILE_ATTRIBUTE_DIRECTORY);
-
-        RTUtf16Free(pwszString);
-    }
-
-    LogFlow(("RTDirExists(%p:{%s}): returns %RTbool\n", pszPath, pszPath, fRc));
-    return fRc;
-}
-
-
 RTDECL(int) RTDirCreate(const char *pszPath, RTFMODE fMode)
 {
     /*
@@ -336,8 +309,10 @@ RTDECL(int) RTDirRead(PRTDIR pDir, PRTDIRENTRY pDirEntry, size_t *pcbDirEntry)
 }
 
 
-RTDECL(int) RTDirReadEx(PRTDIR pDir, PRTDIRENTRYEX pDirEntry, size_t *pcbDirEntry, RTFSOBJATTRADD enmAdditionalAttribs)
+RTDECL(int) RTDirReadEx(PRTDIR pDir, PRTDIRENTRYEX pDirEntry, size_t *pcbDirEntry, RTFSOBJATTRADD enmAdditionalAttribs, uint32_t fFlags)
 {
+    /** @todo Symlinks: Find[First|Next]FileW will return info about
+        the link, so RTPATH_F_FOLLOW_LINK is not handled correctly. */
     /*
      * Validate input.
      */
@@ -357,6 +332,7 @@ RTDECL(int) RTDirReadEx(PRTDIR pDir, PRTDIRENTRYEX pDirEntry, size_t *pcbDirEntr
         AssertMsgFailed(("Invalid enmAdditionalAttribs=%p\n", enmAdditionalAttribs));
         return VERR_INVALID_PARAMETER;
     }
+    AssertMsgReturn(RTPATH_F_IS_VALID(fFlags, 0), ("%#x\n", fFlags), VERR_INVALID_PARAMETER);
     size_t cbDirEntry = sizeof(*pDirEntry);
     if (pcbDirEntry)
     {

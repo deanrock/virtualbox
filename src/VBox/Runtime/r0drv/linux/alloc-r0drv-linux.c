@@ -33,6 +33,8 @@
 *   Header Files                                                               *
 *******************************************************************************/
 #include "the-linux-kernel.h"
+#include "internal/iprt.h"
+
 #include <iprt/mem.h>
 #include <iprt/assert.h>
 #include "r0drv/alloc-r0drv.h"
@@ -104,6 +106,7 @@ RTR0DECL(int) RTR0MemExecDonate(void *pvMemory, size_t cb)
     }
     return rc;
 }
+RT_EXPORT_SYMBOL(RTR0MemExecDonate);
 #endif /* RTMEMALLOC_EXEC_HEAP */
 
 
@@ -278,6 +281,7 @@ RTR0DECL(void *) RTMemContAlloc(PRTCCPHYS pPhys, size_t cb)
 
     return NULL;
 }
+RT_EXPORT_SYMBOL(RTMemContAlloc);
 
 
 /**
@@ -318,4 +322,5 @@ RTR0DECL(void) RTMemContFree(void *pv, size_t cb)
         __free_pages(paPages, cOrder);
     }
 }
+RT_EXPORT_SYMBOL(RTMemContFree);
 

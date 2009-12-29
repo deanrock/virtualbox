@@ -174,10 +174,10 @@ __FBSDID("$FreeBSD: src/sys/netinet/libalias/alias_db.c,v 1.71.2.2.4.1 2009/04/1
 #endif
 #else /* !VBOX */
 # include <iprt/assert.h>
-# include <slirp.h>
 # include "alias.h"
 # include "alias_local.h"
 # include "alias_mod.h"
+# include <slirp.h>
 #endif /* VBOX */
 
 #ifndef VBOX
@@ -745,7 +745,7 @@ GetSocket(struct libalias *la, u_short port_net, int *sockfd, int link_type)
         fprintf(stderr, "incorrect link type\n");
 #endif
 #ifdef VBOX
-        free(so);
+        RTMemFree(so);
 #endif
         return (0);
     }
@@ -753,7 +753,11 @@ GetSocket(struct libalias *la, u_short port_net, int *sockfd, int link_type)
     if (sock < 0) {
 #ifdef LIBALIAS_DEBUG
         fprintf(stderr, "PacketAlias/GetSocket(): ");
+# ifndef VBOX
         fprintf(stderr, "socket() error %d\n", *sockfd);
+# else
+        fprintf(stderr, "socket() error %d\n", errno);
+# endif
 #endif
         return (0);
     }
@@ -806,7 +810,14 @@ GetSocket(struct libalias *la, u_short port_net, int *sockfd, int link_type)
 #endif
         return (1);
     } else {
-        close(sock);
+#ifdef VBOX
+        if (sock >= 0)
+            closesocket(sock);
+        /* socket wasn't enqueued so we shouldn't use sofree */
+        RTMemFree(so);
+#else
+            close(sock);
+#endif
         return (0);
     }
 }

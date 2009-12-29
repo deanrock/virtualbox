@@ -1,7 +1,7 @@
 /* $Id: packspu_getshaders.c $ */
 
 /** @file
- * VBox OpenGL DRI driver functions
+ * VBox OpenGL GLSL related functions
  */
 
 /*

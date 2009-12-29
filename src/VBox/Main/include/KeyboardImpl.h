@@ -47,9 +47,9 @@ typedef ConsoleEventBuffer<KeyboardEvent> KeyboardEventBuffer;
 class Console;
 
 class ATL_NO_VTABLE Keyboard :
-    public VirtualBoxBaseNEXT,
-    public VirtualBoxSupportErrorInfoImpl <Keyboard, IKeyboard>,
-    public VirtualBoxSupportTranslation <Keyboard>,
+    public VirtualBoxBase,
+    public VirtualBoxSupportErrorInfoImpl<Keyboard, IKeyboard>,
+    public VirtualBoxSupportTranslation<Keyboard>,
     VBOX_SCRIPTABLE_IMPL(IKeyboard)
 {
 
@@ -66,8 +66,6 @@ public:
         COM_INTERFACE_ENTRY(IKeyboard)
         COM_INTERFACE_ENTRY(IDispatch)
     END_COM_MAP()
-
-    NS_DECL_ISUPPORTS
 
     DECLARE_EMPTY_CTOR_DTOR (Keyboard)
 
@@ -96,10 +94,10 @@ public:
 private:
 
     static DECLCALLBACK(void *) drvQueryInterface(PPDMIBASE pInterface, PDMINTERFACE enmInterface);
-    static DECLCALLBACK(int)    drvConstruct(PPDMDRVINS pDrvIns, PCFGMNODE pCfgHandle);
+    static DECLCALLBACK(int)    drvConstruct(PPDMDRVINS pDrvIns, PCFGMNODE pCfgHandle, uint32_t fFlags);
     static DECLCALLBACK(void)   drvDestruct(PPDMDRVINS pDrvIns);
 
-    const ComObjPtr <Console, ComWeakRef> mParent;
+    const ComObjPtr<Console, ComWeakRef> mParent;
     /** Pointer to the associated keyboard driver. */
     struct DRVMAINKEYBOARD *mpDrv;
     /** Pointer to the device instance for the VMM Device. */

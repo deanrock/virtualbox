@@ -1707,7 +1707,7 @@ Vill du ta bort den ändå?</translation>
     </message>
     <message>
         <source>Unknown protocol specified</source>
-        <translation type="unfinished"></translation>
+        <translation>Okänt protokoll angivet</translation>
     </message>
     <message>
         <source>SSL handshake failed</source>
@@ -2513,7 +2513,7 @@ Vill du ta bort den ändå?</translation>
     <name>QObject</name>
     <message>
         <source>Operation not supported on %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Åtgärden stöds inte på %1</translation>
     </message>
     <message>
         <source>Invalid URI: %1</source>
@@ -2521,23 +2521,23 @@ Vill du ta bort den ändå?</translation>
     </message>
     <message>
         <source>Write error writing to %1: %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Skrivfel vid skrivning till %1: %2</translation>
     </message>
     <message>
         <source>Read error reading from %1: %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Läsfel vid läsning från %1: %2</translation>
     </message>
     <message>
         <source>Socket error on %1: %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Uttagsfel på %1: %2</translation>
     </message>
     <message>
         <source>Remote host closed the connection prematurely on %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Fjärrvärden stängde anslutningen i förtid på %1</translation>
     </message>
     <message>
         <source>Protocol error: packet of size 0 received</source>
-        <translation type="unfinished"></translation>
+        <translation>Protokollfel: paket med storlek 0 togs emot</translation>
     </message>
 </context>
 <context>
@@ -2869,7 +2869,7 @@ Välj ett annat filnamn.</translation>
     </message>
     <message>
         <source>Write %1 file</source>
-        <translation type="unfinished"></translation>
+        <translation>Skriv %1-fil</translation>
     </message>
 </context>
 <context>
@@ -3311,11 +3311,11 @@ Välj ett annat filnamn.</translation>
     </message>
     <message>
         <source>%1: already exists</source>
-        <translation type="unfinished"></translation>
+        <translation>%1: finns redan</translation>
     </message>
     <message>
         <source>%1: doesn&apos;t exists</source>
-        <translation type="unfinished"></translation>
+        <translation>%1: finns inte</translation>
     </message>
     <message>
         <source>%1: out of resources</source>
@@ -3327,7 +3327,7 @@ Välj ett annat filnamn.</translation>
     </message>
     <message>
         <source>%1: key is empty</source>
-        <translation type="unfinished"></translation>
+        <translation>%1: nyckeln är tom</translation>
     </message>
     <message>
         <source>%1: unix key file doesn&apos;t exists</source>
@@ -3335,7 +3335,7 @@ Välj ett annat filnamn.</translation>
     </message>
     <message>
         <source>%1: ftok failed</source>
-        <translation type="unfinished"></translation>
+        <translation>%1: ftok misslyckades</translation>
     </message>
     <message>
         <source>%1: unable to make key</source>
@@ -3347,7 +3347,7 @@ Välj ett annat filnamn.</translation>
     </message>
     <message>
         <source>%1: not attached</source>
-        <translation type="unfinished"></translation>
+        <translation>%1: inte ansluten</translation>
     </message>
 </context>
 <context>

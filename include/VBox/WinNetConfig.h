@@ -1,5 +1,6 @@
 /** @file
- * VBoxNetFlt - Briefly describe this file, optionally with a longer description in a separate paragraph.
+ * VBoxNetFlt - Briefly describe this file, optionally with a longer description
+ * in a separate paragraph. (HostDrivers)
  */
 
 /*
@@ -96,7 +97,8 @@ VBOXNETCFGWIN_DECL(HRESULT) VBoxNetCfgWinEnumNetDevices(LPWSTR pPnPId, VBOXNETCF
 
 VBOXNETCFGWIN_DECL(HRESULT) VBoxNetCfgWinRemoveHostOnlyNetworkInterface (const GUID *pGUID, BSTR *pErrMsg);
 VBOXNETCFGWIN_DECL(HRESULT) VBoxNetCfgWinRemoveAllNetDevicesOfId(LPWSTR pPnPId);
-VBOXNETCFGWIN_DECL(HRESULT) VBoxNetCfgWinCreateHostOnlyNetworkInterface (GUID *pGuid, BSTR *lppszName, BSTR *pErrMsg);
+VBOXNETCFGWIN_DECL(HRESULT) VBoxNetCfgWinCreateHostOnlyNetworkInterface (LPCWSTR pInfPath, bool bIsInfPathFile, GUID *pGuid, BSTR *lppszName, BSTR *pErrMsg);
+VBOXNETCFGWIN_DECL(HRESULT) VBoxNetCfgWinUninstallInfs (const GUID * pGuid, LPCWSTR pPnPId, DWORD Flags);
 
 VBOXNETCFGWIN_DECL(HRESULT) VBoxNetCfgWinDhcpRediscover(const GUID *pGuid);
 VBOXNETCFGWIN_DECL(HRESULT) VBoxNetCfgWinEnableDynamicIpConfig(const GUID *pGuid);
@@ -113,6 +115,8 @@ typedef struct _ADAPTER_SETTINGS
 }ADAPTER_SETTINGS, *PADAPTER_SETTINGS;
 
 VBOXNETCFGWIN_DECL(HRESULT) VBoxNetCfgWinGetAdapterSettings(const GUID * pGuid, PADAPTER_SETTINGS pSettings);
+
+VBOXNETCFGWIN_DECL(HRESULT) VBoxNetCfgWinInstallInf(IN LPCWSTR pInfFullPath);
 
 typedef VOID (*LOG_ROUTINE) (LPCWSTR szString);
 VBOXNETCFGWIN_DECL(VOID) VBoxNetCfgWinSetLogging(LOG_ROUTINE Log);

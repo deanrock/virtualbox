@@ -59,8 +59,10 @@ VBoxGlobalSettingsData::VBoxGlobalSettingsData()
     guiFeatures = QString::null;
     languageId  = QString::null;
     maxGuestRes = "auto";
+    remapScancodes = QString::null;
     trayIconEnabled = false;
     dockPreviewEnabled = true;
+    presentationModeEnabled = false;
 }
 
 VBoxGlobalSettingsData::VBoxGlobalSettingsData (const VBoxGlobalSettingsData &that)
@@ -70,8 +72,10 @@ VBoxGlobalSettingsData::VBoxGlobalSettingsData (const VBoxGlobalSettingsData &th
     guiFeatures = that.guiFeatures;
     languageId  = that.languageId;
     maxGuestRes = that.maxGuestRes;
+    remapScancodes = that.remapScancodes;
     trayIconEnabled = that.trayIconEnabled;
     dockPreviewEnabled = that.dockPreviewEnabled;
+    presentationModeEnabled = that.presentationModeEnabled;
 }
 
 VBoxGlobalSettingsData::~VBoxGlobalSettingsData()
@@ -86,8 +90,10 @@ bool VBoxGlobalSettingsData::operator== (const VBoxGlobalSettingsData &that) con
          guiFeatures == that.guiFeatures &&
          languageId  == that.languageId &&
          maxGuestRes == that.maxGuestRes &&
-         trayIconEnabled == that.trayIconEnabled
-         && dockPreviewEnabled == that.dockPreviewEnabled
+         remapScancodes == that.remapScancodes &&
+         trayIconEnabled == that.trayIconEnabled &&
+         dockPreviewEnabled == that.dockPreviewEnabled &&
+         presentationModeEnabled == that.presentationModeEnabled
         );
 }
 
@@ -109,14 +115,16 @@ static struct
 }
 gPropertyMap[] =
 {
-    { "GUI/Input/HostKey",                         "hostKey",            "\\d*[1-9]\\d*", true },
-    { "GUI/Input/AutoCapture",                     "autoCapture",        "true|false", true },
-    { "GUI/Customizations",                        "guiFeatures",        "\\S+", true },
-    { "GUI/LanguageID",                            "languageId",         gVBoxLangIDRegExp, true },
-    { "GUI/MaxGuestResolution",                    "maxGuestRes",        "\\d*[1-9]\\d*,\\d*[1-9]\\d*|any|auto", true },
-    { "GUI/TrayIcon/Enabled",                      "trayIconEnabled",    "true|false", true },
+    { "GUI/Input/HostKey",                         "hostKey",                 "\\d*[1-9]\\d*", true },
+    { "GUI/Input/AutoCapture",                     "autoCapture",             "true|false", true },
+    { "GUI/Customizations",                        "guiFeatures",             "\\S+", true },
+    { "GUI/LanguageID",                            "languageId",              gVBoxLangIDRegExp, true },
+    { "GUI/MaxGuestResolution",                    "maxGuestRes",             "\\d*[1-9]\\d*,\\d*[1-9]\\d*|any|auto", true },
+    { "GUI/RemapScancodes",                        "remapScancodes",          "(\\d+=\\d+,)*\\d+=\\d+", true },
+    { "GUI/TrayIcon/Enabled",                      "trayIconEnabled",         "true|false", true },
 #ifdef Q_WS_MAC
-    { VBoxDefs::GUI_RealtimeDockIconUpdateEnabled, "dockPreviewEnabled", "true|false", true }
+    { VBoxDefs::GUI_RealtimeDockIconUpdateEnabled, "dockPreviewEnabled",      "true|false", true },
+    { VBoxDefs::GUI_PresentationModeEnabled,       "presentationModeEnabled", "true|false", true }
 #endif /* Q_WS_MAC */
 };
 

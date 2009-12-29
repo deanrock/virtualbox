@@ -178,17 +178,6 @@ typedef struct
 } HWACCM_CPUINFO;
 typedef HWACCM_CPUINFO *PHWACCM_CPUINFO;
 
-/* VT-x capability qword. */
-typedef union
-{
-    struct
-    {
-        uint32_t        disallowed0;
-        uint32_t        allowed1;
-    } n;
-    uint64_t            u;
-} VMX_CAPABILITY;
-
 typedef enum
 {
     HWACCMPENDINGIO_INVALID = 0,
@@ -424,6 +413,9 @@ typedef struct HWACCM
         RTHCPHYS                    pIOBitmapPhys;
         /** Virtual address of the IO bitmap. */
         R0PTRTYPE(void *)           pIOBitmap;
+
+        /* HWCR msr (for diagnostics) */
+        uint64_t                    msrHWCR;
 
         /** SVM revision. */
         uint32_t                    u32Rev;
@@ -819,8 +811,10 @@ typedef struct HWACCMCPU
     STAMCOUNTER             StatIntReinject;
     STAMCOUNTER             StatPendingHostIrq;
 
+    STAMCOUNTER             StatFlushPage;
     STAMCOUNTER             StatFlushPageManual;
     STAMCOUNTER             StatFlushPhysPageManual;
+    STAMCOUNTER             StatFlushTLB;
     STAMCOUNTER             StatFlushTLBManual;
     STAMCOUNTER             StatFlushPageInvlpg;
     STAMCOUNTER             StatFlushTLBWorldSwitch;

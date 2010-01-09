@@ -1,21 +1,27 @@
 virtualbox-ose (3.1.2-dfsg-1ubuntu1) lucid; urgency=low
 
-  * Merge from debian unstable (LP: #), remaining changes:
+  * Merge from Debian unstable (LP: #498219), remaining changes:
     - Disable update action
       - debian/patches/u01-disable-update-action.dpatch
-    - Virtualbox should go in Accessories, not in System tools (LP: #288590)
+    - VirtualBox should go in Accessories, not in System tools (LP: #288590)
       - debian/virtualbox-ose-qt.files/virtualbox-ose.desktop
-    - Add apport hook
+    - Add Apport hook
       - debian/virtualbox-ose.files/source_virtualbox-ose.py
       - debian/virtualbox-ose.install
-    - Add launchpad integration
+    - Add Launchpad integration
       - debian/control
       - debian/lpi-bug.xpm
       - debian/patches/u02-lp-integration.dpatch
-  * Replace *-source packages with transitional packages for *-dkms
-  * Refresh u01-disable-update-action.dpatch and u02-lp-integration.dpatch
+  * Fixes the following bugs:
+    - Kernel module fails to build with Linux >= 2.6.32 (LP: #474625)
+    - X.Org drivers need to be rebuilt against X-Server 1.7 (LP: #495935)
+    - The *-source packages try to build the kernel modules even though the
+      kernel headers aren't available (LP: #473334)
+  * Replace *-source packages with transitional packages for *-dkms.
+  * Adapt u01-disable-update-action.dpatch and u02-lp-integration.dpatch for
+    new upstream version.
 
- -- Felix Geyer <debfx-pkg@fobos.de>  Wed, 16 Dec 2009 16:35:54 +0100
+ -- Felix Geyer <debfx-pkg@fobos.de>  Fri, 18 Dec 2009 16:44:29 +0100
 
 virtualbox-ose (3.1.2-dfsg-1) unstable; urgency=low
 

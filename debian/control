@@ -110,12 +110,11 @@ Description: x86 virtualization solution - debugging symbols
  VirtualBox.
 
 Package: virtualbox-ose-dkms
+Replaces: virtualbox-ose-source (<< 3.1.0-dfsg-1)
+Conflicts: virtualbox-ose-source (<< 3.1.0-dfsg-1)
 Section: kernel
 Architecture: all
 Depends: ${misc:Depends}, dkms
-Provides: virtualbox-ose-source
-Conflicts: virtualbox-ose-source
-Replaces: virtualbox-ose-source
 Description: x86 virtualization solution - kernel module sources for dkms
  VirtualBox is a free x86 virtualization solution allowing a wide range
  of x86 operating systems such as Windows, DOS, BSD or Linux to run on a
@@ -138,12 +137,11 @@ Description: Transitional package for virtualbox-ose-dkms
  This package can be safely removed after virtualbox-ose-dkms is installed.
 
 Package: virtualbox-ose-guest-dkms
+Replaces: virtualbox-ose-guest-source (<< 3.1.0-dfsg-1)
+Conflicts: virtualbox-ose-guest-source (<< 3.1.0-dfsg-1)
 Section: kernel
 Architecture: all
 Depends: ${misc:Depends}, dkms
-Provides: virtualbox-ose-guest-source
-Conflicts: virtualbox-ose-guest-source
-Replaces: virtualbox-ose-guest-source
 Description: x86 virtualization solution - guest addition module source for dkms
  VirtualBox is a free x86 virtualization solution allowing a wide range
  of x86 operating systems such as Windows, DOS, BSD or Linux to run on a

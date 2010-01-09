@@ -6,9 +6,9 @@
 
 @DPATCH@
 
-diff -Nur virtualbox-ose-3.0.0-dfsg/src/VBox/Frontends/VirtualBox/include/VBoxHelpActions.h virtualbox-ose-3.0.0-dfsg.patch/src/VBox/Frontends/VirtualBox/include/VBoxHelpActions.h
---- virtualbox-ose-3.0.0-dfsg/src/VBox/Frontends/VirtualBox/include/VBoxHelpActions.h	2009-07-01 09:47:13.000000000 +0200
-+++ virtualbox-ose-3.0.0-dfsg.patch/src/VBox/Frontends/VirtualBox/include/VBoxHelpActions.h	2009-07-09 17:22:27.477635065 +0200
+diff -Nur virtualbox-ose-3.0.0-dfsg/src/VBox/Frontends/VirtualBox/src/VBoxHelpActions.h virtualbox-ose-3.0.0-dfsg.patch/src/VBox/Frontends/VirtualBox/src/VBoxHelpActions.h
+--- virtualbox-ose-3.0.0-dfsg/src/VBox/Frontends/VirtualBox/src/VBoxHelpActions.h	2009-07-01 09:47:13.000000000 +0200
++++ virtualbox-ose-3.0.0-dfsg.patch/src/VBox/Frontends/VirtualBox/src/VBoxHelpActions.h	2009-07-09 17:22:27.477635065 +0200
 @@ -44,7 +44,7 @@
  struct VBoxHelpActions
  {
@@ -26,9 +26,9 @@ diff -Nur virtualbox-ose-3.0.0-dfsg/src/VBox/Frontends/VirtualBox/include/VBoxHe
      QAction *resetMessagesAction;
      QAction *registerAction;
      QAction *updateAction;
-diff -Nur virtualbox-ose-3.0.0-dfsg/src/VBox/Frontends/VirtualBox/include/VBoxProblemReporter.h virtualbox-ose-3.0.0-dfsg.patch/src/VBox/Frontends/VirtualBox/include/VBoxProblemReporter.h
---- virtualbox-ose-3.0.0-dfsg/src/VBox/Frontends/VirtualBox/include/VBoxProblemReporter.h	2009-07-01 09:47:13.000000000 +0200
-+++ virtualbox-ose-3.0.0-dfsg.patch/src/VBox/Frontends/VirtualBox/include/VBoxProblemReporter.h	2009-07-09 17:43:50.462134792 +0200
+diff -Nur virtualbox-ose-3.0.0-dfsg/src/VBox/Frontends/VirtualBox/src/globals/VBoxProblemReporter.h virtualbox-ose-3.0.0-dfsg.patch/src/VBox/Frontends/VirtualBox/src/globals/VBoxProblemReporter.h
+--- virtualbox-ose-3.0.0-dfsg/src/VBox/Frontends/VirtualBox/src/globals/VBoxProblemReporter.h	2009-07-01 09:47:13.000000000 +0200
++++ virtualbox-ose-3.0.0-dfsg.patch/src/VBox/Frontends/VirtualBox/src/globals/VBoxProblemReporter.h	2009-07-09 17:43:50.462134792 +0200
 @@ -383,6 +383,7 @@
  public slots:
  
@@ -76,9 +76,9 @@ diff -Nur virtualbox-ose-3.0.0-dfsg/src/VBox/Frontends/VirtualBox/src/VBoxHelpAc
      resetMessagesAction->setText (VBoxProblemReporter::tr ("&Reset All Warnings"));
      resetMessagesAction->setStatusTip (VBoxProblemReporter::tr (
          "Cause all suppressed warnings and messages to be shown again"));
-diff -Nur virtualbox-ose-3.0.0-dfsg/src/VBox/Frontends/VirtualBox/src/VBoxProblemReporter.cpp virtualbox-ose-3.0.0-dfsg.patch/src/VBox/Frontends/VirtualBox/src/VBoxProblemReporter.cpp
---- virtualbox-ose-3.0.0-dfsg/src/VBox/Frontends/VirtualBox/src/VBoxProblemReporter.cpp	2009-07-01 09:47:13.000000000 +0200
-+++ virtualbox-ose-3.0.0-dfsg.patch/src/VBox/Frontends/VirtualBox/src/VBoxProblemReporter.cpp	2009-07-09 17:46:34.461454809 +0200
+diff -Nur virtualbox-ose-3.0.0-dfsg/src/VBox/Frontends/VirtualBox/src/globals/VBoxProblemReporter.cpp virtualbox-ose-3.0.0-dfsg.patch/src/VBox/Frontends/VirtualBox/src/globals/VBoxProblemReporter.cpp
+--- virtualbox-ose-3.0.0-dfsg/src/VBox/Frontends/VirtualBox/src/globals/VBoxProblemReporter.cpp	2009-07-01 09:47:13.000000000 +0200
++++ virtualbox-ose-3.0.0-dfsg.patch/src/VBox/Frontends/VirtualBox/src/globals/VBoxProblemReporter.cpp	2009-07-09 17:46:34.461454809 +0200
 @@ -2357,6 +2357,11 @@
      vboxGlobal().openURL ("http://www.virtualbox.org");
  }

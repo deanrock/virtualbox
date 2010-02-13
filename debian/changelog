@@ -5,7 +5,7 @@ virtualbox-ose (3.1.4-dfsg-1~bpo50+1) lenny-backports; urgency=low
 
  -- Michael Meskes <meskes@debian.org>  Sat, 13 Feb 2010 21:49:06 +0100
 
-virtualbox-ose (3.1.4-dfsg-1) UNRELEASED; urgency=low
+virtualbox-ose (3.1.4-dfsg-1) unstable; urgency=low
 
   * New upstream version:
     - Rebuild makes sure all packages share the same version. (Closes: #567030,

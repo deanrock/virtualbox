@@ -3,8 +3,6 @@ Section: misc
 Priority: optional
 Maintainer: Debian Virtualbox Team <pkg-virtualbox-devel@lists.alioth.debian.org>
 Uploaders: Michael Meskes <meskes@debian.org>,
-           Patrick Winnertz <winnie@debian.org>,
-           Hilko Bengen <bengen@debian.org>,
            Felix Geyer <debfx-pkg@fobos.de>
 Build-Depends: bcc,
                bzip2,
@@ -21,6 +19,7 @@ Build-Depends: bcc,
                libcap2-dev,
                libcurl4-openssl-dev | libcurl3-openssl-dev (>= 7.16.1),
                libdrm-dev,
+               libfuse-dev,
                libgl1-mesa-dev,
                libglu1-mesa-dev,
                libidl-dev,
@@ -51,7 +50,7 @@ Build-Depends: bcc,
                yasm (>= 0.7.0),
                zlib1g-dev
 XS-Python-Version: >= 2.4
-Standards-Version: 3.8.3
+Standards-Version: 3.8.4
 Homepage: http://www.virtualbox.org/
 Vcs-Git: git://git.debian.org/git/pkg-virtualbox/virtualbox-ose.git
 Vcs-Browser: http://git.debian.org/?p=pkg-virtualbox/virtualbox-ose.git
@@ -76,7 +75,7 @@ Depends: ${shlibs:Depends},
          ${misc:Depends},
          ${python:Depends},
          adduser
-Recommends: virtualbox-ose-dkms (= ${binary:Version}) | virtualbox-ose-source (= ${binary:Version}), 
+Recommends: virtualbox-ose-dkms (= ${source:Version}) | virtualbox-ose-source (= ${source:Version}),
             virtualbox-ose-qt (= ${binary:Version}),
             libgl1
 Suggests: virtualbox-guest-additions,
@@ -112,7 +111,7 @@ Package: virtualbox-ose-dkms
 Replaces: virtualbox-ose-source (<< 3.1.0-dfsg-1)
 Section: kernel
 Architecture: all
-Depends: ${misc:Depends}, dkms
+Depends: ${misc:Depends}, dkms (>= 2.1.0.1)
 Description: x86 virtualization solution - kernel module sources for dkms
  VirtualBox is a free x86 virtualization solution allowing a wide range
  of x86 operating systems such as Windows, DOS, BSD or Linux to run on a
@@ -145,7 +144,7 @@ Package: virtualbox-ose-guest-dkms
 Replaces: virtualbox-ose-guest-source (<< 3.1.0-dfsg-1)
 Section: kernel
 Architecture: all
-Depends: ${misc:Depends}, dkms
+Depends: ${misc:Depends}, dkms (>= 2.1.0.1)
 Description: x86 virtualization solution - guest addition module source for dkms
  VirtualBox is a free x86 virtualization solution allowing a wide range
  of x86 operating systems such as Windows, DOS, BSD or Linux to run on a
@@ -198,7 +197,7 @@ Architecture: i386 amd64 lpia
 Depends: ${shlibs:Depends},
          ${misc:Depends},
          pciutils
-Recommends: virtualbox-ose-guest-dkms (= ${binary:Version}) | virtualbox-ose-guest-source (= ${binary:Version}),
+Recommends: virtualbox-ose-guest-dkms (= ${source:Version}) | virtualbox-ose-guest-source (= ${source:Version}),
             virtualbox-ose-guest-x11 (= ${binary:Version})
 Description: x86 virtualization solution - non-X11 guest utilities
  VirtualBox is a free x86 virtualization solution allowing a wide range
@@ -209,3 +208,17 @@ Description: x86 virtualization solution - non-X11 guest utilities
  VirtualBox. These utilities are meant to be run inside the virtual machine.
  They provide closer integration and allow to share data through shared folders
  between the host system and the virtual machine.
+
+Package: virtualbox-ose-fuse
+Architecture: i386 amd64 lpia
+Depends: ${shlibs:Depends},
+         ${misc:Depends},
+         virtualbox-ose (= ${binary:Version})
+Description: x86 virtualization solution - virtual filesystem
+ VirtualBox is a free x86 virtualization solution allowing a wide range
+ of x86 operating systems such as Windows, DOS, BSD or Linux to run on a
+ Linux system.
+ .
+ This package provides a FUSE-based VFS (Virtual FileSystem) to mount a
+ VirtualBox disk so all partitions can be loop-mounted.
+

@@ -9,7 +9,7 @@
 diff -ruN virtualbox-ose/src/VBox/Additions/common/crOpenGL/Makefile.kmk virtualbox-ose/src/VBox/Additions/common/crOpenGL/Makefile.kmk
 --- virtualbox-ose/src/VBox/Additions/common/crOpenGL/Makefile.kmk	2009-12-29 10:48:58.000000000 +0100
 +++ virtualbox-ose/src/VBox/Additions/common/crOpenGL/Makefile.kmk	2009-12-29 16:33:31.000000000 +0100
-@@ -69,21 +69,16 @@
+@@ -69,16 +69,11 @@
  VBoxOGL_INCS           = .
  if1of ($(KBUILD_TARGET),linux solaris)
   VBoxOGL_INCS     += \
@@ -24,12 +24,7 @@ diff -ruN virtualbox-ose/src/VBox/Additions/common/crOpenGL/Makefile.kmk virtual
 +	/usr/include/x11 \
 +	/usr/include/xorg \
 +	/usr/include/pixman-1 \
- 	$(VBOX_PATH_MESA_SOURCE) \
- 	$(VBOX_PATH_MESA_SOURCE)/include \
- 	$(VBOX_PATH_MESA_SOURCE)/src/mesa/ \
- 	$(VBOX_PATH_MESA_SOURCE)/src/mesa/glapi \
- 	$(VBOX_PATH_MESA_SOURCE)/src/mesa/main \
- 	$(VBOX_PATH_MESA_SOURCE)/src/mesa/drivers/dri/common \
+	$(VBOX_MESA_INCS) \
 -	$(PATH_ROOT)/src/VBox/Additions/x11/x11include/libdrm-2.4.13
 +	/usr/include/drm
   VBoxOGL_DEFS     += VBOX_NO_NATIVEGL

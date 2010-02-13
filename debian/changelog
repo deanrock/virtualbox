@@ -1,3 +1,10 @@
+virtualbox-ose (3.1.4-dfsg-1~bpo50+1) lenny-backports; urgency=low
+
+  * Rebuild for lenny-backports.
+  * Adapt 18-xorg-1.4.dpatch for new upstream version.
+
+ -- Michael Meskes <meskes@debian.org>  Sat, 13 Feb 2010 21:49:06 +0100
+
 virtualbox-ose (3.1.4-dfsg-1) UNRELEASED; urgency=low
 
   * New upstream version:

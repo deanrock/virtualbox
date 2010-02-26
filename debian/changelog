@@ -1,6 +1,6 @@
 virtualbox-ose (3.1.4-dfsg-2ubuntu1) lucid; urgency=low
 
-  * Merge from Debian unstable (LP: #), remaining changes:
+  * Merge from Debian unstable (LP: #528561), remaining changes:
     - VirtualBox should go in Accessories, not in System tools (LP: #288590)
       - debian/virtualbox-ose-qt.files/virtualbox-ose.desktop
     - Add Apport hook
@@ -11,9 +11,11 @@ virtualbox-ose (3.1.4-dfsg-2ubuntu1) lucid; urgency=low
       - debian/lpi-bug.xpm
       - debian/patches/u02-lp-integration.dpatch
     - Replace *-source packages with transitional packages for *-dkms
-  * Add a list of linux-header packages to the apport hook
+  * Add a list of linux-headers packages to the apport hook
+  * Update debian/patches/u02-lp-integration.dpatch with a
+    DEP-3 compliant header
 
- -- Felix Geyer <debfx-pkg@fobos.de>  Sun, 14 Feb 2010 16:28:10 +0100
+ -- Felix Geyer <debfx-pkg@fobos.de>  Fri, 26 Feb 2010 18:15:15 +0100
 
 virtualbox-ose (3.1.4-dfsg-2) unstable; urgency=low
 

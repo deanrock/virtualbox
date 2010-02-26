@@ -1,8 +1,6 @@
 #! /bin/sh /usr/share/dpatch/dpatch-run
-## u02-lp-integration.dpatch by Felix Geyer <debfx-pkg@fobos.de>
-##
-## All lines beginning with `## DP:' are a description of the patch.
-## DP: Add "Report a problem" menu entry
+# Description: Add "Report a problem" menu entry
+# Author: Felix Geyer <debfx-pkg@fobos.de>
 
 @DPATCH@
 

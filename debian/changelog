@@ -1,4 +1,4 @@
-virtualbox-ose (3.1.4-dfsg-1ubuntu1) lucid; urgency=low
+virtualbox-ose (3.1.4-dfsg-2ubuntu1) lucid; urgency=low
 
   * Merge from Debian unstable (LP: #), remaining changes:
     - VirtualBox should go in Accessories, not in System tools (LP: #288590)
@@ -14,6 +14,23 @@ virtualbox-ose (3.1.4-dfsg-1ubuntu1) lucid; urgency=low
   * Add a list of linux-header packages to the apport hook
 
  -- Felix Geyer <debfx-pkg@fobos.de>  Sun, 14 Feb 2010 16:28:10 +0100
+
+virtualbox-ose (3.1.4-dfsg-2) unstable; urgency=low
+
+  [ Felix Geyer ]
+  * Add INSTALL_PATH variable
+  * Downgrade library dependencies of VBoxTestOGL to Recommends.
+    (Closes: #567800)
+  * Provide an udev instead of hal rule for the mouse driver
+    autodetection. (LP: #525558)
+  * Update device names in guest udev rules.
+
+  [ Michael Meskes ]
+  * Document QT4 usage for virtualbox-ose.
+  * Changed build-dependency from libcap2-dev to libcap-dev. (Closes:
+    #569769)
+
+ -- Michael Meskes <meskes@debian.org>  Tue, 16 Feb 2010 15:03:46 +0100
 
 virtualbox-ose (3.1.4-dfsg-1) unstable; urgency=low
 

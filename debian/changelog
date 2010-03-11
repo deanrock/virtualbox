@@ -11,13 +11,15 @@ virtualbox-ose (3.1.4-dfsg-2ubuntu1) lucid; urgency=low
       - debian/lpi-bug.xpm
       - debian/patches/u02-lp-integration.dpatch
     - Replace *-source packages with transitional packages for *-dkms
+  * Fix crash in vboxvideo_drm with kernel 2.6.33 / backported drm code
+    (LP: #535297)
   * Add a list of linux-headers packages to the apport hook
   * Update debian/patches/u02-lp-integration.dpatch with a
     DEP-3 compliant header
   * Add ${misc:Depends} to virtualbox-ose-source and virtualbox-ose-guest-source
     Depends
 
- -- Felix Geyer <debfx-pkg@fobos.de>  Fri, 26 Feb 2010 18:18:52 +0100
+ -- Felix Geyer <debfx-pkg@fobos.de>  Thu, 11 Mar 2010 17:16:37 +0100
 
 virtualbox-ose (3.1.4-dfsg-2) unstable; urgency=low
 

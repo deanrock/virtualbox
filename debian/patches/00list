@@ -11,3 +11,4 @@
 20-hide-help-buttons.dpatch
 22-no-static-libstdcpp.dpatch
 u02-lp-integration.dpatch
+u03-vboxvideo_drm-2.6.33.dpatch

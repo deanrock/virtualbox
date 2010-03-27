@@ -8,7 +8,7 @@ Uploaders: Michael Meskes <meskes@debian.org>,
 Build-Depends: bcc,
                bzip2,
                chrpath,
-               debhelper (>= 5.0.44~),
+               debhelper (>= 6.0.7~),
                docbook-xml,
                docbook-xsl,
                dpatch,
@@ -164,6 +164,7 @@ Description: Transitional package for virtualbox-ose-guest-dkms
  is installed.
 
 Package: virtualbox-ose-guest-x11
+Section: x11
 Architecture: i386 amd64 lpia
 Depends: ${shlibs:Depends},
          ${misc:Depends},

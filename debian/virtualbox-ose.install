@@ -1,8 +1,6 @@
 debian/virtualbox-ose.files/*.sh /usr/share/virtualbox
 debian/virtualbox-ose.files/source_virtualbox-ose.py /usr/share/apport/package-hooks
 
-debian/lintian/virtualbox-ose /usr/share/lintian/overrides
-
 out/bin/components /usr/lib/virtualbox
 out/bin/VBoxREM* /usr/lib/virtualbox
 out/bin/VBox*.so /usr/lib/virtualbox

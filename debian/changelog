@@ -11,8 +11,10 @@ virtualbox-ose (3.1.6-dfsg-1ubuntu1) lucid; urgency=low
       - debian/lpi-bug.xpm
       - debian/patches/u02-lp-integration.dpatch
     - Replace *-source packages with transitional packages for *-dkms
+  * Mention the transitional status of the *-source packages in the long
+    description to fix lintian warning empty-binary-package.
 
- -- Felix Geyer <debfx-pkg@fobos.de>  Sat, 27 Mar 2010 18:06:35 +0100
+ -- Felix Geyer <debfx-pkg@fobos.de>  Thu, 01 Apr 2010 00:50:54 +0200
 
 virtualbox-ose (3.1.6-dfsg-1) unstable; urgency=low
 

@@ -133,7 +133,8 @@ Description: Transitional package for virtualbox-ose-dkms
  of x86 operating systems such as Windows, DOS, BSD or Linux to run on a
  Linux system.
  .
- This package can be safely removed after virtualbox-ose-dkms is installed.
+ This is a transitional package and can be safely removed after
+ virtualbox-ose-dkms is installed.
 
 Package: virtualbox-ose-guest-dkms
 Replaces: virtualbox-ose-guest-source (<< 3.1.0-dfsg-1)
@@ -160,8 +161,8 @@ Description: Transitional package for virtualbox-ose-guest-dkms
  of x86 operating systems such as Windows, DOS, BSD or Linux to run on a
  Linux system.
  .
- This package can be safely removed after virtualbox-ose-guest-dkms
- is installed.
+ This is a transitional package and can be safely removed after
+ virtualbox-ose-guest-dkms is installed.
 
 Package: virtualbox-ose-guest-x11
 Section: x11

@@ -1,4 +1,4 @@
-virtualbox-ose (3.1.6-dfsg-1ubuntu1) lucid; urgency=low
+virtualbox-ose (3.1.6-dfsg-2ubuntu1) lucid; urgency=low
 
   * Merge from Debian unstable (LP: #549588), remaining changes:
     - VirtualBox should go in Accessories, not in System tools (LP: #288590)
@@ -14,7 +14,17 @@ virtualbox-ose (3.1.6-dfsg-1ubuntu1) lucid; urgency=low
   * Mention the transitional status of the *-source packages in the long
     description to fix lintian warning empty-binary-package.
 
- -- Felix Geyer <debfx-pkg@fobos.de>  Thu, 01 Apr 2010 00:50:54 +0200
+ -- Felix Geyer <debfx-pkg@fobos.de>  Thu, 01 Apr 2010 14:42:00 +0200
+
+virtualbox-ose (3.1.6-dfsg-2) unstable; urgency=low
+
+  * Improve 20-hide-help-buttons.dpatch so all help buttons are hidden.
+  * Set source format version explicitly to "1.0".
+  * Adapt to xserver 1.8 input driver detection. (LP: #546933)
+    - Add 10-vboxmouse.conf
+    - Update virtualbox-ose-guest-x11.udev
+
+ -- Felix Geyer <debfx-pkg@fobos.de>  Wed, 31 Mar 2010 15:15:44 +0200
 
 virtualbox-ose (3.1.6-dfsg-1) unstable; urgency=low
 

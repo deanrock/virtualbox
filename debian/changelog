@@ -1,8 +1,10 @@
 virtualbox-ose (3.1.6-dfsg-2ubuntu2) lucid; urgency=low
 
   * Disable Launchpad integration for the stable release.
+  * Add u03-fix-cpu-lockup.dpatch, cherry-picked from upstream to
+    fix a bug causing the CPU to lockup on boot. (LP: #562187)
 
- -- Felix Geyer <debfx-pkg@fobos.de>  Wed, 14 Apr 2010 16:43:14 +0200
+ -- Felix Geyer <debfx-pkg@fobos.de>  Wed, 14 Apr 2010 16:53:41 +0200
 
 virtualbox-ose (3.1.6-dfsg-2ubuntu1) lucid; urgency=low
 

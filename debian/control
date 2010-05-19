@@ -64,8 +64,7 @@ Package: virtualbox-ose-qt
 Architecture: amd64 i386 lpia
 Depends: ${shlibs:Depends},
          ${misc:Depends},
-         virtualbox-ose (= ${binary:Version}),
-         launchpad-integration
+         virtualbox-ose (= ${binary:Version})
 Replaces: virtualbox-ose (<< 2.2.0-dfsg-1)
 Description: x86 virtualization solution - Qt based user interface
  VirtualBox is a free x86 virtualization solution allowing a wide range

@@ -130,18 +130,6 @@ Description: x86 virtualization solution - kernel module sources for dkms
  use of these modules. Kernel sources or headers are required to compile this
  module.
 
-Package: virtualbox-ose-source
-Section: kernel
-Architecture: all
-Depends: ${misc:Depends}, virtualbox-ose-dkms (>= ${source:Version})
-Description: Transitional package for virtualbox-ose-dkms
- VirtualBox is a free x86 virtualization solution allowing a wide range
- of x86 operating systems such as Windows, DOS, BSD or Linux to run on a
- Linux system.
- .
- This is a transitional package and can be safely removed after
- virtualbox-ose-dkms is installed.
-
 Package: virtualbox-ose-guest-dkms
 Replaces: virtualbox-ose-guest-source (<< 3.1.0-dfsg-1)
 Conflicts: virtualbox-ose-dkms,
@@ -158,18 +146,6 @@ Description: x86 virtualization solution - guest addition module source for dkms
  modules to be build with dkms. The virtualbox-ose-guest-utils package is also
  required in order to make use of these modules. Kernel sources or headers are
  required to compile these modules.
-
-Package: virtualbox-ose-guest-source
-Section: kernel
-Architecture: all
-Depends: ${misc:Depends}, virtualbox-ose-guest-dkms (>= ${source:Version})
-Description: Transitional package for virtualbox-ose-guest-dkms
- VirtualBox is a free x86 virtualization solution allowing a wide range
- of x86 operating systems such as Windows, DOS, BSD or Linux to run on a
- Linux system.
- .
- This is a transitional package and can be safely removed after
- virtualbox-ose-guest-dkms is installed.
 
 Package: virtualbox-ose-guest-x11
 Section: x11

@@ -1,10 +1,10 @@
 #! /bin/sh
 # Sun VirtualBox
-# Linux Additions X11 setup init script ($Revision: 59059 $)
+# Linux Additions X11 setup init script ($Revision: 29612 $)
 #
 
 #
-# Copyright (C) 2006-2009 Sun Microsystems, Inc.
+# Copyright (C) 2006-2009 Oracle Corporation
 #
 # This file is part of VirtualBox Open Source Edition (OSE), as
 # available from http://www.virtualbox.org. This file is free software;
@@ -13,10 +13,6 @@
 # Foundation, in version 2 as it comes in the "COPYING" file of the
 # VirtualBox OSE distribution. VirtualBox OSE is distributed in the
 # hope that it will be useful, but WITHOUT ANY WARRANTY of any kind.
-#
-# Please contact Sun Microsystems, Inc., 4150 Network Circle, Santa
-# Clara, CA 95054 USA or visit http://www.sun.com if you need
-# additional information or have any questions.
 #
 
 
@@ -287,17 +283,15 @@ setup()
     dox11config="true"
     # By default, we want to run our xorg.conf setup script
     setupxorgconf="true"
+    # But not to install the configuration file into xorg.conf.d
+    doxorgconfd=""
     # But without the workaround for SUSE 11.1 not doing input auto-detection
     newmouse=""
     # By default we want to use hal/udev/whatever for auto-loading the mouse driver
     automouse="--autoMouse"
-    # But we only install the udev rule if we detect a server that needs it
-    udevmouse=""
     # We need to tell our xorg.conf hacking script whether /dev/psaux exists
     nopsaux="--nopsaux"
     test -c /dev/psaux && nopsaux=""
-    # And on newer servers, we want to test whether dynamic resizing will work
-    testrandr="true"
     # The video driver to install for X.Org 6.9+
     vboxvideo_src=
     # The mouse driver to install for X.Org 6.9+
@@ -318,17 +312,25 @@ setup()
 
     echo
     case $x_version in
-        1.7.99.* )
+        1.8.99.* )
             echo "Warning: unsupported pre-release version of X.Org Server installed.  Not"
             echo "installing the X.Org drivers."
             dox11config=""
             ;;
+        1.7.99.* | 1.8.* )
+            begin "Installing X.Org Server 1.8 modules"
+            vboxvideo_src=vboxvideo_drv_18.so
+            vboxmouse_src=vboxmouse_drv_18.so
+            doxorgconfd="true"
+            # Fedora 13 looks likely to ship without vboxvideo detection
+            test "$system" = "redhat" || setupxorgconf=""
+            ;;
         1.6.99.* | 1.7.* )
-            begin "Installing experimental X.Org Server 1.7 modules"
+            begin "Installing X.Org Server 1.7 modules"
             vboxvideo_src=vboxvideo_drv_17.so
             vboxmouse_src=vboxmouse_drv_17.so
             setupxorgconf=""
-            test "$system" = "debian" && udevmouse="true"
+            test "$system" = "debian" && doxorgconfd="true"
             ;;
         1.5.99.* | 1.6.* )
             begin "Installing X.Org Server 1.6 modules"
@@ -377,14 +379,12 @@ setup()
             vboxvideo_src=vboxvideo_drv_71.so
             vboxmouse_src=vboxmouse_drv_71.so
             automouse=""
-            testrandr=""
             ;;
         6.9.* | 7.0.* )
             begin "Installing X.Org 6.9/7.0 modules"
             vboxvideo_src=vboxvideo_drv_70.so
             vboxmouse_src=vboxmouse_drv_70.so
             automouse=""
-            testrandr=""
             ;;
         6.7* | 6.8.* | 4.2.* | 4.3.* )
             # Assume X.Org post-fork or XFree86
@@ -394,7 +394,6 @@ setup()
             ln -s "$lib_dir/vboxvideo_drv.o" "$modules_dir/drivers/vboxvideo_drv.o"
             ln -s "$lib_dir/vboxmouse_drv.o" "$modules_dir/input/vboxmouse_drv.o"
             automouse=""
-            testrandr=""
             succ_msg
             ;;
         * )
@@ -409,18 +408,6 @@ setup()
         ln -s "$lib_dir/$vboxvideo_src" "$modules_dir/drivers/vboxvideo_drv.so"
         ln -s "$lib_dir/$vboxmouse_src" "$modules_dir/input/vboxmouse_drv.so" &&
         succ_msg
-    fi
-    if test -n "$testrandr"; then
-        # Run VBoxRandR in test mode as it prints out useful information if
-        # dynamic resizing can't be used.  Don't fail here though.
-        /usr/bin/VBoxRandR --test 1>&2
-    else
-        cat << EOF
-
-You appear to be running an older version of the X Window system in your
-guest.  Seamless mode and dynamic resizing will not work!
-
-EOF
     fi
 
     if test -n "$dox11config"; then
@@ -474,17 +461,21 @@ EOF
                 # Delete the hal cache so that it notices our fdi file
                 rm -r /var/cache/hald/fdi-cache 2> /dev/null
             fi
-        test -n "$udevmouse" &&
-            if [ -d /etc/udev/rules.d ]
+        if test -n "$doxorgconfd"
+        then
+            if test -d /etc/udev/rules.d
             then
-                echo "KERNEL==\"vboxguest\",ENV{ID_INPUT}=\"1\"" > /etc/udev/rules.d/70-xorg-vboxmouse.rules
-                echo "KERNEL==\"vboxguest\",ENV{ID_INPUT_MOUSE}=\"1\"" >> /etc/udev/rules.d/70-xorg-vboxmouse.rules
-                echo "KERNEL==\"vboxguest\",ENV{x11_driver}=\"vboxmouse\"" >> /etc/udev/rules.d/70-xorg-vboxmouse.rules
+                install -o 0 -g 0 -m 0644 "$share_dir/70-xorg-vboxmouse.rules" /etc/udev/rules.d
                 # This is normally silent.  I have purposely not redirected
                 # error output as I want to know if something goes wrong,
                 # particularly if the command syntax ever changes.
                 udevadm trigger --action=change
             fi
+            test -d /usr/share/X11/xorg.conf.d &&
+                install -o 0 -g 0 -m 0644 "$share_dir/50-vboxmouse.conf" /usr/share/X11/xorg.conf.d
+            test -d /usr/lib/X11/xorg.conf.d &&
+                install -o 0 -g 0 -m 0644 "$share_dir/50-vboxmouse.conf" /usr/lib/X11/xorg.conf.d
+        fi
         succ_msg
         test -n "$generated" &&
             cat << EOF
@@ -616,6 +607,8 @@ EOF
     rm /etc/hal/fdi/policy/90-vboxguest.fdi 2>/dev/null
     rm /etc/udev/rules.d/70-xorg-vboxmouse.rules 2>/dev/null
     udevadm trigger --action=change 2>/dev/null
+    rm /usr/lib/X11/xorg.conf.d/50-vboxmouse.conf 2>/dev/null
+    rm /usr/share/X11/xorg.conf.d/50-vboxmouse.conf 2>/dev/null
     rm /usr/share/xserver-xorg/pci/vboxvideo.ids 2>/dev/null
 }
 

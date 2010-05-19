@@ -1,10 +1,10 @@
-/* $Id: fileaio.h $ */
+/* $Id: fileaio.h 29451 2010-05-13 15:38:48Z vboxsync $ */
 /** @file
  * IPRT - Internal RTFileAio header.
  */
 
 /*
- * Copyright (C) 2009 Sun Microsystems, Inc.
+ * Copyright (C) 2009 Oracle Corporation
  *
  * This file is part of VirtualBox Open Source Edition (OSE), as
  * available from http://www.virtualbox.org. This file is free software;
@@ -22,10 +22,6 @@
  *
  * You may elect to license modified versions of this file under the
  * terms and conditions of either the GPL or the CDDL or both.
- *
- * Please contact Sun Microsystems, Inc., 4150 Network Circle, Santa
- * Clara, CA 95054 USA or visit http://www.sun.com if you need
- * additional information or have any questions.
  */
 
 #ifndef ___internal_fileaio_h
@@ -99,6 +95,14 @@ typedef enum RTFILEAIOREQSTATE
     do { \
         if (RT_UNLIKELY(pReq->enmState == RTFILEAIOREQSTATE_##State)) \
             return rc; \
+    } while (0)
+
+/** Checks if a request in the given states and sserts if not. */
+#define RTFIELAIOREQ_ASSERT_STATE(pReq, State) \
+    do { \
+        AssertPtr((pReq)); \
+        Assert((pReq)->u32Magic == RTFILEAIOREQ_MAGIC); \
+        Assert((pReq)->enmState == RTFILEAIOREQSTATE_##State); \
     } while (0)
 
 /** Sets the request into a specific state. */

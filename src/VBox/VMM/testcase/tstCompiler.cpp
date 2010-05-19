@@ -1,4 +1,4 @@
-/* $Id: tstCompiler.cpp $ */
+/* $Id: tstCompiler.cpp 29440 2010-05-13 01:44:08Z vboxsync $ */
 /** @file
  * Testing how the compiler deals with various things.
  *
@@ -7,7 +7,7 @@
  */
 
 /*
- * Copyright (C) 2006-2007 Sun Microsystems, Inc.
+ * Copyright (C) 2006-2007 Oracle Corporation
  *
  * This file is part of VirtualBox Open Source Edition (OSE), as
  * available from http://www.virtualbox.org. This file is free software;
@@ -16,10 +16,6 @@
  * Foundation, in version 2 as it comes in the "COPYING" file of the
  * VirtualBox OSE distribution. VirtualBox OSE is distributed in the
  * hope that it will be useful, but WITHOUT ANY WARRANTY of any kind.
- *
- * Please contact Sun Microsystems, Inc., 4150 Network Circle, Santa
- * Clara, CA 95054 USA or visit http://www.sun.com if you need
- * additional information or have any questions.
  */
 
 
@@ -32,6 +28,8 @@
 #include <iprt/err.h>
 #include <VBox/x86.h>
 #include <iprt/string.h>
+#include <iprt/message.h>
+#include <iprt/initterm.h>
 
 #if 1
 
@@ -200,7 +198,7 @@ X86PTEPAE64 Return64BitStruct(PX86PTEPAE64 paPT)
 static void DisasFunction(const char *pszName, PFNRT pv)
 {
     RTPrintf("tstBitFields: Disassembly of %s:\n", pszName);
-    RTUINTPTR uCur = (RTUINTPTR)pv;
+    RTUINTPTR uCur = (uintptr_t)pv;
     RTUINTPTR uCurMax = uCur + 256;
     DISCPUSTATE Cpu;
 
@@ -217,7 +215,7 @@ static void DisasFunction(const char *pszName, PFNRT pv)
         }
         else
         {
-            RTPrintf("tstBitFields: %p: %02x - DISInstr failed!\n", uCur, *(uint8_t *)uCur);
+            RTPrintf("tstBitFields: %p: %02x - DISInstr failed!\n", uCur, *(uint8_t *)(uintptr_t)uCur);
             uCur += 1;
         }
     } while (Cpu.pCurInstr->opcode != OP_RETN || uCur > uCurMax);
@@ -226,6 +224,10 @@ static void DisasFunction(const char *pszName, PFNRT pv)
 
 int main()
 {
+    int rc = RTR3Init();
+    if (RT_FAILURE(rc))
+        return RTMsgInitFailure(rc);
+
     RTPrintf("tstBitFields: This testcase requires manual inspection of the output!\n"
              "\n"
              "tstBitFields: The compiler must be able to combine operations when\n"

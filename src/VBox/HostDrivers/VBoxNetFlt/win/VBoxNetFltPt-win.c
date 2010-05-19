@@ -1,10 +1,10 @@
-/* $Id: VBoxNetFltPt-win.c $ */
+/* $Id: VBoxNetFltPt-win.c 29616 2010-05-18 11:55:55Z vboxsync $ */
 /** @file
  * VBoxNetFlt - Network Filter Driver (Host), Windows Specific Code. Protocol edge of ndis filter driver
  */
 
 /*
- * Copyright (C) 2008 Sun Microsystems, Inc.
+ * Copyright (C) 2008 Oracle Corporation
  *
  * This file is part of VirtualBox Open Source Edition (OSE), as
  * available from http://www.virtualbox.org. This file is free software;
@@ -13,10 +13,6 @@
  * Foundation, in version 2 as it comes in the "COPYING" file of the
  * VirtualBox OSE distribution. VirtualBox OSE is distributed in the
  * hope that it will be useful, but WITHOUT ANY WARRANTY of any kind.
- *
- * Please contact Sun Microsystems, Inc., 4150 Network Circle, Santa
- * Clara, CA 95054 USA or visit http://www.sun.com if you need
- * additional information or have any questions.
  */
 /*
  * Based in part on Microsoft DDK sample code for Ndis Intermediate Miniport passthru driver sample.
@@ -302,7 +298,7 @@ vboxNetFltWinPtDoUnbinding(PADAPT pAdapt, bool bOnUnbind)
      * Set the flag that the miniport below is unbinding, so the request handlers will
      * fail any request comming later
      */
-    RTSpinlockAcquire(pNetFlt->hSpinlock, &Tmp);
+    RTSpinlockAcquireNoInts(pNetFlt->hSpinlock, &Tmp);
 
     ASMAtomicUoWriteBool(&pNetFlt->fDisconnectedFromHost, true);
     ASMAtomicUoWriteBool(&pNetFlt->fRediscoveryPending, false);
@@ -335,7 +331,7 @@ vboxNetFltWinPtDoUnbinding(PADAPT pAdapt, bool bOnUnbind)
     }
 
 
-    RTSpinlockRelease(pNetFlt->hSpinlock, &Tmp);
+    RTSpinlockReleaseNoInts(pNetFlt->hSpinlock, &Tmp);
 
     if (CompleteRequest == TRUE)
     {
@@ -581,15 +577,15 @@ vboxNetFltWinPtRequestComplete(
         }
         if(Oid == OID_GEN_CURRENT_PACKET_FILTER && VBOXNETFLT_PROMISCUOUS_SUPPORTED(pAdapt))
         {
-        	/* we're here _ONLY_ in the passthru mode */
-        	Assert(pAdapt->fProcessingPacketFilter == VBOXNETFLT_PFP_PASSTHRU);
-        	if(pAdapt->fProcessingPacketFilter == VBOXNETFLT_PFP_PASSTHRU)
-        	{
-				PVBOXNETFLTINS pNetFltIf = PADAPT_2_PVBOXNETFLTINS(pAdapt);
-				Assert(!pNetFltIf->fActive);
-				vboxNetFltWinDereferenceModePassThru(pNetFltIf);
-				vboxNetFltWinDereferenceAdapt(pAdapt);
-        	}
+            /* we're here _ONLY_ in the passthru mode */
+            Assert(pAdapt->fProcessingPacketFilter == VBOXNETFLT_PFP_PASSTHRU);
+            if(pAdapt->fProcessingPacketFilter == VBOXNETFLT_PFP_PASSTHRU)
+            {
+                PVBOXNETFLTINS pNetFltIf = PADAPT_2_PVBOXNETFLTINS(pAdapt);
+                Assert(pNetFltIf->enmTrunkState != INTNETTRUNKIFSTATE_ACTIVE);
+                vboxNetFltWinDereferenceModePassThru(pNetFltIf);
+                vboxNetFltWinDereferenceAdapt(pAdapt);
+            }
 
             if(Status == NDIS_STATUS_SUCCESS)
             {
@@ -616,7 +612,7 @@ vboxNetFltWinPtRequestComplete(
               Assert(Status == NDIS_STATUS_SUCCESS);
               if(pAdapt->fProcessingPacketFilter == VBOXNETFLT_PFP_NETFLT)
               {
-            	  Assert(pNetFltIf->fActive);
+                  Assert(pNetFltIf->enmTrunkState == INTNETTRUNKIFSTATE_ACTIVE);
                   if(Status == NDIS_STATUS_SUCCESS)
                   {
                       pAdapt->fOurSetFilter = *((PULONG)pAdapt->Request.DATA.SET_INFORMATION.InformationBuffer);
@@ -628,7 +624,7 @@ vboxNetFltWinPtRequestComplete(
               }
               else if(pAdapt->fProcessingPacketFilter == VBOXNETFLT_PFP_PASSTHRU)
               {
-            	  Assert(!pNetFltIf->fActive);
+                  Assert(pNetFltIf->enmTrunkState != INTNETTRUNKIFSTATE_ACTIVE);
 
                   if(Status == NDIS_STATUS_SUCCESS)
                   {
@@ -852,7 +848,7 @@ vboxNetFltWinPtQueueReceivedPacket(
 
     Assert(KeGetCurrentIrql() == DISPATCH_LEVEL);
     do{
-        RTSpinlockAcquire(pNetFlt->hSpinlock, &Tmp);
+        RTSpinlockAcquireNoInts(pNetFlt->hSpinlock, &Tmp);
 
         Assert(pAdapt->cReceivedPacketCount < MAX_RECEIVE_PACKET_ARRAY_SIZE);
 
@@ -896,7 +892,7 @@ vboxNetFltWinPtQueueReceivedPacket(
                 DoIndicate = TRUE;
             }
         }
-        RTSpinlockRelease(pNetFlt->hSpinlock, &Tmp);
+        RTSpinlockReleaseNoInts(pNetFlt->hSpinlock, &Tmp);
     } while(0);
 
     if(!bReturn)
@@ -987,6 +983,7 @@ static bool vboxNetFltWinPtTransferDataCompleteActive(IN PADAPT pAdapt,
                 /* 2. enqueue */
                 /* use the same packet info to put the packet in the processing packet queue */
 #ifdef VBOX_NETFLT_ONDEMAND_BIND
+# error "port me or remove VBOX_NETFLT_ONDEMAND_BIND"
                 PNDIS_BUFFER pBuffer;
                 PVOID pVA;
                 UINT cbLength;
@@ -995,7 +992,7 @@ static bool vboxNetFltWinPtTransferDataCompleteActive(IN PADAPT pAdapt,
                 NdisQueryPacket(pPacket, NULL, NULL, &pBuffer, NULL);
                 NdisQueryBufferSafe(pBuffer, &pVA, &cbLength, NormalPagePriority);
 
-                fFlags = MACS_EQUAL(((PRTNETETHERHDR)pVA)->SrcMac, pNetFltIf->u.s.Mac) ?
+                fFlags = MACS_EQUAL(((PRTNETETHERHDR)pVA)->SrcMac, pNetFltIf->u.s.MacAddr) ?
                                                 PACKET_MINE | PACKET_SRC_HOST : PACKET_MINE;
                 SET_FLAGS_TO_INFO(pInfo, fFlags);
 
@@ -1014,14 +1011,28 @@ static bool vboxNetFltWinPtTransferDataCompleteActive(IN PADAPT pAdapt,
                 pRecvRsvd->pBufToFree = NULL;
 
                 NdisSetPacketFlags(pPacket, 0);
-
+# ifdef VBOXNETFLT_NO_PACKET_QUEUE
+                if (vboxNetFltWinPostIntnet(pNetFltIf, pPacket, 0))
+                {
+                    /* drop it */
+                    vboxNetFltWinFreeSGNdisPacket(pPacket, true);
+                    vboxNetFltWinDereferenceAdapt(pAdapt);
+                }
+                else
+                {
+                    NdisMIndicateReceivePacket(pAdapt->hMiniportHandle, &pPacket, 1);
+                }
+                vboxNetFltWinDereferenceNetFlt(pNetFltIf);
+                break;
+# else
                 Status = vboxNetFltWinQuEnqueuePacket(pNetFltIf, pPacket, PACKET_MINE);
-#endif
-                if(Status == NDIS_STATUS_SUCCESS)
+                if (Status == NDIS_STATUS_SUCCESS)
                 {
                     break;
                 }
                 Assert(0);
+# endif
+#endif
             }
         }
         else
@@ -1092,7 +1103,7 @@ vboxNetFltWinPtFlushReceiveQueue(
 
     do
     {
-        RTSpinlockAcquire(pNetFlt->hSpinlock, &Tmp);
+        RTSpinlockAcquireNoInts(pNetFlt->hSpinlock, &Tmp);
 
         if (pAdapt->cReceivedPacketCount > 0)
         {
@@ -1106,7 +1117,7 @@ vboxNetFltWinPtFlushReceiveQueue(
              */
             pAdapt->cReceivedPacketCount = 0;
 
-            RTSpinlockRelease(pNetFlt->hSpinlock, &Tmp);
+            RTSpinlockReleaseNoInts(pNetFlt->hSpinlock, &Tmp);
 
             if(!bReturn)
             {
@@ -1135,7 +1146,7 @@ vboxNetFltWinPtFlushReceiveQueue(
         }
 
         /* we are here only in case pAdapt->cReceivedPacketCount == 0 */
-        RTSpinlockRelease(pNetFlt->hSpinlock, &Tmp);
+        RTSpinlockReleaseNoInts(pNetFlt->hSpinlock, &Tmp);
     } while (FALSE);
 }
 
@@ -1342,9 +1353,10 @@ vboxNetFltWinPtReceiveActive(
             pLb = vboxNetFltWinLbSearchLoopBackBySG(pAdapt, pSG, false);
             if(pLb)
             {
+#ifndef DEBUG_NETFLT_RECV_NOPACKET
                 /* should not be here */
                 Assert(0);
-
+#endif
                 if(!vboxNetFltWinLbIsFromIntNet(pLb))
                 {
                     PNDIS_PACKET pMyPacket;
@@ -1379,20 +1391,56 @@ vboxNetFltWinPtReceiveActive(
 
                 /* enqueue SG */
 #ifdef VBOX_NETFLT_ONDEMAND_BIND
+# ifdef VBOXNETFLT_NO_PACKET_QUEUE
+#  error "port me or remove VBOX_NETFLT_ONDEMAND_BIND"
+# endif
                 {
-                    uint32_t fFlags = MACS_EQUAL(((PRTNETETHERHDR)pRcvData)->SrcMac, pNetFlt->u.s.Mac) ?
+                    uint32_t fFlags = MACS_EQUAL(((PRTNETETHERHDR)pRcvData)->SrcMac, pNetFlt->u.s.MacAddr) ?
                             PACKET_SG | PACKET_MINE | PACKET_SRC_HOST : PACKET_SG | PACKET_MINE;
                     Status = vboxNetFltWinQuEnqueuePacket(pNetFlt, pSG, fFlags);
                 }
 #else
+# ifdef VBOXNETFLT_NO_PACKET_QUEUE
+            if (vboxNetFltWinPostIntnet(pNetFlt, pSG, PACKET_SG))
+            {
+                /* drop it */
+                vboxNetFltWinMemFree(pSG);
+                vboxNetFltWinDereferenceAdapt(pAdapt);
+            }
+            else
+            {
+                PNDIS_PACKET pMyPacket = vboxNetFltWinNdisPacketFromSG(pAdapt, /* PADAPT */
+                        pSG, /* PINTNETSG */
+                        pSG, /* PVOID pBufToFree */
+                        false, /* bool bToWire */
+                        false); /* bool bCopyMemory */
+                Assert(pMyPacket);
+                if (pMyPacket)
+                {
+                    NDIS_SET_PACKET_STATUS(pMyPacket, NDIS_STATUS_SUCCESS);
+
+                    DBG_CHECK_PACKET_AND_SG(pMyPacket, pSG);
+
+                    LogFlow(("non-ndis packet info, packet created (%p)\n", pMyPacket));
+                    NdisMIndicateReceivePacket(pAdapt->hMiniportHandle, &pMyPacket, 1);
+                }
+                else
+                {
+                    vboxNetFltWinDereferenceAdapt(pAdapt);
+                    Status = NDIS_STATUS_RESOURCES;
+                }
+            }
+            vboxNetFltWinDereferenceNetFlt(pNetFlt);
+# else
             Status = vboxNetFltWinQuEnqueuePacket(pNetFlt, pSG, PACKET_SG | PACKET_MINE);
-#endif
             if(Status != NDIS_STATUS_SUCCESS)
             {
                 Assert(0);
                 vboxNetFltWinMemFree(pSG);
                 break;
             }
+# endif
+#endif
         }
         else
 #endif /* #ifndef DEBUG_NETFLT_RECV_TRANSFERDATA */
@@ -1571,7 +1619,7 @@ vboxNetFltWinPtReceive(
 //                    break;
                 }
 
-                fFlags = MACS_EQUAL(((PRTNETETHERHDR)pHeaderBuffer)->SrcMac, pNetFltIf->u.s.Mac) ?
+                fFlags = MACS_EQUAL(((PRTNETETHERHDR)pHeaderBuffer)->SrcMac, pNetFltIf->u.s.MacAddr) ?
                         PACKET_COPY | PACKET_SRC_HOST : PACKET_COPY;
                 Status = vboxNetFltWinQuEnqueuePacket(pNetFltIf, pPacket, fFlags);
                 if(Status == NDIS_STATUS_SUCCESS)
@@ -1654,12 +1702,19 @@ vboxNetFltWinPtReceive(
                     if(bNetFltActive)
                     {
 #ifndef VBOX_LOOPBACK_USEFLAGS
-                        pLb = vboxNetFltWinLbSearchLoopBack(pAdapt, pPacket, true /* ??? no need to keep it, so remove */);
+                        pLb = vboxNetFltWinLbSearchLoopBack(pAdapt, pPacket, false);
                         if(!pLb)
 #endif
                         {
                             VBOXNETFLT_LBVERIFY(pNetFlt, pPacket);
 
+#ifdef VBOXNETFLT_NO_PACKET_QUEUE
+                            if (vboxNetFltWinPostIntnet(pNetFlt, pPacket, 0))
+                            {
+                                /* drop it */
+                                break;
+                            }
+#else
                             Status = vboxNetFltWinQuEnqueuePacket(pNetFlt, pPacket, PACKET_COPY);
                             Assert(Status == NDIS_STATUS_SUCCESS);
                             if(Status == NDIS_STATUS_SUCCESS)
@@ -1669,6 +1724,7 @@ vboxNetFltWinPtReceive(
                                 bNetFltActive = false;
                                 break;
                             }
+#endif
                         }
 #ifndef VBOX_LOOPBACK_USEFLAGS
                         else if(vboxNetFltWinLbIsFromIntNet(pLb))
@@ -1693,11 +1749,13 @@ vboxNetFltWinPtReceive(
                     Assert(fAdaptActive);
                 } while(FALSE);
 
+#ifdef VBOXNETFLT_NO_PACKET_QUEUE
                 if(Status == NDIS_STATUS_SUCCESS || Status == NDIS_STATUS_NOT_ACCEPTED
-#ifndef VBOX_LOOPBACK_USEFLAGS
+# ifndef VBOX_LOOPBACK_USEFLAGS
                         || pLb
-#endif
+# endif
                         )
+#endif
                 {
                     break;
                 }
@@ -1911,7 +1969,7 @@ vboxNetFltWinPtReceivePacket(
                 break;
             }
 
-            fFlags = MACS_EQUAL(((PRTNETETHERHDR)pVA)->SrcMac, pNetFltIf->u.s.Mac) ? PACKET_SRC_HOST : 0;
+            fFlags = MACS_EQUAL(((PRTNETETHERHDR)pVA)->SrcMac, pNetFltIf->u.s.MacAddr) ? PACKET_SRC_HOST : 0;
 
             Status = vboxNetFltWinQuEnqueuePacket(pNetFltIf, pPacket, bResources ? fFlags | PACKET_COPY : fFlags);
             if(Status == NDIS_STATUS_SUCCESS)
@@ -1973,11 +2031,13 @@ vboxNetFltWinPtReceivePacket(
             if(bNetFltActive)
             {
 #ifndef VBOX_LOOPBACK_USEFLAGS
-                PNDIS_PACKET pLb = vboxNetFltWinLbSearchLoopBack(pAdapt, pPacket, true /* ??? no need to keep it, so remove */);
+                PNDIS_PACKET pLb = vboxNetFltWinLbSearchLoopBack(pAdapt, pPacket, false);
                 if(!pLb)
 #endif
                 {
+#ifndef VBOXNETFLT_NO_PACKET_QUEUE
                     NDIS_STATUS fStatus;
+#endif
                     bool bResources = NDIS_GET_PACKET_STATUS(pPacket) == NDIS_STATUS_RESOURCES;
 
                     VBOXNETFLT_LBVERIFY(pNetFlt, pPacket);
@@ -1987,6 +2047,15 @@ vboxNetFltWinPtReceivePacket(
                      * we're probably doing something wrong with the packets if the miniport reports NDIS_STATUS_RESOURCES */
                     Assert(!bResources);
 
+#ifdef VBOXNETFLT_NO_PACKET_QUEUE
+                    if (vboxNetFltWinPostIntnet(pNetFlt, pPacket, 0))
+                    {
+                        /* drop it */
+                        cRefCount = 0;
+                        break;
+                    }
+
+#else
                     fStatus = vboxNetFltWinQuEnqueuePacket(pNetFlt, pPacket, bResources ? PACKET_COPY : 0);
                     if(fStatus == NDIS_STATUS_SUCCESS)
                     {
@@ -2007,6 +2076,7 @@ vboxNetFltWinPtReceivePacket(
                     {
                         Assert(0);
                     }
+#endif
                 }
 #ifndef VBOX_LOOPBACK_USEFLAGS
                 else if(vboxNetFltWinLbIsFromIntNet(pLb))
@@ -2115,23 +2185,23 @@ DECLHIDDEN(bool) vboxNetFltWinPtCloseAdapter(PADAPT pAdapt, PNDIS_STATUS pStatus
     PVBOXNETFLTINS pNetFlt = PADAPT_2_PVBOXNETFLTINS(pAdapt);
     RTSPINLOCKTMP Tmp = RTSPINLOCKTMP_INITIALIZER;
 
-    RTSpinlockAcquire(pNetFlt->hSpinlock, &Tmp);
+    RTSpinlockAcquireNoInts(pNetFlt->hSpinlock, &Tmp);
 
     if(pAdapt->bClosingAdapter)
     {
-        RTSpinlockRelease(pNetFlt->hSpinlock, &Tmp);
+        RTSpinlockReleaseNoInts(pNetFlt->hSpinlock, &Tmp);
         Assert(0);
         return false;
     }
     if (pAdapt->hBindingHandle == NULL)
     {
-        RTSpinlockRelease(pNetFlt->hSpinlock, &Tmp);
+        RTSpinlockReleaseNoInts(pNetFlt->hSpinlock, &Tmp);
         Assert(0);
         return false;
     }
 
     pAdapt->bClosingAdapter = true;
-    RTSpinlockRelease(pNetFlt->hSpinlock, &Tmp);
+    RTSpinlockReleaseNoInts(pNetFlt->hSpinlock, &Tmp);
 
     /*
      * Close the binding below. and wait for it to complete
@@ -2180,7 +2250,7 @@ vboxNetFltWinPtPnPNetEventSetPower(
     /*
      * Set the Internal Device State, this blocks all new sends or receives
      */
-    RTSpinlockAcquire(pNetFlt->hSpinlock, &Tmp);
+    RTSpinlockAcquireNoInts(pNetFlt->hSpinlock, &Tmp);
 
     vboxNetFltWinSetPowerState(&pAdapt->PTState, *pDeviceState);
 
@@ -2196,7 +2266,7 @@ vboxNetFltWinPtPnPNetEventSetPower(
         {
             pAdapt->bStandingBy = TRUE;
         }
-        RTSpinlockRelease(pNetFlt->hSpinlock, &Tmp);
+        RTSpinlockReleaseNoInts(pNetFlt->hSpinlock, &Tmp);
 #ifndef VBOX_NETFLT_ONDEMAND_BIND
 
         vboxNetFltWinPtFlushReceiveQueue(pAdapt, false);
@@ -2221,16 +2291,16 @@ vboxNetFltWinPtPnPNetEventSetPower(
         /*
          * If the below miniport is going to low power state, complete the queued request
          */
-        RTSpinlockAcquire(pNetFlt->hSpinlock, &Tmp);
+        RTSpinlockAcquireNoInts(pNetFlt->hSpinlock, &Tmp);
         if (pAdapt->bQueuedRequest)
         {
             pAdapt->bQueuedRequest = FALSE;
-            RTSpinlockRelease(pNetFlt->hSpinlock, &Tmp);
+            RTSpinlockReleaseNoInts(pNetFlt->hSpinlock, &Tmp);
             vboxNetFltWinPtRequestComplete(pAdapt, &pAdapt->Request, NDIS_STATUS_FAILURE);
         }
         else
         {
-            RTSpinlockRelease(pNetFlt->hSpinlock, &Tmp);
+            RTSpinlockReleaseNoInts(pNetFlt->hSpinlock, &Tmp);
         }
 #endif
 
@@ -2258,7 +2328,7 @@ vboxNetFltWinPtPnPNetEventSetPower(
         }
 
 #ifdef VBOX_NETFLT_ONDEMAND_BIND
-        RTSpinlockRelease(pNetFlt->hSpinlock, &Tmp);
+        RTSpinlockReleaseNoInts(pNetFlt->hSpinlock, &Tmp);
 #else
         /*
          * The device below is being turned on. If we had a request
@@ -2271,7 +2341,7 @@ vboxNetFltWinPtPnPNetEventSetPower(
             pAdapt->bQueuedRequest = FALSE;
 
             pAdapt->bOutstandingRequests = TRUE;
-            RTSpinlockRelease(pNetFlt->hSpinlock, &Tmp);
+            RTSpinlockReleaseNoInts(pNetFlt->hSpinlock, &Tmp);
 
             NdisRequest(&Status,
                         pAdapt->hBindingHandle,
@@ -2287,7 +2357,7 @@ vboxNetFltWinPtPnPNetEventSetPower(
         }
         else
         {
-            RTSpinlockRelease(pNetFlt->hSpinlock, &Tmp);
+            RTSpinlockReleaseNoInts(pNetFlt->hSpinlock, &Tmp);
         }
 
 #endif /* #ifndef VBOX_NETFLT_ONDEMAND_BIND */

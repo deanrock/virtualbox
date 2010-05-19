@@ -21,14 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-/*
- * Sun LGPL Disclaimer: For the avoidance of doubt, except that if any license choice
- * other than GPL or LGPL is available it will apply instead, Sun elects to use only
- * the Lesser General Public License version 2.1 (LGPLv2) at this time for any software where
- * a choice of LGPL license versions is made available with the language indicating
- * that LGPLv2 or any later version may be used, or where a choice of which version
- * of the LGPL is applied is otherwise unspecified.
- */
+
 #define TCG_TARGET_X86_64 1
 
 #define TCG_TARGET_REG_BITS 64
@@ -59,7 +52,7 @@ enum {
 #define TCG_CT_CONST_U32 0x200
 
 /* used for function call generation */
-#define TCG_REG_CALL_STACK TCG_REG_RSP 
+#define TCG_REG_CALL_STACK TCG_REG_RSP
 #define TCG_TARGET_STACK_ALIGN 16
 #define TCG_TARGET_CALL_STACK_OFFSET 0
 

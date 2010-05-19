@@ -3,10 +3,15 @@
  */
 
 /*
- * Copyright (C) 2008 Sun Microsystems, Inc.
+ * Copyright (C) 2008 Oracle Corporation
  *
- * Sun Microsystems, Inc. confidential
- * All rights reserved
+ * This file is part of VirtualBox Open Source Edition (OSE), as
+ * available from http://www.virtualbox.org. This file is free software;
+ * you can redistribute it and/or modify it under the terms of the GNU
+ * General Public License (GPL) as published by the Free Software
+ * Foundation, in version 2 as it comes in the "COPYING" file of the
+ * VirtualBox OSE distribution. VirtualBox OSE is distributed in the
+ * hope that it will be useful, but WITHOUT ANY WARRANTY of any kind.
  */
 /*
  * Provider interfaces for shared folder file system.
@@ -114,7 +119,7 @@ sfprov_mount(sfp_connection_t *conn, char *path, sfp_mount_t **mnt)
 	m = kmem_zalloc(sizeof (*m), KM_SLEEP);
 	str = sfprov_string(path, &size);
 	rc = vboxCallMapFolder(&vbox_client, str, &m->map);
-	if (!VBOX_SUCCESS(rc)) {
+	if (!RT_SUCCESS(rc)) {
 		cmn_err(CE_WARN, "sfprov_mount: vboxCallMapFolder() failed");
 		kmem_free(m, sizeof (*m));
 		*mnt = NULL;
@@ -133,7 +138,7 @@ sfprov_unmount(sfp_mount_t *mnt)
 	int rc;
 
 	rc = vboxCallUnmapFolder(&vbox_client, &mnt->map);
-	if (!VBOX_SUCCESS(rc)) {
+	if (!RT_SUCCESS(rc)) {
 		cmn_err(CE_WARN, "sfprov_mount: vboxCallUnmapFolder() failed");
 		rc = EINVAL;
 	} else {
@@ -155,7 +160,7 @@ sfprov_get_blksize(sfp_mount_t *mnt, uint64_t *blksize)
 
 	rc = vboxCallFSInfo(&vbox_client, &mnt->map, 0,
 	    (SHFL_INFO_GET | SHFL_INFO_VOLUME), &bytes, (SHFLDIRINFO *)&info);
-	if (VBOX_FAILURE(rc))
+	if (RT_FAILURE(rc))
 		return (EINVAL);
 	*blksize = info.ulBytesPerAllocationUnit;
 	return (0);
@@ -170,7 +175,7 @@ sfprov_get_blksused(sfp_mount_t *mnt, uint64_t *blksused)
 
 	rc = vboxCallFSInfo(&vbox_client, &mnt->map, 0,
 	    (SHFL_INFO_GET | SHFL_INFO_VOLUME), &bytes, (SHFLDIRINFO *)&info);
-	if (VBOX_FAILURE(rc))
+	if (RT_FAILURE(rc))
 		return (EINVAL);
 	*blksused = (info.ullTotalAllocationBytes -
 	    info.ullAvailableAllocationBytes) / info.ulBytesPerAllocationUnit;
@@ -186,7 +191,7 @@ sfprov_get_blksavail(sfp_mount_t *mnt, uint64_t *blksavail)
 
 	rc = vboxCallFSInfo(&vbox_client, &mnt->map, 0,
 	    (SHFL_INFO_GET | SHFL_INFO_VOLUME), &bytes, (SHFLDIRINFO *)&info);
-	if (VBOX_FAILURE(rc))
+	if (RT_FAILURE(rc))
 		return (EINVAL);
 	*blksavail =
 	    info.ullAvailableAllocationBytes / info.ulBytesPerAllocationUnit;
@@ -202,7 +207,7 @@ sfprov_get_maxnamesize(sfp_mount_t *mnt, uint32_t *maxnamesize)
 
 	rc = vboxCallFSInfo(&vbox_client, &mnt->map, 0,
 	    (SHFL_INFO_GET | SHFL_INFO_VOLUME), &bytes, (SHFLDIRINFO *)&info);
-	if (VBOX_FAILURE(rc))
+	if (RT_FAILURE(rc))
 		return (EINVAL);
 	*maxnamesize = info.fsProperties.cbMaxComponent;
 	return (0);
@@ -217,7 +222,7 @@ sfprov_get_readonly(sfp_mount_t *mnt, uint32_t *readonly)
 
 	rc = vboxCallFSInfo(&vbox_client, &mnt->map, 0,
 	    (SHFL_INFO_GET | SHFL_INFO_VOLUME), &bytes, (SHFLDIRINFO *)&info);
-	if (VBOX_FAILURE(rc))
+	if (RT_FAILURE(rc))
 		return (EINVAL);
 	*readonly = info.fsProperties.fReadOnly;
 	return (0);
@@ -278,19 +283,18 @@ sfprov_open(sfp_mount_t *mnt, char *path, sfp_file_t **fp)
 	 * First we attempt to open it read/write. If that fails we
 	 * try read only.
 	 */
+	bzero(&parms, sizeof(parms));
 	str = sfprov_string(path, &size);
-	parms.Handle = 0;
+	parms.Handle = SHFL_HANDLE_NIL;
 	parms.Info.cbObject = 0;
 	parms.CreateFlags = SHFL_CF_ACT_FAIL_IF_NEW | SHFL_CF_ACCESS_READWRITE;
 	rc = vboxCallCreate(&vbox_client, &mnt->map, str, &parms);
-
-	if (RT_FAILURE(rc)) {
+	if (RT_FAILURE(rc) && rc != VERR_ACCESS_DENIED) {
 		kmem_free(str, size);
-		return (EINVAL);
+		return RTErrConvertToErrno(rc);
 	}
 	if (parms.Handle == SHFL_HANDLE_NIL) {
-		if (parms.Result == SHFL_NO_RESULT ||
-		    parms.Result == SHFL_PATH_NOT_FOUND ||
+		if (parms.Result == SHFL_PATH_NOT_FOUND ||
 		    parms.Result == SHFL_FILE_NOT_FOUND) {
 			kmem_free(str, size);
 			return (ENOENT);
@@ -300,7 +304,7 @@ sfprov_open(sfp_mount_t *mnt, char *path, sfp_file_t **fp)
 		rc = vboxCallCreate(&vbox_client, &mnt->map, str, &parms);
 		if (RT_FAILURE(rc)) {
 			kmem_free(str, size);
-			return (EINVAL);
+			return RTErrConvertToErrno(rc);
 		}
 		if (parms.Handle == SHFL_HANDLE_NIL) {
 			kmem_free(str, size);
@@ -321,7 +325,6 @@ sfprov_trunc(sfp_mount_t *mnt, char *path)
 	SHFLCREATEPARMS parms;
 	SHFLSTRING *str;
 	int size;
-	sfp_file_t *newfp;
 
 	/*
 	 * open it read/write.
@@ -445,6 +448,8 @@ sfprov_get_mode(sfp_mount_t *mnt, char *path, mode_t *mode)
 		m |= S_IWOTH;
 	if (info.Attr.fMode & RTFS_UNIX_IXOTH)
 		m |= S_IXOTH;
+	if (info.Attr.fMode & RTFS_UNIX_ISUID)
+		m |= S_ISUID;
 	*mode = m;
 	return (0);
 }
@@ -626,8 +631,6 @@ sfprov_readdir(
 	int mask_size;
 	sfp_file_t *fp;
 	void *buff_start = NULL;
-	char **curr_b;
-	char *buff_end;
 	size_t buff_size;
 	static char infobuff[2 * MAXNAMELEN];	/* not on stack!! */
 	SHFLDIRINFO *info = (SHFLDIRINFO *)&infobuff;
@@ -673,15 +676,15 @@ sfprov_readdir(
 		justone = 1;
 		numbytes = sizeof (infobuff);
 		error = vboxCallDirInfo(&vbox_client, &fp->map, fp->handle,
-		    mask_str, SHFL_LIST_RETURN_ONE, cnt, &numbytes, info,
+		    mask_str, SHFL_LIST_RETURN_ONE, 0, &numbytes, info,
 		    &justone);
 		if (error == VERR_NO_MORE_FILES) {
 			break;
 		}
-		if (error == VERR_NO_TRANSLATION) {
+		else if (error == VERR_NO_TRANSLATION) {
 			continue;	/* ?? just skip this one */
 		}
-		if (error != VINF_SUCCESS || justone != 1) {
+		else if (error != VINF_SUCCESS || justone != 1) {
 			error = EINVAL;
 	 		goto done;
 		}

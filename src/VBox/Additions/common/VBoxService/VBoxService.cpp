@@ -1,10 +1,10 @@
-/* $Id: VBoxService.cpp $ */
+/* $Id: VBoxService.cpp 29647 2010-05-18 15:59:51Z vboxsync $ */
 /** @file
  * VBoxService - Guest Additions Service Skeleton.
  */
 
 /*
- * Copyright (C) 2007-2009 Sun Microsystems, Inc.
+ * Copyright (C) 2007-2010 Oracle Corporation
  *
  * This file is part of VirtualBox Open Source Edition (OSE), as
  * available from http://www.virtualbox.org. This file is free software;
@@ -13,10 +13,6 @@
  * Foundation, in version 2 as it comes in the "COPYING" file of the
  * VirtualBox OSE distribution. VirtualBox OSE is distributed in the
  * hope that it will be useful, but WITHOUT ANY WARRANTY of any kind.
- *
- * Please contact Sun Microsystems, Inc., 4150 Network Circle, Santa
- * Clara, CA 95054 USA or visit http://www.sun.com if you need
- * additional information or have any questions.
  */
 
 
@@ -29,7 +25,11 @@
 # include <unistd.h>
 #endif
 #include <errno.h>
+#ifndef RT_OS_WINDOWS
+# include <signal.h>
+#endif
 
+#include "product-generated.h"
 #include <iprt/asm.h>
 #include <iprt/buildconfig.h>
 #include <iprt/initterm.h>
@@ -87,8 +87,17 @@ static struct
 #ifdef VBOXSERVICE_VMINFO
     { &g_VMInfo,    NIL_RTTHREAD, false, false, false, true },
 #endif
-#ifdef VBOXSERVICE_EXEC
-    { &g_Exec,      NIL_RTTHREAD, false, false, false, true },
+#ifdef VBOXSERVICE_CPUHOTPLUG
+    { &g_CpuHotPlug, NIL_RTTHREAD, false, false, false, true },
+#endif
+#ifdef VBOXSERVICE_MANAGEMENT
+# ifdef VBOX_WITH_MEMBALLOON
+    { &g_MemBalloon, NIL_RTTHREAD, false, false, false, true },
+# endif
+    { &g_VMStatistics, NIL_RTTHREAD, false, false, false, true },
+#endif
+#ifdef VBOX_WITH_PAGE_SHARING
+    { &g_PageSharing, NIL_RTTHREAD, false, false, false, true },
 #endif
 };
 
@@ -100,35 +109,38 @@ static struct
  */
 static int VBoxServiceUsage(void)
 {
-    RTPrintf("usage: %s [-f|--foreground] [-v|--verbose] [-i|--interval <seconds>]\n"
-             "           [--disable-<service>] [--enable-<service>] [-h|-?|--help]\n", g_pszProgName);
+    RTPrintf("Usage:\n"
+             " %-12s [-f|--foreground] [-v|--verbose] [-i|--interval <seconds>]\n"
+             "              [--disable-<service>] [--enable-<service>] [-h|-?|--help]\n", g_pszProgName);
 #ifdef RT_OS_WINDOWS
-    RTPrintf("           [-r|--register] [-u|--unregister]\n");
+    RTPrintf("              [-r|--register] [-u|--unregister]\n");
 #endif
     for (unsigned j = 0; j < RT_ELEMENTS(g_aServices); j++)
-        RTPrintf("           %s\n", g_aServices[j].pDesc->pszUsage);
+        if (g_aServices[j].pDesc->pszUsage)
+            RTPrintf("%s\n", g_aServices[j].pDesc->pszUsage);
     RTPrintf("\n"
              "Options:\n"
-             "    -i | --interval          The default interval.\n"
-             "    -f | --foreground        Don't daemonzie the program. For debugging.\n"
-             "    -v | --verbose           Increment the verbosity level. For debugging.\n"
-             "    -h | -? | --help         Show this message and exit with status 1.\n"
+             "    -i | --interval         The default interval.\n"
+             "    -f | --foreground       Don't daemonzie the program. For debugging.\n"
+             "    -v | --verbose          Increment the verbosity level. For debugging.\n"
+             "    -h | -? | --help        Show this message and exit with status 1.\n"
              );
 #ifdef RT_OS_WINDOWS
-    RTPrintf("    -r | --register          Installs the service.\n"
-             "    -u | --unregister        Uninstall service.\n");
+    RTPrintf("    -r | --register         Installs the service.\n"
+             "    -u | --unregister       Uninstall service.\n");
 #endif
 
     RTPrintf("\n"
-             "Service specific options:\n");
+             "Service-specific options:\n");
     for (unsigned j = 0; j < RT_ELEMENTS(g_aServices); j++)
     {
-        RTPrintf("    --enable-%-10s Enables the %s service. (default)\n", g_aServices[j].pDesc->pszName, g_aServices[j].pDesc->pszName);
-        RTPrintf("    --disable-%-9s Disables the %s service.\n", g_aServices[j].pDesc->pszName, g_aServices[j].pDesc->pszName);
-        RTPrintf("%s", g_aServices[j].pDesc->pszOptions);
+        RTPrintf("    --enable-%-14s Enables the %s service. (default)\n", g_aServices[j].pDesc->pszName, g_aServices[j].pDesc->pszName);
+        RTPrintf("    --disable-%-13s Disables the %s service.\n", g_aServices[j].pDesc->pszName, g_aServices[j].pDesc->pszName);
+        if (g_aServices[j].pDesc->pszOptions)
+            RTPrintf("%s", g_aServices[j].pDesc->pszOptions);
     }
     RTPrintf("\n"
-             " Copyright (C) 2009 Sun Microsystems, Inc.\n");
+             " Copyright (C) 2009-" VBOX_C_YEAR " " VBOX_VENDOR "\n");
 
     return 1;
 }
@@ -246,6 +258,16 @@ int VBoxServiceArgUInt32(int argc, char **argv, const char *psz, int *pi, uint32
 static DECLCALLBACK(int) VBoxServiceThread(RTTHREAD ThreadSelf, void *pvUser)
 {
     const unsigned i = (uintptr_t)pvUser;
+
+#ifndef RT_OS_WINDOWS
+    /*
+     * Block all signals for this thread. Only the main thread will handle signals.
+     */
+    sigset_t signalMask;
+    sigfillset(&signalMask);
+    pthread_sigmask(SIG_BLOCK, &signalMask, NULL);
+#endif
+
     int rc = g_aServices[i].pDesc->pfnWorker(&g_aServices[i].fShutdown);
     ASMAtomicXchgBool(&g_aServices[i].fShutdown, true);
     RTThreadUserSignal(ThreadSelf);
@@ -265,6 +287,7 @@ unsigned VBoxServiceGetStartedServices(void)
 
    return iMain; /* Return the index of the main service (must always come last!). */
 }
+
 
 /**
  * Starts the service.
@@ -288,9 +311,16 @@ int VBoxServiceStartServices(unsigned iMain)
             rc = g_aServices[j].pDesc->pfnInit();
             if (RT_FAILURE(rc))
             {
-                VBoxServiceError("Service '%s' failed to initialize: %Rrc\n",
-                                 g_aServices[j].pDesc->pszName, rc);
-                return rc;
+                if (rc != VERR_SERVICE_DISABLED)
+                {
+                    VBoxServiceError("Service '%s' failed to initialize: %Rrc\n",
+                                     g_aServices[j].pDesc->pszName, rc);
+                    return rc;
+                }
+                g_aServices[j].fEnabled = false;
+                VBoxServiceVerbose(0, "Service '%s' was disabled because of missing functionality\n",
+                                   g_aServices[j].pDesc->pszName);
+
             }
         }
 
@@ -323,15 +353,17 @@ int VBoxServiceStartServices(unsigned iMain)
             rc = VERR_GENERAL_FAILURE;
         }
     }
-    if (RT_SUCCESS(rc))
+    if (   RT_SUCCESS(rc)
+        && iMain != ~0U)
     {
         /* The final service runs in the main thread. */
         VBoxServiceVerbose(1, "Starting '%s' in the main thread\n", g_aServices[iMain].pDesc->pszName);
         rc = g_aServices[iMain].pDesc->pfnWorker(&g_fShutdown);
-        if (rc != VINF_SUCCESS) /* Only complain if service returned an error. Otherwise the service is a one-timer. */
-        {
+        if (RT_SUCCESS(rc))
+            VBoxServiceVerbose(1, "Main service '%s' successfully stopped.\n", g_aServices[iMain].pDesc->pszName);
+        else /* Only complain if service returned an error. Otherwise the service is a one-timer. */
             VBoxServiceError("Service '%s' stopped unexpected; rc=%Rrc\n", g_aServices[iMain].pDesc->pszName, rc);
-        }
+        g_aServices[iMain].pDesc->pfnTerm();
     }
     return rc;
 }
@@ -346,20 +378,29 @@ int VBoxServiceStartServices(unsigned iMain)
 int VBoxServiceStopServices(void)
 {
     int rc = VINF_SUCCESS;
+    unsigned iMain = VBoxServiceGetStartedServices();
 
     for (unsigned j = 0; j < RT_ELEMENTS(g_aServices); j++)
         ASMAtomicXchgBool(&g_aServices[j].fShutdown, true);
     for (unsigned j = 0; j < RT_ELEMENTS(g_aServices); j++)
         if (g_aServices[j].fStarted)
+        {
+            VBoxServiceVerbose(3, "Calling stop function for service '%s' ...\n", g_aServices[j].pDesc->pszName);
             g_aServices[j].pDesc->pfnStop();
+        }
     for (unsigned j = 0; j < RT_ELEMENTS(g_aServices); j++)
-        if (g_aServices[j].fEnabled)
+
+        if (    !g_aServices[j].fEnabled /* Only stop services which were started before. */
+            ||  j == iMain)              /* Don't call the termination function for main service yet. */
+        {
+            continue;
+        }
+        else
         {
             if (g_aServices[j].Thread != NIL_RTTHREAD)
             {
-                int rc;
                 VBoxServiceVerbose(2, "Waiting for service '%s' to stop ...\n", g_aServices[j].pDesc->pszName);
-                for (int i=0; i<30; i++) /* Wait 30 seconds in total */
+                for (int i = 0; i < 30; i++) /* Wait 30 seconds in total */
                 {
                     rc = RTThreadWait(g_aServices[j].Thread, 1000 /* Wait 1 second */, NULL);
                     if (RT_SUCCESS(rc))
@@ -376,9 +417,55 @@ int VBoxServiceStopServices(void)
             g_aServices[j].pDesc->pfnTerm();
         }
 
+#ifdef RT_OS_WINDOWS
+    /*
+     * As we're now done terminating all service threads,
+     * we have to stop the main thread as well (if defined). Note that the termination
+     * function will be called in a later context (when the main thread returns from the worker
+     * function).
+     */
+    if (iMain != ~0U)
+    {
+        VBoxServiceVerbose(3, "Stopping main service '%s' (%d) ...\n", g_aServices[iMain].pDesc->pszName, iMain);
+
+        ASMAtomicXchgBool(&g_fShutdown, true);
+        g_aServices[iMain].pDesc->pfnStop();
+    }
+#endif
+
     VBoxServiceVerbose(2, "Stopping services returned: rc=%Rrc\n", rc);
     return rc;
 }
+
+
+#ifndef RT_OS_WINDOWS
+/*
+ * Block all important signals, then explicitly wait until one of these signal arrives.
+ */
+static void VBoxServiceWaitSignal(void)
+{
+    sigset_t signalMask;
+    int iSignal;
+    sigemptyset(&signalMask);
+    sigaddset(&signalMask, SIGHUP);
+    sigaddset(&signalMask, SIGINT);
+    sigaddset(&signalMask, SIGQUIT);
+    sigaddset(&signalMask, SIGABRT);
+    sigaddset(&signalMask, SIGTERM);
+    pthread_sigmask(SIG_BLOCK, &signalMask, NULL);
+
+    int rc;
+    do
+    {
+        iSignal = -1;
+        rc = sigwait(&signalMask, &iSignal);
+    }
+    while (   rc == EINTR
+           || rc == ERESTART);
+
+    VBoxServiceVerbose(3, "VBoxServiceWaitSignal: Received signal %d (rc=%d)\n", iSignal, rc);
+}
+#endif /* !RT_OS_WINDOWS */
 
 
 int main(int argc, char **argv)
@@ -552,8 +639,15 @@ int main(int argc, char **argv)
     if (iMain == ~0U)
         return VBoxServiceSyntax("At least one service must be enabled.\n");
 
+#ifndef RT_OS_WINDOWS
+    /*
+     * POSIX: No main service thread.
+     */
+    iMain = ~0U;
+#endif
+
     VBoxServiceVerbose(0, "%s r%s started. Verbose level = %d\n",
-        RTBldCfgVersion(), RTBldCfgRevisionStr(), g_cVerbosity);
+                       RTBldCfgVersion(), RTBldCfgRevisionStr(), g_cVerbosity);
 
     /*
      * Daemonize if requested.
@@ -588,19 +682,23 @@ int main(int argc, char **argv)
     }
 #ifdef RT_OS_WINDOWS
     else
-    {
-        /* Run the app just like a console one if not daemonized. */
 #endif
-        /** @todo Make the main thread responsive to signal so it can shutdown/restart the threads on non-SIGKILL signals. */
-
+    {
         /*
-         * Start the service, enter the main threads run loop and stop them again when it returns.
+         * Windows: We're running the service as a console application now. Start the
+         *          services, enter the main thread's run loop and stop them again
+         *          when it returns.
+         *
+         * POSIX:   This is used for both daemons and console runs. Start all services
+         *          and return immediately.
          */
         rc = VBoxServiceStartServices(iMain);
-        VBoxServiceStopServices();
-#ifdef RT_OS_WINDOWS
-    }
+#ifndef RT_OS_WINDOWS
+        if (RT_SUCCESS(rc))
+            VBoxServiceWaitSignal();
 #endif
+        VBoxServiceStopServices();
+    }
 
 #ifdef RT_OS_WINDOWS
     /*

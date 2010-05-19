@@ -1,10 +1,10 @@
-/* $Id: VBoxNetFltInternal.h $ */
+/* $Id: VBoxNetFltInternal.h 29494 2010-05-14 18:35:33Z vboxsync $ */
 /** @file
  * VBoxNetFlt - Network Filter Driver (Host), Internal Header.
  */
 
 /*
- * Copyright (C) 2008 Sun Microsystems, Inc.
+ * Copyright (C) 2008 Oracle Corporation
  *
  * This file is part of VirtualBox Open Source Edition (OSE), as
  * available from http://www.virtualbox.org. This file is free software;
@@ -13,10 +13,6 @@
  * Foundation, in version 2 as it comes in the "COPYING" file of the
  * VirtualBox OSE distribution. VirtualBox OSE is distributed in the
  * hope that it will be useful, but WITHOUT ANY WARRANTY of any kind.
- *
- * Please contact Sun Microsystems, Inc., 4150 Network Circle, Santa
- * Clara, CA 95054 USA or visit http://www.sun.com if you need
- * additional information or have any questions.
  */
 
 #ifndef ___VBoxNetFltInternal_h___
@@ -107,7 +103,8 @@ typedef struct VBOXNETFLTINS
     RTSPINLOCK hSpinlock;
     /** The current interface state. */
     VBOXNETFTLINSSTATE volatile enmState;
-    /** Active / Suspended indicator. */
+    /** The trunk state. */
+    INTNETTRUNKIFSTATE volatile enmTrunkState;
     bool volatile fActive;
     /** Disconnected from the host network interface. */
     bool volatile fDisconnectedFromHost;
@@ -118,7 +115,9 @@ typedef struct VBOXNETFLTINS
     /** Whether we should not attempt to set promiscuous mode at all. */
     bool fDisablePromiscuous;
 #if (ARCH_BITS == 32) && defined(__GNUC__)
+#if 0
     uint32_t u32Padding;    /**< Alignment padding, will assert in ASMAtomicUoWriteU64 otherwise. */
+#endif
 #endif
     /** The timestamp of the last rediscovery. */
     uint64_t volatile NanoTSLastRediscovery;
@@ -130,6 +129,7 @@ typedef struct VBOXNETFLTINS
     /** The event that is signaled when we go idle and that pfnWaitForIdle blocks on. */
     RTSEMEVENT hEventIdle;
 
+    /** @todo move MacAddr out of this structure!  */
     union
     {
 #ifdef VBOXNETFLT_OS_SPECFIC
@@ -152,7 +152,7 @@ typedef struct VBOXNETFLTINS
              * This is for dealing with the ENETDOWN case. */
             bool volatile fSetPromiscuous;
             /** The MAC address of the interface. */
-            RTMAC Mac;
+            RTMAC MacAddr;
             /** @} */
 # elif defined(RT_OS_LINUX)
             /** @name Linux instance data
@@ -165,15 +165,35 @@ typedef struct VBOXNETFLTINS
             /** Whether device exists and physically attached. */
             bool volatile fRegistered;
             /** The MAC address of the interface. */
-            RTMAC Mac;
+            RTMAC MacAddr;
             struct notifier_block Notifier;
             struct packet_type    PacketType;
+#  ifndef VBOXNETFLT_LINUX_NO_XMIT_QUEUE
             struct sk_buff_head   XmitQueue;
             struct work_struct    XmitTask;
+#  endif
             /** @} */
 # elif defined(RT_OS_SOLARIS)
             /** @name Solaris instance data.
              * @{ */
+#  ifdef VBOX_WITH_NETFLT_CROSSBOW
+            /** The link Id of the VNIC */
+            datalink_id_t VNICLinkId;
+            /** Instance number of VNIC */
+            uint16_t uInstance;
+            /** Whether we created the VNIC or not */
+            bool fCreatedVNIC;
+            /** The lower MAC handle */
+            mac_handle_t hInterface;
+            /** The client MAC handle */
+            mac_client_handle_t hClient;
+            /** The unicast address handle */
+            mac_unicast_handle_t hUnicast;
+            /** The promiscuous handle */
+            mac_promisc_handle_t hPromiscuous;
+            /** The MAC address of the interface */
+            RTMAC MacAddr;
+#  else
             /** Pointer to the bound IPv4 stream. */
             void volatile *pvIp4Stream;
             /** Pointer to the bound IPv6 stream. */
@@ -184,14 +204,17 @@ typedef struct VBOXNETFLTINS
             void volatile *pvPromiscStream;
             /** Whether we are attaching to IPv6 stream dynamically now. */
             bool volatile fAttaching;
+            /** Whether this is a VLAN interface or not. */
+            bool volatile fVLAN;
             /** Layered device handle to the interface. */
             ldi_handle_t hIface;
             /** The MAC address of the interface. */
-            RTMAC Mac;
+            RTMAC MacAddr;
             /** Mutex protection used for loopback. */
             RTSEMFASTMUTEX hFastMtx;
             /** Mutex protection used for dynamic IPv6 attaches. */
             RTSEMFASTMUTEX hPollMtx;
+#  endif
             /** @} */
 # elif defined(RT_OS_FREEBSD)
             /** @name FreeBSD instance data.
@@ -215,7 +238,7 @@ typedef struct VBOXNETFLTINS
             /** Output task */
             struct task tskout;
             /** The MAC address of the interface. */
-            RTMAC Mac;
+            RTMAC MacAddr;
             /** @} */
 # elif defined(RT_OS_WINDOWS)
             /** @name Windows instance data.
@@ -225,11 +248,12 @@ typedef struct VBOXNETFLTINS
 
             volatile uint32_t cModeNetFltRefs;
             volatile uint32_t cModePassThruRefs;
-
+#ifndef VBOXNETFLT_NO_PACKET_QUEUE
             /** Packet worker thread info */
             PACKET_QUEUE_WORKER PacketQueueWorker;
+#endif
             /** The MAC address of the interface. Caching MAC for performance reasons. */
-            RTMAC Mac;
+            RTMAC MacAddr;
             /** mutex used to synchronize ADAPT init/deinit */
             RTSEMMUTEX hAdaptMutex;
             /** @}  */
@@ -306,6 +330,8 @@ DECLHIDDEN(bool) vboxNetFltCanUnload(PVBOXNETFLTGLOBALS pGlobals);
 DECLHIDDEN(PVBOXNETFLTINS) vboxNetFltFindInstance(PVBOXNETFLTGLOBALS pGlobals, const char *pszName);
 
 DECLHIDDEN(void) vboxNetFltRetain(PVBOXNETFLTINS pThis, bool fBusy);
+DECLHIDDEN(bool) vboxNetFltTryRetainBusyActive(PVBOXNETFLTINS pThis);
+DECLHIDDEN(bool) vboxNetFltTryRetainBusyNotDisconnected(PVBOXNETFLTINS pThis);
 DECLHIDDEN(void) vboxNetFltRelease(PVBOXNETFLTINS pThis, bool fBusy);
 
 #ifdef VBOXNETFLT_STATIC_CONFIG
@@ -341,49 +367,6 @@ DECLHIDDEN(bool) vboxNetFltOsMaybeRediscovered(PVBOXNETFLTINS pThis);
 DECLHIDDEN(int) vboxNetFltPortOsXmit(PVBOXNETFLTINS pThis, PINTNETSG pSG, uint32_t fDst);
 
 /**
- * Checks if the interface is in promiscuous mode from the host perspective.
- *
- * If it is, then the internal networking switch will send frames
- * heading for the wire to the host as well.
- *
- * @see INTNETTRUNKIFPORT::pfnIsPromiscuous for more details.
- *
- * @returns true / false accordingly.
- * @param   pThis           The instance.
- *
- * @remarks Owns the network lock and the out-bound trunk port semaphores.
- */
-DECLHIDDEN(bool) vboxNetFltPortOsIsPromiscuous(PVBOXNETFLTINS pThis);
-
-/**
- * Get the MAC address of the interface we're attached to.
- *
- * Used by the internal networking switch for implementing the
- * shared-MAC-on-the-wire mode.
- *
- * @param   pThis           The instance.
- * @param   pMac            Where to store the MAC address.
- *                          If you don't know, set all the bits except the first (the multicast one).
- *
- * @remarks Owns the network lock and the out-bound trunk port semaphores.
- */
-DECLHIDDEN(void) vboxNetFltPortOsGetMacAddress(PVBOXNETFLTINS pThis, PRTMAC pMac);
-
-/**
- * Checks if the specified MAC address is for any of the host interfaces.
- *
- * Used by the internal networking switch to decide the destination(s)
- * of a frame.
- *
- * @returns true / false accordingly.
- * @param   pThis           The instance.
- * @param   pMac            The MAC address.
- *
- * @remarks Owns the network lock and the out-bound trunk port semaphores.
- */
-DECLHIDDEN(bool) vboxNetFltPortOsIsHostMac(PVBOXNETFLTINS pThis, PCRTMAC pMac);
-
-/**
  * This is called when activating or suspending the instance.
  *
  * Use this method to enable and disable promiscuous mode on
@@ -396,6 +379,32 @@ DECLHIDDEN(bool) vboxNetFltPortOsIsHostMac(PVBOXNETFLTINS pThis, PCRTMAC pMac);
  * @remarks Owns the lock for the out-bound trunk port.
  */
 DECLHIDDEN(void) vboxNetFltPortOsSetActive(PVBOXNETFLTINS pThis, bool fActive);
+
+/**
+ * This is called when a network interface has obtained a new MAC address.
+ *
+ * @param   pThis           The instance.
+ * @param   hIf             The handle to the network.
+ * @param   pMac            Pointer to the new MAC address.
+ */
+DECLHIDDEN(void) vboxNetFltPortOsNotifyMacAddress(PVBOXNETFLTINS pThis, INTNETIFHANDLE hIf, PCRTMAC pMac);
+
+/**
+ * This is called when an interface is connected to the network.
+ *
+ * @return IPRT status code.
+ * @param   pThis           The instance.
+ * @param   hIf             The handle to the network.
+ */
+DECLHIDDEN(int) vboxNetFltPortOsConnectInterface(PVBOXNETFLTINS pThis, INTNETIFHANDLE hIf);
+
+/**
+ * This is called when a VM host disconnects from the network.
+ *
+ * @param   pThis           The instance.
+ * @param   hIf             The handle to the network.
+ */
+DECLHIDDEN(int) vboxNetFltPortOsDisconnectInterface(PVBOXNETFLTINS pThis, INTNETIFHANDLE hIf);
 
 /**
  * This is called to when disconnecting from a network.
@@ -430,6 +439,9 @@ DECLHIDDEN(void) vboxNetFltOsDeleteInstance(PVBOXNETFLTINS pThis);
 /**
  * This is called to attach to the actual host interface
  * after linking the instance into the list.
+ *
+ * The MAC address as well promiscuousness and GSO capabilities should be
+ * reported by this function.
  *
  * @return  IPRT status code.
  * @param   pThis           The new instance.

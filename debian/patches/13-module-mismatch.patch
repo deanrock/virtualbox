@@ -1,0 +1,19 @@
+Description: Adjusts failure message with Debian specific solution.
+Author: Daniel Baumann <daniel@debian.org>
+
+diff -urNad virtualbox-ose-3.0.8-dfsg~/src/VBox/VMM/VM.cpp virtualbox-ose-3.0.8-dfsg/src/VBox/VMM/VM.cpp
+--- virtualbox-ose-3.0.8-dfsg~/src/VBox/VMM/VM.cpp	2009-10-07 13:43:36.542988533 +0200
++++ virtualbox-ose-3.0.8-dfsg/src/VBox/VMM/VM.cpp	2009-10-07 13:43:37.342988388 +0200
+@@ -383,9 +383,9 @@
+                     break;
+                 case VERR_VERSION_MISMATCH:
+                 case VERR_VM_DRIVER_VERSION_MISMATCH:
+-                    pszError = N_("The VirtualBox support driver which is running is from a different "
+-                                  "version of VirtualBox.  You can correct this by stopping all "
+-                                  "running instances of VirtualBox and reinstalling the software.");
++                    pszError = N_("The version of the VirtualBox kernel modules and the version of "
++                                  "VirtualBox application are not matching. You can correct this by "
++                                  "installing the virtualbox-ose-dkms package through apt-get.");
+                     break;
+                 default:
+                     pszError = N_("Unknown error initializing kernel driver");

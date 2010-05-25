@@ -9,9 +9,10 @@ virtualbox-ose (3.2.0-dfsg-1ubuntu1) maverick; urgency=low
       - debian/virtualbox-ose.install
     - Drop *-source packages.
   * Drop u03-fix-cpu-lockup.dpatch, fixed upstream.
-  * Remove Launchpad integration.
+  * Remove Launchpad integration as (non-packaging) bugs should be reported
+    upstream.
 
- -- Felix Geyer <debfx-pkg@fobos.de>  Tue, 25 May 2010 15:33:27 +0200
+ -- Felix Geyer <debfx-pkg@fobos.de>  Tue, 25 May 2010 22:51:39 +0200
 
 virtualbox-ose (3.2.0-dfsg-1) unstable; urgency=low
 

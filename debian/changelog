@@ -1,7 +1,7 @@
-virtualbox-ose (3.2.0-dfsg-1ubuntu1) UNRELEASED; urgency=low
+virtualbox-ose (3.2.0-dfsg-1ubuntu1) maverick; urgency=low
 
   * Merge from Debian unstable, remaining changes:
-    - Set backport switch to "maverick".
+    - Set x11 backport switch to "lucid".
     - VirtualBox should go in Accessories, not in System tools. (LP: #288590)
       - debian/virtualbox-ose-qt.files/virtualbox-ose.desktop
     - Add Apport hook.
@@ -11,9 +11,9 @@ virtualbox-ose (3.2.0-dfsg-1ubuntu1) UNRELEASED; urgency=low
   * Drop u03-fix-cpu-lockup.dpatch, fixed upstream.
   * Remove Launchpad integration.
 
- -- Felix Geyer <debfx-pkg@fobos.de>  Wed, 19 May 2010 23:27:57 +0200
+ -- Felix Geyer <debfx-pkg@fobos.de>  Tue, 25 May 2010 15:33:27 +0200
 
-virtualbox-ose (3.2.0-dfsg-1) UNRELEASED; urgency=low
+virtualbox-ose (3.2.0-dfsg-1) unstable; urgency=low
 
   [ Felix Geyer ]
   * New upstream release.
@@ -25,7 +25,7 @@ virtualbox-ose (3.2.0-dfsg-1) UNRELEASED; urgency=low
   * Changed order of some commands to make sure links are created inside
     the source tarball not outside.
 
- -- Felix Geyer <debfx-pkg@fobos.de>  Wed, 19 May 2010 18:21:05 +0200
+ -- Michael Meskes <meskes@debian.org>  Sun, 23 May 2010 11:39:11 +0200
 
 virtualbox-ose (3.1.53-dfsg-1) experimental; urgency=low
 

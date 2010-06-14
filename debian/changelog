@@ -1,3 +1,17 @@
+virtualbox-ose (3.2.4-dfsg-1) unstable; urgency=low
+
+  * New upstream release.
+
+ -- Felix Geyer <debfx-pkg@fobos.de>  Wed, 09 Jun 2010 15:31:05 +0200
+
+virtualbox-ose (3.2.2-dfsg-1) unstable; urgency=low
+
+  * Imported Upstream version 3.2.2-dfsg (Closes: #584488, #585003)
+  * Fixed dh_install usage in rules file for backports. - thanks to
+    Corey Wright <undefined@pobox.com>
+
+ -- Michael Meskes <meskes@debian.org>  Tue, 08 Jun 2010 11:50:51 +0200
+
 virtualbox-ose (3.2.0-dfsg-1ubuntu1) maverick; urgency=low
 
   * Merge from Debian unstable, remaining changes:

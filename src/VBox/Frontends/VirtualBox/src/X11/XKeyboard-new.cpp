@@ -1,4 +1,4 @@
-/* $Id: XKeyboard-new.cpp 28800 2010-04-27 08:22:32Z vboxsync $ */
+/* $Id: XKeyboard-new.cpp $ */
 /** @file
  *
  * VBox frontends: Qt GUI ("VirtualBox"):
@@ -25,7 +25,7 @@
 #include <X11/keysym.h>
 #include <XKeyboard.h>
 #include <VBox/log.h>
-#include "keyboard.h"
+#include <VBox/VBoxKeyboard.h>
 
 static unsigned gfByLayoutOK = 1;
 static unsigned gfByTypeOK = 1;

@@ -1,4 +1,4 @@
-/* $Id: UIMachineWindowNormal.cpp 29558 2010-05-17 15:05:22Z vboxsync $ */
+/* $Id: UIMachineWindowNormal.cpp $ */
 /** @file
  *
  * VBox frontends: Qt GUI ("VirtualBox"):
@@ -250,7 +250,7 @@ void UIMachineWindowNormal::retranslateUi()
     UIMachineWindow::retranslateUi();
 
     m_pNameHostkey->setToolTip(
-        QApplication::translate("VBoxConsoleWnd", "Shows the currently assigned Host key.<br>"
+        QApplication::translate("UIMachineWindowNormal", "Shows the currently assigned Host key.<br>"
            "This key, when pressed alone, toggles the keyboard and mouse "
            "capture state. It can also be used in combination with other keys "
            "to quickly perform actions from the main menu."));
@@ -540,8 +540,20 @@ void UIMachineWindowNormal::loadWindowSettings()
 
         if (ok /* if previous parameters were read correctly */)
         {
-            m_normalGeometry = QRect(x, y, w, h);
-            setGeometry(m_normalGeometry);
+            if (machine.GetState() == KMachineState_Saved)
+            {
+                /* restore from a saved state: restore window size and position */
+                m_normalGeometry = QRect(x, y, w, h);
+                setGeometry(m_normalGeometry);
+            }
+            else
+            {
+                /* not restored from a saved state: restore only the last position */
+                move(x, y);
+                if (machineView())
+                    machineView()->normalizeGeometry(false /* adjust position? */);
+
+            }
 
             /* Maximize if needed: */
             if (max)

@@ -1,4 +1,4 @@
-/* $Id: VMMDev.cpp 29590 2010-05-18 07:02:17Z vboxsync $ */
+/* $Id: VMMDev.cpp $ */
 /** @file
  * VMMDev - Guest <-> VMM/Host communication device.
  */
@@ -470,22 +470,22 @@ static DECLCALLBACK(int) vmmdevRequestHandler(PPDMDEVINS pDevIns, void *pvUser, 
         {
             if (pRequestHeader->size < sizeof(VMMDevReportGuestInfo))
             {
-                AssertMsgFailed(("VMMDev guest information structure has invalid size!\n"));
+                AssertMsgFailed(("VMMDev guest information structure has an invalid size!\n"));
                 pRequestHeader->rc = VERR_INVALID_PARAMETER;
             }
             else
             {
-                VMMDevReportGuestInfo *guestInfo = (VMMDevReportGuestInfo*)pRequestHeader;
+                VBoxGuestInfo *guestInfo = &((VMMDevReportGuestInfo*)pRequestHeader)->guestInfo;
 
-                if (memcmp (&pThis->guestInfo, &guestInfo->guestInfo, sizeof (guestInfo->guestInfo)) != 0)
+                if (memcmp (&pThis->guestInfo, guestInfo, sizeof(*guestInfo)) != 0)
                 {
                     /* make a copy of supplied information */
-                    pThis->guestInfo = guestInfo->guestInfo;
+                    pThis->guestInfo = *guestInfo;
 
                     /* Check additions version */
                     pThis->fu32AdditionsOk = VBOX_GUEST_ADDITIONS_VERSION_OK(pThis->guestInfo.additionsVersion);
 
-                    LogRel(("Guest Additions information report: additionsVersion = 0x%08X  osType = 0x%08X\n",
+                    LogRel(("Guest Additions information report: Interface = 0x%08X osType = 0x%08X\n",
                             pThis->guestInfo.additionsVersion,
                             pThis->guestInfo.osType));
                     pThis->pDrv->pfnUpdateGuestVersion(pThis->pDrv, &pThis->guestInfo);
@@ -499,6 +499,24 @@ static DECLCALLBACK(int) vmmdevRequestHandler(PPDMDEVINS pDevIns, void *pvUser, 
                 {
                     pRequestHeader->rc = VERR_VERSION_MISMATCH;
                 }
+            }
+            break;
+        }
+
+        case VMMDevReq_ReportGuestInfo2:
+        {
+            if (pRequestHeader->size < sizeof(VMMDevReportGuestInfo2))
+            {
+                AssertMsgFailed(("VMMDev guest information 2 structure has an invalid size!\n"));
+                pRequestHeader->rc = VERR_INVALID_PARAMETER;
+            }
+            else
+            {
+                VBoxGuestInfo2 *guestInfo2 = &((VMMDevReportGuestInfo2*)pRequestHeader)->guestInfo;
+                LogRel(("Guest Additions information report: Version %d.%d.%d r%d %.*s\n",
+                        guestInfo2->additionsMajor, guestInfo2->additionsMinor, guestInfo2->additionsBuild,
+                        guestInfo2->additionsRevision, guestInfo2->szName, sizeof(guestInfo2->szName)));
+                pRequestHeader->rc = VINF_SUCCESS;
             }
             break;
         }
@@ -1765,14 +1783,14 @@ static DECLCALLBACK(int) vmmdevRequestHandler(PPDMDEVINS pDevIns, void *pvUser, 
             VMMDevSharedModuleRegistrationRequest *pReqModule = (VMMDevSharedModuleRegistrationRequest *)pRequestHeader;
 
             if (    pRequestHeader->size < sizeof(VMMDevSharedModuleRegistrationRequest)
-                ||  pRequestHeader->size != RT_OFFSETOF(VMMDevSharedModuleRegistrationRequest, aRegions[pReqModule->cRegions]))
+                ||  pRequestHeader->size != RT_UOFFSETOF(VMMDevSharedModuleRegistrationRequest, aRegions[pReqModule->cRegions]))
             {
                 pRequestHeader->rc = VERR_INVALID_PARAMETER;
             }
             else
             {
                 pRequestHeader->rc = PGMR3SharedModuleRegister(PDMDevHlpGetVM(pDevIns), pReqModule->enmGuestOS, pReqModule->szName, pReqModule->szVersion,
-                                                               pReqModule->GCBaseAddr, pReqModule->cbModule,                                                               
+                                                               pReqModule->GCBaseAddr, pReqModule->cbModule,
                                                                pReqModule->cRegions, pReqModule->aRegions);
             }
             break;
@@ -1788,7 +1806,7 @@ static DECLCALLBACK(int) vmmdevRequestHandler(PPDMDEVINS pDevIns, void *pvUser, 
             }
             else
             {
-                pRequestHeader->rc = PGMR3SharedModuleUnregister(PDMDevHlpGetVM(pDevIns), pReqModule->szName, pReqModule->szVersion, 
+                pRequestHeader->rc = PGMR3SharedModuleUnregister(PDMDevHlpGetVM(pDevIns), pReqModule->szName, pReqModule->szVersion,
                                                                  pReqModule->GCBaseAddr, pReqModule->cbModule);
             }
             break;
@@ -2096,7 +2114,8 @@ static DECLCALLBACK(int) vmmdevSetMouseCapabilities(PPDMIVMMDEVPORT pInterface, 
 
     Log(("vmmdevSetMouseCapabilities: bNotify %d\n", bNotify));
 
-    pThis->mouseCapabilities &= ~VMMDEV_MOUSE_HOST_MASK;
+    pThis->mouseCapabilities &=   ~VMMDEV_MOUSE_HOST_MASK
+                                | VMMDEV_MOUSE_HOST_RECHECKS_NEEDS_HOST_CURSOR;
     pThis->mouseCapabilities |= (capabilities & VMMDEV_MOUSE_HOST_MASK);
     if (bNotify)
         VMMDevNotifyGuest (pThis, VMMDEV_EVENT_MOUSE_CAPABILITIES_CHANGED);
@@ -2883,7 +2902,8 @@ static DECLCALLBACK(int) vmmdevConstruct(PPDMDEVINS pDevIns, int iInstance, PCFG
     AssertRCReturn(rc, rc);
     pThis->u32HGCMEnabled = 0;
 #endif /* VBOX_WITH_HGCM */
-    /* The GUI checks whether this changes in this version of VirtualBox. */
+    /* In this version of VirtualBox the GUI checks whether "needs host cursor"
+     * changes. */
     pThis->mouseCapabilities |= VMMDEV_MOUSE_HOST_RECHECKS_NEEDS_HOST_CURSOR;
 
     PDMDevHlpSTAMRegisterF(pDevIns, &pThis->StatMemBalloonChunks, STAMTYPE_U32, STAMVISIBILITY_ALWAYS, STAMUNIT_COUNT, "Memory balloon size", "/Devices/VMMDev/BalloonChunks");

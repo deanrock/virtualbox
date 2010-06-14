@@ -1,4 +1,4 @@
-/* $Id: VBoxExportApplianceWgt.cpp 28800 2010-04-27 08:22:32Z vboxsync $ */
+/* $Id: VBoxExportApplianceWgt.cpp $ */
 /** @file
  *
  * VBox frontends: Qt4 GUI ("VirtualBox"):
@@ -42,7 +42,8 @@ public:
             << KVirtualSystemDescriptionType_NetworkAdapter
             << KVirtualSystemDescriptionType_HardDiskControllerIDE
             << KVirtualSystemDescriptionType_HardDiskControllerSATA
-            << KVirtualSystemDescriptionType_HardDiskControllerSCSI;
+            << KVirtualSystemDescriptionType_HardDiskControllerSCSI
+            << KVirtualSystemDescriptionType_HardDiskControllerSAS;
     }
 };
 

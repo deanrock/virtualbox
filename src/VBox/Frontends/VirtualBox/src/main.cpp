@@ -1,4 +1,4 @@
-/* $Id: main.cpp 29067 2010-05-05 11:55:48Z vboxsync $ */
+/* $Id: main.cpp $ */
 /** @file
  *
  * VBox frontends: Qt GUI ("VirtualBox"):
@@ -26,7 +26,6 @@
 #include "VBoxGlobal.h"
 #include "VBoxProblemReporter.h"
 #include "VBoxSelectorWnd.h"
-#include "VBoxConsoleWnd.h"
 #include "VBoxUtils.h"
 #ifdef QT_MAC_USE_COCOA
 # include "darwin/VBoxCocoaApplication.h"

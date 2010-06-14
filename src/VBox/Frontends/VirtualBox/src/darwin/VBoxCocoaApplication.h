@@ -1,4 +1,4 @@
-/* $Id: VBoxCocoaApplication.h 28800 2010-04-27 08:22:32Z vboxsync $ */
+/* $Id: VBoxCocoaApplication.h $ */
 /** @file
  * VBoxCocoaApplication - NSApplication subclass for handling -sendEvent.
  */
@@ -22,7 +22,6 @@
 #ifdef __OBJC__
 # import <AppKit/NSApplication.h>
 #endif
-#include <Carbon/Carbon.h>
 
 RT_C_DECLS_BEGIN
 

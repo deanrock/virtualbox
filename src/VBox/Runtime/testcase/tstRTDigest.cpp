@@ -4,7 +4,7 @@
  */
 
 /*
- * Copyright (C) 2009 Sun Microsystems, Inc.
+ * Copyright (C) 2009 Oracle Corporation
  *
  * This file is part of VirtualBox Open Source Edition (OSE), as
  * available from http://www.virtualbox.org. This file is free software;
@@ -22,10 +22,6 @@
  *
  * You may elect to license modified versions of this file under the
  * terms and conditions of either the GPL or the CDDL or both.
- *
- * Please contact Sun Microsystems, Inc., 4150 Network Circle, Santa
- * Clara, CA 95054 USA or visit http://www.sun.com if you need
- * additional information or have any questions.
  */
 
 
@@ -156,7 +152,7 @@ int main(int argc, char **argv)
                              case kDigestType_SHA1:
                              {
                                  char *pszDigest;
-                                 int rc = RTSha1Digest(ValueUnion.psz, &pszDigest);
+                                 int rc = RTSha1Digest(ValueUnion.psz, &pszDigest, NULL, NULL);
                                  if (RT_FAILURE(rc))
                                      return Error("RTSha1Digest(%s,) -> %Rrc\n", ValueUnion.psz, rc);
                                  RTPrintf("%s  %s\n", pszDigest, ValueUnion.psz);
@@ -299,20 +295,7 @@ int main(int argc, char **argv)
              }
 
              default:
-                 if (ch > 0)
-                 {
-                     if (RT_C_IS_GRAPH(ch))
-                         Error("unhandled option: -%c\n", ch);
-                     else
-                         Error("unhandled option: %i\n", ch);
-                 }
-                 else if (ch == VERR_GETOPT_UNKNOWN_OPTION)
-                     Error("unknown option: %s\n", ValueUnion.psz);
-                 else if (ValueUnion.pDef)
-                     Error("%s: %Rrs\n", ValueUnion.pDef->pszLong, ch);
-                 else
-                     Error("%Rrs\n", ch);
-                 return 1;
+                return RTGetOptPrintError(ch, &ValueUnion);
          }
      }
 

@@ -1,10 +1,12 @@
 /* $Id $ */
 /** @file
- * Built-in drivers & devices (part 2).
+ * Built-in drivers & devices part 2.
+ *
+ * These drivers and devices are in separate modules because of LGPL.
  */
 
 /*
- * Copyright (C) 2006-2007 Sun Microsystems, Inc.
+ * Copyright (C) 2006-2010 Oracle Corporation
  *
  * This file is part of VirtualBox Open Source Edition (OSE), as
  * available from http://www.virtualbox.org. This file is free software;
@@ -13,10 +15,6 @@
  * Foundation, in version 2 as it comes in the "COPYING" file of the
  * VirtualBox OSE distribution. VirtualBox OSE is distributed in the
  * hope that it will be useful, but WITHOUT ANY WARRANTY of any kind.
- *
- * Please contact Sun Microsystems, Inc., 4150 Network Circle, Santa
- * Clara, CA 95054 USA or visit http://www.sun.com if you need
- * additional information or have any questions.
  */
 
 
@@ -42,9 +40,6 @@ const void *g_apvVBoxDDDependencies2[] =
     (void *)&g_abPcBiosBinary,
     (void *)&g_abVgaBiosBinary,
     (void *)&g_abNetBiosBinary,
-#ifdef VBOX_WITH_VMI
-    (void *)&g_abVmiBiosBinary,
-#endif
 };
 
 
@@ -67,6 +62,16 @@ extern "C" DECLEXPORT(int) VBoxDevicesRegister(PPDMDEVREGCB pCallbacks, uint32_t
     rc = pCallbacks->pfnRegister(pCallbacks, &g_DeviceIOAPIC);
     if (RT_FAILURE(rc))
         return rc;
+#ifdef VBOX_WITH_SMC
+    rc = pCallbacks->pfnRegister(pCallbacks, &g_DeviceSMC);
+    if (RT_FAILURE(rc))
+        return rc;
+#endif
+#ifdef VBOX_WITH_LPC
+    rc = pCallbacks->pfnRegister(pCallbacks, &g_DeviceLPC);
+    if (RT_FAILURE(rc))
+        return rc;
+#endif
 
     return VINF_SUCCESS;
 }

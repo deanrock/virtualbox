@@ -4,7 +4,7 @@
  */
 
 /*
- * Copyright (C) 2009 Sun Microsystems, Inc.
+ * Copyright (C) 2009 Oracle Corporation
  *
  * This file is part of VirtualBox Open Source Edition (OSE), as
  * available from http://www.virtualbox.org. This file is free software;
@@ -13,35 +13,23 @@
  * Foundation, in version 2 as it comes in the "COPYING" file of the
  * VirtualBox OSE distribution. VirtualBox OSE is distributed in the
  * hope that it will be useful, but WITHOUT ANY WARRANTY of any kind.
- *
- * Please contact Sun Microsystems, Inc., 4150 Network Circle, Santa
- * Clara, CA 95054 USA or visit http://www.sun.com if you need
- * additional information or have any questions.
  */
-#if defined (VBOX_GUI_USE_QGL)
+#if defined (VBOX_GUI_USE_QGLFB)
 
+#ifdef VBOX_WITH_PRECOMPILED_HEADERS
+# include "precomp.h"
+#else  /* !VBOX_WITH_PRECOMPILED_HEADERS */
 #define LOG_GROUP LOG_GROUP_GUI
 
 #include "VBoxFrameBuffer.h"
 
-#include "VBoxConsoleView.h"
-//#include "VBoxProblemReporter.h"
-//#include "VBoxGlobal.h"
-
 /* Qt includes */
 #include <QGLWidget>
 
-//#include <iprt/asm.h>
-//
 #ifdef VBOX_WITH_VIDEOHWACCEL
 #include <VBox/VBoxVideo.h>
-//#include <VBox/types.h>
-//#include <VBox/ssm.h>
 #endif
-//#include <iprt/semaphore.h>
-//
-//#include <QFile>
-//#include <QTextStream>
+#endif /* !VBOX_WITH_PRECOMPILED_HEADERS */
 
 
 /** @class VBoxQGLFrameBuffer
@@ -50,20 +38,6 @@
  *  interface and uses QImage as the direct storage for VM display data. QImage
  *  is then converted to QPixmap and blitted to the console view widget.
  */
-
-VBoxQGLFrameBuffer::VBoxQGLFrameBuffer (VBoxConsoleView *aView) :
-    VBoxFrameBuffer (aView),
-    mCmdPipe(aView)
-{
-//    mWidget = new GLWidget(aView->viewport());
-#ifndef VBOXQGL_PROF_BASE
-    resizeEvent (new VBoxResizeEvent (FramebufferPixelFormat_Opaque,
-                                      NULL, 0, 0, 640, 480));
-#else
-    resizeEvent (new VBoxResizeEvent (FramebufferPixelFormat_Opaque,
-                                      NULL, 0, 0, VBOXQGL_PROF_WIDTH, VBOXQGL_PROF_HEIGHT));
-#endif
-}
 
 /** @note This method is called on EMT from under this object's lock */
 STDMETHODIMP VBoxQGLFrameBuffer::NotifyUpdate (ULONG aX, ULONG aY,
@@ -89,8 +63,8 @@ STDMETHODIMP VBoxQGLFrameBuffer::RequestResize (ULONG aScreenId, ULONG aPixelFor
                               ULONG aWidth, ULONG aHeight,
                               BOOL *aFinished)
 {
-	aWidth = VBOXQGL_PROF_WIDTH;
-	aHeight = VBOXQGL_PROF_HEIGHT;
+    aWidth = VBOXQGL_PROF_WIDTH;
+    aHeight = VBOXQGL_PROF_HEIGHT;
     VBoxFrameBuffer::RequestResize (aScreenId, aPixelFormat,
             aVRAM, aBitsPerPixel, aBytesPerLine,
             aWidth, aHeight,
@@ -166,3 +140,4 @@ STDMETHODIMP VBoxQGLFrameBuffer::ProcessVHWACommand(BYTE *pCommand)
 #endif
 
 #endif
+

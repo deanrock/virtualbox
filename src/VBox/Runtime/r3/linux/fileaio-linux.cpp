@@ -4,7 +4,7 @@
  */
 
 /*
- * Copyright (C) 2006-2007 Sun Microsystems, Inc.
+ * Copyright (C) 2006-2007 Oracle Corporation
  *
  * This file is part of VirtualBox Open Source Edition (OSE), as
  * available from http://www.virtualbox.org. This file is free software;
@@ -22,10 +22,6 @@
  *
  * You may elect to license modified versions of this file under the
  * terms and conditions of either the GPL or the CDDL or both.
- *
- * Please contact Sun Microsystems, Inc., 4150 Network Circle, Santa
- * Clara, CA 95054 USA or visit http://www.sun.com if you need
- * additional information or have any questions.
  */
 
 /** @page pg_rtfileaio_linux     RTFile Async I/O - Linux Implementation Notes
@@ -80,8 +76,10 @@ typedef unsigned long LNXKAIOCONTEXT;
  */
 enum
 {
-    LNXKAIO_IOCB_CMD_READ = 0,
-    LNXKAIO_IOCB_CMD_WRITE
+    LNXKAIO_IOCB_CMD_READ   = 0,
+    LNXKAIO_IOCB_CMD_WRITE  = 1,
+    LNXKAIO_IOCB_CMD_FSYNC  = 2,
+    LNXKAIO_IOCB_CMD_FDSYNC = 3
 };
 
 /**
@@ -368,9 +366,13 @@ DECLINLINE(int) rtFileAioReqPrepareTransfer(RTFILEAIOREQ hReq, RTFILE hFile,
     RTFILEAIOREQ_VALID_RETURN(pReqInt);
     RTFILEAIOREQ_NOT_STATE_RETURN_RC(pReqInt, SUBMITTED, VERR_FILE_AIO_IN_PROGRESS);
     Assert(hFile != NIL_RTFILE);
-    AssertPtr(pvBuf);
-    Assert(off >= 0);
-    Assert(cbTransfer > 0);
+
+    if (uTransferDirection != LNXKAIO_IOCB_CMD_FSYNC)
+    {
+        AssertPtr(pvBuf);
+        Assert(off >= 0);
+        Assert(cbTransfer > 0);
+    }
 
     /*
      * Setup the control block and clear the finished flag.
@@ -398,10 +400,10 @@ RTDECL(int) RTFileAioReqPrepareRead(RTFILEAIOREQ hReq, RTFILE hFile, RTFOFF off,
 
 
 RTDECL(int) RTFileAioReqPrepareWrite(RTFILEAIOREQ hReq, RTFILE hFile, RTFOFF off,
-                                     void *pvBuf, size_t cbWrite, void *pvUser)
+                                     void const *pvBuf, size_t cbWrite, void *pvUser)
 {
     return rtFileAioReqPrepareTransfer(hReq, hFile, LNXKAIO_IOCB_CMD_WRITE,
-                                       off, pvBuf, cbWrite, pvUser);
+                                       off, (void *)pvBuf, cbWrite, pvUser);
 }
 
 
@@ -412,16 +414,8 @@ RTDECL(int) RTFileAioReqPrepareFlush(RTFILEAIOREQ hReq, RTFILE hFile, void *pvUs
     AssertReturn(hFile != NIL_RTFILE, VERR_INVALID_HANDLE);
     RTFILEAIOREQ_NOT_STATE_RETURN_RC(pReqInt, SUBMITTED, VERR_FILE_AIO_IN_PROGRESS);
 
-    /** @todo: Flushing is not neccessary on Linux because O_DIRECT is mandatory
-     *         which disables caching.
-     *         We could setup a fake request which isn't really executed
-     *         to avoid platform dependent code in the caller.
-     */
-#if 0
-    return rtFileAsyncPrepareTransfer(pRequest, File, TRANSFERDIRECTION_FLUSH,
-                                      0, NULL, 0, pvUser);
-#endif
-    return VERR_NOT_IMPLEMENTED;
+    return rtFileAioReqPrepareTransfer(pReqInt, hFile, LNXKAIO_IOCB_CMD_FSYNC,
+                                       0, NULL, 0, pvUser);
 }
 
 
@@ -646,7 +640,7 @@ RTDECL(int) RTFileAioCtxSubmit(RTFILEAIOCTX hAioCtx, PRTFILEAIOREQ pahReqs, size
 }
 
 
-RTDECL(int) RTFileAioCtxWait(RTFILEAIOCTX hAioCtx, size_t cMinReqs, unsigned cMillisTimeout,
+RTDECL(int) RTFileAioCtxWait(RTFILEAIOCTX hAioCtx, size_t cMinReqs, RTMSINTERVAL cMillies,
                              PRTFILEAIOREQ pahReqs, size_t cReqs, uint32_t *pcReqs)
 {
     /*
@@ -672,10 +666,10 @@ RTDECL(int) RTFileAioCtxWait(RTFILEAIOCTX hAioCtx, size_t cMinReqs, unsigned cMi
     struct timespec    *pTimeout = NULL;
     struct timespec     Timeout = {0,0};
     uint64_t            StartNanoTS = 0;
-    if (cMillisTimeout != RT_INDEFINITE_WAIT)
+    if (cMillies != RT_INDEFINITE_WAIT)
     {
-        Timeout.tv_sec  = cMillisTimeout / 1000;
-        Timeout.tv_nsec = cMillisTimeout % 1000 * 1000000;
+        Timeout.tv_sec  = cMillies / 1000;
+        Timeout.tv_nsec = cMillies % 1000 * 1000000;
         pTimeout = &Timeout;
         StartNanoTS = RTTimeNanoTS();
     }
@@ -746,20 +740,20 @@ RTDECL(int) RTFileAioCtxWait(RTFILEAIOCTX hAioCtx, size_t cMinReqs, unsigned cMi
         cMinReqs -= cDone;
         cReqs    -= cDone;
 
-        if (cMillisTimeout != RT_INDEFINITE_WAIT)
+        if (cMillies != RT_INDEFINITE_WAIT)
         {
             /* The API doesn't return ETIMEDOUT, so we have to fix that ourselves. */
             uint64_t NanoTS = RTTimeNanoTS();
             uint64_t cMilliesElapsed = (NanoTS - StartNanoTS) / 1000000;
-            if (cMilliesElapsed >= cMillisTimeout)
+            if (cMilliesElapsed >= cMillies)
             {
                 rc = VERR_TIMEOUT;
                 break;
             }
 
             /* The syscall supposedly updates it, but we're paranoid. :-) */
-            Timeout.tv_sec  = (cMillisTimeout - (unsigned)cMilliesElapsed) / 1000;
-            Timeout.tv_nsec = (cMillisTimeout - (unsigned)cMilliesElapsed) % 1000 * 1000000;
+            Timeout.tv_sec  = (cMillies - (RTMSINTERVAL)cMilliesElapsed) / 1000;
+            Timeout.tv_nsec = (cMillies - (RTMSINTERVAL)cMilliesElapsed) % 1000 * 1000000;
         }
     }
 

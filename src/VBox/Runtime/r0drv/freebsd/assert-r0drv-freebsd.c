@@ -38,16 +38,11 @@
 #include <iprt/string.h>
 #include <iprt/stdarg.h>
 
+#include "internal/assert.h"
 
-RTDECL(void) AssertMsg1(const char *pszExpr, unsigned uLine, const char *pszFile, const char *pszFunction)
+
+void rtR0AssertNativeMsg1(const char *pszExpr, unsigned uLine, const char *pszFile, const char *pszFunction)
 {
-#ifdef IN_GUEST_R0
-    RTLogBackdoorPrintf("\n!!Assertion Failed!!\n"
-                        "Expression: %s\n"
-                        "Location  : %s(%d) %s\n",
-                        pszExpr, pszFile, uLine, pszFunction);
-#endif
-
     printf("\r\n!!Assertion Failed!!\r\n"
            "Expression: %s\r\n"
            "Location  : %s(%d) %s\r\n",
@@ -55,21 +50,20 @@ RTDECL(void) AssertMsg1(const char *pszExpr, unsigned uLine, const char *pszFile
 }
 
 
-RTDECL(void) AssertMsg2(const char *pszFormat, ...)
+void rtR0AssertNativeMsg2V(bool fInitial, const char *pszFormat, va_list va)
 {
-    va_list va;
-    char    szMsg[256];
+    char szMsg[256];
 
-#ifdef IN_GUEST_R0
-    va_start(va, pszFormat);
-    RTLogBackdoorPrintfV(pszFormat, va);
-    va_end(va);
-#endif
-
-    va_start(va, pszFormat);
     RTStrPrintfV(szMsg, sizeof(szMsg) - 1, pszFormat, va);
     szMsg[sizeof(szMsg) - 1] = '\0';
-    va_end(va);
     printf("%s", szMsg);
+
+    NOREF(fInitial);
+}
+
+
+RTR0DECL(void) RTR0AssertPanicSystem(void)
+{
+    /** @todo implement RTR0AssertPanicSystem. */
 }
 

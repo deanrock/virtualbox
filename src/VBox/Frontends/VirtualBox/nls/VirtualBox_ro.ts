@@ -24,7 +24,7 @@
         <translation></translation>
     </message>
     <message>
-        <source>Sun Microsystems, Inc.</source>
+        <source>Oracle Corporation</source>
         <comment>Comma-separated list of translators</comment>
         <translation>Alex Eftimie</translation>
     </message>
@@ -117,11 +117,11 @@
     </message>
     <message>
         <source>The VirtualBox Linux kernel driver (vboxdrv) is either not loaded or there is a permission problem with /dev/vboxdrv. Please reinstall the kernel module by executing&lt;br/&gt;&lt;br/&gt;  &lt;font color=blue&gt;&apos;/etc/init.d/vboxdrv setup&apos;&lt;/font&gt;&lt;br/&gt;&lt;br/&gt;as root. Users of Ubuntu, Fedora or Mandriva should install the DKMS package first. This package keeps track of Linux kernel changes and recompiles the vboxdrv kernel module if necessary.</source>
-        <translation type="unfinished"></translation>
+        <translation>Fie Driverul de nucleu Linux al VirtualBox (vboxdrv) nu este încărcat fie există o problemă cu permisiunile pe /dev/vboxdrv. Vă rugăm reinstalați modulul kernel executând &lt;br/&gt;&lt;br/&gt;  &lt;font color=blue&gt;&apos;/etc/init.d/vboxdrv setup&apos;&lt;/font&gt;&lt;br/&gt;&lt;br/&gt; ca root. Utilizatorii de Ubuntu, Fedora sau Mandriva ar trebui să instaleze pachetul DKMS mai întâi. Acest pachet urmărește schimbările nucleului și recompilează modulul vboxdv atunci când este cazul.</translation>
     </message>
     <message>
         <source>Make sure the kernel module has been loaded successfully.</source>
-        <translation type="unfinished"></translation>
+        <translation>Verifică dacă modulul de nucleu a fost încărcat cu succes.</translation>
     </message>
     <message>
         <source>VirtualBox - Runtime Error</source>
@@ -129,15 +129,15 @@
     </message>
     <message>
         <source>&lt;b&gt;Cannot access the kernel driver!&lt;/b&gt;&lt;br/&gt;&lt;br/&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;Nu se poate accesa driverul de nucleu!&lt;/b&gt;&lt;br/&gt;&lt;br/&gt;</translation>
     </message>
     <message>
         <source>Unknown error %2 during initialization of the Runtime</source>
-        <translation type="unfinished"></translation>
+        <translation>Eroare necunoscută %2 în timpul inițializării aplicației</translation>
     </message>
     <message>
         <source>Kernel driver not accessible</source>
-        <translation type="unfinished"></translation>
+        <translation>Driver nucleu inaccesibil</translation>
     </message>
     <message>
         <source>The VirtualBox kernel modules do not match this version of VirtualBox. The installation of VirtualBox was apparently not successful. Please try completely uninstalling and reinstalling VirtualBox.</source>
@@ -375,7 +375,7 @@
     <name>QILabel</name>
     <message>
         <source>&amp;Copy</source>
-        <translation type="unfinished">&amp;Copiază</translation>
+        <translation>&amp;Copiază</translation>
     </message>
 </context>
 <context>
@@ -445,10 +445,1841 @@
     </message>
 </context>
 <context>
+    <name>QIWizardPage</name>
+    <message>
+        <source>Use the &lt;b&gt;%1&lt;/b&gt; button to go to the next page of the wizard and the &lt;b&gt;%2&lt;/b&gt; button to return to the previous page. You can also press &lt;b&gt;%3&lt;/b&gt; if you want to cancel the execution of this wizard.&lt;/p&gt;</source>
+        <translation>Folosiți butonul &lt;b&gt;%1&lt;/b&gt; pentru a merge la pagina următoare a asistentului și butonul &lt;b&gt;%2&lt;/b&gt; pentru a reveni la pagina precedentă. Puteți de asemenea apăsa &lt;b&gt;%3&lt;/b&gt; dacă doriți să anulați execuția acestui asistent.&lt;/p&gt;</translation>
+    </message>
+</context>
+<context>
     <name>QListBox</name>
     <message>
         <source>Inaccessible</source>
         <translation type="obsolete">Inaccesibil</translation>
+    </message>
+</context>
+<context>
+    <name>UIActionsPool</name>
+    <message>
+        <source>&amp;Machine</source>
+        <translation>&amp;Mașină</translation>
+    </message>
+    <message>
+        <source>&amp;Fullscreen Mode</source>
+        <translation type="obsolete">Ecran &amp;complet</translation>
+    </message>
+    <message>
+        <source>Switch to fullscreen mode</source>
+        <translation>Treci pe ecran complet</translation>
+    </message>
+    <message>
+        <source>Seam&amp;less Mode</source>
+        <translation type="obsolete">Mod trans*parent</translation>
+    </message>
+    <message>
+        <source>Switch to seamless desktop integration mode</source>
+        <translation>Schimbă în modul continuu de integrare cu spațiul de lucru</translation>
+    </message>
+    <message>
+        <source>Auto-resize &amp;Guest Display</source>
+        <translation type="obsolete">R&amp;edimensionează automat ecranul</translation>
+    </message>
+    <message>
+        <source>Automatically resize the guest display when the window is resized (requires Guest Additions)</source>
+        <translation>Redimensionează automat ecranul musafir atunci când fereastra este redimensionată (necesită Guest Additions)</translation>
+    </message>
+    <message>
+        <source>&amp;Adjust Window Size</source>
+        <translation>&amp;Ajustează dimensiunea fereastrei</translation>
+    </message>
+    <message>
+        <source>Adjust window size and position to best fit the guest display</source>
+        <translation>Ajustează dimensiunea și poziția ferestrei pentru cea mai bună potrivire pe ecranul musafir</translation>
+    </message>
+    <message>
+        <source>Disable &amp;Mouse Integration</source>
+        <translation>Dezactivează integrarea &amp;mouse</translation>
+    </message>
+    <message>
+        <source>Temporarily disable host mouse pointer integration</source>
+        <translation>Dezactivează temporar intergrarea mouse</translation>
+    </message>
+    <message>
+        <source>Enable &amp;Mouse Integration</source>
+        <translation>Activează integrare &amp;mouse</translation>
+    </message>
+    <message>
+        <source>Enable temporarily disabled host mouse pointer integration</source>
+        <translation>Activează integrarea mouse temporar dezactivată</translation>
+    </message>
+    <message>
+        <source>&amp;Insert Ctrl-Alt-Del</source>
+        <translation>&amp;Inserează Ctrl-Alt-Del</translation>
+    </message>
+    <message>
+        <source>Send the Ctrl-Alt-Del sequence to the virtual machine</source>
+        <translation>Trimite secvența Ctrl-Alt-Del către mașina virtuală</translation>
+    </message>
+    <message>
+        <source>&amp;Insert Ctrl-Alt-Backspace</source>
+        <translation>&amp;Inserează Ctrl-Alt-Backspace</translation>
+    </message>
+    <message>
+        <source>Send the Ctrl-Alt-Backspace sequence to the virtual machine</source>
+        <translation>Trimite secvența Ctrl-Alt-Backspace către mașina virtuală</translation>
+    </message>
+    <message>
+        <source>Take &amp;Snapshot...</source>
+        <translation>Salvează in&amp;stantaneu...</translation>
+    </message>
+    <message>
+        <source>Take a snapshot of the virtual machine</source>
+        <translation>Salvează un instantaneu al mașinii virtuale</translation>
+    </message>
+    <message>
+        <source>Session I&amp;nformation Dialog</source>
+        <translation>Dialog i&amp;nformații despre sesiune</translation>
+    </message>
+    <message>
+        <source>Show Session Information Dialog</source>
+        <translation>Arată dialogul de informații despre sesiune</translation>
+    </message>
+    <message>
+        <source>&amp;Pause</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Suspend the execution of the virtual machine</source>
+        <translation>Suspendă execuția mașinii virtuale</translation>
+    </message>
+    <message>
+        <source>R&amp;esume</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Resume the execution of the virtual machine</source>
+        <translation>Restabilește execuția mașinii virtuale</translation>
+    </message>
+    <message>
+        <source>&amp;Reset</source>
+        <translation>&amp;Resetează</translation>
+    </message>
+    <message>
+        <source>Reset the virtual machine</source>
+        <translation>Resetează mașina virtuală</translation>
+    </message>
+    <message>
+        <source>ACPI Sh&amp;utdown</source>
+        <translation>Înc&amp;hide ACPI</translation>
+    </message>
+    <message>
+        <source>ACPI S&amp;hutdown</source>
+        <translation>Înc&amp;hidere ACPI</translation>
+    </message>
+    <message>
+        <source>Send the ACPI Power Button press event to the virtual machine</source>
+        <translation>Trimite evenimentul apăsare buton ACPI către mașina virtuală</translation>
+    </message>
+    <message>
+        <source>&amp;Close...</source>
+        <translation>În&amp;chide...</translation>
+    </message>
+    <message>
+        <source>Close the virtual machine</source>
+        <translation>Închide mașina virtuală</translation>
+    </message>
+    <message>
+        <source>&amp;View</source>
+        <translation>&amp;Vizualizare</translation>
+    </message>
+    <message>
+        <source>&amp;Devices</source>
+        <translation>&amp;Dispozitive</translation>
+    </message>
+    <message>
+        <source>&amp;CD/DVD Devices</source>
+        <translation>Dispozitive &amp;CD/DVD</translation>
+    </message>
+    <message>
+        <source>&amp;Floppy Devices</source>
+        <translation>Unități de &amp;dischetă</translation>
+    </message>
+    <message>
+        <source>&amp;USB Devices</source>
+        <translation>Dispozitive &amp;USB</translation>
+    </message>
+    <message>
+        <source>&amp;Network Adapters...</source>
+        <translation>&amp;Plăci de rețea...</translation>
+    </message>
+    <message>
+        <source>Change the settings of network adapters</source>
+        <translation>Modifică setările plăcilor de rețea</translation>
+    </message>
+    <message>
+        <source>&amp;Shared Folders...</source>
+        <translation>Directoare &amp;partajate...</translation>
+    </message>
+    <message>
+        <source>Create or modify shared folders</source>
+        <translation>Deschide dialogul directoare partajate</translation>
+    </message>
+    <message>
+        <source>&amp;Remote Display</source>
+        <translation type="obsolete">Ecran la &amp;distanță</translation>
+    </message>
+    <message>
+        <source>Enable or disable remote desktop (RDP) connections to this machine</source>
+        <translation type="obsolete">Activează sau dezactivează conexiuni remote desktop (RDP) către această mașină</translation>
+    </message>
+    <message>
+        <source>&amp;Install Guest Additions...</source>
+        <translation>&amp;Instalare Guest Additions...</translation>
+    </message>
+    <message>
+        <source>Mount the Guest Additions installation image</source>
+        <translation>Montează imaginea de instalare Guest Additions</translation>
+    </message>
+    <message>
+        <source>De&amp;bug</source>
+        <translation>De&amp;bug</translation>
+    </message>
+    <message>
+        <source>&amp;Statistics...</source>
+        <comment>debug action</comment>
+        <translation>&amp;Statistici...</translation>
+    </message>
+    <message>
+        <source>&amp;Command Line...</source>
+        <comment>debug action</comment>
+        <translation>Linie de &amp;comandă...</translation>
+    </message>
+    <message>
+        <source>&amp;Logging...</source>
+        <comment>debug action</comment>
+        <translation type="obsolete">Jurna&amp;lizare...</translation>
+    </message>
+    <message>
+        <source>&amp;Help</source>
+        <translation>&amp;Ajutor</translation>
+    </message>
+    <message>
+        <source>Dock Icon</source>
+        <translation>Icon în dock</translation>
+    </message>
+    <message>
+        <source>Show Monitor Preview</source>
+        <translation>Arată previzualizare monitor</translation>
+    </message>
+    <message>
+        <source>Show Application Icon</source>
+        <translation>Arată iconul aplicației</translation>
+    </message>
+    <message>
+        <source>Enter &amp;Fullscreen Mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Exit &amp;Fullscreen Mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Switch to normal mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enter Seam&amp;less Mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Exit Seam&amp;less Mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enable &amp;Guest Display Auto-resize</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Disable &amp;Guest Display Auto-resize</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Disable automatic resize of the guest display when the window is resized</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Enable Remote Display</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enable remote desktop (RDP) connections to this machine</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Disable Remote Display</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Disable remote desktop (RDP) connections to this machine</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enable &amp;Logging...</source>
+        <comment>debug action</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Disable &amp;Logging...</source>
+        <comment>debug action</comment>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>UIDownloader</name>
+    <message>
+        <source>Cancel</source>
+        <translation type="obsolete">Renunță</translation>
+    </message>
+    <message>
+        <source>Downloading the VirtualBox Guest Additions CD image from &lt;nobr&gt;&lt;b&gt;%1&lt;/b&gt;...&lt;/nobr&gt;</source>
+        <translation type="obsolete">Descarc imaginea de CD a VirtualBox Guest Additions de la &lt;nobr&gt;&lt;b&gt;%1&lt;/b&gt;...&lt;/nobr&gt;</translation>
+    </message>
+    <message>
+        <source>Cancel the VirtualBox Guest Additions CD image download</source>
+        <translation type="obsolete">Revocă descărcarea imaginii VirtualBox Guest Additions</translation>
+    </message>
+    <message>
+        <source>Could not locate the file on the server (response: %1).</source>
+        <translation type="obsolete">Nu am putut localiza fișierul pe server (răspuns: %1).</translation>
+    </message>
+    <message>
+        <source>Could not determine the file size.</source>
+        <translation type="obsolete">Nu am putut determina dimensiunea fișierului.</translation>
+    </message>
+    <message>
+        <source>Could not connect to the server (%1).</source>
+        <translation type="obsolete">Nu m-am putut conecta la server (%1).</translation>
+    </message>
+    <message>
+        <source>Could not download the file (%1).</source>
+        <translation type="obsolete">Nu am putut descărca fișierul (%1).</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;Failed to save the downloaded file as &lt;nobr&gt;&lt;b&gt;%1&lt;/b&gt;.&lt;/nobr&gt;&lt;/p&gt;</source>
+        <translation type="obsolete">&lt;p&gt;Salvarea fișierului descărcat ca &lt;nobr&gt;&lt;b&gt;%1&lt;/b&gt;.&lt;/nobr&gt; eșuată&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Select folder to save Guest Additions image to</source>
+        <translation type="obsolete">Selectați dosarul în care să salvez imaginea Guest Additions</translation>
+    </message>
+    <message>
+        <source>Connection timed out.</source>
+        <translation type="obsolete">Conexiunea a expirat.</translation>
+    </message>
+    <message>
+        <source>The download process has been cancelled by the user.</source>
+        <translation type="obsolete">Descărcarea a fost revocată de utilizator.</translation>
+    </message>
+    <message>
+        <source>The download process has been canceled by the user.</source>
+        <translation>Procesul de descărcare a fost anulat de către utilizator.</translation>
+    </message>
+</context>
+<context>
+    <name>UIDownloaderAdditions</name>
+    <message>
+        <source>Cancel</source>
+        <translation type="obsolete">Renunță</translation>
+    </message>
+    <message>
+        <source>Downloading the VirtualBox Guest Additions CD image from &lt;nobr&gt;&lt;b&gt;%1&lt;/b&gt;...&lt;/nobr&gt;</source>
+        <translation type="obsolete">Descarc imaginea de CD a VirtualBox Guest Additions de la &lt;nobr&gt;&lt;b&gt;%1&lt;/b&gt;...&lt;/nobr&gt;</translation>
+    </message>
+    <message>
+        <source>Cancel the VirtualBox Guest Additions CD image download</source>
+        <translation type="obsolete">Oprește descărcarea imaginii VirtualBox Guest Additions</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;Failed to save the downloaded file as &lt;nobr&gt;&lt;b&gt;%1&lt;/b&gt;.&lt;/nobr&gt;&lt;/p&gt;</source>
+        <translation>&lt;p&gt;Salvarea fișierului descărcat ca &lt;nobr&gt;&lt;b&gt;%1&lt;/b&gt;&lt;/nobr&gt; a eșuat.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Select folder to save Guest Additions image to</source>
+        <translation>Selectați dosarul în care salvez imaginea Guest Additions</translation>
+    </message>
+</context>
+<context>
+    <name>UIDownloaderUserManual</name>
+    <message>
+        <source>Select folder to save User Manual to</source>
+        <translation>Selectați dosarul în care să se salveze Manualul utilizator</translation>
+    </message>
+</context>
+<context>
+    <name>UIExportApplianceWzd</name>
+    <message>
+        <source>Select a file to export into</source>
+        <translation type="obsolete">Selectați un fișier în care să export</translation>
+    </message>
+    <message>
+        <source>Open Virtualization Format (%1)</source>
+        <translation type="obsolete">Open Virtualization Format (%1)</translation>
+    </message>
+    <message>
+        <source>Appliance</source>
+        <translation type="obsolete">Mașină virtuală</translation>
+    </message>
+    <message>
+        <source>Exporting Appliance ...</source>
+        <translation type="obsolete">Export mașină virtuală...</translation>
+    </message>
+    <message>
+        <source>Appliance Export Wizard</source>
+        <translation>Asistent export mașină virtuală</translation>
+    </message>
+    <message>
+        <source>Welcome to the Appliance Export Wizard!</source>
+        <translation type="obsolete">Bun venit la asistentul export Mașină virtuală!</translation>
+    </message>
+    <message>
+        <source>&lt; &amp;Back</source>
+        <translation type="obsolete">&lt; Îna&amp;poi</translation>
+    </message>
+    <message>
+        <source>&amp;Next &gt;</source>
+        <translation type="obsolete">Î&amp;nainte&gt;</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="obsolete">Anulează</translation>
+    </message>
+    <message>
+        <source>Appliance Export Settings</source>
+        <translation type="obsolete">Setări export mașină virtuală</translation>
+    </message>
+    <message>
+        <source>Here you can change additional configuration values of the selected virtual machines. You can modify most of the properties shown by double-clicking on the items.</source>
+        <translation type="obsolete">Aici puteți modifica setări adiționale pentru mașinile virtuale selectate. Puteți modifica majoritatea proprietăților afișate, făcând dublu click pe ele.</translation>
+    </message>
+    <message>
+        <source>Restore Defaults</source>
+        <translation>Restabilire valori implicite</translation>
+    </message>
+    <message>
+        <source>&amp;Export &gt;</source>
+        <translation type="obsolete">&amp;Export &gt;</translation>
+    </message>
+    <message>
+        <source>Write in legacy OVF 0.9 format for compatibility with other virtualization products.</source>
+        <translation type="obsolete">Scrie în formatul vechi OVF 0.9 pentru a păstra compatibilitatea cu alte produse de virtualizare.</translation>
+    </message>
+    <message>
+        <source>&amp;Write legacy OVF 0.9</source>
+        <translation type="obsolete">&amp;Scrie OVF 0.9 (format vechi)</translation>
+    </message>
+    <message>
+        <source>Please choose a filename to export the OVF to.</source>
+        <translation type="obsolete">Vă rugăm selectați un nume de fișier pentru a salva fișierul OVF.</translation>
+    </message>
+    <message>
+        <source>Checking files ...</source>
+        <translation type="obsolete">Verificare fișiere ...</translation>
+    </message>
+    <message>
+        <source>Removing files ...</source>
+        <translation type="obsolete">Ștergere fișiere ...</translation>
+    </message>
+    <message>
+        <source>&amp;Local Filesystem </source>
+        <translation type="obsolete">Sistem de fișiere &amp;local</translation>
+    </message>
+    <message>
+        <source>Sun &amp;Cloud</source>
+        <translation type="obsolete">Sun &amp;Cloud</translation>
+    </message>
+    <message>
+        <source>&amp;Simple Storage System (S3)</source>
+        <translation type="obsolete">&amp;Simple Storage System (S3)</translation>
+    </message>
+    <message>
+        <source>&amp;Username:</source>
+        <translation type="obsolete">Nume &amp;utilizator:</translation>
+    </message>
+    <message>
+        <source>&amp;Password:</source>
+        <translation type="obsolete">&amp;Parolă:</translation>
+    </message>
+    <message>
+        <source>&amp;File:</source>
+        <translation type="obsolete">&amp;Fișier:</translation>
+    </message>
+    <message>
+        <source>&amp;Hostname:</source>
+        <translation type="obsolete">&amp;Nume de gazdă:</translation>
+    </message>
+</context>
+<context>
+    <name>UIExportApplianceWzdPage1</name>
+    <message>
+        <source>Welcome to the Appliance Export Wizard!</source>
+        <translation type="unfinished">Bun venit la Asistentul export mașină virtuală!</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;This wizard will guide you through the process of exporting an appliance.&lt;/p&gt;&lt;p&gt;%1&lt;/p&gt;&lt;p&gt;Please select the virtual machines that should be added to the appliance. You can select more than one. Please note that these machines have to be turned off before they can be exported.&lt;/p&gt;</source>
+        <translation type="unfinished">&lt;p&gt;Acest asistent va va ghida prin procesul de exportare a unei mașini virtuale.&lt;/p&gt;&lt;p&gt;%1&lt;/p&gt;&lt;p&gt;Vă rugăm selectați mașinile virtuale pentru a fi adăugată la instalație. Puteți selecta mai mult de una. Notați faptul că aceste mașini trebuie oprite înainte de a fi exportate.&lt;/p&gt;</translation>
+    </message>
+</context>
+<context>
+    <name>UIExportApplianceWzdPage2</name>
+    <message>
+        <source>Here you can change additional configuration values of the selected virtual machines. You can modify most of the properties shown by double-clicking on the items.</source>
+        <translation>Aici puteți modifica setări adiționale pentru mașinile virtuale selectate. Puteți modifica majoritatea proprietăților afișate, făcând dublu click pe ele.</translation>
+    </message>
+    <message>
+        <source>Appliance Export Settings</source>
+        <translation type="unfinished">Setări export mașină virtuală</translation>
+    </message>
+</context>
+<context>
+    <name>UIExportApplianceWzdPage3</name>
+    <message>
+        <source>Please specify the target for the OVF export. You can choose between a local file system export, uploading the OVF to the Sun Cloud service or an S3 storage server.</source>
+        <translation>Vă rugăm specificați ținta exportului OVF. Puteți alege între un export pe sistemul de fișiere local, încărcare OVF către serviciul Sun Cloud sau către serverul de stocare S3.</translation>
+    </message>
+    <message>
+        <source>&amp;Local Filesystem </source>
+        <translation>Sistem de fișiere &amp;local</translation>
+    </message>
+    <message>
+        <source>Sun &amp;Cloud</source>
+        <translation>Sun &amp;Cloud</translation>
+    </message>
+    <message>
+        <source>&amp;Simple Storage System (S3)</source>
+        <translation>&amp;Simple Storage System (S3)</translation>
+    </message>
+    <message>
+        <source>Appliance Export Settings</source>
+        <translation type="unfinished">Setări export mașină virtuală</translation>
+    </message>
+</context>
+<context>
+    <name>UIExportApplianceWzdPage4</name>
+    <message>
+        <source>&amp;Username:</source>
+        <translation>Nume &amp;utilizator:</translation>
+    </message>
+    <message>
+        <source>&amp;Password:</source>
+        <translation>&amp;Parolă:</translation>
+    </message>
+    <message>
+        <source>&amp;Hostname:</source>
+        <translation>&amp;Nume de gazdă:</translation>
+    </message>
+    <message>
+        <source>&amp;Bucket:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;File:</source>
+        <translation>&amp;Fișier:</translation>
+    </message>
+    <message>
+        <source>Write in legacy OVF 0.9 format for compatibility with other virtualization products.</source>
+        <translation>Scrie în formatul vechi OVF 0.9 pentru a păstra compatibilitatea cu alte produse de virtualizare.</translation>
+    </message>
+    <message>
+        <source>&amp;Write legacy OVF 0.9</source>
+        <translation>&amp;Scrie OVF 0.9 (format vechi)</translation>
+    </message>
+    <message>
+        <source>Appliance Export Settings</source>
+        <translation type="unfinished">Setări export mașină virtuală</translation>
+    </message>
+    <message>
+        <source>Appliance</source>
+        <translation type="unfinished">Mașină virtuală</translation>
+    </message>
+    <message>
+        <source>Select a file to export into</source>
+        <translation>Selectați un fișier în care să se exporte</translation>
+    </message>
+    <message>
+        <source>Open Virtualization Format (%1)</source>
+        <translation>Format Open Virtualization (%1)</translation>
+    </message>
+    <message>
+        <source>Please choose a filename to export the OVF to.</source>
+        <translation>Vă rugăm selectați un nume de fișier pentru a salva fișierul OVF.</translation>
+    </message>
+    <message>
+        <source>Please complete the additional fields like the username, password and the bucket, and provide a filename for the OVF target.</source>
+        <translation type="unfinished">Vă rugăm completați câmpurile adiționale precum numele de utilizator, parola și bucket, și oferiți un nume de fișier pentru ținta OVF</translation>
+    </message>
+    <message>
+        <source>Please complete the additional fields like the username, password, hostname and the bucket, and provide a filename for the OVF target.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Checking files ...</source>
+        <translation>Se verifică fișierele ...</translation>
+    </message>
+    <message>
+        <source>Removing files ...</source>
+        <translation>Se șterg fișierele ...</translation>
+    </message>
+    <message>
+        <source>Exporting Appliance ...</source>
+        <translation type="unfinished">Export mașină virtuală...</translation>
+    </message>
+</context>
+<context>
+    <name>UIFirstRunWzd</name>
+    <message>
+        <source>First Run Wizard</source>
+        <translation>Asistent prima rulare</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;You have started a newly created virtual machine for the first time. This wizard will help you to perform the steps necessary for installing an operating system of your choice onto this virtual machine.&lt;/p&gt;&lt;p&gt;Use the &lt;b&gt;Next&lt;/b&gt; button to go to the next page of the wizard and the &lt;b&gt;Back&lt;/b&gt; button to return to the previous page. You can also press &lt;b&gt;Cancel&lt;/b&gt; if you want to cancel the execution of this wizard.&lt;/p&gt;</source>
+        <translation type="obsolete">&lt;p&gt;Ați pornit pentru prima dată o mașină virtuală proaspăt creată. Acest asistent vă va ajuta să treceți prin pașii necesari instalării unui sistem de operare dorit în această mașină virtuală.&lt;/p&gt;&lt;p&gt;Folosiți butoanele &lt;b&gt;Înainte&lt;/b&gt; și &lt;b&gt;Înapoi&lt;/b&gt; pentru a parcurge paginile acestui asistent. Puteți de asemenea apăsa butonul &lt;b&gt;Renunță&lt;/b&gt; dacă doriți întreruperea execuției acestui asistent.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Welcome to the First Run Wizard!</source>
+        <translation type="obsolete">Bine ați venit la asistentul Prima rulare!</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;Select the type of media you would like to use for installation.&lt;/p&gt;</source>
+        <translation type="obsolete">&lt;p&gt;Selectați tipul de media pe care doriți să îl folosiți pentru instalare.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Media Type</source>
+        <translation type="obsolete">Tip media</translation>
+    </message>
+    <message>
+        <source>&amp;CD/DVD-ROM Device</source>
+        <translation type="obsolete">Dispozitiv &amp;CD/DVD-ROM </translation>
+    </message>
+    <message>
+        <source>Alt+C</source>
+        <translation type="obsolete">Alt+C</translation>
+    </message>
+    <message>
+        <source>&amp;Floppy Device</source>
+        <translation type="obsolete">Unitate de &amp;dischetă</translation>
+    </message>
+    <message>
+        <source>Alt+F</source>
+        <translation type="obsolete">Alt+F</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;Select the media which contains the setup program of the operating system you want to install. This media must be bootable, otherwise the setup program will not be able to start.&lt;/p&gt;</source>
+        <translation type="obsolete">&lt;p&gt;Selectați mediul care conține programul de instalare al sistemului de operare pe care doriți să îl instalați. Acest mediu trebuie să fie bootabil, altfel programul de instalare nu va putea porni.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Media Source</source>
+        <translation type="obsolete">Sursă media</translation>
+    </message>
+    <message>
+        <source>&amp;Host Drive</source>
+        <translation type="obsolete">Unitate &amp;gazdă </translation>
+    </message>
+    <message>
+        <source>Alt+H</source>
+        <translation type="obsolete">Alt+H</translation>
+    </message>
+    <message>
+        <source>&amp;Image File</source>
+        <translation type="obsolete">Fișier &amp;imagine</translation>
+    </message>
+    <message>
+        <source>Alt+I</source>
+        <translation type="obsolete">Alt+I</translation>
+    </message>
+    <message>
+        <source>VDM</source>
+        <translation type="obsolete">VDM</translation>
+    </message>
+    <message>
+        <source>Select Installation Media</source>
+        <translation type="obsolete">Selectați mediul de instalare</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;You have selected the following media to boot from:&lt;/p&gt;</source>
+        <translation type="obsolete">&lt;p&gt;Ați ales să bootați de pe următorul mediu:&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;If the above is correct, press the &lt;b&gt;Finish&lt;/b&gt; button. Once you press it, the selected media will be temporarily mounted on the virtual machine and the machine will start execution.&lt;/p&gt;&lt;p&gt;Please note that when you close the virtual machine, the specified media will be automatically unmounted and the boot device will be set back to the first hard disk.&lt;/p&gt;&lt;p&gt;Depending on the type of the setup program, you may need to manually unmount (eject) the media after the setup program reboots the virtual machine, to prevent the installation process from starting again. You can do this by selecting the corresponding &lt;b&gt;Unmount...&lt;/b&gt; action in the &lt;b&gt;Devices&lt;/b&gt; menu.&lt;/p&gt;</source>
+        <translation type="obsolete">&lt;p&gt;Dacă datele de mai jos sunt corecte, apăsați butonul &lt;b&gt;Terminare&lt;/b&gt;. O dată apăsat, mediul selectat va fi montat temporar la mașina virtuală, iar mașina își va începe execuția.&lt;/p&gt;&lt;p&gt;Notați faptul că atunci când închideți mașina virtuală, mediul specificat va fi demontat automat, iar dispozitivul de boot va fi setat înapoi la primul disc hard.&lt;/p&gt;&lt;p&gt;În funcție de tipul programului de instalare, s-ar putea să fie nevoie să demontați manual (eject) mediul după ce programul repornește mașina virtuală, pentru a preveni pornirea din nou a procesului de instalare. Puteți face acest lucru selectând acțiunea &lt;b&gt;Demontare...&lt;/b&gt; corespunzătoare din meniul &lt;b&gt;Dispozitive&lt;/b&gt;.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Summary</source>
+        <translation type="obsolete">Rezumat</translation>
+    </message>
+    <message>
+        <source>CD/DVD-ROM Device</source>
+        <translation type="obsolete">Dispozitiv CD/DVD-ROM </translation>
+    </message>
+    <message>
+        <source>Floppy Device</source>
+        <translation type="obsolete">Unitate de dischetă</translation>
+    </message>
+    <message>
+        <source>Host Drive %1</source>
+        <translation type="obsolete">Unitate gazdă %1</translation>
+    </message>
+    <message>
+        <source>&lt;table&gt;&lt;tr&gt;&lt;td&gt;Type:&lt;/td&gt;&lt;td&gt;%1&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Source:&lt;/td&gt;&lt;td&gt;%2&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</source>
+        <translation type="obsolete">&lt;table&gt;&lt;tr&gt;&lt;td&gt;Tip:&lt;/td&gt;&lt;td&gt;%1&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Sursă:&lt;/td&gt;&lt;td&gt;%2&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;You have started a newly created virtual machine for the first time. This wizard will help you to perform the steps necessary for booting an operating system of your choice on the virtual machine.&lt;/p&gt;&lt;p&gt;Note that you will not be able to install an operating system into this virtual machine right now because you did not attach any hard disk to it. If this is not what you want, you can cancel the execution of this wizard, select &lt;b&gt;Settings&lt;/b&gt; from the &lt;b&gt;Machine&lt;/b&gt; menu of the main VirtualBox window to access the settings dialog of this machine and change the hard disk configuration.&lt;/p&gt;&lt;p&gt;Use the &lt;b&gt;Next&lt;/b&gt; button to go to the next page of the wizard and the &lt;b&gt;Back&lt;/b&gt; button to return to the previous page. You can also press &lt;b&gt;Cancel&lt;/b&gt; if you want to cancel the execution of this wizard.&lt;/p&gt;</source>
+        <translation type="obsolete">&lt;p&gt;Ați pornit o mașină virtuală nouă pentru prima oară. Acest asistent vă va ajuta să efectuați pașii necesari bootării unui sistem de operare ales de dvs pe mașina virtuală.&lt;/p&gt;&lt;p&gt;Notați faptul că nu veți putea instala acum un sistem de operare musafir chiar acum, pentru că nu ați conectat nici un disc dur la ea. Dacă nu asta doriți, puteți revoca execuția acestui asistent, apoi selectați &lt;b&gt;Setări&lt;/b&gt; din meniul &lt;b&gt;Mașină&lt;/b&gt; al ferestrei principale VirtualBox pentru a accesa dialogul de setări al acestei mașini și schimba configurația discului dur.&lt;/p&gt;&lt;p&gt;Folosiți butonul &lt;b&gt;Înainte&lt;/b&gt; pentru a merge la pagina următoare și butonul &lt;b&gt;Înapoi&lt;/b&gt; pentru a reveni la pagina anterioară. Puteți apăsa oricând butonul &lt;b&gt;Renunță&lt;/b&gt; pentru a opri execuția acestui asistent.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;Select the type of media you would like to use for booting an operating system.&lt;/p&gt;</source>
+        <translation type="obsolete">&lt;p&gt;Selectați tipul mediului pe care doriți să-l folosiți pentru a boota un sistem de operare.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;Select the media that contains the operating system you want to work with. This media must be bootable, otherwise the operating system will not be able to start.&lt;/p&gt;</source>
+        <translation type="obsolete">&lt;p&gt;Selectați mediul care conține sistemul de operare cu care doriți să lucrați. Acest mediu trebuie să fie bootabil, altfel sistemul de operare nu va putea porni. &lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;You have selected the following media to boot an operating system from:&lt;/p&gt;</source>
+        <translation type="obsolete">&lt;p&gt;Ați selectat următorul mediu pentru a boota un sistem de operare de pe el.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;If the above is correct, press the &lt;b&gt;Finish&lt;/b&gt; button. Once you press it, the selected media will be mounted on the virtual machine and the machine will start execution.&lt;/p&gt;</source>
+        <translation type="obsolete">&lt;p&gt;Dacă informația de mai jos este corectă, apăsați butonul &lt;b&gt;Terminare&lt;/b&gt;. O dată apăsat, mediul selectat va fi montat la mașina virtuală și mașina va porni execuția.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;table&gt; cellspacing=0 cellpadding=2&lt;tr&gt;&lt;td&gt;Type:&lt;/td&gt;&lt;td&gt;%1&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Source:&lt;/td&gt;&lt;td&gt;%2&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</source>
+        <translation type="obsolete">&lt;table&gt; cellspacing=0 cellpadding=2&lt;tr&gt;&lt;td&gt;Type:&lt;/td&gt;&lt;td&gt;%1&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Sursă:&lt;/td&gt;&lt;td&gt;%2&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</translation>
+    </message>
+    <message>
+        <source>&lt; &amp;Back</source>
+        <translation type="obsolete">&lt; Îna&amp;poi</translation>
+    </message>
+    <message>
+        <source>&amp;Next &gt;</source>
+        <translation type="obsolete">Î&amp;nainte&gt;</translation>
+    </message>
+    <message>
+        <source>&amp;Cancel</source>
+        <translation type="obsolete">&amp;Revocare</translation>
+    </message>
+    <message>
+        <source>&amp;Finish</source>
+        <translation type="obsolete">&amp;Finalizare</translation>
+    </message>
+    <message>
+        <source>Type</source>
+        <comment>summary</comment>
+        <translation type="obsolete">Tip</translation>
+    </message>
+    <message>
+        <source>Source</source>
+        <comment>summary</comment>
+        <translation type="obsolete">Sursă</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="obsolete">Renunță</translation>
+    </message>
+</context>
+<context>
+    <name>UIFirstRunWzdPage1</name>
+    <message>
+        <source>Welcome to the First Run Wizard!</source>
+        <translation>Bun venit la asistentul Prima rulare!</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;You have started a newly created virtual machine for the first time. This wizard will help you to perform the steps necessary for installing an operating system of your choice onto this virtual machine.&lt;/p&gt;&lt;p&gt;%1&lt;/p&gt;</source>
+        <translation>&lt;p&gt;Ați pornit pentru prima oară o mașină virtuală proaspăt creată. Acest asistent vă va ajuta să parcurgeți pașii necesari pentru instalarea unui sistem de operare la alegerea dvs pe această mașină virtuală.&lt;/p&gt;&lt;p&gt;%1&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;You have started a newly created virtual machine for the first time. This wizard will help you to perform the steps necessary for booting an operating system of your choice on the virtual machine.&lt;/p&gt;&lt;p&gt;Note that you will not be able to install an operating system into this virtual machine right now because you did not attach any hard disk to it. If this is not what you want, you can cancel the execution of this wizard, select &lt;b&gt;Settings&lt;/b&gt; from the &lt;b&gt;Machine&lt;/b&gt; menu of the main VirtualBox window to access the settings dialog of this machine and change the hard disk configuration.&lt;/p&gt;&lt;p&gt;%1&lt;/p&gt;</source>
+        <translation>&lt;p&gt;Ați pornit pentru prima oară o mașină virtuală proaspăt creată. Acest asistent vă va ajuta să parcurgeți pașii necesari pentru bootarea unui sistem de operare la alegerea dvs pe această mașină virtuală.&lt;/p&gt;&lt;p&gt;Notați faptul că nu veți putea instala acum un sistem de operare pe această mașină virtuală deoarece nu ați atașat niciun disc dur la ea. Dacă acest lucru nu este ceea ce doriți, puteți anula execuția acestui asistent, apoi selecta &lt;b&gt;Setări&lt;/b&gt; din meniul &lt;b&gt;Mașină&lt;/b&gt; al ferestrei principale VirtualBox pentru a accesa dialogul de setări și a schimba configurarea discurilor dure.&lt;/p&gt;&lt;p&gt;%1&lt;/p&gt;</translation>
+    </message>
+</context>
+<context>
+    <name>UIFirstRunWzdPage2</name>
+    <message>
+        <source>&lt;p&gt;Select the media which contains the setup program of the operating system you want to install. This media must be bootable, otherwise the setup program will not be able to start.&lt;/p&gt;</source>
+        <translation>&lt;p&gt;Selectați mediul care conține programul de instalare al sistemului de operare pe care doriți să îl instalați. Acest mediu trebuie să fie bootabil, altfel programul de instalare nu va putea porni.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;Select the media that contains the operating system you want to work with. This media must be bootable, otherwise the operating system will not be able to start.&lt;/p&gt;</source>
+        <translation>&lt;p&gt;Selectați mediul care conține sistemul de operare cu care doriți să lucrați. Acest mediu trebuie să fie bootabil, altfel sistemul de operare nu va putea porni. &lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Media Source</source>
+        <translation>Mediu sursă</translation>
+    </message>
+    <message>
+        <source>Select Installation Media</source>
+        <translation>Selectați mediul de instalare</translation>
+    </message>
+</context>
+<context>
+    <name>UIFirstRunWzdPage3</name>
+    <message>
+        <source>&lt;p&gt;You have selected the following media to boot from:&lt;/p&gt;</source>
+        <translation>&lt;p&gt;Ați ales să bootați de pe următorul mediu:&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;You have selected the following media to boot an operating system from:&lt;/p&gt;</source>
+        <translation>&lt;p&gt;Ați selectat următorul mediu pentru a boota un sistem de operare de pe el:&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;If the above is correct, press the &lt;b&gt;Finish&lt;/b&gt; button. Once you press it, the selected media will be temporarily mounted on the virtual machine and the machine will start execution.&lt;/p&gt;&lt;p&gt;Please note that when you close the virtual machine, the specified media will be automatically unmounted and the boot device will be set back to the first hard disk.&lt;/p&gt;&lt;p&gt;Depending on the type of the setup program, you may need to manually unmount (eject) the media after the setup program reboots the virtual machine, to prevent the installation process from starting again. You can do this by selecting the corresponding &lt;b&gt;Unmount...&lt;/b&gt; action in the &lt;b&gt;Devices&lt;/b&gt; menu.&lt;/p&gt;</source>
+        <translation>&lt;p&gt;Dacă datele de mai jos sunt corecte, apăsați butonul &lt;b&gt;Terminare&lt;/b&gt;. Odată apăsat, mediul selectat va fi montat temporar la mașina virtuală, iar mașina își va începe execuția.&lt;/p&gt;&lt;p&gt;Notați faptul că atunci când închideți mașina virtuală, mediul specificat va fi demontat automat, iar dispozitivul de boot va fi setat înapoi la primul disc hard.&lt;/p&gt;&lt;p&gt;În funcție de tipul programului de instalare, s-ar putea să fie nevoie să demontați manual (eject) mediul după ce programul repornește mașina virtuală, pentru a preveni pornirea din nou a procesului de instalare. Puteți face acest lucru selectând acțiunea &lt;b&gt;Demontare...&lt;/b&gt; corespunzătoare din meniul &lt;b&gt;Dispozitive&lt;/b&gt;.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;If the above is correct, press the &lt;b&gt;Finish&lt;/b&gt; button. Once you press it, the selected media will be mounted on the virtual machine and the machine will start execution.&lt;/p&gt;</source>
+        <translation>&lt;p&gt;Dacă informația de mai jos este corectă, apăsați butonul &lt;b&gt;Terminare&lt;/b&gt;. O dată apăsat, mediul selectat va fi montat la mașina virtuală și mașina va începe execuția.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Summary</source>
+        <translation>Rezumat</translation>
+    </message>
+    <message>
+        <source>CD/DVD-ROM Device</source>
+        <translation>Dispozitiv CD/DVD-ROM </translation>
+    </message>
+    <message>
+        <source>Type</source>
+        <comment>summary</comment>
+        <translation>Tip</translation>
+    </message>
+    <message>
+        <source>Source</source>
+        <comment>summary</comment>
+        <translation>Sursă</translation>
+    </message>
+</context>
+<context>
+    <name>UIImportApplianceWzd</name>
+    <message>
+        <source>Open Virtualization Format (%1)</source>
+        <translation type="obsolete">Open Virtualization Format (%1)</translation>
+    </message>
+    <message>
+        <source>Appliance Import Wizard</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt; &amp;Back</source>
+        <translation type="obsolete">&lt; Îna&amp;poi</translation>
+    </message>
+    <message>
+        <source>&amp;Next &gt;</source>
+        <translation type="obsolete">Î&amp;nainte&gt;</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="obsolete">Renunță</translation>
+    </message>
+    <message>
+        <source>Appliance Import Settings</source>
+        <translation type="obsolete">Setări import mașină virtuală</translation>
+    </message>
+    <message>
+        <source>Restore Defaults</source>
+        <translation>Restabilește valori implicite</translation>
+    </message>
+    <message>
+        <source>&amp;Import &gt;</source>
+        <translation type="obsolete">&amp;Importă &gt;</translation>
+    </message>
+</context>
+<context>
+    <name>UIImportApplianceWzdPage1</name>
+    <message>
+        <source>Select an appliance to import</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Open Virtualization Format (%1)</source>
+        <translation>Format Open Virtualization (%1)</translation>
+    </message>
+    <message>
+        <source>Welcome to the Appliance Import Wizard!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;This wizard will guide you through importing an appliance.&lt;/p&gt;&lt;p&gt;%1&lt;/p&gt;&lt;p&gt;VirtualBox currently supports importing appliances saved in the Open Virtualization Format (OVF). To continue, select the file to import below:&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>UIImportApplianceWzdPage2</name>
+    <message>
+        <source>These are the virtual machines contained in the appliance and the suggested settings of the imported VirtualBox machines. You can change many of the properties shown by double-clicking on the items and disable others using the check boxes below.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Appliance Import Settings</source>
+        <translation type="unfinished">Setări import mașină virtuală</translation>
+    </message>
+</context>
+<context>
+    <name>UIImportLicenseViewer</name>
+    <message>
+        <source>&lt;b&gt;The virtual system &quot;%1&quot; requires that you agree to the terms and conditions of the software license agreement shown below.&lt;/b&gt;&lt;br /&gt;&lt;br /&gt;Click &lt;b&gt;Agree&lt;/b&gt; to continue or click &lt;b&gt;Disagree&lt;/b&gt; to cancel the import.</source>
+        <translation>&lt;b&gt;Sistemul virtual &quot;%1&quot; necesită acceptarea următorilor termeni și condiții ai licenței software.&lt;/b&gt;&lt;br/&gt;&lt;br/&gt;Faceți clic pe &lt;b&gt;Acceptă&lt;/b&gt; pentru a continua sau pe &lt;b&gt;Refuză&lt;/b&gt; pentru anularea importului.</translation>
+    </message>
+    <message>
+        <source>Software License Agreement</source>
+        <translation>Acord licență software</translation>
+    </message>
+    <message>
+        <source>&amp;Disagree</source>
+        <translation>&amp;Nu sunt de acord</translation>
+    </message>
+    <message>
+        <source>&amp;Agree</source>
+        <translation>&amp;Sunt de acord</translation>
+    </message>
+    <message>
+        <source>&amp;Print...</source>
+        <translation>Im&amp;primă...</translation>
+    </message>
+    <message>
+        <source>&amp;Save...</source>
+        <translation>&amp;Salvează...</translation>
+    </message>
+    <message>
+        <source>Text (*.txt)</source>
+        <translation>Text (*.txt)</translation>
+    </message>
+    <message>
+        <source>Save license to file...</source>
+        <translation>Salvează licența în fișier...</translation>
+    </message>
+</context>
+<context>
+    <name>UIIndicatorsPool</name>
+    <message>
+        <source>&lt;p style=&apos;white-space:pre&apos;&gt;&lt;nobr&gt;Indicates the activity of the virtual hard disks:&lt;/nobr&gt;%1&lt;/p&gt;</source>
+        <comment>HDD tooltip</comment>
+        <translation></translation>
+    </message>
+    <message>
+        <source>&lt;p style=&apos;white-space:pre&apos;&gt;&lt;nobr&gt;Indicates the activity of the CD/DVD devices:&lt;/nobr&gt;%1&lt;/p&gt;</source>
+        <comment>CD/DVD tooltip</comment>
+        <translation></translation>
+    </message>
+    <message>
+        <source>&lt;p style=&apos;white-space:pre&apos;&gt;&lt;nobr&gt;Indicates the activity of the floppy devices:&lt;/nobr&gt;%1&lt;/p&gt;</source>
+        <comment>FD tooltip</comment>
+        <translation></translation>
+    </message>
+    <message>
+        <source>&lt;p style=&apos;white-space:pre&apos;&gt;&lt;nobr&gt;Indicates the activity of the network interfaces:&lt;/nobr&gt;%1&lt;/p&gt;</source>
+        <comment>Network adapters tooltip</comment>
+        <translation></translation>
+    </message>
+    <message>
+        <source>&lt;br&gt;&lt;nobr&gt;&lt;b&gt;Adapter %1 (%2)&lt;/b&gt;: %3 cable %4&lt;/nobr&gt;</source>
+        <comment>Network adapters tooltip</comment>
+        <translation>&lt;br&gt;&lt;nobr&gt;&lt;b&gt;Placa de rețea %1 (%2)&lt;/b&gt;: %3 cablu %4&lt;/nobr&gt;</translation>
+    </message>
+    <message>
+        <source>connected</source>
+        <comment>Network adapters tooltip</comment>
+        <translation>conectat</translation>
+    </message>
+    <message>
+        <source>disconnected</source>
+        <comment>Network adapters tooltip</comment>
+        <translation>deconectat</translation>
+    </message>
+    <message>
+        <source>&lt;br&gt;&lt;nobr&gt;&lt;b&gt;All network adapters are disabled&lt;/b&gt;&lt;/nobr&gt;</source>
+        <comment>Network adapters tooltip</comment>
+        <translation>&lt;br&gt;&lt;nobr&gt;&lt;b&gt;Toate plăcile de rețea sunt dezactivate&lt;/b&gt;&lt;/nobr&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;p style=&apos;white-space:pre&apos;&gt;&lt;nobr&gt;Indicates the activity of the attached USB devices:&lt;/nobr&gt;%1&lt;/p&gt;</source>
+        <comment>USB device tooltip</comment>
+        <translation></translation>
+    </message>
+    <message>
+        <source>&lt;br&gt;&lt;nobr&gt;&lt;b&gt;No USB devices attached&lt;/b&gt;&lt;/nobr&gt;</source>
+        <comment>USB device tooltip</comment>
+        <translation>&lt;br&gt;&lt;nobr&gt;&lt;b&gt;Nici un dispozitiv USB conectat&lt;/b&gt;&lt;/nobr&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;br&gt;&lt;nobr&gt;&lt;b&gt;USB Controller is disabled&lt;/b&gt;&lt;/nobr&gt;</source>
+        <comment>USB device tooltip</comment>
+        <translation>&lt;br&gt;&lt;nobr&gt;&lt;b&gt;Controlorul USB este dezactivat&lt;/b&gt;&lt;/nobr&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;p style=&apos;white-space:pre&apos;&gt;&lt;nobr&gt;Indicates the activity of the machine&apos;s shared folders:&lt;/nobr&gt;%1&lt;/p&gt;</source>
+        <comment>Shared folders tooltip</comment>
+        <translation></translation>
+    </message>
+    <message>
+        <source>&lt;br&gt;&lt;nobr&gt;&lt;b&gt;No shared folders&lt;/b&gt;&lt;/nobr&gt;</source>
+        <comment>Shared folders tooltip</comment>
+        <translation>&lt;br&gt;&lt;nobr&gt;&lt;b&gt;Nici un dosar partajat&lt;/b&gt;&lt;/nobr&gt;</translation>
+    </message>
+    <message>
+        <source>Indicates whether the Remote Display (VRDP Server) is enabled (&lt;img src=:/vrdp_16px.png/&gt;) or not (&lt;img src=:/vrdp_disabled_16px.png/&gt;).</source>
+        <translation>Indică dacă Remote Display (Server VRDP) este activat (&lt;img src=vrdp_16px.png/&gt;) sau nu (&lt;img src=vrdp_disabled_16px.png/&gt;).</translation>
+    </message>
+    <message>
+        <source>&lt;hr&gt;The VRDP Server is listening on port %1</source>
+        <translation>&lt;hr&gt;Serverul VRDP ascultă pe portul %1</translation>
+    </message>
+    <message>
+        <source>Indicates the status of the hardware virtualization features used by this virtual machine:&lt;br&gt;&lt;nobr&gt;&lt;b&gt;%1:&lt;/b&gt;&amp;nbsp;%2&lt;/nobr&gt;&lt;br&gt;&lt;nobr&gt;&lt;b&gt;%3:&lt;/b&gt;&amp;nbsp;%4&lt;/nobr&gt;</source>
+        <comment>Virtualization Stuff LED</comment>
+        <translation>Indică statusul funcțiilor de virtualizare hardware folosite de această mașină virtuală: &lt;br&gt;&lt;nobr&gt;&lt;b&gt;%1:&lt;/b&gt;&amp;nbsp;%2&lt;/nobr&gt;&lt;br&gt;&lt;nobr&gt;&lt;b&gt;%3:&lt;/b&gt;&amp;nbsp;%4&lt;/nobr&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;br&gt;&lt;nobr&gt;&lt;b&gt;%1:&lt;/b&gt;&amp;nbsp;%2&lt;/nobr&gt;</source>
+        <comment>Virtualization Stuff LED</comment>
+        <translation>&lt;br&gt;&lt;nobr&gt;&lt;b&gt;%1:&lt;/b&gt;&amp;nbsp;%2&lt;/nobr&gt;</translation>
+    </message>
+    <message>
+        <source>Indicates whether the host mouse pointer is captured by the guest OS:&lt;br&gt;&lt;nobr&gt;&lt;img src=:/mouse_disabled_16px.png/&gt;&amp;nbsp;&amp;nbsp;pointer is not captured&lt;/nobr&gt;&lt;br&gt;&lt;nobr&gt;&lt;img src=:/mouse_16px.png/&gt;&amp;nbsp;&amp;nbsp;pointer is captured&lt;/nobr&gt;&lt;br&gt;&lt;nobr&gt;&lt;img src=:/mouse_seamless_16px.png/&gt;&amp;nbsp;&amp;nbsp;mouse integration (MI) is On&lt;/nobr&gt;&lt;br&gt;&lt;nobr&gt;&lt;img src=:/mouse_can_seamless_16px.png/&gt;&amp;nbsp;&amp;nbsp;MI is Off, pointer is captured&lt;/nobr&gt;&lt;br&gt;&lt;nobr&gt;&lt;img src=:/mouse_can_seamless_uncaptured_16px.png/&gt;&amp;nbsp;&amp;nbsp;MI is Off, pointer is not captured&lt;/nobr&gt;&lt;br&gt;Note that the mouse integration feature requires Guest Additions to be installed in the guest OS.</source>
+        <translation>Inidică dacă cursorul mouse sistemului gazdă este capturat de către SO musafir:&lt;br&gt;&lt;nobr&gt;&lt;img src=mouse_disabled_16px.png/&gt;&amp;nbsp;&amp;nbsp;cursorul nu este capturat&lt;/nobr&gt;&lt;br&gt;&lt;nobr&gt;&lt;img src=mouse_16px.png/&gt;&amp;nbsp;&amp;nbsp;cursorul este capturat&lt;/nobr&gt;&lt;br&gt;&lt;nobr&gt;&lt;img src=mouse_seamless_16px.png/&gt;&amp;nbsp;&amp;nbsp;integrare mouse (IM) este Activată&lt;/nobr&gt;&lt;br&gt;&lt;nobr&gt;&lt;img src=mouse_can_seamless_16px.png/&gt;&amp;nbsp;&amp;nbsp;IM este Inactivă, cursorul este capturat&lt;/nobr&gt;&lt;br&gt;&lt;nobr&gt;&lt;img src=mouse_can_seamless_uncaptured_16px.png/&gt;&amp;nbsp;&amp;nbsp;IM este Inactivă, cursorul nu este capturat.&lt;/nobr&gt;&lt;br&gt;Notă: funcția integrare mouse necesită instalarea pe SO musafir a Guest Additions.</translation>
+    </message>
+    <message>
+        <source>Indicates whether the keyboard is captured by the guest OS (&lt;img src=:/hostkey_captured_16px.png/&gt;) or not (&lt;img src=:/hostkey_16px.png/&gt;).</source>
+        <translation>Indică dacă tastatura este capturată de SO musafir (&lt;img src=hostkey_captured_16px.png/&gt;) sau nu (&lt;img src=hostkey_16px.png/&gt;).</translation>
+    </message>
+</context>
+<context>
+    <name>UIMachineLogic</name>
+    <message>
+        <source>VirtualBox OSE</source>
+        <translation>VirtualBox OSE</translation>
+    </message>
+    <message>
+        <source> EXPERIMENTAL build %1r%2 - %3</source>
+        <translation> versiune EXPERIMENTALĂ %1r%2 - %3</translation>
+    </message>
+    <message>
+        <source>Preview Monitor %1</source>
+        <translation>Previzualizare monitor %1</translation>
+    </message>
+    <message>
+        <source>Snapshot %1</source>
+        <translation>Instantaneu %1</translation>
+    </message>
+    <message>
+        <source>More CD/DVD Images...</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Unmount CD/DVD Device</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>More Floppy Images...</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Unmount Floppy Device</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>No CD/DVD Devices Attached</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>No CD/DVD devices attached to that VM</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>No Floppy Devices Attached</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>No floppy devices attached to that VM</source>
+        <translation>Nicio unitate de dischetă atașată la acea mașina virtuală</translation>
+    </message>
+    <message>
+        <source>No USB Devices Connected</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>No supported devices connected to the host PC</source>
+        <translation>Nici un dispozitiv suportat nu este conectat la PC gazdă</translation>
+    </message>
+</context>
+<context>
+    <name>UIMachineWindowNormal</name>
+    <message>
+        <source>Shows the currently assigned Host key.&lt;br&gt;This key, when pressed alone, toggles the keyboard and mouse capture state. It can also be used in combination with other keys to quickly perform actions from the main menu.</source>
+        <translation>Arată tasta gazdă setată în prezent.&lt;br&gt;Această tastă, când este apăsată singură, schimbă starea de captură a mouseului și a tastaturii. Poate fi utilizată în combinație cu alte taste pentru a efectua rapid acțiuni din meniul principal.</translation>
+    </message>
+</context>
+<context>
+    <name>UIMiniProcessWidgetAdditions</name>
+    <message>
+        <source>Cancel</source>
+        <translation>Renunță</translation>
+    </message>
+    <message>
+        <source>Cancel the VirtualBox Guest Additions CD image download</source>
+        <translation>Anulează descărcarea imaginii CD VirtualBox Guest Additions</translation>
+    </message>
+    <message>
+        <source>Downloading the VirtualBox Guest Additions CD image from &lt;nobr&gt;&lt;b&gt;%1&lt;/b&gt;...&lt;/nobr&gt;</source>
+        <translation>Se descarcă imaginea de CD a VirtualBox Guest Additions de la &lt;nobr&gt;&lt;b&gt;%1&lt;/b&gt;...&lt;/nobr&gt;</translation>
+    </message>
+</context>
+<context>
+    <name>UIMiniProcessWidgetUserManual</name>
+    <message>
+        <source>Cancel</source>
+        <translation>Renunță</translation>
+    </message>
+    <message>
+        <source>Cancel the VirtualBox User Manual download</source>
+        <translation>Anulează descărcarea manualului utilizator VirtualBox</translation>
+    </message>
+    <message>
+        <source>Downloading the VirtualBox User Manual</source>
+        <translation>Se descarcă manualul utilizator VirtualBox</translation>
+    </message>
+    <message>
+        <source>Downloading the VirtualBox User Manual &lt;nobr&gt;&lt;b&gt;%1&lt;/b&gt;...&lt;/nobr&gt;</source>
+        <translation>Se descarcă manualul utilizator VirtualBox de la &lt;nobr&gt;&lt;b&gt;%1&lt;/b&gt;...&lt;/nobr&gt;</translation>
+    </message>
+</context>
+<context>
+    <name>UIMultiScreenLayout</name>
+    <message>
+        <source>Virtual Screen %1</source>
+        <translation>Ecran virtual %1</translation>
+    </message>
+    <message>
+        <source>Use Host Screen %1</source>
+        <translation>Folosește ecranul mașinii gazdă %1</translation>
+    </message>
+</context>
+<context>
+    <name>UINewHDWzd</name>
+    <message>
+        <source>Create New Virtual Disk</source>
+        <translation>Creează disc fix virtual nou</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;This wizard will help you to create a new virtual hard disk image for your virtual machine.&lt;/p&gt;
+&lt;p&gt;Use the &lt;b&gt;Next&lt;/b&gt; button to go to the next page of the wizard
+and the &lt;b&gt;Back&lt;/b&gt; button to return to the previous page.&lt;/p&gt;</source>
+        <translation type="obsolete">&lt;p&gt;Acest vrăjitor vă va ajuta să creați o nouă imagine virtuală de disc hard pentru mașina dvs virtuală.&lt;/p&gt;
+&lt;p&gt;Folosiți butonul &lt;b&gt;Înainte&lt;/b&gt; pentru a merge la pagina următoare
+și butonul &lt;b&gt;Înapoi&lt;/b&gt; pentru a vă intoarce la pagina precedentă.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Welcome to the Create New Virtual Disk Wizard!</source>
+        <translation type="obsolete">Bun venit la asistentul Creează disc virtual nou!</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;Select the type of virtual hard disk image you want to create.&lt;/p&gt;
+&lt;p&gt;A &lt;b&gt;dynamically expanding image&lt;/b&gt; initially occupies a very small amount
+of space on your physical hard disk. It will grow dynamically (up to
+the size specified) as the Guest OS claims disk space.&lt;/p&gt;
+&lt;p&gt;A &lt;b&gt;fixed-size image&lt;/b&gt; does not grow. It is stored in a file of approximately
+the same size as the size of the virtual hard disk.&lt;/p&gt;</source>
+        <translation type="obsolete">&lt;p&gt;Selectați tipul de imagine de disc hard virtual pe care doriți să-l creați.&lt;/p&gt;
+&lt;p&gt;O &lt;b&gt;imagine expandabilă dinamic&lt;/b&gt; ocupă inițial un spațiu foarte mic pe discul hard fizic. Va crește dinamic (până la dimensiunre specificată), pe măsură ce SO musafir face uz de spațiul pe disc. &lt;/p&gt;&lt;p&gt;O &lt;b&gt;imagine de dimensiune fixă&lt;/b&gt; nu crește. Este salvată într-un fișier de aproximativ aceeași dimensiune cu discul hard virtual.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Image Type</source>
+        <translation type="obsolete">Tip imagine</translation>
+    </message>
+    <message>
+        <source>&amp;Dynamically expanding image</source>
+        <translation type="obsolete">Imagine expandabilă &amp;dinamic</translation>
+    </message>
+    <message>
+        <source>Alt+D</source>
+        <translation type="obsolete">Alt+D</translation>
+    </message>
+    <message>
+        <source>&amp;Fixed-size image</source>
+        <translation type="obsolete">Imagine de dimensiune &amp;fixă</translation>
+    </message>
+    <message>
+        <source>Alt+F</source>
+        <translation type="obsolete">Alt+F</translation>
+    </message>
+    <message>
+        <source>Virtual Disk Image Type</source>
+        <translation type="obsolete">Tip imagine disc virtuală</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;Press the &lt;b&gt;Select&lt;/b&gt; button to select the location and name of the file
+to store the virtual hard disk image or type a file name in the entry field.&lt;/p&gt;</source>
+        <translation type="obsolete">&lt;p&gt;Apăsați butonul &lt;b&gt;Selectare&lt;/b&gt; pentru a selecta amplasarea și numele fișierului
+pentru a stoca imaginea discului hard virtual sau tastați un nume de fișier în câmpul de intrare.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&amp;Image File Name</source>
+        <translation type="obsolete">Nume fișier &amp;imagine</translation>
+    </message>
+    <message>
+        <source>Select</source>
+        <translation type="obsolete">Selectare</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;Select the size of the virtual hard disk image in megabytes. This size will be reported to the Guest OS
+as the size of the virtual hard disk.&lt;/p&gt;</source>
+        <translation type="obsolete">&lt;p&gt;Selectați dimensiunea imaginii discului hard virtual (în megaocteți). Această dimensiune va fi raportată SO musafir ca dimensiunea discului hard virtual.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Image &amp;Size</source>
+        <translation type="obsolete">Dimen&amp;siune Imagine</translation>
+    </message>
+    <message>
+        <source>Virtual Disk Location and Size</source>
+        <translation type="obsolete">Amplasare disc virtual și dimensiune</translation>
+    </message>
+    <message>
+        <source>You are going to create a new virtual hard disk image with the following parameters:</source>
+        <translation type="obsolete">Veți crea o nouă imagine de disc hard virtual cu următorii parametrii:</translation>
+    </message>
+    <message>
+        <source>If the above settings are correct, press the &lt;b&gt;Finish&lt;/b&gt; button.
+                            Once you press it, a new hard disk image will be created.
+                            </source>
+        <translation type="obsolete">Dacă setările următoare sunt corecte, apăsați butonul &lt;b&gt;Terminare&lt;/b&gt;.
+O dată apăsat, o nouă imagine de disc hard va fi creată.
+                                                            </translation>
+    </message>
+    <message>
+        <source>Summary</source>
+        <translation type="obsolete">Rezumat</translation>
+    </message>
+    <message>
+        <source>&lt;nobr&gt;%1 Bytes&lt;/nobr&gt;</source>
+        <translation type="obsolete">&lt;nobr&gt;%1 Octeți&lt;/nobr&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;table&gt;&lt;tr&gt;&lt;td&gt;Type:&lt;/td&gt;&lt;td&gt;%1&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Location:&lt;/td&gt;&lt;td&gt;%2&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Size:&lt;/td&gt;&lt;td&gt;%3&amp;nbsp;(%4&amp;nbsp;Bytes)&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</source>
+        <translation type="obsolete">&lt;table&gt;&lt;tr&gt;&lt;td&gt;Tip:&lt;/td&gt;&lt;td&gt;%1&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Amplasare:&lt;/td&gt;&lt;td&gt;%2&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Dimensiune:&lt;/td&gt;&lt;td&gt;%3&amp;nbsp;(%4&amp;nbsp;Octeți)&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</translation>
+    </message>
+    <message>
+        <source>Hard disk images (*.vdi)</source>
+        <translation type="obsolete">Imagini disc fix (*.vdi)</translation>
+    </message>
+    <message>
+        <source>Select a file for the new hard disk image file</source>
+        <translation type="obsolete">Selectați un fișier pentru noua imagine de disc fix</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;Select the type of virtual hard disk image you want to create.&lt;/p&gt;
+&lt;p&gt;A &lt;b&gt;dynamically expanding image&lt;/b&gt; initially occupies a very small amount
+of space on your physical hard disk. It will grow dynamically (up to
+the size specified) as the Guest OS claims disk space.&lt;/p&gt;
+&lt;p&gt;A &lt;b&gt;fixed-size image&lt;/b&gt; does not grow. It is stored in a file of approximately
+the same size as the size of the virtual hard disk. The creation of a fixed-size image may take a long
+time depending on the image size and the write performance of your harddisk.&lt;/p&gt;</source>
+        <translation type="obsolete">&lt;p&gt;Selectați tipul de imagine de disc hard virtual pe care doriți să-l creați.&lt;/p&gt;
+&lt;p&gt;O &lt;b&gt;imagine expandabilă dinamic&lt;/b&gt; ocupă inițial un spațiu foarte mic pe discul hard fizic. Va crește dinamic (până la dimensiunre specificată), pe măsură ce SO musafir face uz de spațiul de pe disc. &lt;/p&gt;&lt;p&gt;O &lt;b&gt;imagine de dimensiune fixă&lt;/b&gt; nu crește. Este salvată într-un fișier de aproximativ aceeași dimensiune cu discul hard virtual. Crearea unei imagini de dimensiune fixă poate dura mai mult în funcție de dimensiunea imaginii și de viteza de scriere a discului dur.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;table cellspacing=0 cellpadding=2&gt;&lt;tr&gt;&lt;td&gt;&lt;nobr&gt;Type:&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;&lt;nobr&gt;%1&lt;/nobr&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;nobr&gt;Location:&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;&lt;nobr&gt;%2&lt;/nobr&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;nobr&gt;Size:&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;&lt;nobr&gt;%3&amp;nbsp;(%4&amp;nbsp;Bytes)&lt;/nobr&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</source>
+        <translation type="obsolete">&lt;table cellspacing=0 cellpadding=2&gt;&lt;tr&gt;&lt;td&gt;&lt;nobr&gt;Tip:&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;&lt;nobr&gt;%1&lt;/nobr&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;nobr&gt;Locație:&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;&lt;nobr&gt;%2&lt;/nobr&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;nobr&gt;Dimensiune:&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;&lt;nobr&gt;%3&amp;nbsp;(%4&amp;nbsp;octeți)&lt;/nobr&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;This wizard will help you to create a new virtual hard disk image for your virtual machine.&lt;/p&gt;&lt;p&gt;Use the &lt;b&gt;Next&lt;/b&gt; button to go to the next page of the wizard and the &lt;b&gt;Back&lt;/b&gt; button to return to the previous page.&lt;/p&gt;</source>
+        <translation type="obsolete">&lt;p&gt;Acest asistent vă va ajuta să creați o nouă imagine virtuală de disc hard pentru mașina dvs virtuală.&lt;/p&gt;&lt;p&gt;Folosiți butonul &lt;b&gt;Înainte&lt;/b&gt; pentru a merge la pagina următoare și butonul &lt;b&gt;Înapoi&lt;/b&gt; pentru a vă intoarce la pagina precedentă.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&lt; &amp;Back</source>
+        <translation type="obsolete">&lt; Îna&amp;poi</translation>
+    </message>
+    <message>
+        <source>&amp;Next &gt;</source>
+        <translation type="obsolete">Î&amp;nainte&gt;</translation>
+    </message>
+    <message>
+        <source>&amp;Cancel</source>
+        <translation type="obsolete">&amp;Revocare</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;Select the type of virtual hard disk image you want to create.&lt;/p&gt;&lt;p&gt;A &lt;b&gt;dynamically expanding image&lt;/b&gt; initially occupies a very small amount of space on your physical hard disk. It will grow dynamically (up to the size specified) as the Guest OS claims disk space.&lt;/p&gt;&lt;p&gt;A &lt;b&gt;fixed-size image&lt;/b&gt; does not grow. It is stored in a file of approximately the same size as the size of the virtual hard disk. The creation of a fixed-size image may take a long time depending on the image size and the write performance of your harddisk.&lt;/p&gt;</source>
+        <translation type="obsolete">&lt;p&gt;Selectați tipul de imagine de disc hard virtual pe care doriți să-l creați.&lt;/p&gt;&lt;p&gt;O &lt;b&gt;imagine expandabilă dinamic&lt;/b&gt; ocupă inițial un spațiu foarte mic pe discul hard fizic. Va crește dinamic (până la dimensiunre specificată), pe măsură ce SO musafir face uz de spațiul de pe disc. &lt;/p&gt;&lt;p&gt;O &lt;b&gt;imagine de dimensiune fixă&lt;/b&gt; nu crește. Este salvată într-un fișier de aproximativ aceeași dimensiune cu discul hard virtual. Crearea unei imagini de dimensiune fixă poate dura mai mult în funcție de dimensiunea imaginii și de viteza de scriere a discului dur.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;Press the &lt;b&gt;Select&lt;/b&gt; button to select the location and name of the file to store the virtual hard disk image or type a file name in the entry field.&lt;/p&gt;</source>
+        <translation type="obsolete">&lt;p&gt;Apăsați butonul &lt;b&gt;Selectare&lt;/b&gt; pentru a selecta amplasarea și numele fișierului pentru a stoca imaginea discului hard virtual sau tastați un nume de fișier în câmpul de intrare.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;Select the size of the virtual hard disk image in megabytes. This size will be reported to the Guest OS as the size of the virtual hard disk.&lt;/p&gt;</source>
+        <translation type="obsolete">&lt;p&gt;Selectați dimensiunea imaginii discului hard virtual (în megaocteți). Această dimensiune va fi raportată SO musafir ca dimensiunea discului hard virtual.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>If the above settings are correct, press the &lt;b&gt;Finish&lt;/b&gt; button. Once you press it, a new hard disk image will be created.</source>
+        <translation type="obsolete">Dacă setările de mai sus sunt corecte, apăsați butonul &lt;b&gt;Finalizare&lt;/b&gt;. O dată apăsat, o nouă imagine de disc hard va fi creată.</translation>
+    </message>
+    <message>
+        <source>&amp;Finish</source>
+        <translation type="obsolete">&amp;Finalizare</translation>
+    </message>
+    <message>
+        <source>Type</source>
+        <comment>summary</comment>
+        <translation type="obsolete">Tip</translation>
+    </message>
+    <message>
+        <source>Location</source>
+        <comment>summary</comment>
+        <translation type="obsolete">Amplasare</translation>
+    </message>
+    <message>
+        <source>Size</source>
+        <comment>summary</comment>
+        <translation type="obsolete">Dimensiune</translation>
+    </message>
+    <message>
+        <source>Bytes</source>
+        <comment>summary</comment>
+        <translation type="obsolete">Octeți</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="obsolete">Renunță</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;This wizard will help you to create a new virtual hard disk for your virtual machine.&lt;/p&gt;&lt;p&gt;Use the &lt;b&gt;Next&lt;/b&gt; button to go to the next page of the wizard and the &lt;b&gt;Back&lt;/b&gt; button to return to the previous page.&lt;/p&gt;</source>
+        <translation type="obsolete">&lt;p&gt;Acest asistent vă va ajuta să creați o nouă imagine virtuală de disc fix pentru mașina dvs virtuală.&lt;/p&gt;&lt;p&gt;Folosiți butonul &lt;b&gt;Înainte&lt;/b&gt; pentru a merge la pagina următoare și butonul &lt;b&gt;Înapoi&lt;/b&gt; pentru a vă intoarce la pagina precedentă.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Hard Disk Storage Type</source>
+        <translation type="obsolete">Tip stocare disc fix</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;Select the type of virtual hard disk you want to create.&lt;/p&gt;&lt;p&gt;A &lt;b&gt;dynamically expanding storage&lt;/b&gt; initially occupies a very small amount of space on your physical hard disk. It will grow dynamically (up to the size specified) as the Guest OS claims disk space.&lt;/p&gt;&lt;p&gt;A &lt;b&gt;fixed-size storage&lt;/b&gt; does not grow. It is stored in a file of approximately the same size as the size of the virtual hard disk. The creation of a fixed-size storage may take a long time depending on the storage size and the write performance of your harddisk.&lt;/p&gt;</source>
+        <translation type="obsolete">&lt;p&gt;Selectați tipul de imagine virtuală de disc fix pe care doriți să o creați.&lt;/p&gt;&lt;p&gt;O &lt;b&gt;imagine expandabilă dinamic&lt;/b&gt; ocupă inițial un spațiu foarte mic pe discul fix fizic. Va crește dinamic (până la dimensiunre specificată), pe măsură ce SO musafir face uz de spațiul de pe disc. &lt;/p&gt;&lt;p&gt;O &lt;b&gt;imagine de dimensiune fixă&lt;/b&gt; nu crește. Este salvată într-un fișier de aproximativ aceeași dimensiune cu discul fix virtual. Crearea unei imagini de dimensiune fixă poate dura destul de mult în funcție de dimensiunea imaginii și de viteza de scriere a discului dvs.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Storage Type</source>
+        <translation type="obsolete">TIp stocare</translation>
+    </message>
+    <message>
+        <source>&amp;Dynamically expanding storage</source>
+        <translation type="obsolete">Imagine expandabilă &amp;dinamic</translation>
+    </message>
+    <message>
+        <source>&amp;Fixed-size storage</source>
+        <translation type="obsolete">Imagine de dimensiune &amp;fixă</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;Press the &lt;b&gt;Select&lt;/b&gt; button to select the location of a file to store the hard disk data or type a file name in the entry field.&lt;/p&gt;</source>
+        <translation type="obsolete">&lt;p&gt;Apăsați butonul &lt;b&gt;Selectare&lt;/b&gt; pentru a selecta amplasarea imaginii discului fix virtual sau tastați un nume de fișier în câmpul de intrare.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&amp;Location</source>
+        <translation type="obsolete">Amp&amp;lasare</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;Select the size of the virtual hard disk in megabytes. This size will be reported to the Guest OS as the maximum size of this hard disk.&lt;/p&gt;</source>
+        <translation type="obsolete">&lt;p&gt;Selectați dimensiunea imaginii discului fix virtual (în megaocteți). Această dimensiune va fi raportată SO musafir ca dimensiunea discului fix virtual.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&amp;Size</source>
+        <translation type="obsolete">Dimen&amp;siune</translation>
+    </message>
+    <message>
+        <source>You are going to create a new virtual hard disk with the following parameters:</source>
+        <translation type="obsolete">Veți crea o nouă imagine virtuală de disc fix cu următorii parametrii:</translation>
+    </message>
+    <message>
+        <source>If the above settings are correct, press the &lt;b&gt;Finish&lt;/b&gt; button. Once you press it, a new hard disk will be created.</source>
+        <translation type="obsolete">Dacă setările de mai sus sunt corecte, apăsați butonul &lt;b&gt;Finalizare&lt;/b&gt;. O dată apăsat, o nouă imagine de disc fix va fi creată.</translation>
+    </message>
+</context>
+<context>
+    <name>UINewHDWzdPage1</name>
+    <message>
+        <source>Welcome to the Create New Virtual Disk Wizard!</source>
+        <translation>Bun venit la asistentul Creează disc virtual nou!</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;This wizard will help you to create a new virtual hard disk for your virtual machine.&lt;/p&gt;&lt;p&gt;%1&lt;/p&gt;</source>
+        <translation>&lt;p&gt;Acest asistent vă va ghida în procesul de creare a unui nou disc dur virtual pentru mașina dvs virtuală.&lt;/p&gt;&lt;p&gt;%1&lt;/p&gt;</translation>
+    </message>
+</context>
+<context>
+    <name>UINewHDWzdPage2</name>
+    <message>
+        <source>&lt;p&gt;Select the type of virtual hard disk you want to create.&lt;/p&gt;&lt;p&gt;A &lt;b&gt;dynamically expanding storage&lt;/b&gt; initially occupies a very small amount of space on your physical hard disk. It will grow dynamically (up to the size specified) as the Guest OS claims disk space.&lt;/p&gt;&lt;p&gt;A &lt;b&gt;fixed-size storage&lt;/b&gt; does not grow. It is stored in a file of approximately the same size as the size of the virtual hard disk. The creation of a fixed-size storage may take a long time depending on the storage size and the write performance of your harddisk.&lt;/p&gt;</source>
+        <translation>&lt;p&gt;Selectați tipul de imagine virtuală de disc fix pe care doriți să o creați.&lt;/p&gt;&lt;p&gt;O &lt;b&gt;imagine expandabilă dinamic&lt;/b&gt; ocupă inițial un spațiu foarte mic pe discul fix fizic. Va crește dinamic (până la dimensiunre specificată), pe măsură ce SO musafir face uz de spațiul de pe disc. &lt;/p&gt;&lt;p&gt;O &lt;b&gt;imagine de dimensiune fixă&lt;/b&gt; nu crește. Este salvată într-un fișier de aproximativ aceeași dimensiune cu discul fix virtual. Crearea unei imagini de dimensiune fixă poate dura destul de mult în funcție de dimensiunea imaginii și de viteza de scriere a discului dvs.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Storage Type</source>
+        <translation>TIp stocare</translation>
+    </message>
+    <message>
+        <source>&amp;Dynamically expanding storage</source>
+        <translation>Imagine expandabilă &amp;dinamic</translation>
+    </message>
+    <message>
+        <source>&amp;Fixed-size storage</source>
+        <translation>Imagine de dimensiune &amp;fixă</translation>
+    </message>
+    <message>
+        <source>Hard Disk Storage Type</source>
+        <translation>Tip stocare disc fix</translation>
+    </message>
+</context>
+<context>
+    <name>UINewHDWzdPage3</name>
+    <message>
+        <source>&lt;p&gt;Press the &lt;b&gt;Select&lt;/b&gt; button to select the location of a file to store the hard disk data or type a file name in the entry field.&lt;/p&gt;</source>
+        <translation>&lt;p&gt;Apăsați butonul &lt;b&gt;Selectează&lt;/b&gt; pentru a selecta amplasarea imaginii discului fix virtual sau tastați un nume de fișier în câmpul de intrare.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&amp;Location</source>
+        <translation>Amp&amp;lasare</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;Select the size of the virtual hard disk in megabytes. This size will be reported to the Guest OS as the maximum size of this hard disk.&lt;/p&gt;</source>
+        <translation>&lt;p&gt;Selectați dimensiunea imaginii discului fix virtual (în megaocteți). Această dimensiune va fi raportată SO musafir ca dimensiunea discului fix virtual.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&amp;Size</source>
+        <translation>Dimen&amp;siune</translation>
+    </message>
+    <message>
+        <source>Virtual Disk Location and Size</source>
+        <translation>Amplasare disc virtual și dimensiune</translation>
+    </message>
+    <message>
+        <source>Select a file for the new hard disk image file</source>
+        <translation>Selectați un fișier pentru noua imagine de disc fix</translation>
+    </message>
+    <message>
+        <source>Hard disk images (*.vdi)</source>
+        <translation>Imagini disc dur (*.vdi)</translation>
+    </message>
+    <message>
+        <source>&lt;nobr&gt;%1 (%2 B)&lt;/nobr&gt;</source>
+        <translatorcomment>hmm</translatorcomment>
+        <translation>&lt;nobr&gt;%1 (%2 B)&lt;/nobr&gt;</translation>
+    </message>
+</context>
+<context>
+    <name>UINewHDWzdPage4</name>
+    <message>
+        <source>You are going to create a new virtual hard disk with the following parameters:</source>
+        <translation>Veți crea o nouă imagine virtuală de disc dur cu următorii parametrii:</translation>
+    </message>
+    <message>
+        <source>Summary</source>
+        <translation>Rezumat</translation>
+    </message>
+    <message>
+        <source>%1 B</source>
+        <translation>%1 B</translation>
+    </message>
+    <message>
+        <source>Type</source>
+        <comment>summary</comment>
+        <translation>Tip</translation>
+    </message>
+    <message>
+        <source>Location</source>
+        <comment>summary</comment>
+        <translation>Amplasare</translation>
+    </message>
+    <message>
+        <source>Size</source>
+        <comment>summary</comment>
+        <translation>Dimensiune</translation>
+    </message>
+    <message>
+        <source>If the above settings are correct, press the &lt;b&gt;%1&lt;/b&gt; button. Once you press it, a new hard disk will be created.</source>
+        <translation>Dacă setările de mai sus sunt corecte, apăsați butonul &lt;b&gt;Finalizare&lt;/b&gt;. Odată apăsat, o nouă imagine de disc dur va fi creată.</translation>
+    </message>
+</context>
+<context>
+    <name>UINewVMWzd</name>
+    <message>
+        <source>Create New Virtual Machine</source>
+        <translation>Creează o mașină virtuală nouă</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;This wizard will guide you through the steps that are necessary to create
+a new virtual machine for VirtualBox.&lt;/p&gt;
+&lt;p&gt;Use the &lt;b&gt;Next&lt;/b&gt; button to go the next page of the wizard
+and the &lt;b&gt;Back&lt;/b&gt; button to return to the previous page.&lt;/p&gt;</source>
+        <translation type="obsolete">&lt;p&gt;Acest vrăjitor vă va ghida prin pașii necesari creării
+unei noi mașini virtuale pentru VirtualBox.&lt;/p&gt;
+&lt;p&gt;Folosiți butonul &lt;b&gt;Înainte&lt;/b&gt; pentru a merge la pagina următoare  a vrăjitorului
+și butonul &lt;b&gt;Înapoi&lt;/b&gt; pentru a vă întoarce la pagina precedentă.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Welcome to the New Virtual Machine Wizard!</source>
+        <translation type="obsolete">Bun venit la asistentul Mașină virtuală nouă!</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;Enter a name for the new virtual machine and select the type of the guest operating
+system you plan to install onto the virtual machine.&lt;/p&gt;
+&lt;p&gt;The name of the virtual machine usually indicates its software and hardware configuration.
+It will be used by all VirtualBox components to identify your virtual machine.&lt;/p&gt;</source>
+        <translation type="obsolete">&lt;p&gt;Introduceți un nume pentru noua mașină virtuală și selectați tipul sistemului de operare musafir
+pe care plănuiți să îl instalați în mașină.&lt;/p&gt;
+&lt;p&gt;Numele mașinii virtuale indică în mod uzual configurația software și hardware.
+Va fi folosit de către toate produsele VirtualBox pentru a identifica mașina virtuală creată.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>N&amp;ame</source>
+        <translation type="obsolete">N&amp;ume</translation>
+    </message>
+    <message>
+        <source>OS &amp;Type</source>
+        <translation type="obsolete">&amp;Tip SO</translation>
+    </message>
+    <message>
+        <source>VM Name and OS Type</source>
+        <translation type="obsolete">Nume MV și tip SO</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;Select the amount of base memory (RAM) in megabytes to be allocated to the virtual machine.&lt;/p&gt;</source>
+        <translation type="obsolete">&lt;p&gt;Selectați cantitatea de memorie RAM în megaocteți pentru a fi alocată mașinii virtuale.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Base &amp;Memory Size</source>
+        <translation type="obsolete">Dimensiune &amp;memorie RAM</translation>
+    </message>
+    <message>
+        <source>&lt;</source>
+        <translation type="obsolete">&lt;</translation>
+    </message>
+    <message>
+        <source>=</source>
+        <translation type="obsolete">=</translation>
+    </message>
+    <message>
+        <source>&gt;</source>
+        <translation type="obsolete">&gt;</translation>
+    </message>
+    <message>
+        <source>MB</source>
+        <translation type="obsolete">MO</translation>
+    </message>
+    <message>
+        <source>Memory</source>
+        <translation type="obsolete">Memorie</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;Select a hard disk image to be used
+as the boot hard disk of the virtual machine. You can either create a new hard
+disk using the &lt;b&gt;New&lt;/b&gt; button or select an existing hard disk
+image from the drop-down list or by pressing the &lt;b&gt;Existing&lt;/b&gt;
+button (to invoke the Virtual Disk Manager dialog).&lt;/p&gt;
+&lt;p&gt;If you need a more complicated hard disk setup, you can also skip this
+step and attach hard disks later using the VM Settings dialog.&lt;/p&gt;</source>
+        <translation type="obsolete">&lt;p&gt;Selectați imaginea de disc hard virtual care va fi folosită
+ca disc de boot pentru mașina virtuală. Puteți fie crea un disc hard nou
+utilizând butonul &lt;b&gt;Nou&lt;/b&gt; sau selecta o imagine de disc hard existentă
+din listă apăsând butonul &lt;b&gt;Existent&lt;/b&gt; (pentru a invoca dialogul manager discuri virtuale).&lt;/p&gt;
+&lt;p&gt;Dacă aveți nevoie de setarea mai complexă a unui disc virtual, puteți sări peste acest pas
+și să atașați ulterior un disc hard utilizând dialogul Setări MV.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>B&amp;oot Hard Disk (Primary Master)</source>
+        <translation type="obsolete">Disc de B&amp;oot (Primar Master)</translation>
+    </message>
+    <message>
+        <source>N&amp;ew...</source>
+        <translation type="obsolete">N&amp;ou...</translation>
+    </message>
+    <message>
+        <source>E&amp;xisting...</source>
+        <translation type="obsolete">E&amp;xistent...</translation>
+    </message>
+    <message>
+        <source>Virtual Hard Disk</source>
+        <translation type="obsolete">Hard disc virtual</translation>
+    </message>
+    <message>
+        <source>
+                            &lt;p&gt;
+                            You are going to create a new virtual machine
+                            with the following parameters:
+                            &lt;/p&gt;
+                            </source>
+        <translation type="obsolete">
+                                                                       &lt;p&gt;
+                                                                       Veți crea  o nouă mașină virtuală
+                                                                       cu următorii parametrii:
+                                                                       &lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>
+                            &lt;p&gt;
+                            If the above is correct press the &lt;b&gt;Finish&lt;/b&gt; button.
+                            Once you press it, a new virtual machine will be created.
+                            &lt;/p&gt;&lt;p&gt;
+                            Note that you can alter these and all other setting of the
+                            created virtual machine at any time using the
+                            &lt;b&gt;Settings&lt;/b&gt; dialog accessible through
+                            the menu of the main window.
+                            &lt;/p&gt;
+                            </source>
+        <translation type="obsolete">
+                                                           &lt;p&gt;
+                                                           Dacă informațiile sunt corecte, apăsați butonul &lt;b&gt;Terminare&lt;/b&gt;.
+                                                           &lt;nobr&gt;O dată ce&lt;/nobr&gt; l-ați apăsat, o nouă mașină virtuală va fi creată.
+                                                           &lt;/p&gt;&lt;p&gt;
+                                                           Puteți schimba aceste setări și altele în orice moment
+                                                           prin dialogul &lt;b&gt;Setări&lt;/b&gt; accesibil din
+                                                           meniul ferestrei principale.
+                                                           &lt;/p&gt;
+                                                           </translation>
+    </message>
+    <message>
+        <source>Summary</source>
+        <translation type="obsolete">Rezumat</translation>
+    </message>
+    <message>
+        <source>&lt;qt&gt;%1&amp;nbsp;MB&lt;/qt&gt;</source>
+        <translation type="obsolete">&lt;qt&gt;%1&amp;nbsp;MO&lt;/qt&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;tr&gt;&lt;td&gt;Name:&lt;/td&gt;&lt;td&gt;%1&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;OS Type:&lt;/td&gt;&lt;td&gt;%2&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Base Memory:&lt;/td&gt;&lt;td&gt;%3&amp;nbsp;MB&lt;/td&gt;&lt;/tr&gt;</source>
+        <translation type="obsolete">&lt;tr&gt;&lt;td&gt;Nume:&lt;/td&gt;&lt;td&gt;%1&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Tip SO:&lt;/td&gt;&lt;td&gt;%2&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Memorie:&lt;/td&gt;&lt;td&gt;%3&amp;nbsp;MO&lt;/td&gt;&lt;/tr&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;tr&gt;&lt;td&gt;Boot Hard Disk:&lt;/td&gt;&lt;td&gt;%4&lt;/td&gt;&lt;/tr&gt;</source>
+        <translation type="obsolete">&lt;tr&gt;&lt;td&gt;Disc de boot&lt;/td&gt;&lt;td&gt;%4&lt;/td&gt;&lt;/tr&gt;</translation>
+    </message>
+    <message>
+        <source>The recommended base memory size is &lt;b&gt;%1&lt;/b&gt; MB.</source>
+        <translation type="obsolete">Memoria RAM recomandată este &lt;b&gt;%1&lt;/b&gt; MO.</translation>
+    </message>
+    <message>
+        <source>The recommended size of the boot hard disk is &lt;b&gt;%1&lt;/b&gt; MB.</source>
+        <translation type="obsolete">Dimensiunea discului de boot recomandată este &lt;b&gt;%1&lt;/b&gt; MO.</translation>
+    </message>
+    <message>
+        <source>&lt;tr&gt;&lt;td&gt;&lt;nobr&gt;Name:&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;%1&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;nobr&gt;OS Type:&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;%2&lt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;nobr&gt;Base Memory:&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;%3&amp;nbsp;MB&lt;/td&gt;&lt;/tr&gt;</source>
+        <translation type="obsolete">&lt;tr&gt;&lt;td&gt;&lt;nobr&gt;Nume:&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;%1&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;nobr&gt;Tip SO:&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;%2&lt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;nobr&gt;Memorie RAM:&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;%3&amp;nbsp;MO&lt;/td&gt;&lt;/tr&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;tr&gt;&lt;td&gt;&lt;nobr&gt;Boot Hard Disk:&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;%4&lt;/td&gt;&lt;/tr&gt;</source>
+        <translation type="obsolete">&lt;tr&gt;&lt;td&gt;&lt;nobr&gt;Disc de boot&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;%4&lt;/td&gt;&lt;/tr&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;This wizard will guide you through the steps that are necessary to create a new virtual machine for VirtualBox.&lt;/p&gt;&lt;p&gt;Use the &lt;b&gt;Next&lt;/b&gt; button to go the next page of the wizard and the &lt;b&gt;Back&lt;/b&gt; button to return to the previous page.&lt;/p&gt;</source>
+        <translation type="obsolete">&lt;p&gt;Acest asistent vă va ghida prin pașii necesari creării unei noi mașini virtuale pentru VirtualBox.&lt;/p&gt;&lt;p&gt;Folosiți butonul &lt;b&gt;Înainte&lt;/b&gt; pentru a merge la pagina următoare  a asistent și butonul &lt;b&gt;Înapoi&lt;/b&gt; pentru a vă întoarce la pagina precedentă.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&lt; &amp;Back</source>
+        <translation type="obsolete">&lt; Îna&amp;poi</translation>
+    </message>
+    <message>
+        <source>&amp;Next &gt;</source>
+        <translation type="obsolete">Î&amp;nainte&gt;</translation>
+    </message>
+    <message>
+        <source>&amp;Cancel</source>
+        <translation type="obsolete">&amp;Revocare</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;Enter a name for the new virtual machine and select the type of the guest operating system you plan to install onto the virtual machine.&lt;/p&gt;&lt;p&gt;The name of the virtual machine usually indicates its software and hardware configuration. It will be used by all VirtualBox components to identify your virtual machine.&lt;/p&gt;</source>
+        <translation type="obsolete">&lt;p&gt;Introduceți un nume pentru noua mașină virtuală și selectați tipul sistemului de operare musafir pe care plănuiți să îl instalați în mașină.&lt;/p&gt;&lt;p&gt;Numele mașinii virtuale indică în mod uzual configurația software și hardware. Va fi folosit de către toate produsele VirtualBox pentru a identifica mașina virtuală creată.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;Select a hard disk image to be used as the boot hard disk of the virtual machine. You can either create a new hard disk using the &lt;b&gt;New&lt;/b&gt; button or select an existing hard disk image from the drop-down list or by pressing the &lt;b&gt;Existing&lt;/b&gt; button (to invoke the Virtual Disk Manager dialog).&lt;/p&gt;&lt;p&gt;If you need a more complicated hard disk setup, you can also skip this step and attach hard disks later using the VM Settings dialog.&lt;/p&gt;</source>
+        <translation type="obsolete">&lt;p&gt;Selectați imaginea de disc hard virtual care va fi folosită ca disc de boot pentru mașina virtuală. Puteți fie crea un disc hard nou utilizând butonul &lt;b&gt;Nou&lt;/b&gt; sau puteți selecta o imagine de disc hard existentă din listă apăsând butonul &lt;b&gt;Existent&lt;/b&gt; (pentru a invoca dialogul Manager discuri virtuale).&lt;/p&gt;&lt;p&gt;Dacă aveți nevoie de setarea mai complexă a unui disc virtual, puteți sări peste acest pas și să atașați ulterior un disc hard utilizând dialogul Setări MV.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;You are going to create a new virtual machine with the following parameters:&lt;/p&gt;</source>
+        <translation type="obsolete">&lt;p&gt;Veți crea o nouă mașină virtuală cu următorii parametrii:&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;If the above is correct press the &lt;b&gt;Finish&lt;/b&gt; button. Once you press it, a new virtual machine will be created. &lt;/p&gt;&lt;p&gt;Note that you can alter these and all other setting of the created virtual machine at any time using the &lt;b&gt;Settings&lt;/b&gt; dialog accessible through the menu of the main window.&lt;/p&gt;</source>
+        <translation type="obsolete">    &lt;p&gt;Dacă informațiile sunt corecte, apăsați butonul &lt;b&gt;Finalizare&lt;/b&gt;. O dată ce l-ați apăsat, o nouă mașină virtuală va fi creată.&lt;/p&gt;&lt;p&gt;Puteți schimba aceste setări și altele în orice moment prin dialogul &lt;b&gt;Setări&lt;/b&gt; accesibil din meniul ferestrei principale.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&amp;Finish</source>
+        <translation type="obsolete">&amp;Finalizare</translation>
+    </message>
+    <message>
+        <source>MB</source>
+        <comment>megabytes</comment>
+        <translation type="obsolete">MO</translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <comment>summary</comment>
+        <translation type="obsolete">Nume</translation>
+    </message>
+    <message>
+        <source>OS Type</source>
+        <comment>summary</comment>
+        <translation type="obsolete">Tip SO</translation>
+    </message>
+    <message>
+        <source>Base Memory</source>
+        <comment>summary</comment>
+        <translation type="obsolete">Memorie RAM</translation>
+    </message>
+    <message>
+        <source>Boot Hard Disk</source>
+        <comment>summary</comment>
+        <translation type="obsolete">Disc de pornire</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="obsolete">Renunță</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;Select a hard disk image to be used as the boot hard disk of the virtual machine. You can either create a new hard disk using the &lt;b&gt;New&lt;/b&gt; button or select an existing hard disk image from the drop-down list or by pressing the &lt;b&gt;Existing&lt;/b&gt; button (to invoke the Virtual Media Manager dialog).&lt;/p&gt;&lt;p&gt;If you need a more complicated hard disk setup, you can also skip this step and attach hard disks later using the VM Settings dialog.&lt;/p&gt;</source>
+        <translation type="obsolete">&lt;p&gt;Selectați imaginea de disc hard virtual care va fi folosită ca disc de pornire pentru mașina virtuală. Puteți fie crea un disc fix nou utilizând butonul &lt;b&gt;Nou&lt;/b&gt; sau selecta o imagine de disc fix existentă din listă apăsând butonul &lt;b&gt;Existent&lt;/b&gt; (pentru a invoca dialogul Gestionar discuri virtuale).&lt;/p&gt;&lt;p&gt;Dacă aveți nevoie de setarea mai complexă a unui disc virtual, puteți sări peste acest pas și atașa ulterior un disc fix utilizând dialogul Setări mașină virtuală.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Boot Hard &amp;Disk (Primary Master)</source>
+        <translation type="obsolete">Disc de P&amp;ornire (Primar Master)</translation>
+    </message>
+    <message>
+        <source>&amp;Create new hard disk</source>
+        <translation type="obsolete">&amp;Creează disc dur nou</translation>
+    </message>
+    <message>
+        <source>&amp;Use existing hard disk</source>
+        <translation type="obsolete">F&amp;olosește disc dur existent</translation>
+    </message>
+</context>
+<context>
+    <name>UINewVMWzdPage1</name>
+    <message>
+        <source>Welcome to the New Virtual Machine Wizard!</source>
+        <translation>Bun venit la asistentul Mașină virtuală nouă!</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;This wizard will guide you through the steps that are necessary to create a new virtual machine for VirtualBox.&lt;/p&gt;&lt;p&gt;%1&lt;/p&gt;</source>
+        <translation>&lt;p&gt;Acest asistent vă va ghida în procesul de creare a noi mașini virtuale pentru VirtualBox.&lt;/p&gt;&lt;p&gt;%1&lt;/p&gt;</translation>
+    </message>
+</context>
+<context>
+    <name>UINewVMWzdPage2</name>
+    <message>
+        <source>&lt;p&gt;Enter a name for the new virtual machine and select the type of the guest operating system you plan to install onto the virtual machine.&lt;/p&gt;&lt;p&gt;The name of the virtual machine usually indicates its software and hardware configuration. It will be used by all VirtualBox components to identify your virtual machine.&lt;/p&gt;</source>
+        <translation>&lt;p&gt;Introduceți un nume pentru noua mașină virtuală și selectați tipul sistemului de operare musafir pe care plănuiți să îl instalați în mașină.&lt;/p&gt;&lt;p&gt;Numele mașinii virtuale indică în mod uzual configurația software și hardware. Va fi folosit de către toate produsele VirtualBox pentru a identifica mașina virtuală creată.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>N&amp;ame</source>
+        <translation>N&amp;ume</translation>
+    </message>
+    <message>
+        <source>OS &amp;Type</source>
+        <translation>&amp;Tip SO</translation>
+    </message>
+    <message>
+        <source>VM Name and OS Type</source>
+        <translation>Nume MV și tip SO</translation>
+    </message>
+</context>
+<context>
+    <name>UINewVMWzdPage3</name>
+    <message>
+        <source>&lt;p&gt;Select the amount of base memory (RAM) in megabytes to be allocated to the virtual machine.&lt;/p&gt;</source>
+        <translation>&lt;p&gt;Selectați cantitatea de memorie RAM în megaocteți pentru a fi alocată mașinii virtuale.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Base &amp;Memory Size</source>
+        <translation>Dimensiune &amp;memorie RAM</translation>
+    </message>
+    <message>
+        <source>MB</source>
+        <translation>MO</translation>
+    </message>
+    <message>
+        <source>Memory</source>
+        <translation>Memorie</translation>
+    </message>
+    <message>
+        <source>The recommended base memory size is &lt;b&gt;%1&lt;/b&gt; MB.</source>
+        <translation>Cantitatea de memorie recomandată este &lt;b&gt;%1&lt;/b&gt; MO.</translation>
+    </message>
+    <message>
+        <source>MB</source>
+        <comment>size suffix MBytes=1024 KBytes</comment>
+        <translation>MO</translation>
+    </message>
+</context>
+<context>
+    <name>UINewVMWzdPage4</name>
+    <message>
+        <source>&lt;p&gt;Select a hard disk image to be used as the boot hard disk of the virtual machine. You can either create a new hard disk using the &lt;b&gt;New&lt;/b&gt; button or select an existing hard disk image from the drop-down list or by pressing the &lt;b&gt;Existing&lt;/b&gt; button (to invoke the Virtual Media Manager dialog).&lt;/p&gt;&lt;p&gt;If you need a more complicated hard disk setup, you can also skip this step and attach hard disks later using the VM Settings dialog.&lt;/p&gt;</source>
+        <translation>&lt;p&gt;Selectați imaginea de disc hard virtual care va fi folosită ca disc de pornire pentru mașina virtuală. Puteți fie crea un disc fix nou utilizând butonul &lt;b&gt;Nou&lt;/b&gt; sau selecta o imagine de disc fix existentă din listă apăsând butonul &lt;b&gt;Existent&lt;/b&gt; (pentru a invoca dialogul Administrator discuri virtuale).&lt;/p&gt;&lt;p&gt;Dacă aveți nevoie de setarea mai complexă a unui disc virtual, puteți sări peste acest pas și atașa ulterior un disc fix utilizând dialogul Setări mașină virtuală.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Boot Hard &amp;Disk (Primary Master)</source>
+        <translation type="obsolete">Disc de P&amp;ornire (Primar Master)</translation>
+    </message>
+    <message>
+        <source>&amp;Create new hard disk</source>
+        <translation>&amp;Creează disc dur nou</translation>
+    </message>
+    <message>
+        <source>&amp;Use existing hard disk</source>
+        <translation>F&amp;olosește un disc dur existent</translation>
+    </message>
+    <message>
+        <source>Virtual Hard Disk</source>
+        <translation>Disc dur virtual</translation>
+    </message>
+    <message>
+        <source>The recommended size of the boot hard disk is &lt;b&gt;%1&lt;/b&gt; MB.</source>
+        <translation>Dimensiunea discului de boot recomandată este &lt;b&gt;%1&lt;/b&gt; MO.</translation>
+    </message>
+    <message>
+        <source>Boot Hard &amp;Disk</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>UINewVMWzdPage5</name>
+    <message>
+        <source>&lt;p&gt;You are going to create a new virtual machine with the following parameters:&lt;/p&gt;</source>
+        <translation>&lt;p&gt;Veți crea o nouă mașină virtuală cu următorii parametrii:&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Summary</source>
+        <translation>Rezumat</translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <comment>summary</comment>
+        <translation>Nume</translation>
+    </message>
+    <message>
+        <source>OS Type</source>
+        <comment>summary</comment>
+        <translation>Tip SO</translation>
+    </message>
+    <message>
+        <source>Base Memory</source>
+        <comment>summary</comment>
+        <translation>Memorie RAM</translation>
+    </message>
+    <message>
+        <source>MB</source>
+        <comment>size suffix MBytes=1024KBytes</comment>
+        <translation>MO</translation>
+    </message>
+    <message>
+        <source>Boot Hard Disk</source>
+        <comment>summary</comment>
+        <translation>Disc de pornire</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;If the above is correct press the &lt;b&gt;%1&lt;/b&gt; button. Once you press it, a new virtual machine will be created. &lt;/p&gt;&lt;p&gt;Note that you can alter these and all other setting of the created virtual machine at any time using the &lt;b&gt;Settings&lt;/b&gt; dialog accessible through the menu of the main window.&lt;/p&gt;</source>
+        <translation>&lt;p&gt;Dacă informațiile sunt corecte, apăsați butonul &lt;b&gt;Finalizare&lt;/b&gt;. O dată ce l-ați apăsat, o nouă mașină virtuală va fi creată.&lt;/p&gt;&lt;p&gt;Notați faptul că puteți schimba aceste setări și altele în orice moment prin dialogul &lt;b&gt;Setări&lt;/b&gt; accesibil din meniul ferestrei principale.&lt;/p&gt;</translation>
     </message>
 </context>
 <context>
@@ -584,29 +2415,6 @@ Versiunea %1</translation>
     </message>
 </context>
 <context>
-    <name>VBoxAdditionsDownloader</name>
-    <message>
-        <source>Cancel</source>
-        <translation>Renunță</translation>
-    </message>
-    <message>
-        <source>Downloading the VirtualBox Guest Additions CD image from &lt;nobr&gt;&lt;b&gt;%1&lt;/b&gt;...&lt;/nobr&gt;</source>
-        <translation>Descarc imaginea de CD a VirtualBox Guest Additions de la &lt;nobr&gt;&lt;b&gt;%1&lt;/b&gt;...&lt;/nobr&gt;</translation>
-    </message>
-    <message>
-        <source>Cancel the VirtualBox Guest Additions CD image download</source>
-        <translation>Oprește descărcarea imaginii VirtualBox Guest Additions</translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;Failed to save the downloaded file as &lt;nobr&gt;&lt;b&gt;%1&lt;/b&gt;.&lt;/nobr&gt;&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Salvarea fișierului descărcat ca &lt;nobr&gt;&lt;b&gt;%1&lt;/b&gt;&lt;/nobr&gt; a eșuat.&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>Select folder to save Guest Additions image to</source>
-        <translation>Selectați dosarul în care salvez imaginea Guest Additions</translation>
-    </message>
-</context>
-<context>
     <name>VBoxApplianceEditorWgt</name>
     <message>
         <source>Virtual System %1</source>
@@ -698,7 +2506,7 @@ Versiunea %1</translation>
     </message>
     <message>
         <source>MB</source>
-        <translation>MO</translation>
+        <translation type="obsolete">MO</translation>
     </message>
     <message>
         <source>&lt;b&gt;Original Value:&lt;/b&gt; %1</source>
@@ -711,6 +2519,20 @@ Versiunea %1</translation>
     <message>
         <source>Warnings:</source>
         <translation>Atenționări:</translation>
+    </message>
+    <message>
+        <source>MB</source>
+        <comment>size suffix MBytes=1024 KBytes</comment>
+        <translation>MO</translation>
+    </message>
+    <message>
+        <source>MB</source>
+        <comment>size suffix MBytes=1024KBytes</comment>
+        <translation type="obsolete">MO</translation>
+    </message>
+    <message>
+        <source>Hard Disk Controller (SAS)</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -841,7 +2663,7 @@ Versiunea %1</translation>
     </message>
     <message>
         <source>VirtualBox OSE</source>
-        <translation>VirtualBox OSE</translation>
+        <translation type="obsolete">VirtualBox OSE</translation>
     </message>
     <message>
         <source>innotek VirtualBox</source>
@@ -849,85 +2671,85 @@ Versiunea %1</translation>
     </message>
     <message>
         <source>&amp;Fullscreen Mode</source>
-        <translation>Ecran &amp;complet</translation>
+        <translation type="obsolete">Ecran &amp;complet</translation>
     </message>
     <message>
         <source>Switch to fullscreen mode</source>
-        <translation>Treci pe ecran complet</translation>
+        <translation type="obsolete">Treci pe ecran complet</translation>
     </message>
     <message>
         <source>Mouse Integration</source>
         <comment>enable/disable...</comment>
-        <translation>Integrare mouse</translation>
+        <translation type="obsolete">Integrare mouse</translation>
     </message>
     <message>
         <source>Auto-resize Guest Display</source>
         <comment>enable/disable...</comment>
-        <translation>Redimensionează automat ecranul</translation>
+        <translation type="obsolete">Redimensionează automat ecranul</translation>
     </message>
     <message>
         <source>Auto-resize &amp;Guest Display</source>
-        <translation>R&amp;edimensionează automat ecranul</translation>
+        <translation type="obsolete">R&amp;edimensionează automat ecranul</translation>
     </message>
     <message>
         <source>Automatically resize the guest display when the window is resized (requires Guest Additions)</source>
-        <translation>Redimensionează automat ecranul musafir atunci când fereastra este redimensionată (necesită Guest Additions)</translation>
+        <translation type="obsolete">Redimensionează automat ecranul musafir atunci când fereastra este redimensionată (necesită Guest Additions)</translation>
     </message>
     <message>
         <source>&amp;Adjust Window Size</source>
-        <translation>&amp;Ajustează dimensiunea fereastrei</translation>
+        <translation type="obsolete">&amp;Ajustează dimensiunea fereastrei</translation>
     </message>
     <message>
         <source>Adjust window size and position to best fit the guest display</source>
-        <translation>Ajustează dimensiunea și poziția ferestrei pentru cea mai bună potrivire pe ecranul musafir</translation>
+        <translation type="obsolete">Ajustează dimensiunea și poziția ferestrei pentru cea mai bună potrivire pe ecranul musafir</translation>
     </message>
     <message>
         <source>&amp;Insert Ctrl-Alt-Del</source>
-        <translation>&amp;Inserează Ctrl-Alt-Del</translation>
+        <translation type="obsolete">&amp;Inserează Ctrl-Alt-Del</translation>
     </message>
     <message>
         <source>Send the Ctrl-Alt-Del sequence to the virtual machine</source>
-        <translation>Trimite secvența Ctrl-Alt-Del către mașina virtuală</translation>
+        <translation type="obsolete">Trimite secvența Ctrl-Alt-Del către mașina virtuală</translation>
     </message>
     <message>
         <source>&amp;Insert Ctrl-Alt-Backspace</source>
-        <translation>&amp;Inserează Ctrl-Alt-Backspace</translation>
+        <translation type="obsolete">&amp;Inserează Ctrl-Alt-Backspace</translation>
     </message>
     <message>
         <source>Send the Ctrl-Alt-Backspace sequence to the virtual machine</source>
-        <translation>Trimite secvența Ctrl-Alt-Backspace către mașina virtuală</translation>
+        <translation type="obsolete">Trimite secvența Ctrl-Alt-Backspace către mașina virtuală</translation>
     </message>
     <message>
         <source>&amp;Reset</source>
-        <translation>&amp;Resetează</translation>
+        <translation type="obsolete">&amp;Resetează</translation>
     </message>
     <message>
         <source>Reset the virtual machine</source>
-        <translation>Resetează mașina virtuală</translation>
+        <translation type="obsolete">Resetează mașina virtuală</translation>
     </message>
     <message>
         <source>ACPI S&amp;hutdown</source>
-        <translation>Înc&amp;hidere ACPI</translation>
+        <translation type="obsolete">Înc&amp;hidere ACPI</translation>
     </message>
     <message>
         <source>Send the ACPI Power Button press event to the virtual machine</source>
-        <translation>Trimite evenimentul apăsare buton ACPI către mașina virtuală</translation>
+        <translation type="obsolete">Trimite evenimentul apăsare buton ACPI către mașina virtuală</translation>
     </message>
     <message>
         <source>&amp;Close...</source>
-        <translation>În&amp;chide...</translation>
+        <translation type="obsolete">În&amp;chide...</translation>
     </message>
     <message>
         <source>Close the virtual machine</source>
-        <translation>Închide mașina virtuală</translation>
+        <translation type="obsolete">Închide mașina virtuală</translation>
     </message>
     <message>
         <source>Take &amp;Snapshot...</source>
-        <translation>Salvează in&amp;stantaneu...</translation>
+        <translation type="obsolete">Salvează in&amp;stantaneu...</translation>
     </message>
     <message>
         <source>Take a snapshot of the virtual machine</source>
-        <translation>Salvează un instantaneu al mașinii virtuale</translation>
+        <translation type="obsolete">Salvează un instantaneu al mașinii virtuale</translation>
     </message>
     <message>
         <source>&amp;Floppy Image...</source>
@@ -964,7 +2786,7 @@ Versiunea %1</translation>
     <message>
         <source>Remote Desktop (RDP) Server</source>
         <comment>enable/disable...</comment>
-        <translation type="unfinished">Remote Desktop (RDP) Server</translation>
+        <translation type="obsolete">Remote Desktop (RDP) Server</translation>
     </message>
     <message>
         <source>Remote Dis&amp;play</source>
@@ -972,7 +2794,7 @@ Versiunea %1</translation>
     </message>
     <message>
         <source>Enable or disable remote desktop (RDP) connections to this machine</source>
-        <translation>Activează sau dezactivează conexiuni remote desktop (RDP) către această mașină</translation>
+        <translation type="obsolete">Activează sau dezactivează conexiuni remote desktop (RDP) către această mașină</translation>
     </message>
     <message>
         <source>Open</source>
@@ -980,19 +2802,19 @@ Versiunea %1</translation>
     </message>
     <message>
         <source>&amp;Shared Folders...</source>
-        <translation>Directoare &amp;partajate...</translation>
+        <translation type="obsolete">Directoare &amp;partajate...</translation>
     </message>
     <message>
         <source>Create or modify shared folders</source>
-        <translation>Deschide dialogul directoare partajate</translation>
+        <translation type="obsolete">Deschide dialogul directoare partajate</translation>
     </message>
     <message>
         <source>&amp;Install Guest Additions...</source>
-        <translation>&amp;Instalare Guest Additions...</translation>
+        <translation type="obsolete">&amp;Instalare Guest Additions...</translation>
     </message>
     <message>
         <source>Mount the Guest Additions installation image</source>
-        <translation>Montează imaginea de instalare Guest Additions</translation>
+        <translation type="obsolete">Montează imaginea de instalare Guest Additions</translation>
     </message>
     <message>
         <source>&amp;Statistics...</source>
@@ -1036,7 +2858,7 @@ Versiunea %1</translation>
     </message>
     <message>
         <source>&amp;USB Devices</source>
-        <translation>Dispozitive &amp;USB</translation>
+        <translation type="obsolete">Dispozitive &amp;USB</translation>
     </message>
     <message>
         <source>&amp;VM</source>
@@ -1044,15 +2866,15 @@ Versiunea %1</translation>
     </message>
     <message>
         <source>&amp;Devices</source>
-        <translation>&amp;Dispozitive</translation>
+        <translation type="obsolete">&amp;Dispozitive</translation>
     </message>
     <message>
         <source>De&amp;bug</source>
-        <translation>De&amp;bug</translation>
+        <translation type="obsolete">De&amp;bug</translation>
     </message>
     <message>
         <source>&amp;Help</source>
-        <translation>&amp;Ajutor</translation>
+        <translation type="obsolete">&amp;Ajutor</translation>
     </message>
     <message>
         <source>Indicates whether the guest display auto-resize function is On (&lt;img src=auto_resize_on_16px.png/&gt;) or Off (&lt;img src=auto_resize_off_16px.png/&gt;). Note that this function requires Guest Additions to be installed in the guest OS.</source>
@@ -1121,43 +2943,43 @@ Versiunea %1</translation>
     </message>
     <message>
         <source>&lt;hr&gt;The VRDP Server is listening on port %1</source>
-        <translation>&lt;hr&gt;Serverul VRDP ascultă pe portul %1</translation>
+        <translation type="obsolete">&lt;hr&gt;Serverul VRDP ascultă pe portul %1</translation>
     </message>
     <message>
         <source>&amp;Pause</source>
-        <translation>&amp;Pauză</translation>
+        <translation type="obsolete">&amp;Pauză</translation>
     </message>
     <message>
         <source>Suspend the execution of the virtual machine</source>
-        <translation>Suspendă execuția mașinii virtuale</translation>
+        <translation type="obsolete">Suspendă execuția mașinii virtuale</translation>
     </message>
     <message>
         <source>R&amp;esume</source>
-        <translation>R&amp;estabilirie</translation>
+        <translation type="obsolete">R&amp;estabilirie</translation>
     </message>
     <message>
         <source>Resume the execution of the virtual machine</source>
-        <translation>Restabilește execuția mașinii virtuale</translation>
+        <translation type="obsolete">Restabilește execuția mașinii virtuale</translation>
     </message>
     <message>
         <source>Disable &amp;Mouse Integration</source>
-        <translation>Dezactivează integrarea &amp;mouse</translation>
+        <translation type="obsolete">Dezactivează integrarea &amp;mouse</translation>
     </message>
     <message>
         <source>Temporarily disable host mouse pointer integration</source>
-        <translation>Dezactivează temporar intergrarea mouse</translation>
+        <translation type="obsolete">Dezactivează temporar intergrarea mouse</translation>
     </message>
     <message>
         <source>Enable &amp;Mouse Integration</source>
-        <translation>Activează integrare &amp;mouse</translation>
+        <translation type="obsolete">Activează integrare &amp;mouse</translation>
     </message>
     <message>
         <source>Enable temporarily disabled host mouse pointer integration</source>
-        <translation>Activează integrarea mouse temporar dezactivată</translation>
+        <translation type="obsolete">Activează integrarea mouse temporar dezactivată</translation>
     </message>
     <message>
         <source>Snapshot %1</source>
-        <translation>Instantaneu %1</translation>
+        <translation type="obsolete">Instantaneu %1</translation>
     </message>
     <message>
         <source>&lt;p&gt;Failed to find the VirtualBox Guest Additions CD image &lt;nobr&gt;&lt;b&gt;%1&lt;/b&gt;&lt;/nobr&gt; or &lt;nobr&gt;&lt;b&gt;%2&lt;/b&gt;&lt;/nobr&gt;&lt;/p&gt;</source>
@@ -1181,7 +3003,7 @@ Versiunea %1</translation>
     </message>
     <message>
         <source>&amp;Machine</source>
-        <translation>&amp;Mașină</translation>
+        <translation type="obsolete">&amp;Mașină</translation>
     </message>
     <message>
         <source>&lt;qt&gt;Indicates&amp;nbsp;the&amp;nbsp;activity&amp;nbsp;of&amp;nbsp;the&amp;nbsp;network&amp;nbsp;interfaces</source>
@@ -1237,11 +3059,11 @@ Versiunea %1</translation>
     </message>
     <message>
         <source>Seam&amp;less Mode</source>
-        <translation>Mod trans*parent</translation>
+        <translation type="obsolete">Mod trans*parent</translation>
     </message>
     <message>
         <source>Switch to seamless desktop integration mode</source>
-        <translation>Schimbă în modul continuu de integrare cu spațiul de lucru</translation>
+        <translation type="obsolete">Schimbă în modul continuu de integrare cu spațiul de lucru</translation>
     </message>
     <message>
         <source>Indicates whether the keyboard is captured by the guest OS (&lt;img src=hostkey_captured_16px.png/&gt;) or not (&lt;img src=hostkey_16px.png/&gt;).</source>
@@ -1295,7 +3117,7 @@ Versiunea %1</translation>
     <message>
         <source>&lt;br&gt;&lt;nobr&gt;&lt;b&gt;No hard disks attached&lt;/b&gt;&lt;/nobr&gt;</source>
         <comment>HDD tooltip</comment>
-        <translation>&lt;br&gt;&lt;nobr&gt;&lt;b&gt;Nici un disc dur conectat&lt;/b&gt;&lt;/nobr&gt;</translation>
+        <translation type="obsolete">&lt;br&gt;&lt;nobr&gt;&lt;b&gt;Nici un disc dur conectat&lt;/b&gt;&lt;/nobr&gt;</translation>
     </message>
     <message>
         <source>&lt;qt&gt;&lt;nobr&gt;Indicates the activity of the network interfaces:&lt;/nobr&gt;%1&lt;/qt&gt;</source>
@@ -1305,22 +3127,22 @@ Versiunea %1</translation>
     <message>
         <source>&lt;br&gt;&lt;nobr&gt;&lt;b&gt;Adapter %1 (%2)&lt;/b&gt;: cable %3&lt;/nobr&gt;</source>
         <comment>Network adapters tooltip</comment>
-        <translation>&lt;br&gt;&lt;nobr&gt;&lt;b&gt;Placa de rețea %1 (%2)&lt;/b&gt;: cablu %3&lt;/nobr&gt;</translation>
+        <translation type="obsolete">&lt;br&gt;&lt;nobr&gt;&lt;b&gt;Placa de rețea %1 (%2)&lt;/b&gt;: cablu %3&lt;/nobr&gt;</translation>
     </message>
     <message>
         <source>connected</source>
         <comment>Network adapters tooltip</comment>
-        <translation>conectat</translation>
+        <translation type="obsolete">conectat</translation>
     </message>
     <message>
         <source>disconnected</source>
         <comment>Network adapters tooltip</comment>
-        <translation>deconectat</translation>
+        <translation type="obsolete">deconectat</translation>
     </message>
     <message>
         <source>&lt;br&gt;&lt;nobr&gt;&lt;b&gt;All network adapters are disabled&lt;/b&gt;&lt;/nobr&gt;</source>
         <comment>Network adapters tooltip</comment>
-        <translation>&lt;br&gt;&lt;nobr&gt;&lt;b&gt;Toate plăcile de rețea sunt dezactivate&lt;/b&gt;&lt;/nobr&gt;</translation>
+        <translation type="obsolete">&lt;br&gt;&lt;nobr&gt;&lt;b&gt;Toate plăcile de rețea sunt dezactivate&lt;/b&gt;&lt;/nobr&gt;</translation>
     </message>
     <message>
         <source>&lt;qt&gt;&lt;nobr&gt;Indicates the activity of the attached USB devices:&lt;/nobr&gt;%1&lt;/qt&gt;</source>
@@ -1330,12 +3152,12 @@ Versiunea %1</translation>
     <message>
         <source>&lt;br&gt;&lt;nobr&gt;&lt;b&gt;No USB devices attached&lt;/b&gt;&lt;/nobr&gt;</source>
         <comment>USB device tooltip</comment>
-        <translation>&lt;br&gt;&lt;nobr&gt;&lt;b&gt;Nici un dispozitiv USB conectat&lt;/b&gt;&lt;/nobr&gt;</translation>
+        <translation type="obsolete">&lt;br&gt;&lt;nobr&gt;&lt;b&gt;Nici un dispozitiv USB conectat&lt;/b&gt;&lt;/nobr&gt;</translation>
     </message>
     <message>
         <source>&lt;br&gt;&lt;nobr&gt;&lt;b&gt;USB Controller is disabled&lt;/b&gt;&lt;/nobr&gt;</source>
         <comment>USB device tooltip</comment>
-        <translation>&lt;br&gt;&lt;nobr&gt;&lt;b&gt;Controlorul USB este dezactivat&lt;/b&gt;&lt;/nobr&gt;</translation>
+        <translation type="obsolete">&lt;br&gt;&lt;nobr&gt;&lt;b&gt;Controlorul USB este dezactivat&lt;/b&gt;&lt;/nobr&gt;</translation>
     </message>
     <message>
         <source>Indicates whether the Remote Display (VRDP Server) is enabled (&lt;img src=vrdp_16px.png/&gt;) or not (&lt;img src=vrdp_disabled_16px.png/&gt;).</source>
@@ -1349,7 +3171,7 @@ Versiunea %1</translation>
     <message>
         <source>&lt;br&gt;&lt;nobr&gt;&lt;b&gt;No shared folders&lt;/b&gt;&lt;/nobr&gt;</source>
         <comment>Shared folders tooltip</comment>
-        <translation>&lt;br&gt;&lt;nobr&gt;&lt;b&gt;Nici un dosar partajat&lt;/b&gt;&lt;/nobr&gt;</translation>
+        <translation type="obsolete">&lt;br&gt;&lt;nobr&gt;&lt;b&gt;Nici un dosar partajat&lt;/b&gt;&lt;/nobr&gt;</translation>
     </message>
     <message>
         <source>&amp;Contents...</source>
@@ -1373,21 +3195,21 @@ Versiunea %1</translation>
     </message>
     <message>
         <source>Session I&amp;nformation Dialog</source>
-        <translation>Dialog i&amp;nformații despre sesiune</translation>
+        <translation type="obsolete">Dialog i&amp;nformații despre sesiune</translation>
     </message>
     <message>
         <source>Show Session Information Dialog</source>
-        <translation>Arată dialogul de informații despre sesiune</translation>
+        <translation type="obsolete">Arată dialogul de informații despre sesiune</translation>
     </message>
     <message>
         <source>&amp;Statistics...</source>
         <comment>debug action</comment>
-        <translation>&amp;Statistici...</translation>
+        <translation type="obsolete">&amp;Statistici...</translation>
     </message>
     <message>
         <source>&amp;Command Line...</source>
         <comment>debug action</comment>
-        <translation>Linie de &amp;comandă...</translation>
+        <translation type="obsolete">Linie de &amp;comandă...</translation>
     </message>
     <message>
         <source>C&amp;heck for a new version...</source>
@@ -1399,130 +3221,104 @@ Versiunea %1</translation>
     </message>
     <message>
         <source>Indicates whether the guest display auto-resize function is On (&lt;img src=:/auto_resize_on_16px.png/&gt;) or Off (&lt;img src=:/auto_resize_off_16px.png/&gt;). Note that this function requires Guest Additions to be installed in the guest OS.</source>
-        <translation>Indică dacă funcția de autoredimnsionare a ecranului musafir este Activă (&lt;img src=auto_resize_on_16px.png/&gt;) sau Inactivă (&lt;Img src=auto_resize_off_16px.png/&gt;). Notă: această funcție necesită Guest Addition instalat pe SO musafir.</translation>
+        <translation type="obsolete">Indică dacă funcția de autoredimnsionare a ecranului musafir este Activă (&lt;img src=auto_resize_on_16px.png/&gt;) sau Inactivă (&lt;Img src=auto_resize_off_16px.png/&gt;). Notă: această funcție necesită Guest Addition instalat pe SO musafir.</translation>
     </message>
     <message>
         <source>Indicates whether the host mouse pointer is captured by the guest OS:&lt;br&gt;&lt;nobr&gt;&lt;img src=:/mouse_disabled_16px.png/&gt;&amp;nbsp;&amp;nbsp;pointer is not captured&lt;/nobr&gt;&lt;br&gt;&lt;nobr&gt;&lt;img src=:/mouse_16px.png/&gt;&amp;nbsp;&amp;nbsp;pointer is captured&lt;/nobr&gt;&lt;br&gt;&lt;nobr&gt;&lt;img src=:/mouse_seamless_16px.png/&gt;&amp;nbsp;&amp;nbsp;mouse integration (MI) is On&lt;/nobr&gt;&lt;br&gt;&lt;nobr&gt;&lt;img src=:/mouse_can_seamless_16px.png/&gt;&amp;nbsp;&amp;nbsp;MI is Off, pointer is captured&lt;/nobr&gt;&lt;br&gt;&lt;nobr&gt;&lt;img src=:/mouse_can_seamless_uncaptured_16px.png/&gt;&amp;nbsp;&amp;nbsp;MI is Off, pointer is not captured&lt;/nobr&gt;&lt;br&gt;Note that the mouse integration feature requires Guest Additions to be installed in the guest OS.</source>
-        <translation>Inidică dacă cursorul mouse sistemului gazdă este capturat de către SO musafir:&lt;br&gt;&lt;nobr&gt;&lt;img src=mouse_disabled_16px.png/&gt;&amp;nbsp;&amp;nbsp;cursorul nu este capturat&lt;/nobr&gt;&lt;br&gt;&lt;nobr&gt;&lt;img src=mouse_16px.png/&gt;&amp;nbsp;&amp;nbsp;cursorul este capturat&lt;/nobr&gt;&lt;br&gt;&lt;nobr&gt;&lt;img src=mouse_seamless_16px.png/&gt;&amp;nbsp;&amp;nbsp;integrare mouse (IM) este Activată&lt;/nobr&gt;&lt;br&gt;&lt;nobr&gt;&lt;img src=mouse_can_seamless_16px.png/&gt;&amp;nbsp;&amp;nbsp;IM este Inactivă, cursorul este capturat&lt;/nobr&gt;&lt;br&gt;&lt;nobr&gt;&lt;img src=mouse_can_seamless_uncaptured_16px.png/&gt;&amp;nbsp;&amp;nbsp;IM este Inactivă, cursorul nu este capturat.&lt;/nobr&gt;&lt;br&gt;Notă: funcția integrare mouse necesită instalarea pe SO musafir a Guest Additions.</translation>
+        <translation type="obsolete">Inidică dacă cursorul mouse sistemului gazdă este capturat de către SO musafir:&lt;br&gt;&lt;nobr&gt;&lt;img src=mouse_disabled_16px.png/&gt;&amp;nbsp;&amp;nbsp;cursorul nu este capturat&lt;/nobr&gt;&lt;br&gt;&lt;nobr&gt;&lt;img src=mouse_16px.png/&gt;&amp;nbsp;&amp;nbsp;cursorul este capturat&lt;/nobr&gt;&lt;br&gt;&lt;nobr&gt;&lt;img src=mouse_seamless_16px.png/&gt;&amp;nbsp;&amp;nbsp;integrare mouse (IM) este Activată&lt;/nobr&gt;&lt;br&gt;&lt;nobr&gt;&lt;img src=mouse_can_seamless_16px.png/&gt;&amp;nbsp;&amp;nbsp;IM este Inactivă, cursorul este capturat&lt;/nobr&gt;&lt;br&gt;&lt;nobr&gt;&lt;img src=mouse_can_seamless_uncaptured_16px.png/&gt;&amp;nbsp;&amp;nbsp;IM este Inactivă, cursorul nu este capturat.&lt;/nobr&gt;&lt;br&gt;Notă: funcția integrare mouse necesită instalarea pe SO musafir a Guest Additions.</translation>
     </message>
     <message>
         <source>Indicates whether the keyboard is captured by the guest OS (&lt;img src=:/hostkey_captured_16px.png/&gt;) or not (&lt;img src=:/hostkey_16px.png/&gt;).</source>
-        <translation>Indică dacă tastatura este capturată de SO musafir (&lt;img src=hostkey_captured_16px.png/&gt;) sau nu (&lt;img src=hostkey_16px.png/&gt;).</translation>
+        <translation type="obsolete">Indică dacă tastatura este capturată de SO musafir (&lt;img src=hostkey_captured_16px.png/&gt;) sau nu (&lt;img src=hostkey_16px.png/&gt;).</translation>
     </message>
     <message>
         <source>Indicates whether the Remote Display (VRDP Server) is enabled (&lt;img src=:/vrdp_16px.png/&gt;) or not (&lt;img src=:/vrdp_disabled_16px.png/&gt;).</source>
-        <translation>Indică dacă Remote Display (Server VRDP) este activat (&lt;img src=vrdp_16px.png/&gt;) sau nu (&lt;img src=vrdp_disabled_16px.png/&gt;).</translation>
+        <translation type="obsolete">Indică dacă Remote Display (Server VRDP) este activat (&lt;img src=vrdp_16px.png/&gt;) sau nu (&lt;img src=vrdp_disabled_16px.png/&gt;).</translation>
     </message>
     <message>
         <source>&amp;Logging...</source>
         <comment>debug action</comment>
-        <translation>Jurna&amp;lizare...</translation>
+        <translation type="obsolete">Jurna&amp;lizare...</translation>
     </message>
     <message>
         <source>Shows the currently assigned Host key.&lt;br&gt;This key, when pressed alone, toggles the keyboard and mouse capture state. It can also be used in combination with other keys to quickly perform actions from the main menu.</source>
-        <translation>Arată tasta gazdă setată în prezent.&lt;br&gt;Această tastă, când este apăsată singură, schimbă starea de captură a mouseului și a tastaturii. Poate fi utilizată în combinație cu alte taste pentru a efectua rapid acțiuni din meniul principal.</translation>
+        <translation type="obsolete">Arată tasta gazdă setată în prezent.&lt;br&gt;Această tastă, când este apăsată singură, schimbă starea de captură a mouseului și a tastaturii. Poate fi utilizată în combinație cu alte taste pentru a efectua rapid acțiuni din meniul principal.</translation>
     </message>
     <message>
         <source>Sun VirtualBox</source>
-        <translation>Sun VirtualBox</translation>
+        <translation type="obsolete">Sun VirtualBox</translation>
     </message>
     <message>
         <source>Indicates the status of the hardware virtualization features used by this virtual machine:&lt;br&gt;&lt;nobr&gt;&lt;b&gt;%1:&lt;/b&gt;&amp;nbsp;%2&lt;/nobr&gt;&lt;br&gt;&lt;nobr&gt;&lt;b&gt;%3:&lt;/b&gt;&amp;nbsp;%4&lt;/nobr&gt;</source>
         <comment>Virtualization Stuff LED</comment>
-        <translation>Indică statusul funcțiilor de virtualizare hardware folosite de această mașină virtuală: &lt;br&gt;&lt;nobr&gt;&lt;b&gt;%1:&lt;/b&gt;&amp;nbsp;%2&lt;/nobr&gt;&lt;br&gt;&lt;nobr&gt;&lt;b&gt;%3:&lt;/b&gt;&amp;nbsp;%4&lt;/nobr&gt;</translation>
+        <translation type="obsolete">Indică statusul funcțiilor de virtualizare hardware folosite de această mașină virtuală: &lt;br&gt;&lt;nobr&gt;&lt;b&gt;%1:&lt;/b&gt;&amp;nbsp;%2&lt;/nobr&gt;&lt;br&gt;&lt;nobr&gt;&lt;b&gt;%3:&lt;/b&gt;&amp;nbsp;%4&lt;/nobr&gt;</translation>
     </message>
     <message>
         <source>&lt;br&gt;&lt;nobr&gt;&lt;b&gt;%1:&lt;/b&gt;&amp;nbsp;%2&lt;/nobr&gt;</source>
         <comment>Virtualization Stuff LED</comment>
-        <translation>&lt;br&gt;&lt;nobr&gt;&lt;b&gt;%1:&lt;/b&gt;&amp;nbsp;%2&lt;/nobr&gt;</translation>
+        <translation type="obsolete">&lt;br&gt;&lt;nobr&gt;&lt;b&gt;%1:&lt;/b&gt;&amp;nbsp;%2&lt;/nobr&gt;</translation>
     </message>
     <message>
         <source> EXPERIMENTAL build %1r%2 - %3</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"> versiune EXPERIMENTALĂ %1r%2 - %3</translation>
     </message>
     <message>
         <source>&amp;CD/DVD Devices</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">Dispozitive &amp;CD/DVD</translation>
     </message>
     <message>
         <source>&amp;Floppy Devices</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">Unități de &amp;dischetă</translation>
     </message>
     <message>
         <source>&amp;Network Adapters...</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">&amp;Plăci de rețea...</translation>
     </message>
     <message>
         <source>Change the settings of network adapters</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">Modifică setările plăcilor de rețea</translation>
     </message>
     <message>
         <source>&amp;Remote Display</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">Ecran la &amp;distanță</translation>
     </message>
     <message>
-        <source>More CD/DVD Images...</source>
-        <translation type="unfinished"></translation>
+        <source>Dock Icon</source>
+        <translatorcomment>dock hmm</translatorcomment>
+        <translation type="obsolete">Icon în dock</translation>
     </message>
     <message>
-        <source>Unmount CD/DVD Device</source>
-        <translation type="unfinished"></translation>
+        <source>Show Application Icon</source>
+        <translation type="obsolete">Arată iconul aplicației</translation>
     </message>
     <message>
-        <source>More Floppy Images...</source>
-        <translation type="unfinished"></translation>
+        <source>Show Monitor Preview</source>
+        <translation type="obsolete">Arată previzualizare monitor</translation>
     </message>
     <message>
-        <source>Unmount Floppy Device</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>No CD/DVD Devices Attached</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>No Floppy Devices Attached</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;p style=&apos;white-space:pre&apos;&gt;&lt;nobr&gt;Indicates the activity of the virtual hard disks:&lt;/nobr&gt;%1&lt;/p&gt;</source>
-        <comment>HDD tooltip</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;p style=&apos;white-space:pre&apos;&gt;&lt;nobr&gt;Indicates the activity of the CD/DVD devices:&lt;/nobr&gt;%1&lt;/p&gt;</source>
-        <comment>CD/DVD tooltip</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;br&gt;&lt;nobr&gt;&lt;b&gt;No CD/DVD devices attached&lt;/b&gt;&lt;/nobr&gt;</source>
-        <comment>CD/DVD tooltip</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;p style=&apos;white-space:pre&apos;&gt;&lt;nobr&gt;Indicates the activity of the floppy devices:&lt;/nobr&gt;%1&lt;/p&gt;</source>
-        <comment>FD tooltip</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;br&gt;&lt;nobr&gt;&lt;b&gt;No floppy devices attached&lt;/b&gt;&lt;/nobr&gt;</source>
-        <comment>FD tooltip</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;p style=&apos;white-space:pre&apos;&gt;&lt;nobr&gt;Indicates the activity of the network interfaces:&lt;/nobr&gt;%1&lt;/p&gt;</source>
+        <source>&lt;br&gt;&lt;nobr&gt;&lt;b&gt;Adapter %1 (%2)&lt;/b&gt;: %3 cable %4&lt;/nobr&gt;</source>
         <comment>Network adapters tooltip</comment>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">&lt;br&gt;&lt;nobr&gt;&lt;b&gt;Placa de rețea %1 (%2)&lt;/b&gt;: %3 cablu %4&lt;/nobr&gt;</translation>
     </message>
     <message>
-        <source>&lt;p style=&apos;white-space:pre&apos;&gt;&lt;nobr&gt;Indicates the activity of the attached USB devices:&lt;/nobr&gt;%1&lt;/p&gt;</source>
-        <comment>USB device tooltip</comment>
-        <translation type="unfinished"></translation>
+        <source>ACPI Sh&amp;utdown</source>
+        <translation type="obsolete">Înc&amp;hide ACPI</translation>
     </message>
     <message>
-        <source>&lt;p style=&apos;white-space:pre&apos;&gt;&lt;nobr&gt;Indicates the activity of the machine&apos;s shared folders:&lt;/nobr&gt;%1&lt;/p&gt;</source>
-        <comment>Shared folders tooltip</comment>
-        <translation type="unfinished"></translation>
+        <source>&amp;View</source>
+        <translation type="obsolete">&amp;Vizualizare</translation>
+    </message>
+    <message>
+        <source>Preview Monitor %1</source>
+        <translation type="obsolete">Previzualizare monitor %1</translation>
+    </message>
+    <message>
+        <source>No floppy devices attached to that VM</source>
+        <translation type="obsolete">Nicio unitate de dischetă atașată la acea mașina virtuală</translation>
+    </message>
+    <message>
+        <source>No supported devices connected to the host PC</source>
+        <translation type="obsolete">Nici un dispozitiv suportat nu este conectat la PC gazdă</translation>
     </message>
 </context>
 <context>
@@ -1855,186 +3651,10 @@ Versiunea %1</translation>
     </message>
 </context>
 <context>
-    <name>VBoxDownloaderWgt</name>
-    <message>
-        <source>Cancel</source>
-        <translation type="obsolete">Renunță</translation>
-    </message>
-    <message>
-        <source>Downloading the VirtualBox Guest Additions CD image from &lt;nobr&gt;&lt;b&gt;%1&lt;/b&gt;...&lt;/nobr&gt;</source>
-        <translation type="obsolete">Descarc imaginea de CD a VirtualBox Guest Additions de la &lt;nobr&gt;&lt;b&gt;%1&lt;/b&gt;...&lt;/nobr&gt;</translation>
-    </message>
-    <message>
-        <source>Cancel the VirtualBox Guest Additions CD image download</source>
-        <translation type="obsolete">Revocă descărcarea imaginii VirtualBox Guest Additions</translation>
-    </message>
-    <message>
-        <source>Could not locate the file on the server (response: %1).</source>
-        <translation type="obsolete">Nu am putut localiza fișierul pe server (răspuns: %1).</translation>
-    </message>
-    <message>
-        <source>Could not determine the file size.</source>
-        <translation type="obsolete">Nu am putut determina dimensiunea fișierului.</translation>
-    </message>
-    <message>
-        <source>Could not connect to the server (%1).</source>
-        <translation type="obsolete">Nu m-am putut conecta la server (%1).</translation>
-    </message>
-    <message>
-        <source>Could not download the file (%1).</source>
-        <translation type="obsolete">Nu am putut descărca fișierul (%1).</translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;Failed to save the downloaded file as &lt;nobr&gt;&lt;b&gt;%1&lt;/b&gt;.&lt;/nobr&gt;&lt;/p&gt;</source>
-        <translation type="obsolete">&lt;p&gt;Salvarea fișierului descărcat ca &lt;nobr&gt;&lt;b&gt;%1&lt;/b&gt;.&lt;/nobr&gt; eșuată&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>Select folder to save Guest Additions image to</source>
-        <translation type="obsolete">Selectați dosarul în care să salvez imaginea Guest Additions</translation>
-    </message>
-    <message>
-        <source>Connection timed out.</source>
-        <translation type="obsolete">Conexiunea a expirat.</translation>
-    </message>
-    <message>
-        <source>The download process has been cancelled by the user.</source>
-        <translation>Descărcarea a fost revocată de utilizator.</translation>
-    </message>
-</context>
-<context>
     <name>VBoxEmptyFileSelector</name>
     <message>
         <source>&amp;Choose...</source>
         <translation>Ale&amp;ge...</translation>
-    </message>
-</context>
-<context>
-    <name>VBoxExportApplianceWzd</name>
-    <message>
-        <source>Select a file to export into</source>
-        <translation>Selectați un fișier în care să export</translation>
-    </message>
-    <message>
-        <source>Open Virtualization Format (%1)</source>
-        <translation>Open Virtualization Format (%1)</translation>
-    </message>
-    <message>
-        <source>Appliance</source>
-        <translation>Mașină virtuală</translation>
-    </message>
-    <message>
-        <source>Exporting Appliance ...</source>
-        <translation>Export mașină virtuală...</translation>
-    </message>
-    <message>
-        <source>Appliance Export Wizard</source>
-        <translation>Asistent export mașină virtuală</translation>
-    </message>
-    <message>
-        <source>Welcome to the Appliance Export Wizard!</source>
-        <translation>Bun venit la asistentul export Mașină virtuală!</translation>
-    </message>
-    <message>
-        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;This wizard will guide you through the process of exporting an appliance. &lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Use the &lt;span style=&quot; font-weight:600;&quot;&gt;Next&lt;/span&gt; button to go the next page of the wizard and the &lt;span style=&quot; font-weight:600;&quot;&gt;Back&lt;/span&gt; button to return to the previous page.&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Please select the virtual machines that you wish to the appliance. You can select more than one. Please note that these machines have to be turned off before they can be exported.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt; &amp;Back</source>
-        <translation>&lt; Îna&amp;poi</translation>
-    </message>
-    <message>
-        <source>&amp;Next &gt;</source>
-        <translation>Î&amp;nainte&gt;</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation>Anulează</translation>
-    </message>
-    <message>
-        <source>Appliance Export Settings</source>
-        <translation>Setări export mașină virtuală</translation>
-    </message>
-    <message>
-        <source>Here you can change additional configuration values of the selected virtual machines. You can modify most of the properties shown by double-clicking on the items.</source>
-        <translation>Aici puteți modifica setări adiționale pentru mașinile virtuale selectate. Puteți modifica majoritatea proprietăților afișate, făcând dublu click pe ele.</translation>
-    </message>
-    <message>
-        <source>Restore Defaults</source>
-        <translation>Restabilire valori implicite</translation>
-    </message>
-    <message>
-        <source>&amp;Export &gt;</source>
-        <translation>&amp;Export &gt;</translation>
-    </message>
-    <message>
-        <source>Write in legacy OVF 0.9 format for compatibility with other virtualization products.</source>
-        <translation>Scrie în formatul vechi OVF 0.9 pentru a păstra compatibilitatea cu alte produse de virtualizare.</translation>
-    </message>
-    <message>
-        <source>&amp;Write legacy OVF 0.9</source>
-        <translation>&amp;Scrie OVF 0.9 (format vechi)</translation>
-    </message>
-    <message>
-        <source>Please choose a filename to export the OVF to.</source>
-        <translation>Vă rugăm selectați un nume de fișier pentru a salva fișierul OVF.</translation>
-    </message>
-    <message>
-        <source>Please complete the additional fields like the username, password and the bucket, and provide a filename for the OVF target.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Please complete the additional fields like the username, password, hostname and the bucket, and provide a filename for the OVF target.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Checking files ...</source>
-        <translation>Verificare fișiere ...</translation>
-    </message>
-    <message>
-        <source>Removing files ...</source>
-        <translation>Ștergere fișiere ...</translation>
-    </message>
-    <message>
-        <source>Please specify the target for the OVF export. You can choose between a local file system export, uploading the OVF to the Sun Cloud service or an S3 storage server.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Local Filesystem </source>
-        <translation>Sistem de fișiere &amp;local</translation>
-    </message>
-    <message>
-        <source>Sun &amp;Cloud</source>
-        <translation>Sun &amp;Cloud</translation>
-    </message>
-    <message>
-        <source>&amp;Simple Storage System (S3)</source>
-        <translation>&amp;Simple Storage System (S3)</translation>
-    </message>
-    <message>
-        <source>&amp;Username:</source>
-        <translation>Nume &amp;utilizator:</translation>
-    </message>
-    <message>
-        <source>&amp;Password:</source>
-        <translation>&amp;Parolă:</translation>
-    </message>
-    <message>
-        <source>&amp;File:</source>
-        <translation>&amp;Fișier:</translation>
-    </message>
-    <message>
-        <source>&amp;Bucket:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Hostname:</source>
-        <translation>&amp;Nume de gazdă:</translation>
     </message>
 </context>
 <context>
@@ -2164,14 +3784,14 @@ Acest director este folosit, dacă nu este explicit specificat altfel, atunci c�
     </message>
     <message>
         <source>When checked, the Dock Icon will reflect the VM window content in realtime.</source>
-        <translation>Când este bifat, iconița atașată ferestrei, va reflecta conținutul MV în timp real.</translation>
+        <translation type="obsolete">Când este bifat, iconița atașată ferestrei, va reflecta conținutul MV în timp real.</translation>
     </message>
     <message>
         <source>&amp;Dock Icon Realtime Preview</source>
-        <translation>Previzualizare în timp re&amp;al</translation>
+        <translation type="obsolete">Previzualizare în timp re&amp;al</translation>
     </message>
     <message>
-        <source>&amp;Auto show Dock &amp;&amp; Menubar in fullscreen</source>
+        <source>&amp;Auto show Dock and Menubar in fullscreen</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2192,6 +3812,14 @@ Acest director este folosit, dacă nu este explicit specificat altfel, atunci c�
     <message>
         <source>&amp;Auto Capture Keyboard</source>
         <translation>Capturează &amp;automat tastatura</translation>
+    </message>
+    <message>
+        <source>Reset Host Key</source>
+        <translation>Resetează tasta gazdă</translation>
+    </message>
+    <message>
+        <source>Resets the key used as a Host Key in the VM window.</source>
+        <translation>Resetează tasta care este folosită pe post de Tastă gazdă în fereastra MV.</translation>
     </message>
 </context>
 <context>
@@ -2466,7 +4094,7 @@ Acest director este folosit, dacă nu este explicit specificat altfel, atunci c�
     </message>
     <message>
         <source>Displays the address of the DHCP server servicing the network associated with this host-only adapter.</source>
-        <translation type="unfinished"></translation>
+        <translation>Arată adresa serverului DHCP în funcțione în rețeaua asociată acestei plăci de rețea numai-gazdă.</translation>
     </message>
     <message>
         <source>Server &amp;Mask:</source>
@@ -2517,7 +4145,7 @@ Acest director este folosit, dacă nu este explicit specificat altfel, atunci c�
     </message>
     <message>
         <source>Check for:</source>
-        <translation type="unfinished"></translation>
+        <translation>Verifică după:</translation>
     </message>
     <message>
         <source>&lt;p&gt;Choose this if you only wish to be notified about stable updates to VirtualBox.&lt;/p&gt;</source>
@@ -2525,7 +4153,7 @@ Acest director este folosit, dacă nu este explicit specificat altfel, atunci c�
     </message>
     <message>
         <source>&amp;Stable release versions</source>
-        <translation type="unfinished"></translation>
+        <translation>Lansări versiuni &amp;stabile</translation>
     </message>
     <message>
         <source>&lt;p&gt;Choose this if you wish to be notified about all new VirtualBox releases.&lt;/p&gt;</source>
@@ -2533,7 +4161,7 @@ Acest director este folosit, dacă nu este explicit specificat altfel, atunci c�
     </message>
     <message>
         <source>&amp;All new releases</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Toate noile lansări</translation>
     </message>
     <message>
         <source>&lt;p&gt;Choose this to be notified about all new VirtualBox releases and pre-release versions of VirtualBox.&lt;/p&gt;</source>
@@ -2541,7 +4169,7 @@ Acest director este folosit, dacă nu este explicit specificat altfel, atunci c�
     </message>
     <message>
         <source>All new releases and &amp;pre-releases</source>
-        <translation type="unfinished"></translation>
+        <translation>Toate noile lansări și &amp;prelansări</translation>
     </message>
 </context>
 <context>
@@ -3406,7 +5034,8 @@ Acest director este folosit, dacă nu este explicit specificat altfel, atunci c�
     <message>
         <source>Setting Up</source>
         <comment>MachineState</comment>
-        <translation type="unfinished"></translation>
+        <translatorcomment>hmm</translatorcomment>
+        <translation>Se configurează</translation>
     </message>
     <message>
         <source>Differencing</source>
@@ -3501,12 +5130,12 @@ Acest director este folosit, dacă nu este explicit specificat altfel, atunci c�
     <message>
         <source>Processor(s)</source>
         <comment>details report</comment>
-        <translation type="unfinished"></translation>
+        <translation>Procesoare</translation>
     </message>
     <message>
         <source>&lt;nobr&gt;%1&lt;/nobr&gt;</source>
         <comment>details report</comment>
-        <translation type="unfinished"></translation>
+        <translation>&lt;nobr&gt;%1&lt;/nobr&gt;</translation>
     </message>
     <message>
         <source>System</source>
@@ -3526,7 +5155,7 @@ Acest director este folosit, dacă nu este explicit specificat altfel, atunci c�
     <message>
         <source>Disabled</source>
         <comment>details report (VRDP Server)</comment>
-        <translation type="unfinished"></translation>
+        <translation>Dezactivat</translation>
     </message>
     <message>
         <source>Display</source>
@@ -3541,27 +5170,27 @@ Acest director este folosit, dacă nu este explicit specificat altfel, atunci c�
     <message>
         <source>Enabled</source>
         <comment>details report (2D Video Acceleration)</comment>
-        <translation type="unfinished"></translation>
+        <translation>Activată</translation>
     </message>
     <message>
         <source>Disabled</source>
         <comment>details report (2D Video Acceleration)</comment>
-        <translation type="unfinished"></translation>
+        <translation>Dezactivată</translation>
     </message>
     <message>
         <source>2D Video Acceleration</source>
         <comment>details report</comment>
-        <translation type="unfinished"></translation>
+        <translation>Accelerare video 2D</translation>
     </message>
     <message>
         <source>Not Attached</source>
         <comment>details report (Storage)</comment>
-        <translation type="unfinished">Neconectat</translation>
+        <translation>Neconectat</translation>
     </message>
     <message>
         <source>Storage</source>
         <comment>details report</comment>
-        <translation type="unfinished">Stocare</translation>
+        <translation>Stocare</translation>
     </message>
     <message>
         <source>Teleported</source>
@@ -3601,7 +5230,7 @@ Acest director este folosit, dacă nu este explicit specificat altfel, atunci c�
     <message>
         <source>Floppy</source>
         <comment>StorageBus</comment>
-        <translation type="unfinished">Dischetă</translation>
+        <translation>Dischetă</translation>
     </message>
     <message>
         <source>Device %1</source>
@@ -3728,54 +5357,143 @@ Acest director este folosit, dacă nu este explicit specificat altfel, atunci c�
     </message>
     <message numerus="yes">
         <source>%n year(s)</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>%n ani</numerusform>
             <numerusform></numerusform>
             <numerusform></numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <source>%n month(s)</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>%n luni</numerusform>
             <numerusform></numerusform>
             <numerusform></numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <source>%n day(s)</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>%n zile</numerusform>
             <numerusform></numerusform>
             <numerusform></numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <source>%n hour(s)</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>%n ore</numerusform>
             <numerusform></numerusform>
             <numerusform></numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <source>%n minute(s)</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>%n minute</numerusform>
             <numerusform></numerusform>
             <numerusform></numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <source>%n second(s)</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>%n secunde</numerusform>
             <numerusform></numerusform>
             <numerusform></numerusform>
         </translation>
     </message>
     <message>
         <source>(CD/DVD)</source>
+        <translation>(CD/DVD)</translation>
+    </message>
+    <message>
+        <source>Screens</source>
+        <comment>details report</comment>
+        <translation>Ecrane</translation>
+    </message>
+    <message>
+        <source>VDE network, &apos;%1&apos;</source>
+        <comment>details report (network)</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>SAS</source>
+        <comment>StorageBus</comment>
+        <translation>SATA</translation>
+    </message>
+    <message>
+        <source>VDE Adapter</source>
+        <comment>NetworkAttachmentType</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>LsiLogic SAS</source>
+        <comment>StorageControllerType</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>^(?:(?:(\d+)(?:\s?(B|KB|MB|GB|TB|PB))?)|(?:(\d*)%1(\d{1,2})(?:\s?(KB|MB|GB|TB|PB))))$</source>
+        <comment>regexp for matching ####[.##] B|KB|MB|GB|TB|PB, %1=decimal point</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>B</source>
+        <comment>size suffix Bytes</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>KB</source>
+        <comment>size suffix KBytes=1024 Bytes</comment>
+        <translation>KO</translation>
+    </message>
+    <message>
+        <source>MB</source>
+        <comment>size suffix MBytes=1024 KBytes</comment>
+        <translation>MO</translation>
+    </message>
+    <message>
+        <source>GB</source>
+        <comment>size suffix GBytes=1024 MBytes</comment>
+        <translation>GO</translation>
+    </message>
+    <message>
+        <source>TB</source>
+        <comment>size suffix TBytes=1024 GBytes</comment>
+        <translation>TO</translation>
+    </message>
+    <message>
+        <source>PB</source>
+        <comment>size suffix PBytes=1024 TBytes</comment>
+        <translation>PO</translation>
+    </message>
+    <message>
+        <source>Enabled</source>
+        <comment>nested paging</comment>
+        <translation>Activată</translation>
+    </message>
+    <message>
+        <source>Disabled</source>
+        <comment>nested paging</comment>
+        <translation>Dezactivată</translation>
+    </message>
+    <message>
+        <source>Nested Paging</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Shareable</source>
+        <comment>DiskType</comment>
+        <translation>Partajabil</translation>
+    </message>
+    <message>
+        <source>Unknown device</source>
+        <comment>USB device details</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>SAS Port %1</source>
+        <comment>New Storage UI : Slot Name</comment>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4379,7 +6097,7 @@ Folosiți meniul contextual sau butaonele din dreapta pentru a adâuga sau șter
     <name>VBoxHelpButton</name>
     <message>
         <source>&amp;Help</source>
-        <translation type="unfinished">&amp;Ajutor</translation>
+        <translation>&amp;Ajutor</translation>
     </message>
 </context>
 <context>
@@ -4391,98 +6109,6 @@ Folosiți meniul contextual sau butaonele din dreapta pentru a adâuga sau șter
     <message>
         <source>Reading Appliance ...</source>
         <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>VBoxImportApplianceWzd</name>
-    <message>
-        <source>Select an appliance to import</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Open Virtualization Format (%1)</source>
-        <translation type="unfinished">Open Virtualization Format (%1)</translation>
-    </message>
-    <message>
-        <source>Appliance Import Wizard</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Welcome to the Appliance Import Wizard!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;This wizard will guide you through importing an appliance. &lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Use the &lt;span style=&quot; font-weight:600;&quot;&gt;Next&lt;/span&gt; button to go the next page of the wizard and the &lt;span style=&quot; font-weight:600;&quot;&gt;Back&lt;/span&gt; button to return to the previous page.&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;VirtualBox currently supports importing appliances saved in the Open Virtualization Format (OVF). To continue, select the file to import below:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt; &amp;Back</source>
-        <translation>&lt; Îna&amp;poi</translation>
-    </message>
-    <message>
-        <source>&amp;Next &gt;</source>
-        <translation>Î&amp;nainte&gt;</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation>Renunță</translation>
-    </message>
-    <message>
-        <source>Appliance Import Settings</source>
-        <translation>Setări import mașină virtuală</translation>
-    </message>
-    <message>
-        <source>These are the virtual machines contained in the appliance and the suggested settings of the imported VirtualBox machines. You can change many of the properties shown by double-clicking on the items and disable others using the check boxes below.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Restore Defaults</source>
-        <translation type="unfinished">Restabilire valori implicite</translation>
-    </message>
-    <message>
-        <source>&amp;Import &gt;</source>
-        <translation>&amp;Importă &gt;</translation>
-    </message>
-</context>
-<context>
-    <name>VBoxImportLicenseViewer</name>
-    <message>
-        <source>&lt;b&gt;The virtual system &quot;%1&quot; requires that you agree to the terms and conditions of the software license agreement shown below.&lt;/b&gt;&lt;br /&gt;&lt;br /&gt;Click &lt;b&gt;Agree&lt;/b&gt; to continue or click &lt;b&gt;Disagree&lt;/b&gt; to cancel the import.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Software License Agreement</source>
-        <translation>Acord licență software</translation>
-    </message>
-    <message>
-        <source>&amp;Disagree</source>
-        <translation>&amp;Nu sunt de acord</translation>
-    </message>
-    <message>
-        <source>&amp;Agree</source>
-        <translation>&amp;Sunt de acord</translation>
-    </message>
-    <message>
-        <source>&amp;Print...</source>
-        <translation>Im&amp;primă...</translation>
-    </message>
-    <message>
-        <source>&amp;Save...</source>
-        <translation>&amp;Salvează...</translation>
-    </message>
-    <message>
-        <source>Text (*.txt)</source>
-        <translation>Text (*.txt)</translation>
-    </message>
-    <message>
-        <source>Save license to file...</source>
-        <translation>Salvează licența în fișier...</translation>
     </message>
 </context>
 <context>
@@ -4715,17 +6341,17 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Attached to</source>
         <comment>VMM: Virtual Disk</comment>
-        <translation type="unfinished">Conectat la</translation>
+        <translation>Conectat la</translation>
     </message>
     <message>
         <source>Attached to</source>
         <comment>VMM: CD/DVD Image</comment>
-        <translation type="unfinished">Conectat la</translation>
+        <translation>Conectată la</translation>
     </message>
     <message>
         <source>Attached to</source>
         <comment>VMM: Floppy Image</comment>
-        <translation type="unfinished">Conectat la</translation>
+        <translation>Conectată la</translation>
     </message>
 </context>
 <context>
@@ -4782,493 +6408,7 @@ p, li { white-space: pre-wrap; }
     <name>VBoxNetworkDialog</name>
     <message>
         <source>Network Adapters</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>VBoxNewHDWzd</name>
-    <message>
-        <source>Create New Virtual Disk</source>
-        <translation>Creează disc fix virtual nou</translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;This wizard will help you to create a new virtual hard disk image for your virtual machine.&lt;/p&gt;
-&lt;p&gt;Use the &lt;b&gt;Next&lt;/b&gt; button to go to the next page of the wizard
-and the &lt;b&gt;Back&lt;/b&gt; button to return to the previous page.&lt;/p&gt;</source>
-        <translation type="obsolete">&lt;p&gt;Acest vrăjitor vă va ajuta să creați o nouă imagine virtuală de disc hard pentru mașina dvs virtuală.&lt;/p&gt;
-&lt;p&gt;Folosiți butonul &lt;b&gt;Înainte&lt;/b&gt; pentru a merge la pagina următoare
-și butonul &lt;b&gt;Înapoi&lt;/b&gt; pentru a vă intoarce la pagina precedentă.&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>Welcome to the Create New Virtual Disk Wizard!</source>
-        <translation>Bun venit la asistentul Creează disc virtual nou!</translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;Select the type of virtual hard disk image you want to create.&lt;/p&gt;
-&lt;p&gt;A &lt;b&gt;dynamically expanding image&lt;/b&gt; initially occupies a very small amount
-of space on your physical hard disk. It will grow dynamically (up to
-the size specified) as the Guest OS claims disk space.&lt;/p&gt;
-&lt;p&gt;A &lt;b&gt;fixed-size image&lt;/b&gt; does not grow. It is stored in a file of approximately
-the same size as the size of the virtual hard disk.&lt;/p&gt;</source>
-        <translation type="obsolete">&lt;p&gt;Selectați tipul de imagine de disc hard virtual pe care doriți să-l creați.&lt;/p&gt;
-&lt;p&gt;O &lt;b&gt;imagine expandabilă dinamic&lt;/b&gt; ocupă inițial un spațiu foarte mic pe discul hard fizic. Va crește dinamic (până la dimensiunre specificată), pe măsură ce SO musafir face uz de spațiul pe disc. &lt;/p&gt;&lt;p&gt;O &lt;b&gt;imagine de dimensiune fixă&lt;/b&gt; nu crește. Este salvată într-un fișier de aproximativ aceeași dimensiune cu discul hard virtual.&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>Image Type</source>
-        <translation type="obsolete">Tip imagine</translation>
-    </message>
-    <message>
-        <source>&amp;Dynamically expanding image</source>
-        <translation type="obsolete">Imagine expandabilă &amp;dinamic</translation>
-    </message>
-    <message>
-        <source>Alt+D</source>
-        <translation type="obsolete">Alt+D</translation>
-    </message>
-    <message>
-        <source>&amp;Fixed-size image</source>
-        <translation type="obsolete">Imagine de dimensiune &amp;fixă</translation>
-    </message>
-    <message>
-        <source>Alt+F</source>
-        <translation type="obsolete">Alt+F</translation>
-    </message>
-    <message>
-        <source>Virtual Disk Image Type</source>
-        <translation type="obsolete">Tip imagine disc virtuală</translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;Press the &lt;b&gt;Select&lt;/b&gt; button to select the location and name of the file
-to store the virtual hard disk image or type a file name in the entry field.&lt;/p&gt;</source>
-        <translation type="obsolete">&lt;p&gt;Apăsați butonul &lt;b&gt;Selectare&lt;/b&gt; pentru a selecta amplasarea și numele fișierului
-pentru a stoca imaginea discului hard virtual sau tastați un nume de fișier în câmpul de intrare.&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>&amp;Image File Name</source>
-        <translation type="obsolete">Nume fișier &amp;imagine</translation>
-    </message>
-    <message>
-        <source>Select</source>
-        <translation type="obsolete">Selectare</translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;Select the size of the virtual hard disk image in megabytes. This size will be reported to the Guest OS
-as the size of the virtual hard disk.&lt;/p&gt;</source>
-        <translation type="obsolete">&lt;p&gt;Selectați dimensiunea imaginii discului hard virtual (în megaocteți). Această dimensiune va fi raportată SO musafir ca dimensiunea discului hard virtual.&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>Image &amp;Size</source>
-        <translation type="obsolete">Dimen&amp;siune Imagine</translation>
-    </message>
-    <message>
-        <source>Virtual Disk Location and Size</source>
-        <translation>Amplasare disc virtual și dimensiune</translation>
-    </message>
-    <message>
-        <source>You are going to create a new virtual hard disk image with the following parameters:</source>
-        <translation type="obsolete">Veți crea o nouă imagine de disc hard virtual cu următorii parametrii:</translation>
-    </message>
-    <message>
-        <source>If the above settings are correct, press the &lt;b&gt;Finish&lt;/b&gt; button.
-                            Once you press it, a new hard disk image will be created.
-                            </source>
-        <translation type="obsolete">Dacă setările următoare sunt corecte, apăsați butonul &lt;b&gt;Terminare&lt;/b&gt;.
-O dată apăsat, o nouă imagine de disc hard va fi creată.
-                                                            </translation>
-    </message>
-    <message>
-        <source>Summary</source>
-        <translation>Rezumat</translation>
-    </message>
-    <message>
-        <source>&lt;nobr&gt;%1 Bytes&lt;/nobr&gt;</source>
-        <translation>&lt;nobr&gt;%1 Octeți&lt;/nobr&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;table&gt;&lt;tr&gt;&lt;td&gt;Type:&lt;/td&gt;&lt;td&gt;%1&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Location:&lt;/td&gt;&lt;td&gt;%2&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Size:&lt;/td&gt;&lt;td&gt;%3&amp;nbsp;(%4&amp;nbsp;Bytes)&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</source>
-        <translation type="obsolete">&lt;table&gt;&lt;tr&gt;&lt;td&gt;Tip:&lt;/td&gt;&lt;td&gt;%1&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Amplasare:&lt;/td&gt;&lt;td&gt;%2&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Dimensiune:&lt;/td&gt;&lt;td&gt;%3&amp;nbsp;(%4&amp;nbsp;Octeți)&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</translation>
-    </message>
-    <message>
-        <source>Hard disk images (*.vdi)</source>
-        <translation>Imagini disc fix (*.vdi)</translation>
-    </message>
-    <message>
-        <source>Select a file for the new hard disk image file</source>
-        <translation>Selectați un fișier pentru noua imagine de disc fix</translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;Select the type of virtual hard disk image you want to create.&lt;/p&gt;
-&lt;p&gt;A &lt;b&gt;dynamically expanding image&lt;/b&gt; initially occupies a very small amount
-of space on your physical hard disk. It will grow dynamically (up to
-the size specified) as the Guest OS claims disk space.&lt;/p&gt;
-&lt;p&gt;A &lt;b&gt;fixed-size image&lt;/b&gt; does not grow. It is stored in a file of approximately
-the same size as the size of the virtual hard disk. The creation of a fixed-size image may take a long
-time depending on the image size and the write performance of your harddisk.&lt;/p&gt;</source>
-        <translation type="obsolete">&lt;p&gt;Selectați tipul de imagine de disc hard virtual pe care doriți să-l creați.&lt;/p&gt;
-&lt;p&gt;O &lt;b&gt;imagine expandabilă dinamic&lt;/b&gt; ocupă inițial un spațiu foarte mic pe discul hard fizic. Va crește dinamic (până la dimensiunre specificată), pe măsură ce SO musafir face uz de spațiul de pe disc. &lt;/p&gt;&lt;p&gt;O &lt;b&gt;imagine de dimensiune fixă&lt;/b&gt; nu crește. Este salvată într-un fișier de aproximativ aceeași dimensiune cu discul hard virtual. Crearea unei imagini de dimensiune fixă poate dura mai mult în funcție de dimensiunea imaginii și de viteza de scriere a discului dur.&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;table cellspacing=0 cellpadding=2&gt;&lt;tr&gt;&lt;td&gt;&lt;nobr&gt;Type:&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;&lt;nobr&gt;%1&lt;/nobr&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;nobr&gt;Location:&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;&lt;nobr&gt;%2&lt;/nobr&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;nobr&gt;Size:&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;&lt;nobr&gt;%3&amp;nbsp;(%4&amp;nbsp;Bytes)&lt;/nobr&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</source>
-        <translation type="obsolete">&lt;table cellspacing=0 cellpadding=2&gt;&lt;tr&gt;&lt;td&gt;&lt;nobr&gt;Tip:&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;&lt;nobr&gt;%1&lt;/nobr&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;nobr&gt;Locație:&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;&lt;nobr&gt;%2&lt;/nobr&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;nobr&gt;Dimensiune:&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;&lt;nobr&gt;%3&amp;nbsp;(%4&amp;nbsp;octeți)&lt;/nobr&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;This wizard will help you to create a new virtual hard disk image for your virtual machine.&lt;/p&gt;&lt;p&gt;Use the &lt;b&gt;Next&lt;/b&gt; button to go to the next page of the wizard and the &lt;b&gt;Back&lt;/b&gt; button to return to the previous page.&lt;/p&gt;</source>
-        <translation type="obsolete">&lt;p&gt;Acest asistent vă va ajuta să creați o nouă imagine virtuală de disc hard pentru mașina dvs virtuală.&lt;/p&gt;&lt;p&gt;Folosiți butonul &lt;b&gt;Înainte&lt;/b&gt; pentru a merge la pagina următoare și butonul &lt;b&gt;Înapoi&lt;/b&gt; pentru a vă intoarce la pagina precedentă.&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>&lt; &amp;Back</source>
-        <translation>&lt; Îna&amp;poi</translation>
-    </message>
-    <message>
-        <source>&amp;Next &gt;</source>
-        <translation>Î&amp;nainte&gt;</translation>
-    </message>
-    <message>
-        <source>&amp;Cancel</source>
-        <translation type="obsolete">&amp;Revocare</translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;Select the type of virtual hard disk image you want to create.&lt;/p&gt;&lt;p&gt;A &lt;b&gt;dynamically expanding image&lt;/b&gt; initially occupies a very small amount of space on your physical hard disk. It will grow dynamically (up to the size specified) as the Guest OS claims disk space.&lt;/p&gt;&lt;p&gt;A &lt;b&gt;fixed-size image&lt;/b&gt; does not grow. It is stored in a file of approximately the same size as the size of the virtual hard disk. The creation of a fixed-size image may take a long time depending on the image size and the write performance of your harddisk.&lt;/p&gt;</source>
-        <translation type="obsolete">&lt;p&gt;Selectați tipul de imagine de disc hard virtual pe care doriți să-l creați.&lt;/p&gt;&lt;p&gt;O &lt;b&gt;imagine expandabilă dinamic&lt;/b&gt; ocupă inițial un spațiu foarte mic pe discul hard fizic. Va crește dinamic (până la dimensiunre specificată), pe măsură ce SO musafir face uz de spațiul de pe disc. &lt;/p&gt;&lt;p&gt;O &lt;b&gt;imagine de dimensiune fixă&lt;/b&gt; nu crește. Este salvată într-un fișier de aproximativ aceeași dimensiune cu discul hard virtual. Crearea unei imagini de dimensiune fixă poate dura mai mult în funcție de dimensiunea imaginii și de viteza de scriere a discului dur.&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;Press the &lt;b&gt;Select&lt;/b&gt; button to select the location and name of the file to store the virtual hard disk image or type a file name in the entry field.&lt;/p&gt;</source>
-        <translation type="obsolete">&lt;p&gt;Apăsați butonul &lt;b&gt;Selectare&lt;/b&gt; pentru a selecta amplasarea și numele fișierului pentru a stoca imaginea discului hard virtual sau tastați un nume de fișier în câmpul de intrare.&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;Select the size of the virtual hard disk image in megabytes. This size will be reported to the Guest OS as the size of the virtual hard disk.&lt;/p&gt;</source>
-        <translation type="obsolete">&lt;p&gt;Selectați dimensiunea imaginii discului hard virtual (în megaocteți). Această dimensiune va fi raportată SO musafir ca dimensiunea discului hard virtual.&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>If the above settings are correct, press the &lt;b&gt;Finish&lt;/b&gt; button. Once you press it, a new hard disk image will be created.</source>
-        <translation type="obsolete">Dacă setările de mai sus sunt corecte, apăsați butonul &lt;b&gt;Finalizare&lt;/b&gt;. O dată apăsat, o nouă imagine de disc hard va fi creată.</translation>
-    </message>
-    <message>
-        <source>&amp;Finish</source>
-        <translation>&amp;Finalizare</translation>
-    </message>
-    <message>
-        <source>Type</source>
-        <comment>summary</comment>
-        <translation>Tip</translation>
-    </message>
-    <message>
-        <source>Location</source>
-        <comment>summary</comment>
-        <translation>Amplasare</translation>
-    </message>
-    <message>
-        <source>Size</source>
-        <comment>summary</comment>
-        <translation>Dimensiune</translation>
-    </message>
-    <message>
-        <source>Bytes</source>
-        <comment>summary</comment>
-        <translation>Octeți</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation>Renunță</translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;This wizard will help you to create a new virtual hard disk for your virtual machine.&lt;/p&gt;&lt;p&gt;Use the &lt;b&gt;Next&lt;/b&gt; button to go to the next page of the wizard and the &lt;b&gt;Back&lt;/b&gt; button to return to the previous page.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Acest asistent vă va ajuta să creați o nouă imagine virtuală de disc fix pentru mașina dvs virtuală.&lt;/p&gt;&lt;p&gt;Folosiți butonul &lt;b&gt;Înainte&lt;/b&gt; pentru a merge la pagina următoare și butonul &lt;b&gt;Înapoi&lt;/b&gt; pentru a vă intoarce la pagina precedentă.&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>Hard Disk Storage Type</source>
-        <translation>Tip stocare disc fix</translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;Select the type of virtual hard disk you want to create.&lt;/p&gt;&lt;p&gt;A &lt;b&gt;dynamically expanding storage&lt;/b&gt; initially occupies a very small amount of space on your physical hard disk. It will grow dynamically (up to the size specified) as the Guest OS claims disk space.&lt;/p&gt;&lt;p&gt;A &lt;b&gt;fixed-size storage&lt;/b&gt; does not grow. It is stored in a file of approximately the same size as the size of the virtual hard disk. The creation of a fixed-size storage may take a long time depending on the storage size and the write performance of your harddisk.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Selectați tipul de imagine virtuală de disc fix pe care doriți să o creați.&lt;/p&gt;&lt;p&gt;O &lt;b&gt;imagine expandabilă dinamic&lt;/b&gt; ocupă inițial un spațiu foarte mic pe discul fix fizic. Va crește dinamic (până la dimensiunre specificată), pe măsură ce SO musafir face uz de spațiul de pe disc. &lt;/p&gt;&lt;p&gt;O &lt;b&gt;imagine de dimensiune fixă&lt;/b&gt; nu crește. Este salvată într-un fișier de aproximativ aceeași dimensiune cu discul fix virtual. Crearea unei imagini de dimensiune fixă poate dura destul de mult în funcție de dimensiunea imaginii și de viteza de scriere a discului dvs.&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>Storage Type</source>
-        <translation>TIp stocare</translation>
-    </message>
-    <message>
-        <source>&amp;Dynamically expanding storage</source>
-        <translation>Imagine expandabilă &amp;dinamic</translation>
-    </message>
-    <message>
-        <source>&amp;Fixed-size storage</source>
-        <translation>Imagine de dimensiune &amp;fixă</translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;Press the &lt;b&gt;Select&lt;/b&gt; button to select the location of a file to store the hard disk data or type a file name in the entry field.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Apăsați butonul &lt;b&gt;Selectare&lt;/b&gt; pentru a selecta amplasarea imaginii discului fix virtual sau tastați un nume de fișier în câmpul de intrare.&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>&amp;Location</source>
-        <translation>Amp&amp;lasare</translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;Select the size of the virtual hard disk in megabytes. This size will be reported to the Guest OS as the maximum size of this hard disk.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Selectați dimensiunea imaginii discului fix virtual (în megaocteți). Această dimensiune va fi raportată SO musafir ca dimensiunea discului fix virtual.&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>&amp;Size</source>
-        <translation>Dimen&amp;siune</translation>
-    </message>
-    <message>
-        <source>You are going to create a new virtual hard disk with the following parameters:</source>
-        <translation>Veți crea o nouă imagine virtuală de disc fix cu următorii parametrii:</translation>
-    </message>
-    <message>
-        <source>If the above settings are correct, press the &lt;b&gt;Finish&lt;/b&gt; button. Once you press it, a new hard disk will be created.</source>
-        <translation>Dacă setările de mai sus sunt corecte, apăsați butonul &lt;b&gt;Finalizare&lt;/b&gt;. O dată apăsat, o nouă imagine de disc fix va fi creată.</translation>
-    </message>
-</context>
-<context>
-    <name>VBoxNewVMWzd</name>
-    <message>
-        <source>Create New Virtual Machine</source>
-        <translation>Creează o mașină virtuală nouă</translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;This wizard will guide you through the steps that are necessary to create
-a new virtual machine for VirtualBox.&lt;/p&gt;
-&lt;p&gt;Use the &lt;b&gt;Next&lt;/b&gt; button to go the next page of the wizard
-and the &lt;b&gt;Back&lt;/b&gt; button to return to the previous page.&lt;/p&gt;</source>
-        <translation type="obsolete">&lt;p&gt;Acest vrăjitor vă va ghida prin pașii necesari creării
-unei noi mașini virtuale pentru VirtualBox.&lt;/p&gt;
-&lt;p&gt;Folosiți butonul &lt;b&gt;Înainte&lt;/b&gt; pentru a merge la pagina următoare  a vrăjitorului
-și butonul &lt;b&gt;Înapoi&lt;/b&gt; pentru a vă întoarce la pagina precedentă.&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>Welcome to the New Virtual Machine Wizard!</source>
-        <translation>Bun venit la asistentul Mașină virtuală nouă!</translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;Enter a name for the new virtual machine and select the type of the guest operating
-system you plan to install onto the virtual machine.&lt;/p&gt;
-&lt;p&gt;The name of the virtual machine usually indicates its software and hardware configuration.
-It will be used by all VirtualBox components to identify your virtual machine.&lt;/p&gt;</source>
-        <translation type="obsolete">&lt;p&gt;Introduceți un nume pentru noua mașină virtuală și selectați tipul sistemului de operare musafir
-pe care plănuiți să îl instalați în mașină.&lt;/p&gt;
-&lt;p&gt;Numele mașinii virtuale indică în mod uzual configurația software și hardware.
-Va fi folosit de către toate produsele VirtualBox pentru a identifica mașina virtuală creată.&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>N&amp;ame</source>
-        <translation>N&amp;ume</translation>
-    </message>
-    <message>
-        <source>OS &amp;Type</source>
-        <translation>&amp;Tip SO</translation>
-    </message>
-    <message>
-        <source>VM Name and OS Type</source>
-        <translation>Nume MV și tip SO</translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;Select the amount of base memory (RAM) in megabytes to be allocated to the virtual machine.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Selectați cantitatea de memorie RAM în megaocteți pentru a fi alocată mașinii virtuale.&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>Base &amp;Memory Size</source>
-        <translation>Dimensiune &amp;memorie RAM</translation>
-    </message>
-    <message>
-        <source>&lt;</source>
-        <translation type="obsolete">&lt;</translation>
-    </message>
-    <message>
-        <source>=</source>
-        <translation type="obsolete">=</translation>
-    </message>
-    <message>
-        <source>&gt;</source>
-        <translation type="obsolete">&gt;</translation>
-    </message>
-    <message>
-        <source>MB</source>
-        <translation>MO</translation>
-    </message>
-    <message>
-        <source>Memory</source>
-        <translation>Memorie</translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;Select a hard disk image to be used
-as the boot hard disk of the virtual machine. You can either create a new hard
-disk using the &lt;b&gt;New&lt;/b&gt; button or select an existing hard disk
-image from the drop-down list or by pressing the &lt;b&gt;Existing&lt;/b&gt;
-button (to invoke the Virtual Disk Manager dialog).&lt;/p&gt;
-&lt;p&gt;If you need a more complicated hard disk setup, you can also skip this
-step and attach hard disks later using the VM Settings dialog.&lt;/p&gt;</source>
-        <translation type="obsolete">&lt;p&gt;Selectați imaginea de disc hard virtual care va fi folosită
-ca disc de boot pentru mașina virtuală. Puteți fie crea un disc hard nou
-utilizând butonul &lt;b&gt;Nou&lt;/b&gt; sau selecta o imagine de disc hard existentă
-din listă apăsând butonul &lt;b&gt;Existent&lt;/b&gt; (pentru a invoca dialogul manager discuri virtuale).&lt;/p&gt;
-&lt;p&gt;Dacă aveți nevoie de setarea mai complexă a unui disc virtual, puteți sări peste acest pas
-și să atașați ulterior un disc hard utilizând dialogul Setări MV.&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>B&amp;oot Hard Disk (Primary Master)</source>
-        <translation type="obsolete">Disc de B&amp;oot (Primar Master)</translation>
-    </message>
-    <message>
-        <source>N&amp;ew...</source>
-        <translation type="obsolete">N&amp;ou...</translation>
-    </message>
-    <message>
-        <source>E&amp;xisting...</source>
-        <translation type="obsolete">E&amp;xistent...</translation>
-    </message>
-    <message>
-        <source>Virtual Hard Disk</source>
-        <translation>Hard disc virtual</translation>
-    </message>
-    <message>
-        <source>
-                            &lt;p&gt;
-                            You are going to create a new virtual machine
-                            with the following parameters:
-                            &lt;/p&gt;
-                            </source>
-        <translation type="obsolete">
-                                                                       &lt;p&gt;
-                                                                       Veți crea  o nouă mașină virtuală
-                                                                       cu următorii parametrii:
-                                                                       &lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>
-                            &lt;p&gt;
-                            If the above is correct press the &lt;b&gt;Finish&lt;/b&gt; button.
-                            Once you press it, a new virtual machine will be created.
-                            &lt;/p&gt;&lt;p&gt;
-                            Note that you can alter these and all other setting of the
-                            created virtual machine at any time using the
-                            &lt;b&gt;Settings&lt;/b&gt; dialog accessible through
-                            the menu of the main window.
-                            &lt;/p&gt;
-                            </source>
-        <translation type="obsolete">
-                                                           &lt;p&gt;
-                                                           Dacă informațiile sunt corecte, apăsați butonul &lt;b&gt;Terminare&lt;/b&gt;.
-                                                           &lt;nobr&gt;O dată ce&lt;/nobr&gt; l-ați apăsat, o nouă mașină virtuală va fi creată.
-                                                           &lt;/p&gt;&lt;p&gt;
-                                                           Puteți schimba aceste setări și altele în orice moment
-                                                           prin dialogul &lt;b&gt;Setări&lt;/b&gt; accesibil din
-                                                           meniul ferestrei principale.
-                                                           &lt;/p&gt;
-                                                           </translation>
-    </message>
-    <message>
-        <source>Summary</source>
-        <translation>Rezumat</translation>
-    </message>
-    <message>
-        <source>&lt;qt&gt;%1&amp;nbsp;MB&lt;/qt&gt;</source>
-        <translation type="obsolete">&lt;qt&gt;%1&amp;nbsp;MO&lt;/qt&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;tr&gt;&lt;td&gt;Name:&lt;/td&gt;&lt;td&gt;%1&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;OS Type:&lt;/td&gt;&lt;td&gt;%2&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Base Memory:&lt;/td&gt;&lt;td&gt;%3&amp;nbsp;MB&lt;/td&gt;&lt;/tr&gt;</source>
-        <translation type="obsolete">&lt;tr&gt;&lt;td&gt;Nume:&lt;/td&gt;&lt;td&gt;%1&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Tip SO:&lt;/td&gt;&lt;td&gt;%2&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Memorie:&lt;/td&gt;&lt;td&gt;%3&amp;nbsp;MO&lt;/td&gt;&lt;/tr&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;tr&gt;&lt;td&gt;Boot Hard Disk:&lt;/td&gt;&lt;td&gt;%4&lt;/td&gt;&lt;/tr&gt;</source>
-        <translation type="obsolete">&lt;tr&gt;&lt;td&gt;Disc de boot&lt;/td&gt;&lt;td&gt;%4&lt;/td&gt;&lt;/tr&gt;</translation>
-    </message>
-    <message>
-        <source>The recommended base memory size is &lt;b&gt;%1&lt;/b&gt; MB.</source>
-        <translation>Memoria RAM recomandată este &lt;b&gt;%1&lt;/b&gt; MO.</translation>
-    </message>
-    <message>
-        <source>The recommended size of the boot hard disk is &lt;b&gt;%1&lt;/b&gt; MB.</source>
-        <translation>Dimensiunea discului de boot recomandată este &lt;b&gt;%1&lt;/b&gt; MO.</translation>
-    </message>
-    <message>
-        <source>&lt;tr&gt;&lt;td&gt;&lt;nobr&gt;Name:&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;%1&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;nobr&gt;OS Type:&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;%2&lt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;nobr&gt;Base Memory:&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;%3&amp;nbsp;MB&lt;/td&gt;&lt;/tr&gt;</source>
-        <translation type="obsolete">&lt;tr&gt;&lt;td&gt;&lt;nobr&gt;Nume:&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;%1&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;nobr&gt;Tip SO:&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;%2&lt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;nobr&gt;Memorie RAM:&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;%3&amp;nbsp;MO&lt;/td&gt;&lt;/tr&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;tr&gt;&lt;td&gt;&lt;nobr&gt;Boot Hard Disk:&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;%4&lt;/td&gt;&lt;/tr&gt;</source>
-        <translation type="obsolete">&lt;tr&gt;&lt;td&gt;&lt;nobr&gt;Disc de boot&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;%4&lt;/td&gt;&lt;/tr&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;This wizard will guide you through the steps that are necessary to create a new virtual machine for VirtualBox.&lt;/p&gt;&lt;p&gt;Use the &lt;b&gt;Next&lt;/b&gt; button to go the next page of the wizard and the &lt;b&gt;Back&lt;/b&gt; button to return to the previous page.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Acest asistent vă va ghida prin pașii necesari creării unei noi mașini virtuale pentru VirtualBox.&lt;/p&gt;&lt;p&gt;Folosiți butonul &lt;b&gt;Înainte&lt;/b&gt; pentru a merge la pagina următoare  a asistent și butonul &lt;b&gt;Înapoi&lt;/b&gt; pentru a vă întoarce la pagina precedentă.&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>&lt; &amp;Back</source>
-        <translation>&lt; Îna&amp;poi</translation>
-    </message>
-    <message>
-        <source>&amp;Next &gt;</source>
-        <translation>Î&amp;nainte&gt;</translation>
-    </message>
-    <message>
-        <source>&amp;Cancel</source>
-        <translation type="obsolete">&amp;Revocare</translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;Enter a name for the new virtual machine and select the type of the guest operating system you plan to install onto the virtual machine.&lt;/p&gt;&lt;p&gt;The name of the virtual machine usually indicates its software and hardware configuration. It will be used by all VirtualBox components to identify your virtual machine.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Introduceți un nume pentru noua mașină virtuală și selectați tipul sistemului de operare musafir pe care plănuiți să îl instalați în mașină.&lt;/p&gt;&lt;p&gt;Numele mașinii virtuale indică în mod uzual configurația software și hardware. Va fi folosit de către toate produsele VirtualBox pentru a identifica mașina virtuală creată.&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;Select a hard disk image to be used as the boot hard disk of the virtual machine. You can either create a new hard disk using the &lt;b&gt;New&lt;/b&gt; button or select an existing hard disk image from the drop-down list or by pressing the &lt;b&gt;Existing&lt;/b&gt; button (to invoke the Virtual Disk Manager dialog).&lt;/p&gt;&lt;p&gt;If you need a more complicated hard disk setup, you can also skip this step and attach hard disks later using the VM Settings dialog.&lt;/p&gt;</source>
-        <translation type="obsolete">&lt;p&gt;Selectați imaginea de disc hard virtual care va fi folosită ca disc de boot pentru mașina virtuală. Puteți fie crea un disc hard nou utilizând butonul &lt;b&gt;Nou&lt;/b&gt; sau puteți selecta o imagine de disc hard existentă din listă apăsând butonul &lt;b&gt;Existent&lt;/b&gt; (pentru a invoca dialogul Manager discuri virtuale).&lt;/p&gt;&lt;p&gt;Dacă aveți nevoie de setarea mai complexă a unui disc virtual, puteți sări peste acest pas și să atașați ulterior un disc hard utilizând dialogul Setări MV.&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;You are going to create a new virtual machine with the following parameters:&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Veți crea o nouă mașină virtuală cu următorii parametrii:&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;If the above is correct press the &lt;b&gt;Finish&lt;/b&gt; button. Once you press it, a new virtual machine will be created. &lt;/p&gt;&lt;p&gt;Note that you can alter these and all other setting of the created virtual machine at any time using the &lt;b&gt;Settings&lt;/b&gt; dialog accessible through the menu of the main window.&lt;/p&gt;</source>
-        <translation>    &lt;p&gt;Dacă informațiile sunt corecte, apăsați butonul &lt;b&gt;Finalizare&lt;/b&gt;. O dată ce l-ați apăsat, o nouă mașină virtuală va fi creată.&lt;/p&gt;&lt;p&gt;Puteți schimba aceste setări și altele în orice moment prin dialogul &lt;b&gt;Setări&lt;/b&gt; accesibil din meniul ferestrei principale.&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>&amp;Finish</source>
-        <translation>&amp;Finalizare</translation>
-    </message>
-    <message>
-        <source>MB</source>
-        <comment>megabytes</comment>
-        <translation>MO</translation>
-    </message>
-    <message>
-        <source>Name</source>
-        <comment>summary</comment>
-        <translation>Nume</translation>
-    </message>
-    <message>
-        <source>OS Type</source>
-        <comment>summary</comment>
-        <translation>Tip SO</translation>
-    </message>
-    <message>
-        <source>Base Memory</source>
-        <comment>summary</comment>
-        <translation>Memorie RAM</translation>
-    </message>
-    <message>
-        <source>Boot Hard Disk</source>
-        <comment>summary</comment>
-        <translation>Disc de pornire</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation>Renunță</translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;Select a hard disk image to be used as the boot hard disk of the virtual machine. You can either create a new hard disk using the &lt;b&gt;New&lt;/b&gt; button or select an existing hard disk image from the drop-down list or by pressing the &lt;b&gt;Existing&lt;/b&gt; button (to invoke the Virtual Media Manager dialog).&lt;/p&gt;&lt;p&gt;If you need a more complicated hard disk setup, you can also skip this step and attach hard disks later using the VM Settings dialog.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Selectați imaginea de disc hard virtual care va fi folosită ca disc de pornire pentru mașina virtuală. Puteți fie crea un disc fix nou utilizând butonul &lt;b&gt;Nou&lt;/b&gt; sau selecta o imagine de disc fix existentă din listă apăsând butonul &lt;b&gt;Existent&lt;/b&gt; (pentru a invoca dialogul Gestionar discuri virtuale).&lt;/p&gt;&lt;p&gt;Dacă aveți nevoie de setarea mai complexă a unui disc virtual, puteți sări peste acest pas și atașa ulterior un disc fix utilizând dialogul Setări mașină virtuală.&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>Boot Hard &amp;Disk (Primary Master)</source>
-        <translation>Disc de P&amp;ornire (Primar Master)</translation>
-    </message>
-    <message>
-        <source>&amp;Create new hard disk</source>
-        <translation>&amp;Creează disc dur nou</translation>
-    </message>
-    <message>
-        <source>&amp;Use existing hard disk</source>
-        <translation>F&amp;olosește disc dur existent</translation>
+        <translation>Plăci de rețea</translation>
     </message>
 </context>
 <context>
@@ -6120,11 +7260,11 @@ din listă apăsând butonul &lt;b&gt;Existent&lt;/b&gt; (pentru a invoca dialog
     </message>
     <message>
         <source>Close VM</source>
-        <translation type="unfinished">Închide MV</translation>
+        <translation>Închide MV</translation>
     </message>
     <message>
         <source>Continue</source>
-        <translation type="unfinished">Continuă</translation>
+        <translation>Continuă</translation>
     </message>
     <message>
         <source>Discard</source>
@@ -6132,20 +7272,20 @@ din listă apăsând butonul &lt;b&gt;Existent&lt;/b&gt; (pentru a invoca dialog
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>Renunță</translation>
     </message>
     <message>
         <source>&lt;p&gt;There are hard disks attached to ports of the additional controller. If you disable the additional controller, all these hard disks will be automatically detached.&lt;/p&gt;&lt;p&gt;Are you sure you want to disable the additional controller?&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;Există discuri hard atașate la porturile contrlolorului adițional. Dacă dezactivați controlorul adițional, toate aceste discuri dure vor fi deconectate automat.&lt;/p&gt;&lt;p&gt;Sigur doriți dezactivarea controlorului adițional?&lt;/p&gt;</translation>
     </message>
     <message>
         <source>&lt;p&gt;There are hard disks attached to ports of the additional controller. If you change the additional controller, all these hard disks will be automatically detached.&lt;/p&gt;&lt;p&gt;Are you sure you want to change the additional controller?&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;Există discuri dure atașate la porturile contrlolorului adițional. Dacă dezactivați controlorul adițional, toate aceste discuri dure vor fi deconectate automat.&lt;/p&gt;&lt;p&gt;Sigur doriți dezactivarea controlorului adițional?&lt;/p&gt;</translation>
     </message>
     <message>
         <source>Change</source>
         <comment>hard disk</comment>
-        <translation type="unfinished"></translation>
+        <translation>Modifică</translation>
     </message>
     <message>
         <source>&lt;p&gt;Do you want to remove the selected host network interface &lt;nobr&gt;&lt;b&gt;%1&lt;/b&gt;?&lt;/nobr&gt;&lt;/p&gt;&lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; This interface may be in use by one or more network adapters of this or another VM. After it is removed, these adapters will no longer work until you correct their settings by either choosing a different interface name or a different adapter attachment type.&lt;/p&gt;</source>
@@ -6153,7 +7293,7 @@ din listă apăsând butonul &lt;b&gt;Existent&lt;/b&gt; (pentru a invoca dialog
     </message>
     <message>
         <source>Failed to create the host-only network interface.</source>
-        <translation type="unfinished"></translation>
+        <translation>Crearea interfeței de rețea numai-gazdă a eșuat.</translation>
     </message>
     <message>
         <source>&lt;p&gt;Your existing VirtualBox settings files will be automatically converted from the old format to a new format required by the new version of VirtualBox.&lt;/p&gt;&lt;p&gt;Press &lt;b&gt;OK&lt;/b&gt; to start VirtualBox now or press &lt;b&gt;Exit&lt;/b&gt; if you want to terminate the VirtualBox application without any further actions.&lt;/p&gt;</source>
@@ -6229,7 +7369,7 @@ din listă apăsând butonul &lt;b&gt;Existent&lt;/b&gt; (pentru a invoca dialog
     </message>
     <message>
         <source>Restore</source>
-        <translation type="unfinished"></translation>
+        <translation>Restabilește</translation>
     </message>
     <message>
         <source>&lt;p&gt;Deleting the snapshot will cause the state information saved in it to be lost, and disk data spread over several image files that VirtualBox has created together with the snapshot will be merged into one file. This can be a lengthy process, and the information in the snapshot cannot be recovered.&lt;/p&gt;&lt;/p&gt;Are you sure you want to delete the selected snapshot &lt;b&gt;%1&lt;/b&gt;?&lt;/p&gt;</source>
@@ -6237,7 +7377,7 @@ din listă apăsând butonul &lt;b&gt;Existent&lt;/b&gt; (pentru a invoca dialog
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished">Șterge</translation>
+        <translation>Șterge</translation>
     </message>
     <message>
         <source>Failed to restore the snapshot &lt;b&gt;%1&lt;/b&gt; of the virtual machine &lt;b&gt;%2&lt;/b&gt;.</source>
@@ -6254,12 +7394,12 @@ din listă apăsând butonul &lt;b&gt;Existent&lt;/b&gt; (pentru a invoca dialog
     <message>
         <source>&amp;Create</source>
         <comment>medium</comment>
-        <translation type="unfinished">&amp;Creează</translation>
+        <translation>&amp;Creează</translation>
     </message>
     <message>
         <source>&amp;Select</source>
         <comment>medium</comment>
-        <translation type="unfinished">&amp;Selectare</translation>
+        <translation>&amp;Selectează</translation>
     </message>
     <message>
         <source>&lt;p&gt;There are no unused media available for the newly created attachment.&lt;/p&gt;&lt;p&gt;Press the &lt;b&gt;Select&lt;/b&gt; if you wish to open the &lt;i&gt;Virtual Media Manager&lt;/i&gt;.&lt;/p&gt;</source>
@@ -6304,7 +7444,7 @@ din listă apăsând butonul &lt;b&gt;Existent&lt;/b&gt; (pentru a invoca dialog
     <message>
         <source>E&amp;xit</source>
         <comment>warnAboutSettingsAutoConversion message box</comment>
-        <translation type="unfinished">Ieși&amp;re</translation>
+        <translation>Ieși&amp;re</translation>
     </message>
     <message>
         <source>&lt;p&gt;The following VirtualBox settings files will be automatically converted from the old format to a new format required by the new version of VirtualBox.&lt;/p&gt;&lt;p&gt;Press &lt;b&gt;OK&lt;/b&gt; to start VirtualBox now or press &lt;b&gt;Exit&lt;/b&gt; if you want to terminate the VirtualBox application without any further actions.&lt;/p&gt;</source>
@@ -6333,22 +7473,22 @@ din listă apăsând butonul &lt;b&gt;Existent&lt;/b&gt; (pentru a invoca dialog
     <message>
         <source>floppy image</source>
         <comment>failed to mount ...</comment>
-        <translation type="unfinished">imagine dischetă</translation>
+        <translation>imagine dischetă</translation>
     </message>
     <message>
         <source>hard disk</source>
         <comment>failed to attach ...</comment>
-        <translation type="unfinished"></translation>
+        <translation>disc dur</translation>
     </message>
     <message>
         <source>CD/DVD device</source>
         <comment>failed to attach ...</comment>
-        <translation type="unfinished"></translation>
+        <translation>dispozitiv CD/DVD</translation>
     </message>
     <message>
         <source>floppy device</source>
         <comment>failed to close ...</comment>
-        <translation type="unfinished"></translation>
+        <translation>dispozitiv dischetă</translation>
     </message>
     <message>
         <source>&lt;p&gt;Are you sure you want to delete the CD/DVD-ROM device?&lt;/p&gt;&lt;p&gt;You will not be able to mount any CDs or ISO images or install the Guest Additions without it!&lt;/p&gt;</source>
@@ -6357,6 +7497,54 @@ din listă apăsând butonul &lt;b&gt;Existent&lt;/b&gt; (pentru a invoca dialog
     <message>
         <source>&amp;Remove</source>
         <comment>medium</comment>
+        <translation>Ș&amp;terge</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;VT-x/AMD-V hardware acceleration is not available on your system. Your 64-bit guest will fail to detect a 64-bit CPU and will not be able to boot.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;VT-x/AMD-V hardware acceleration is not available on your system. Certain guests (e.g. OS/2 and QNX) require this feature and will fail to boot without it.&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;Deleting the snapshot %1 will temporarily need more disk space. In the worst case the size of image %2 will grow by %3, however on this filesystem there is only %4 free.&lt;/p&gt;&lt;p&gt;Running out of disk space during the merge operation can result in corruption of the image and the VM configuration, i.e. loss of the VM and its data.&lt;/p&gt;&lt;p&gt;You may continue with deleting the snapshot at your own risk.&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;Could not change the guest screen to this host screen due to insufficient guest video memory.&lt;/p&gt;&lt;p&gt;You should configure the virtual machine to have at least &lt;b&gt;%1&lt;/b&gt; of video memory.&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;Could not change the guest screen to this host screen due to insufficient guest video memory.&lt;/p&gt;&lt;p&gt;You should configure the virtual machine to have at least &lt;b&gt;%1&lt;/b&gt; of video memory.&lt;/p&gt;&lt;p&gt;Press &lt;b&gt;Ignore&lt;/b&gt; to switch the screen anyway or press &lt;b&gt;Cancel&lt;/b&gt; to cancel the operation.&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;Can not switch the guest display to fullscreen mode. You have more virtual screens configured than physical screens are attached to your host.&lt;/p&gt;&lt;p&gt;Please either lower the virtual screens in your VM configuration or attach additional screens to your host.&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;Can not switch the guest display to seamless mode. You have more virtual screens configured than physical screens are attached to your host.&lt;/p&gt;&lt;p&gt;Please either lower the virtual screens in your VM configuration or attach additional screens to your host.&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;Could not find the VirtualBox User Manual &lt;nobr&gt;&lt;b&gt;%1&lt;/b&gt;.&lt;/nobr&gt;&lt;/p&gt;&lt;p&gt;Do you wish to download this file from the Internet?&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;Are you sure you want to download the VirtualBox User Manual from &lt;nobr&gt;&lt;a href=&quot;%1&quot;&gt;%2&lt;/a&gt;&lt;/nobr&gt; (size %3 bytes)?&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;Failed to download the VirtualBox User Manual from &lt;nobr&gt;&lt;a href=&quot;%1&quot;&gt;%2&lt;/a&gt;.&lt;/nobr&gt;&lt;/p&gt;&lt;p&gt;%3&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;The VirtualBox User Manual has been successfully downloaded from &lt;nobr&gt;&lt;a href=&quot;%1&quot;&gt;%2&lt;/a&gt;&lt;/nobr&gt; and saved locally as &lt;nobr&gt;&lt;b&gt;%3&lt;/b&gt;.&lt;/nobr&gt;&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;The VirtualBox User Manual has been successfully downloaded from &lt;nobr&gt;&lt;a href=&quot;%1&quot;&gt;%2&lt;/a&gt;&lt;/nobr&gt; but can&apos;t be saved locally as &lt;nobr&gt;&lt;b&gt;%3&lt;/b&gt;.&lt;/nobr&gt;&lt;/p&gt;&lt;p&gt;Please choose another location for that file.&lt;/p&gt;</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -6364,36 +7552,36 @@ din listă apăsând butonul &lt;b&gt;Existent&lt;/b&gt; (pentru a invoca dialog
     <name>VBoxProgressDialog</name>
     <message>
         <source>&amp;Cancel</source>
-        <translation type="unfinished">&amp;Revocare</translation>
+        <translation>&amp;Renunță</translation>
     </message>
     <message>
         <source>A few seconds remaining</source>
-        <translation type="unfinished"></translation>
+        <translation>Câteva secudne rămase</translation>
     </message>
     <message>
         <source>Canceling...</source>
-        <translation type="unfinished"></translation>
+        <translation>Se anulează...</translation>
     </message>
     <message>
         <source>Cancel the current operation</source>
-        <translation type="unfinished"></translation>
+        <translation>Anulează operația curentă</translation>
     </message>
     <message>
         <source>%1, %2 remaining</source>
         <comment>You may wish to translate this more like &quot;Time remaining: %1, %2&quot;</comment>
-        <translation type="unfinished"></translation>
+        <translation>Timp rămas: %1, %2</translation>
     </message>
     <message>
         <source>%1 remaining</source>
         <comment>You may wish to translate this more like &quot;Time remaining: %1&quot;</comment>
-        <translation type="unfinished"></translation>
+        <translation>Timp rămas: %1</translation>
     </message>
 </context>
 <context>
     <name>VBoxRegistrationDlg</name>
     <message>
         <source>VirtualBox Registration Dialog</source>
-        <translation>Dialog înregistrare VirtualBox</translation>
+        <translation type="obsolete">Dialog înregistrare VirtualBox</translation>
     </message>
     <message>
         <source>&lt;p&gt;Please fill out this registration form to let us know that you use VirtualBox and, optionally, to keep you informed about VirtualBox news and updates.&lt;/p&gt;&lt;p&gt;Enter your full name using Latin characters and your e-mail address to the fields below. Please note that innotek will use this information only to gather product usage statistics and to send you VirtualBox newsletters. In particular, innotek will never pass your data to third parties. Detailed information about how we use your personal data can be found in the &lt;b&gt;Privacy Policy&lt;/b&gt; section of the VirtualBox Manual or on the &lt;a href=http://www.virtualbox.org/wiki/PrivacyPolicy&gt;Privacy Policy&lt;/a&gt; page of the VirtualBox web-site.&lt;/p&gt;</source>
@@ -6405,7 +7593,7 @@ din listă apăsând butonul &lt;b&gt;Existent&lt;/b&gt; (pentru a invoca dialog
     </message>
     <message>
         <source>Enter your full name using Latin characters.</source>
-        <translation>Introduceți numele dvs complet utilizând caractere latine.</translation>
+        <translation type="obsolete">Introduceți numele dvs complet utilizând caractere latine.</translation>
     </message>
     <message>
         <source>&amp;E-mail</source>
@@ -6413,7 +7601,7 @@ din listă apăsând butonul &lt;b&gt;Existent&lt;/b&gt; (pentru a invoca dialog
     </message>
     <message>
         <source>Enter your e-mail address. Please use a valid address here.</source>
-        <translation>Introduceți adresa dvs de e-mail validă.</translation>
+        <translation type="obsolete">Introduceți adresa dvs de e-mail validă.</translation>
     </message>
     <message>
         <source>&amp;Please do not use this information to contact me</source>
@@ -6425,7 +7613,7 @@ din listă apăsând butonul &lt;b&gt;Existent&lt;/b&gt; (pentru a invoca dialog
     </message>
     <message>
         <source>Welcome to the VirtualBox Registration Form!</source>
-        <translation>Bine ați venit la Formularul de înregistrare al VirtualBox!</translation>
+        <translation type="obsolete">Bine ați venit la Formularul de înregistrare al VirtualBox!</translation>
     </message>
     <message>
         <source>&amp;Confirm</source>
@@ -6441,7 +7629,7 @@ din listă apăsând butonul &lt;b&gt;Existent&lt;/b&gt; (pentru a invoca dialog
     </message>
     <message>
         <source>Could not perform connection handshake.</source>
-        <translation>Nu am putut efectua strângerea de mâini necesară conexiunii.</translation>
+        <translation type="obsolete">Nu am putut efectua strângerea de mâini necesară conexiunii.</translation>
     </message>
     <message>
         <source>&lt;p&gt;Please fill out this registration form to let us know that you use VirtualBox and, optionally, to keep you informed about VirtualBox news and updates.&lt;/p&gt;&lt;p&gt;Enter your full name using Latin characters and your e-mail address to the fields below. Sun Microsystems will use this information only to gather product usage statistics and to send you VirtualBox newsletters. In particular, Sun Microsystems will never pass your data to third parties. Detailed information about how we use your personal data can be found in the &lt;b&gt;Privacy Policy&lt;/b&gt; section of the VirtualBox Manual or on the &lt;a href=http://www.virtualbox.org/wiki/PrivacyPolicy&gt;Privacy Policy&lt;/a&gt; page of the VirtualBox web-site.&lt;/p&gt;</source>
@@ -6461,63 +7649,51 @@ din listă apăsând butonul &lt;b&gt;Existent&lt;/b&gt; (pentru a invoca dialog
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Renunță</translation>
+        <translation type="obsolete">Renunță</translation>
     </message>
     <message>
         <source>Select Country/Territory</source>
-        <translation>Alegeți Țara/Zona</translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;Please fill out this registration form to let us know that you use VirtualBox and, optionally, to keep you informed about VirtualBox news and updates.&lt;/p&gt;&lt;p&gt;Please use Latin characters only to fill in  the fields below. Sun Microsystems will use this information only to gather product usage statistics and to send you VirtualBox newsletters. In particular, Sun Microsystems will never pass your data to third parties. Detailed information about how we use your personal data can be found in the &lt;b&gt;Privacy Policy&lt;/b&gt; section of the VirtualBox Manual or on the &lt;a href=http://www.virtualbox.org/wiki/PrivacyPolicy&gt;Privacy Policy&lt;/a&gt; page of the VirtualBox web-site.&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>I &amp;already have a Sun Online account:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">Alegeți Țara/Zona</translation>
     </message>
     <message>
         <source>&amp;E-mail:</source>
-        <translation>&amp;E-mail:</translation>
+        <translation type="obsolete">&amp;E-mail:</translation>
     </message>
     <message>
         <source>&amp;Password:</source>
-        <translation>&amp;Parolă:</translation>
-    </message>
-    <message>
-        <source>I &amp;would like to create a new Sun Online account:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">&amp;Parolă:</translation>
     </message>
     <message>
         <source>&amp;First Name:</source>
-        <translation>&amp;Prenume:</translation>
+        <translation type="obsolete">&amp;Prenume:</translation>
     </message>
     <message>
         <source>&amp;Last Name:</source>
-        <translation>&amp;Nume:</translation>
+        <translation type="obsolete">&amp;Nume:</translation>
     </message>
     <message>
         <source>&amp;Company:</source>
-        <translation>&amp;Companie:</translation>
+        <translation type="obsolete">&amp;Companie:</translation>
     </message>
     <message>
         <source>Co&amp;untry:</source>
-        <translation>Ț&amp;ara:</translation>
+        <translation type="obsolete">Ț&amp;ara:</translation>
     </message>
     <message>
         <source>E-&amp;mail:</source>
-        <translation>E-&amp;mail:</translation>
+        <translation type="obsolete">E-&amp;mail:</translation>
     </message>
     <message>
         <source>P&amp;assword:</source>
-        <translation>Pa&amp;rolă:</translation>
+        <translation type="obsolete">Pa&amp;rolă:</translation>
     </message>
     <message>
         <source>Co&amp;nfirm Password:</source>
-        <translation>&amp;Confirmare parolă:</translation>
+        <translation type="obsolete">&amp;Confirmare parolă:</translation>
     </message>
     <message>
         <source>&amp;Register</source>
-        <translation>&amp;Înregistrare</translation>
+        <translation type="obsolete">&amp;Înregistrare</translation>
     </message>
 </context>
 <context>
@@ -6547,15 +7723,15 @@ din listă apăsând butonul &lt;b&gt;Existent&lt;/b&gt; (pentru a invoca dialog
     <name>VBoxScreenshotViewer</name>
     <message>
         <source>Screenshot of %1 (%2)</source>
-        <translation type="unfinished"></translation>
+        <translation>Captură de ecran a %1 (%2)</translation>
     </message>
     <message>
         <source>Click to view non-scaled screenshot.</source>
-        <translation type="unfinished"></translation>
+        <translation>Faceți clic pentru a vedea captura de ecran la dimensiunea reală</translation>
     </message>
     <message>
         <source>Click to view scaled screenshot.</source>
-        <translation type="unfinished"></translation>
+        <translation>Faceți clic pentru a vedea captura de ecran scalată</translation>
     </message>
 </context>
 <context>
@@ -6655,7 +7831,7 @@ din listă apăsând butonul &lt;b&gt;Existent&lt;/b&gt; (pentru a invoca dialog
     </message>
     <message>
         <source>D&amp;iscard</source>
-        <translation>Renun&amp;ță</translation>
+        <translation>Anu&amp;lează starea salvată</translation>
     </message>
     <message>
         <source>Discard</source>
@@ -6719,7 +7895,7 @@ din listă apăsând butonul &lt;b&gt;Existent&lt;/b&gt; (pentru a invoca dialog
     </message>
     <message>
         <source>&amp;File</source>
-        <translation>&amp;Fișier</translation>
+        <translation type="obsolete">&amp;Fișier</translation>
     </message>
     <message>
         <source>&amp;VM</source>
@@ -6755,7 +7931,7 @@ din listă apăsând butonul &lt;b&gt;Existent&lt;/b&gt; (pentru a invoca dialog
     </message>
     <message>
         <source>S&amp;tart</source>
-        <translation>S&amp;tart</translation>
+        <translation>Porneș&amp;te</translation>
     </message>
     <message>
         <source>Start</source>
@@ -6852,7 +8028,7 @@ din listă apăsând butonul &lt;b&gt;Existent&lt;/b&gt; (pentru a invoca dialog
     </message>
     <message>
         <source>Sun VirtualBox</source>
-        <translation>Sun VirtualBox</translation>
+        <translation type="obsolete">Sun VirtualBox</translation>
     </message>
     <message>
         <source>&amp;Import Appliance...</source>
@@ -6873,6 +8049,16 @@ din listă apăsând butonul &lt;b&gt;Existent&lt;/b&gt; (pentru a invoca dialog
     <message>
         <source>Re&amp;fresh</source>
         <translation>Reî&amp;mprospătează</translation>
+    </message>
+    <message>
+        <source>&amp;File</source>
+        <comment>Mac OS X version</comment>
+        <translation type="unfinished">&amp;Fișier</translation>
+    </message>
+    <message>
+        <source>&amp;File</source>
+        <comment>Non Mac OS X version</comment>
+        <translation type="unfinished">&amp;Fișier</translation>
     </message>
 </context>
 <context>
@@ -7085,23 +8271,23 @@ pentru a-l accesa dintr-un SO Linux. Această funcție necesită Guest Additions
     </message>
     <message>
         <source>Click to enlarge the screenshot.</source>
-        <translation type="unfinished"></translation>
+        <translation>Faceți clic pentru a mări captura de ecran.</translation>
     </message>
     <message>
         <source>&amp;Name:</source>
-        <translation type="unfinished">&amp;Nume:</translation>
+        <translation>&amp;Nume:</translation>
     </message>
     <message>
         <source>Taken:</source>
-        <translation type="unfinished"></translation>
+        <translation>Luat:</translation>
     </message>
     <message>
         <source>&amp;Description:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Descriere:</translation>
     </message>
     <message>
         <source>D&amp;etails:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Detalii:</translation>
     </message>
 </context>
 <context>
@@ -7280,27 +8466,27 @@ pentru a-l accesa dintr-un SO Linux. Această funcție necesită Guest Additions
     </message>
     <message>
         <source> (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation> (%1)</translation>
     </message>
     <message>
         <source>&amp;Restore Snapshot</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Restabilește instantaneu</translation>
     </message>
     <message>
         <source>&amp;Delete Snapshot</source>
-        <translation type="unfinished"></translation>
+        <translation>Ș&amp;terge instantaneu</translation>
     </message>
     <message>
         <source>Restore the selected snapshot of the virtual machine</source>
-        <translation type="unfinished"></translation>
+        <translation>Restabilește instantaneul selectat al mașinii virtuale</translation>
     </message>
     <message>
         <source>Delete the selected snapshot of the virtual machine</source>
-        <translation type="unfinished"></translation>
+        <translation>Șterge instantaneul selectat al mașinii virtuale</translation>
     </message>
     <message>
         <source> (%1 ago)</source>
-        <translation type="unfinished"></translation>
+        <translation> (acum %1)</translation>
     </message>
 </context>
 <context>
@@ -7377,7 +8563,7 @@ pentru a-l accesa dintr-un SO Linux. Această funcție necesită Guest Additions
     </message>
     <message>
         <source>Text (*.txt);;All (*.*)</source>
-        <translation type="unfinished"></translation>
+        <translation>Text (*.txt);;Toate fișierele (*.*)</translation>
     </message>
     <message>
         <source>Select a file to open...</source>
@@ -7796,159 +8982,6 @@ value.&lt;/qt&gt;</source>
     </message>
 </context>
 <context>
-    <name>VBoxVMFirstRunWzd</name>
-    <message>
-        <source>First Run Wizard</source>
-        <translation>Asistent prima rulare</translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;You have started a newly created virtual machine for the first time. This wizard will help you to perform the steps necessary for installing an operating system of your choice onto this virtual machine.&lt;/p&gt;&lt;p&gt;Use the &lt;b&gt;Next&lt;/b&gt; button to go to the next page of the wizard and the &lt;b&gt;Back&lt;/b&gt; button to return to the previous page. You can also press &lt;b&gt;Cancel&lt;/b&gt; if you want to cancel the execution of this wizard.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Ați pornit pentru prima dată o mașină virtuală proaspăt creată. Acest asistent vă va ajuta să treceți prin pașii necesari instalării unui sistem de operare dorit în această mașină virtuală.&lt;/p&gt;&lt;p&gt;Folosiți butoanele &lt;b&gt;Înainte&lt;/b&gt; și &lt;b&gt;Înapoi&lt;/b&gt; pentru a parcurge paginile acestui asistent. Puteți de asemenea apăsa butonul &lt;b&gt;Renunță&lt;/b&gt; dacă doriți întreruperea execuției acestui asistent.&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>Welcome to the First Run Wizard!</source>
-        <translation>Bine ați venit la asistentul Prima rulare!</translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;Select the type of media you would like to use for installation.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Selectați tipul de media pe care doriți să îl folosiți pentru instalare.&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>Media Type</source>
-        <translation>Tip media</translation>
-    </message>
-    <message>
-        <source>&amp;CD/DVD-ROM Device</source>
-        <translation>Dispozitiv &amp;CD/DVD-ROM </translation>
-    </message>
-    <message>
-        <source>Alt+C</source>
-        <translation type="obsolete">Alt+C</translation>
-    </message>
-    <message>
-        <source>&amp;Floppy Device</source>
-        <translation>Unitate de &amp;dischetă</translation>
-    </message>
-    <message>
-        <source>Alt+F</source>
-        <translation type="obsolete">Alt+F</translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;Select the media which contains the setup program of the operating system you want to install. This media must be bootable, otherwise the setup program will not be able to start.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Selectați mediul care conține programul de instalare al sistemului de operare pe care doriți să îl instalați. Acest mediu trebuie să fie bootabil, altfel programul de instalare nu va putea porni.&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>Media Source</source>
-        <translation>Sursă media</translation>
-    </message>
-    <message>
-        <source>&amp;Host Drive</source>
-        <translation type="obsolete">Unitate &amp;gazdă </translation>
-    </message>
-    <message>
-        <source>Alt+H</source>
-        <translation type="obsolete">Alt+H</translation>
-    </message>
-    <message>
-        <source>&amp;Image File</source>
-        <translation type="obsolete">Fișier &amp;imagine</translation>
-    </message>
-    <message>
-        <source>Alt+I</source>
-        <translation type="obsolete">Alt+I</translation>
-    </message>
-    <message>
-        <source>VDM</source>
-        <translation type="obsolete">VDM</translation>
-    </message>
-    <message>
-        <source>Select Installation Media</source>
-        <translation>Selectați mediul de instalare</translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;You have selected the following media to boot from:&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Ați ales să bootați de pe următorul mediu:&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;If the above is correct, press the &lt;b&gt;Finish&lt;/b&gt; button. Once you press it, the selected media will be temporarily mounted on the virtual machine and the machine will start execution.&lt;/p&gt;&lt;p&gt;Please note that when you close the virtual machine, the specified media will be automatically unmounted and the boot device will be set back to the first hard disk.&lt;/p&gt;&lt;p&gt;Depending on the type of the setup program, you may need to manually unmount (eject) the media after the setup program reboots the virtual machine, to prevent the installation process from starting again. You can do this by selecting the corresponding &lt;b&gt;Unmount...&lt;/b&gt; action in the &lt;b&gt;Devices&lt;/b&gt; menu.&lt;/p&gt;</source>
-        <translation type="unfinished">&lt;p&gt;Dacă datele de mai jos sunt corecte, apăsați butonul &lt;b&gt;Terminare&lt;/b&gt;. O dată apăsat, mediul selectat va fi montat temporar la mașina virtuală, iar mașina își va începe execuția.&lt;/p&gt;&lt;p&gt;Notați faptul că atunci când închideți mașina virtuală, mediul specificat va fi demontat automat, iar dispozitivul de boot va fi setat înapoi la primul disc hard.&lt;/p&gt;&lt;p&gt;În funcție de tipul programului de instalare, s-ar putea să fie nevoie să demontați manual (eject) mediul după ce programul repornește mașina virtuală, pentru a preveni pornirea din nou a procesului de instalare. Puteți face acest lucru selectând acțiunea &lt;b&gt;Demontare...&lt;/b&gt; corespunzătoare din meniul &lt;b&gt;Dispozitive&lt;/b&gt;.&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>Summary</source>
-        <translation>Rezumat</translation>
-    </message>
-    <message>
-        <source>CD/DVD-ROM Device</source>
-        <translation>Dispozitiv CD/DVD-ROM </translation>
-    </message>
-    <message>
-        <source>Floppy Device</source>
-        <translation>Unitate de dischetă</translation>
-    </message>
-    <message>
-        <source>Host Drive %1</source>
-        <translation type="obsolete">Unitate gazdă %1</translation>
-    </message>
-    <message>
-        <source>&lt;table&gt;&lt;tr&gt;&lt;td&gt;Type:&lt;/td&gt;&lt;td&gt;%1&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Source:&lt;/td&gt;&lt;td&gt;%2&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</source>
-        <translation type="obsolete">&lt;table&gt;&lt;tr&gt;&lt;td&gt;Tip:&lt;/td&gt;&lt;td&gt;%1&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Sursă:&lt;/td&gt;&lt;td&gt;%2&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;You have started a newly created virtual machine for the first time. This wizard will help you to perform the steps necessary for booting an operating system of your choice on the virtual machine.&lt;/p&gt;&lt;p&gt;Note that you will not be able to install an operating system into this virtual machine right now because you did not attach any hard disk to it. If this is not what you want, you can cancel the execution of this wizard, select &lt;b&gt;Settings&lt;/b&gt; from the &lt;b&gt;Machine&lt;/b&gt; menu of the main VirtualBox window to access the settings dialog of this machine and change the hard disk configuration.&lt;/p&gt;&lt;p&gt;Use the &lt;b&gt;Next&lt;/b&gt; button to go to the next page of the wizard and the &lt;b&gt;Back&lt;/b&gt; button to return to the previous page. You can also press &lt;b&gt;Cancel&lt;/b&gt; if you want to cancel the execution of this wizard.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Ați pornit o mașină virtuală nouă pentru prima oară. Acest asistent vă va ajuta să efectuați pașii necesari bootării unui sistem de operare ales de dvs pe mașina virtuală.&lt;/p&gt;&lt;p&gt;Notați faptul că nu veți putea instala acum un sistem de operare musafir chiar acum, pentru că nu ați conectat nici un disc dur la ea. Dacă nu asta doriți, puteți revoca execuția acestui asistent, apoi selectați &lt;b&gt;Setări&lt;/b&gt; din meniul &lt;b&gt;Mașină&lt;/b&gt; al ferestrei principale VirtualBox pentru a accesa dialogul de setări al acestei mașini și schimba configurația discului dur.&lt;/p&gt;&lt;p&gt;Folosiți butonul &lt;b&gt;Înainte&lt;/b&gt; pentru a merge la pagina următoare și butonul &lt;b&gt;Înapoi&lt;/b&gt; pentru a reveni la pagina anterioară. Puteți apăsa oricând butonul &lt;b&gt;Renunță&lt;/b&gt; pentru a opri execuția acestui asistent.&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;Select the type of media you would like to use for booting an operating system.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Selectați tipul mediului pe care doriți să-l folosiți pentru a boota un sistem de operare.&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;Select the media that contains the operating system you want to work with. This media must be bootable, otherwise the operating system will not be able to start.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Selectați mediul care conține sistemul de operare cu care doriți să lucrați. Acest mediu trebuie să fie bootabil, altfel sistemul de operare nu va putea porni. &lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;You have selected the following media to boot an operating system from:&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Ați selectat următorul mediu pentru a boota un sistem de operare de pe el.&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;If the above is correct, press the &lt;b&gt;Finish&lt;/b&gt; button. Once you press it, the selected media will be mounted on the virtual machine and the machine will start execution.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Dacă informația de mai jos este corectă, apăsați butonul &lt;b&gt;Terminare&lt;/b&gt;. O dată apăsat, mediul selectat va fi montat la mașina virtuală și mașina va porni execuția.&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;table&gt; cellspacing=0 cellpadding=2&lt;tr&gt;&lt;td&gt;Type:&lt;/td&gt;&lt;td&gt;%1&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Source:&lt;/td&gt;&lt;td&gt;%2&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</source>
-        <translation type="obsolete">&lt;table&gt; cellspacing=0 cellpadding=2&lt;tr&gt;&lt;td&gt;Type:&lt;/td&gt;&lt;td&gt;%1&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Sursă:&lt;/td&gt;&lt;td&gt;%2&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</translation>
-    </message>
-    <message>
-        <source>&lt; &amp;Back</source>
-        <translation>&lt; Îna&amp;poi</translation>
-    </message>
-    <message>
-        <source>&amp;Next &gt;</source>
-        <translation>Î&amp;nainte&gt;</translation>
-    </message>
-    <message>
-        <source>&amp;Cancel</source>
-        <translation type="obsolete">&amp;Revocare</translation>
-    </message>
-    <message>
-        <source>&amp;Finish</source>
-        <translation>&amp;Finalizare</translation>
-    </message>
-    <message>
-        <source>Type</source>
-        <comment>summary</comment>
-        <translation>Tip</translation>
-    </message>
-    <message>
-        <source>Source</source>
-        <comment>summary</comment>
-        <translation>Sursă</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation>Renunță</translation>
-    </message>
-</context>
-<context>
     <name>VBoxVMInformationDlg</name>
     <message>
         <source>Session Information Dialog</source>
@@ -8069,7 +9102,7 @@ value.&lt;/qt&gt;</source>
     <message>
         <source>Version %1.%2</source>
         <comment>guest additions</comment>
-        <translation>Versiunea %1.%2</translation>
+        <translation type="obsolete">Versiunea %1.%2</translation>
     </message>
     <message>
         <source>Not Detected</source>
@@ -8104,16 +9137,12 @@ value.&lt;/qt&gt;</source>
     <message>
         <source>Enabled</source>
         <comment>nested paging</comment>
-        <translation>Activat</translation>
+        <translation type="obsolete">Activat</translation>
     </message>
     <message>
         <source>Disabled</source>
         <comment>nested paging</comment>
-        <translation>Dezactivat</translation>
-    </message>
-    <message>
-        <source>Nested Paging</source>
-        <translation></translation>
+        <translation type="obsolete">Dezactivat</translation>
     </message>
     <message>
         <source>VBoxVMInformationDlg</source>
@@ -8122,19 +9151,19 @@ value.&lt;/qt&gt;</source>
     <message>
         <source>Not Available</source>
         <comment>details report (VRDP server port)</comment>
-        <translation type="unfinished"></translation>
+        <translation>Indisponibil</translation>
     </message>
     <message>
         <source>Storage Statistics</source>
-        <translation type="unfinished"></translation>
+        <translation>Statistici stocare</translation>
     </message>
     <message>
         <source>No Storage Devices</source>
-        <translation type="unfinished"></translation>
+        <translation>Lipsă dispozitive de stocare</translation>
     </message>
     <message>
         <source>Network Statistics</source>
-        <translation type="unfinished"></translation>
+        <translation>Statistici rețea</translation>
     </message>
 </context>
 <context>
@@ -8746,7 +9775,7 @@ value.&lt;/qt&gt;</source>
     </message>
     <message>
         <source>&amp;Remote Display</source>
-        <translation type="unfinished"></translation>
+        <translation>Ecran la &amp;distanță</translation>
     </message>
     <message>
         <source>When checked, the VM will act as a Remote Desktop Protocol (RDP) server, allowing remote clients to connect and operate the VM (when it is running) using a standard RDP client.</source>
@@ -8790,11 +9819,23 @@ value.&lt;/qt&gt;</source>
     </message>
     <message>
         <source>Enable &amp;2D Video Acceleration</source>
-        <translation type="unfinished"></translation>
+        <translation>Activează accelerarea video &amp;2D</translation>
     </message>
     <message>
         <source>The VRDP Server port number. You may specify &lt;tt&gt;0&lt;/tt&gt; (zero), to select port 3389, the standard port for RDP.</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Mo&amp;nitor Count:</source>
+        <translation>&amp;Număr monitoare:</translation>
+    </message>
+    <message>
+        <source>Controls the amount of virtual monitors provided to the virtual machine.</source>
+        <translation>Controlează numărul de monitoare virtuale oferite mașinii virtuale.</translation>
+    </message>
+    <message>
+        <source>&lt;qt&gt;%1&lt;/qt&gt;</source>
+        <translation>&lt;qt&gt;%1&lt;/qt&gt;</translation>
     </message>
 </context>
 <context>
@@ -9920,6 +10961,10 @@ makes the guest see an audio card, however every access to it will be ignored.&l
         <source>you have 2D Video Acceleration enabled. As 2D Video Acceleration is supported for Windows guests only, this feature will be disabled.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>you have enabled a USB HID (Human Interface Device). This will not work unless USB emulation is also enabled. This will be done automatically when you accept the VM Settings by pressing the OK button.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>VBoxVMSettingsFD</name>
@@ -10188,11 +11233,11 @@ makes the guest see an audio card, however every access to it will be ignored.&l
     </message>
     <message>
         <source>If checked, show the Mini ToolBar at the top of the screen, rather than in its default position at the bottom of the screen.</source>
-        <translation type="unfinished"></translation>
+        <translation>Dacă este bifată, poziționează minibara în partea de sus a ecranului, deși poziția implicită este la baza ecranului.</translation>
     </message>
     <message>
         <source>Show At &amp;Top Of Screen</source>
-        <translation type="unfinished"></translation>
+        <translation>Poziționează &amp;sus</translation>
     </message>
 </context>
 <context>
@@ -10263,7 +11308,7 @@ makes the guest see an audio card, however every access to it will be ignored.&l
     </message>
     <message>
         <source>&lt;nobr&gt;&lt;b&gt;%1&lt;/b&gt;&lt;/nobr&gt;&lt;br&gt;&lt;nobr&gt;Bus:&amp;nbsp;&amp;nbsp;%2&lt;/nobr&gt;&lt;br&gt;&lt;nobr&gt;Type:&amp;nbsp;&amp;nbsp;%3&lt;/nobr&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;nobr&gt;&lt;b&gt;%1&lt;/b&gt;&lt;/nobr&gt;&lt;br&gt;&lt;nobr&gt;Magistrală:&amp;nbsp;&amp;nbsp;%2&lt;/nobr&gt;&lt;br&gt;&lt;nobr&gt;Tip:&amp;nbsp;&amp;nbsp;%3&lt;/nobr&gt;</translation>
     </message>
     <message>
         <source>&lt;nobr&gt;Expand/Collapse&amp;nbsp;Item&lt;/nobr&gt;</source>
@@ -10291,47 +11336,47 @@ makes the guest see an audio card, however every access to it will be ignored.&l
     </message>
     <message>
         <source>Add Controller</source>
-        <translation type="unfinished"></translation>
+        <translation>Adaugă controlor</translation>
     </message>
     <message>
         <source>Add IDE Controller</source>
-        <translation type="unfinished"></translation>
+        <translation>Adaugă controlor IDE</translation>
     </message>
     <message>
         <source>Add SATA Controller</source>
-        <translation type="unfinished"></translation>
+        <translation>Adaugă controlor SATA</translation>
     </message>
     <message>
         <source>Add SCSI Controller</source>
-        <translation type="unfinished"></translation>
+        <translation>Adaugă controlor SCSI</translation>
     </message>
     <message>
         <source>Add Floppy Controller</source>
-        <translation type="unfinished"></translation>
+        <translation>Adaugă controlor dischetă</translation>
     </message>
     <message>
         <source>Remove Controller</source>
-        <translation type="unfinished"></translation>
+        <translation>Șterge controlor</translation>
     </message>
     <message>
         <source>Add Attachment</source>
-        <translation type="unfinished">Adaugă atașament</translation>
+        <translation>Adaugă atașament</translation>
     </message>
     <message>
         <source>Add Hard Disk</source>
-        <translation type="unfinished"></translation>
+        <translation>Adaugă disc dur</translation>
     </message>
     <message>
         <source>Add CD/DVD Device</source>
-        <translation type="unfinished"></translation>
+        <translation>Adaugă dispozitiv CD/DVD</translation>
     </message>
     <message>
         <source>Add Floppy Device</source>
-        <translation type="unfinished"></translation>
+        <translation>Adaugă unitate de dischetă</translation>
     </message>
     <message>
         <source>Remove Attachment</source>
-        <translation type="unfinished">Șterge atașament</translation>
+        <translation>Șterge atașament</translation>
     </message>
     <message>
         <source>Adds a new controller to the end of the Storage Tree.</source>
@@ -10355,39 +11400,39 @@ makes the guest see an audio card, however every access to it will be ignored.&l
     </message>
     <message>
         <source>SATA Controller</source>
-        <translation type="unfinished"></translation>
+        <translation>Controlor SATA</translation>
     </message>
     <message>
         <source>SCSI Controller</source>
-        <translation type="unfinished"></translation>
+        <translation>Controlor SCSI</translation>
     </message>
     <message>
         <source>Floppy Controller</source>
-        <translation type="unfinished"></translation>
+        <translation>Controlor unitate de dischetă</translation>
     </message>
     <message>
         <source>Hard &amp;Disk:</source>
-        <translation type="unfinished"></translation>
+        <translation>Disc &amp;dur:</translation>
     </message>
     <message>
         <source>&amp;CD/DVD Device:</source>
-        <translation type="unfinished"></translation>
+        <translation>Dispozitiv &amp;CD/DVD:</translation>
     </message>
     <message>
         <source>&amp;Floppy Device:</source>
-        <translation type="unfinished"></translation>
+        <translation>Unitate de &amp;dischetă:</translation>
     </message>
     <message>
         <source>&amp;Storage Tree</source>
-        <translation type="unfinished"></translation>
+        <translation>Arbore de &amp;stocare:</translation>
     </message>
     <message>
         <source>Contains all storage controllers for this machine and the virtual images and host drives attached to them.</source>
-        <translation type="unfinished"></translation>
+        <translation>Conține toate controlerele de stocare ale acestei mașini și imaginile virtuale și unitățile gazdă atașate la ele.</translation>
     </message>
     <message>
         <source>Information</source>
-        <translation type="unfinished"></translation>
+        <translation>Informație</translation>
     </message>
     <message>
         <source>The Storage Tree can contain several controllers of different types. This machine currently has no controllers.</source>
@@ -10395,27 +11440,27 @@ makes the guest see an audio card, however every access to it will be ignored.&l
     </message>
     <message>
         <source>Attributes</source>
-        <translation type="unfinished"></translation>
+        <translation>Proprietăți</translation>
     </message>
     <message>
         <source>&amp;Name:</source>
-        <translation type="unfinished">&amp;Nume:</translation>
+        <translation>&amp;Nume:</translation>
     </message>
     <message>
         <source>Changes the name of the storage controller currently selected in the Storage Tree.</source>
-        <translation type="unfinished"></translation>
+        <translation>Schimba numele controlorului de stocare selectat în Arborele de stocare.</translation>
     </message>
     <message>
         <source>&amp;Type:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Tip:</translation>
     </message>
     <message>
         <source>Selects the sub-type of the storage controller currently selected in the Storage Tree.</source>
-        <translation type="unfinished"></translation>
+        <translation>Alege subtipul controlorului de stocare selectat în Arborele de stocare</translation>
     </message>
     <message>
         <source>S&amp;lot:</source>
-        <translation type="unfinished"></translation>
+        <translation>S&amp;lot:</translation>
     </message>
     <message>
         <source>Selects the slot on the storage controller used by this attachment. The available slots depend on the type of the controller and other attachments on it.</source>
@@ -10431,7 +11476,7 @@ makes the guest see an audio card, however every access to it will be ignored.&l
     </message>
     <message>
         <source>Open Virtual Media Manager</source>
-        <translation type="unfinished"></translation>
+        <translation>Deschide Administratorul medii virtuale</translation>
     </message>
     <message>
         <source>D&amp;ifferencing Disks</source>
@@ -10447,27 +11492,51 @@ makes the guest see an audio card, however every access to it will be ignored.&l
     </message>
     <message>
         <source>Virtual Size:</source>
-        <translation type="unfinished"></translation>
+        <translation>Dimensiune virtuală:</translation>
     </message>
     <message>
         <source>Actual Size:</source>
-        <translation type="unfinished"></translation>
+        <translation>Dimensiune reală:</translation>
     </message>
     <message>
         <source>Size:</source>
-        <translation type="unfinished"></translation>
+        <translation>Dimensiune:</translation>
     </message>
     <message>
         <source>Location:</source>
-        <translation type="unfinished"></translation>
+        <translation>Amplasare:</translation>
     </message>
     <message>
         <source>Type (Format):</source>
-        <translation type="unfinished"></translation>
+        <translation>Tip (Format):</translation>
     </message>
     <message>
         <source>Attached To:</source>
-        <translation type="unfinished"></translation>
+        <translation>Conectat la:</translation>
+    </message>
+    <message>
+        <source>Allows to use host I/O caching capabilities.</source>
+        <translation>Permite folosirea capabilităților de caching I/O ale gazdei.</translation>
+    </message>
+    <message>
+        <source>Use host I/O cache</source>
+        <translation>Folosește I/O cache gazdă</translation>
+    </message>
+    <message>
+        <source>Add SAS Controller</source>
+        <translation>Adaugă controlor SAS</translation>
+    </message>
+    <message>
+        <source>SAS Controller</source>
+        <translation>Controlor SAS</translation>
+    </message>
+    <message>
+        <source>Storage Controller</source>
+        <translation>Controlor stocare</translation>
+    </message>
+    <message>
+        <source>Storage Controller 1</source>
+        <translation>Controlor stocare 1</translation>
     </message>
 </context>
 <context>
@@ -10518,11 +11587,11 @@ makes the guest see an audio card, however every access to it will be ignored.&l
     </message>
     <message>
         <source>Displays the MAC address of this adapter. It contains exactly 12 characters chosen from {0-9,A-F}. Note that the second character must be an even digit.</source>
-        <translation type="unfinished">Afișează adresa MAC a acestei plăci de rețea. Conține exact 12 caractere alese din {0-9,A-F}. Notați faptul că al doile caracter trebuie să fie un număr par.</translation>
+        <translation>Afișează adresa MAC a acestei plăci de rețea. Conține exact 12 caractere alese din {0-9,A-F}. Notați faptul că al doilea caracter trebuie să fie un număr par.</translation>
     </message>
     <message>
         <source>Generates a new random MAC address.</source>
-        <translation type="unfinished">Generează o nouă adresă MAC aleatoare.</translation>
+        <translation>Generează o nouă adresă MAC aleatoare.</translation>
     </message>
     <message>
         <source>&amp;Generate</source>
@@ -10530,7 +11599,7 @@ makes the guest see an audio card, however every access to it will be ignored.&l
     </message>
     <message>
         <source>Indicates whether the virtual network cable is plugged in on machine startup or not.</source>
-        <translation type="unfinished">Indică dacă rețeaua virtuală este conectată la mașină la pornire sau nu.</translation>
+        <translation>Indică dacă rețeaua virtuală este conectată sau nu la pornirea mașinii virtuale.</translation>
     </message>
     <message>
         <source>Ca&amp;ble Connected</source>
@@ -10588,7 +11657,7 @@ makes the guest see an audio card, however every access to it will be ignored.&l
     </message>
     <message>
         <source>Adapter &amp;Type:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Tip placă:</translation>
     </message>
     <message>
         <source>no bridged network adapter is selected</source>
@@ -10605,11 +11674,11 @@ makes the guest see an audio card, however every access to it will be ignored.&l
     <message>
         <source>Not selected</source>
         <comment>network adapter name</comment>
-        <translation type="unfinished"></translation>
+        <translation>Neselectat</translation>
     </message>
     <message>
         <source>&amp;Name:</source>
-        <translation type="unfinished">&amp;Nume:</translation>
+        <translation>&amp;Nume:</translation>
     </message>
     <message>
         <source>Selects the name of the network adapter for &lt;b&gt;Bridged Adapter&lt;/b&gt; or &lt;b&gt;Host-only Adapter&lt;/b&gt; attachments and the name of the network &lt;b&gt;Internal Network&lt;/b&gt; attachments.</source>
@@ -10617,19 +11686,19 @@ makes the guest see an audio card, however every access to it will be ignored.&l
     </message>
     <message>
         <source>A&amp;dvanced</source>
-        <translation type="unfinished"></translation>
+        <translation>A&amp;vansat</translation>
     </message>
     <message>
         <source>Shows or hides additional network adapter options.</source>
-        <translation type="unfinished"></translation>
+        <translation>Arată sau ascunde opțiuni adiționale pentru placa de rețea.</translation>
     </message>
     <message>
         <source>&amp;Mac Address:</source>
-        <translation type="unfinished"></translation>
+        <translation>Adresă &amp;MAC:</translation>
     </message>
     <message>
         <source>&amp;Cable connected</source>
-        <translation type="unfinished">Ca&amp;blu de rețea conectat</translation>
+        <translation>Ca&amp;blu de rețea conectat</translation>
     </message>
 </context>
 <context>
@@ -10723,11 +11792,11 @@ makes the guest see an audio card, however every access to it will be ignored.&l
     </message>
     <message>
         <source>Displays the IRQ number of this parallel port. This should be a whole number between &lt;tt&gt;0&lt;/tt&gt; and &lt;tt&gt;255&lt;/tt&gt;. Values greater than &lt;tt&gt;15&lt;/tt&gt; may only be used if the &lt;b&gt;IO APIC&lt;/b&gt; setting is enabled for this virtual machine.</source>
-        <translation type="unfinished"></translation>
+        <translation>Afișează numărul IRQ al acestui port paralel. Valori valide sunt întregi între &lt;tt&gt;0&lt;/tt&gt; și &lt;tt&gt;255&lt;/tt&gt;. Valorile mai mari decât &lt;tt&gt;15&lt;/tt&gt; pot fi folosite numai dacă &lt;b&gt;IO ACPI&lt;/b&gt; este activ pentru această mașină virtuală.</translation>
     </message>
     <message>
         <source>Displays the base I/O port address of this parallel port. Valid values are integer numbers in range from &lt;tt&gt;0&lt;/tt&gt; to &lt;tt&gt;0xFFFF&lt;/tt&gt;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Afișează adresa portului I/O de bază pentru acest port paralel. Valori valide sunt întregi între &lt;tt&gt;0&lt;/tt&gt; și &lt;tt&gt;0xFFFF&lt;/tt&gt;.</translation>
     </message>
 </context>
 <context>
@@ -10805,23 +11874,23 @@ makes the guest see an audio card, however every access to it will be ignored.&l
     </message>
     <message>
         <source> Global Folders</source>
-        <translation type="unfinished"></translation>
+        <translation>Dosare globale</translation>
     </message>
     <message>
         <source>&amp;Add Shared Folder</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Adaugă dosar partajat</translation>
     </message>
     <message>
         <source>&amp;Edit Shared Folder</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Modifică dosar partajat</translation>
     </message>
     <message>
         <source>&amp;Remove Shared Folder</source>
-        <translation type="unfinished"></translation>
+        <translation>Ște&amp;rge dosar partajat</translation>
     </message>
     <message>
         <source>&amp;Folders List</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Listă dosare</translation>
     </message>
 </context>
 <context>
@@ -10932,11 +12001,11 @@ makes the guest see an audio card, however every access to it will be ignored.&l
     </message>
     <message>
         <source>Displays the IRQ number of this serial port. This should be a whole number between &lt;tt&gt;0&lt;/tt&gt; and &lt;tt&gt;255&lt;/tt&gt;. Values greater than &lt;tt&gt;15&lt;/tt&gt; may only be used if the &lt;b&gt;IO APIC&lt;/b&gt; setting is enabled for this virtual machine.</source>
-        <translation type="unfinished"></translation>
+        <translation>Afișează numărul IRQ al acestui port paralel. Valori valide sunt întregi între &lt;tt&gt;0&lt;/tt&gt; și &lt;tt&gt;255&lt;/tt&gt;. Valorile mai mari decât &lt;tt&gt;15&lt;/tt&gt; pot fi folosite numai dacă &lt;b&gt;IO ACPI&lt;/b&gt; este activ pentru această mașină virtuală.</translation>
     </message>
     <message>
         <source>Displays the base I/O port address of this serial port. Valid values are integer numbers in range from &lt;tt&gt;0&lt;/tt&gt; to &lt;tt&gt;0xFFFF&lt;/tt&gt;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Afișează adresa portului I/O de bază pentru acest port paralel. Valori valide sunt întregi între &lt;tt&gt;0&lt;/tt&gt; și &lt;tt&gt;0xFFFF&lt;/tt&gt;.</translation>
     </message>
 </context>
 <context>
@@ -10958,15 +12027,15 @@ makes the guest see an audio card, however every access to it will be ignored.&l
     <name>VBoxVMSettingsSystem</name>
     <message>
         <source>you have assigned more than &lt;b&gt;%1%&lt;/b&gt; of your computer&apos;s memory (&lt;b&gt;%2&lt;/b&gt;) to the virtual machine. Not enough memory is left for your host operating system. Please select a smaller amount.</source>
-        <translation type="unfinished"></translation>
+        <translation>ați asociat mașinii virtuale mai mult de &lt;b&gt;%1%&lt;/b&gt; din memoria computerului dvs (&lt;b&gt;%2&lt;/b&gt;). Memoria rămasă pentru sistemul de operare gazdă este insuficientă. Vă rugăm selectați o cantitate mai mică.</translation>
     </message>
     <message>
         <source>you have assigned more than &lt;b&gt;%1%&lt;/b&gt; of your computer&apos;s memory (&lt;b&gt;%2&lt;/b&gt;) to the virtual machine. There might not be enough memory left for your host operating system. Continue at your own risk.</source>
-        <translation type="unfinished"></translation>
+        <translation>ați asociat mașinii virtuale mai mult de &lt;b&gt;%1%&lt;/b&gt; din memoria computerului dvs (&lt;b&gt;%2&lt;/b&gt;). Memoria rămasă pentru sistemul de operare gazdă ar putea fi insuficientă. Continuați pe propriul dvs. risc.</translation>
     </message>
     <message>
         <source>for performance reasons, the number of virtual CPUs attached to the virtual machine may not be more than twice the number of physical CPUs on the host (&lt;b&gt;%1&lt;/b&gt;). Please reduce the number of virtual CPUs.</source>
-        <translation type="unfinished"></translation>
+        <translation>din motive de performanță, numărul de procesoare virtuale atașat la mașina virtuală nu poate fi mai mare decât de două ori numărulde procesoare fizice de pe gazdă (&lt;b&gt;%1&lt;/b&gt;). Vă rugăm micșorați numărul de procesoare virtuale.</translation>
     </message>
     <message>
         <source>you have assigned more virtual CPUs to the virtual machine than the number of physical CPUs on your host system (&lt;b&gt;%1&lt;/b&gt;). This is likely to degrade the performance of your virtual machine. Please consider reducing the number of virtual CPUs.</source>
@@ -11063,32 +12132,28 @@ makes the guest see an audio card, however every access to it will be ignored.&l
         <translation>&amp;Procesoare:</translation>
     </message>
     <message>
-        <source>Controls the number of virtual CPUs in the virtual machine.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>When checked, the Physical Address Extension (PAE) feature of the host CPU will be exposed to the virtual machine.</source>
-        <translation type="unfinished">Când este bifat, CPU gazdă va expune opțiunea PAE (Extensie de adresă fizică) către mașina virtuală.</translation>
+        <translation>Când este bifat, procesorul gazdă va expune opțiunea PAE (extensie de adresă fizică) către mașina virtuală.</translation>
     </message>
     <message>
         <source>Enable PA&amp;E/NX</source>
-        <translation type="unfinished">Activează PA&amp;E/NX</translation>
+        <translation>Activează PA&amp;E/NX</translation>
     </message>
     <message>
         <source>Acce&amp;leration</source>
-        <translation type="unfinished"></translation>
+        <translation>Acce&amp;lerare</translation>
     </message>
     <message>
         <source>Hardware Virtualization:</source>
-        <translation type="unfinished"></translation>
+        <translation>Virtualizare hardware:</translation>
     </message>
     <message>
         <source>When checked, the virtual machine will try to make use of the host CPU&apos;s hardware virtualization extensions such as Intel VT-x and AMD-V.</source>
-        <translation type="unfinished">Când este bifat, mașina virtuală va încerca să folosească extensiile de virtualizare hardware a CPU-ului, cum ar fi Intel VT-x sau AMD-V.</translation>
+        <translation>Când este bifat, mașina virtuală va încerca să folosească extensiile de virtualizare hardware a procesorului, cum ar fi Intel VT-x sau AMD-V.</translation>
     </message>
     <message>
         <source>Enable &amp;VT-x/AMD-V</source>
-        <translation type="unfinished">Activează &amp;VT-x/AMD-V</translation>
+        <translation>Activează &amp;VT-x/AMD-V</translation>
     </message>
     <message>
         <source>When checked, the virtual machine will try to make use of the nested paging extension of Intel VT-x and AMD-V.</source>
@@ -11101,7 +12166,7 @@ makes the guest see an audio card, however every access to it will be ignored.&l
     <message>
         <source>&lt;qt&gt;%1&amp;nbsp;CPUs&lt;/qt&gt;</source>
         <comment>%1 is host cpu count * 2 for now</comment>
-        <translation type="unfinished">&lt;qt&gt;%1&amp;nbsp;CPU-uri&lt;/qt&gt;</translation>
+        <translation>&lt;qt&gt;%1&amp;nbsp;procesoare&lt;/qt&gt;</translation>
     </message>
     <message>
         <source>When checked, the guest will support the Extended Firmware Interface (EFI), which is required to boot certain guest OSes. Non-EFI aware OSes will not be able to boot if this option is activated.</source>
@@ -11109,6 +12174,26 @@ makes the guest see an audio card, however every access to it will be ignored.&l
     </message>
     <message>
         <source>Enable &amp;EFI (special OSes only)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If checked, the RTC device will report the time in UTC, otherwise in local (host) time. Unix usually expects the hardware clock to be set to UTC.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hardware clock in &amp;UTC time</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Controls the number of virtual CPUs in the virtual machine. You need hardware virtualization support on your host system to use more than one virtual CPU.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If checked, an absolute pointing device (a USB tablet) will be supported. Otherwise, only a standard PS/2 mouse will be emulated.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enable &amp;absolute pointing device</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

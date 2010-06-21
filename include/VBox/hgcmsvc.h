@@ -3,7 +3,7 @@
  */
 
 /*
- * Copyright (C) 2006-2007 Sun Microsystems, Inc.
+ * Copyright (C) 2006-2007 Oracle Corporation
  *
  * This file is part of VirtualBox Open Source Edition (OSE), as
  * available from http://www.virtualbox.org. This file is free software;
@@ -21,10 +21,6 @@
  *
  * You may elect to license modified versions of this file under the
  * terms and conditions of either the GPL or the CDDL or both.
- *
- * Please contact Sun Microsystems, Inc., 4150 Network Circle, Santa
- * Clara, CA 95054 USA or visit http://www.sun.com if you need
- * additional information or have any questions.
  */
 
 #ifndef ___VBox_hgcm_h
@@ -242,6 +238,14 @@ typedef struct VBOXHGCMSVCPARM
         type = VBOX_HGCM_SVC_PARM_PTR;
         u.pointer.addr = pv;
         u.pointer.size = cb;
+    }
+
+    /** Set a const string value to an HGCM parameter structure */
+    void setString(const char *psz)
+    {
+        type = VBOX_HGCM_SVC_PARM_PTR;
+        u.pointer.addr = (void *)psz;
+        u.pointer.size = (uint32_t)strlen(psz) + 1;
     }
 
 #ifdef VBOX_TEST_HGCM_PARMS

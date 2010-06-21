@@ -4,7 +4,7 @@
  */
 
 /*
- * Copyright (C) 2007 Sun Microsystems, Inc.
+ * Copyright (C) 2007 Oracle Corporation
  *
  * This file is part of VirtualBox Open Source Edition (OSE), as
  * available from http://www.virtualbox.org. This file is free software;
@@ -13,10 +13,6 @@
  * Foundation, in version 2 as it comes in the "COPYING" file of the
  * VirtualBox OSE distribution. VirtualBox OSE is distributed in the
  * hope that it will be useful, but WITHOUT ANY WARRANTY of any kind.
- *
- * Please contact Sun Microsystems, Inc., 4150 Network Circle, Santa
- * Clara, CA 95054 USA or visit http://www.sun.com if you need
- * additional information or have any questions.
  */
 
 
@@ -191,7 +187,7 @@ static DECLCALLBACK(int) VBoxServiceTimeSyncPreInit(void)
             || rc == VERR_NOT_FOUND)
         {
             rc = VBoxServiceReadPropUInt32(uGuestPropSvcClientID, "/VirtualBox/GuestAdd/VBoxService/--timesync-set-threshold",
-                                           &g_TimeSyncSetThreshold, 0, 7*24*60*1000 /* a week */);
+                                           &g_TimeSyncSetThreshold, 0, 7*24*60*60*1000 /* a week */);
         }
         if (   RT_SUCCESS(rc)
             || rc == VERR_NOT_FOUND)
@@ -239,7 +235,7 @@ static DECLCALLBACK(int) VBoxServiceTimeSyncOption(const char **ppszShort, int a
                                   &g_TimeSyncMaxLatency, 1, 3600000);
     else if (!strcmp(argv[*pi], "--timesync-set-threshold"))
         rc = VBoxServiceArgUInt32(argc, argv, "", pi,
-                                  &g_TimeSyncSetThreshold, 0, 7*24*60*1000); /* a week */
+                                  &g_TimeSyncSetThreshold, 0, 7*24*60*60*1000); /* a week */
     else if (!strcmp(argv[*pi], "--timesync-set-start"))
     {
         g_fTimeSyncSetNext = true;
@@ -334,7 +330,12 @@ static DECLCALLBACK(int) VBoxServiceTimeSyncInit(void)
 static bool VBoxServiceTimeSyncAdjust(PCRTTIMESPEC pDrift)
 {
 #ifdef RT_OS_WINDOWS
-/** @todo r=bird: NT4 doesn't have GetSystemTimeAdjustment. */
+/** @todo r=bird: NT4 doesn't have GetSystemTimeAdjustment according to MSDN. */
+/** @todo r=bird: g_hTokenProcess cannot be NULL here.
+ *        VBoxServiceTimeSyncInit will fail and the service will not be
+ *        started with it being NULL.  VBoxServiceTimeSyncInit OTOH will *NOT*
+ *        be called until the service thread has terminated.  If anything
+ *        else is the case, there is buggy code somewhere.*/
     if (g_hTokenProcess == NULL) /* Is the token already closed when shutting down? */
         return false;
 
@@ -410,6 +411,10 @@ static bool VBoxServiceTimeSyncAdjust(PCRTTIMESPEC pDrift)
 static void VBoxServiceTimeSyncCancelAdjust(void)
 {
 #ifdef RT_OS_WINDOWS
+/** @todo r=bird: g_hTokenProcess cannot be NULL here.  See argumentation in
+ *        VBoxServiceTimeSyncAdjust.  */
+    if (g_hTokenProcess == NULL) /* No process token (anymore)? */
+        return;
     if (SetSystemTimeAdjustment(0, TRUE /* Periodic adjustments disabled. */))
         VBoxServiceVerbose(3, "Windows Time Adjustment is now disabled.\n");
     else if (g_cTimeSyncErrors++ < 10)
@@ -424,55 +429,35 @@ static void VBoxServiceTimeSyncCancelAdjust(void)
  * @returns true on success, false on failure.
  *
  * @param   pDrift              The time adjustment.
- * @param   pHostNow            The host time at the time of the host query.
- *                              REMOVE THIS ARGUMENT!
  */
-static void VBoxServiceTimeSyncSet(PCRTTIMESPEC pDrift, PCRTTIMESPEC pHostNow)
+static void VBoxServiceTimeSyncSet(PCRTTIMESPEC pDrift)
 {
     /*
-     * Query the current time, add the adjustment, then try it.
+     * Query the current time, adjust it by adding the drift and set it.
      */
-#ifdef RT_OS_WINDOWS
-/** @todo r=bird: Get current time and add the adjustment, the host time is
- *                stale by now. */
-    FILETIME ft;
-    RTTimeSpecGetNtFileTime(pHostNow, &ft);
-    SYSTEMTIME st;
-    if (FileTimeToSystemTime(&ft, &st))
+    RTTIMESPEC NewGuestTime;
+    int rc = RTTimeSet(RTTimeSpecAdd(RTTimeNow(&NewGuestTime), pDrift));
+    if (RT_SUCCESS(rc))
     {
-        if (!SetSystemTime(&st))
-            VBoxServiceError("SetSystemTime failed, error=%u\n", GetLastError());
-    }
-    else
-        VBoxServiceError("Cannot convert system times, error=%u\n", GetLastError());
+        /* Succeeded - reset the error count and log the change. */
+        g_cTimeSyncErrors = 0;
 
-#else  /* !RT_OS_WINDOWS */
-    struct timeval tv;
-    errno = 0;
-    if (!gettimeofday(&tv, NULL))
-    {
-        RTTIMESPEC Tmp;
-        RTTimeSpecAdd(RTTimeSpecSetTimeval(&Tmp, &tv), pDrift);
-        if (!settimeofday(RTTimeSpecGetTimeval(&Tmp, &tv), NULL))
+        if (g_cVerbosity >= 1)
         {
-            char    sz[64];
-            RTTIME  Time;
-            if (g_cVerbosity >= 1)
-                VBoxServiceVerbose(1, "settimeofday to %s\n",
-                                   RTTimeToString(RTTimeExplode(&Time, &Tmp), sz, sizeof(sz)));
-# ifdef DEBUG
+            char        sz[64];
+            RTTIME      Time;
+            VBoxServiceVerbose(1, "time set to %s\n",
+                               RTTimeToString(RTTimeExplode(&Time, &NewGuestTime), sz, sizeof(sz)));
+#ifdef DEBUG
+            RTTIMESPEC  Tmp;
             if (g_cVerbosity >= 3)
-                VBoxServiceVerbose(2, "       new time %s\n",
+                VBoxServiceVerbose(3, "        now %s\n",
                                    RTTimeToString(RTTimeExplode(&Time, RTTimeNow(&Tmp)), sz, sizeof(sz)));
-# endif
-            g_cTimeSyncErrors = 0;
+#endif
         }
-        else if (g_cTimeSyncErrors++ < 10)
-            VBoxServiceError("settimeofday failed; errno=%d: %s\n", errno, strerror(errno));
     }
     else if (g_cTimeSyncErrors++ < 10)
-        VBoxServiceError("gettimeofday failed; errno=%d: %s\n", errno, strerror(errno));
-#endif /* !RT_OS_WINDOWS */
+        VBoxServiceError("RTTimeSet(%RDtimespec) failed: %Rrc\n", &NewGuestTime, rc);
 }
 
 
@@ -554,7 +539,7 @@ DECLCALLBACK(int) VBoxServiceTimeSyncWorker(bool volatile *pfShutdown)
                         ||  !VBoxServiceTimeSyncAdjust(&Drift))
                     {
                         VBoxServiceTimeSyncCancelAdjust();
-                        VBoxServiceTimeSyncSet(&Drift, &HostNow);
+                        VBoxServiceTimeSyncSet(&Drift);
                     }
                 }
                 else
@@ -638,30 +623,27 @@ VBOXSERVICE g_TimeSync =
     /* pszDescription. */
     "Time synchronization",
     /* pszUsage. */
-    "[--timesync-interval <ms>] [--timesync-min-adjust <ms>] "
-    "[--timesync-latency-factor <x>] [--timesync-max-latency <ms>]"
-    "[--timesync-set-threshold <ms>] [--timesync-set-start]"
+    "              [--timesync-interval <ms>] [--timesync-min-adjust <ms>]\n"
+    "              [--timesync-latency-factor <x>] [--timesync-max-latency <ms>]\n"
+    "              [--timesync-set-threshold <ms>] [--timesync-set-start]"
     ,
     /* pszOptions. */
-    "    --timesync-interval Specifies the interval at which to synchronize the\n"
-    "                        time with the host. The default is 10000 ms.\n"
-    "    --timesync-min-adjust\n"
-    "                        The minimum absolute drift value measured in\n"
-    "                        milliseconds to make adjustments for.\n"
-    "                        The default is 1000 ms on OS/2 and 100 ms elsewhere.\n"
+    "    --timesync-interval     Specifies the interval at which to synchronize the\n"
+    "                            time with the host. The default is 10000 ms.\n"
+    "    --timesync-min-adjust   The minimum absolute drift value measured in\n"
+    "                            milliseconds to make adjustments for.\n"
+    "                            The default is 1000 ms on OS/2 and 100 ms elsewhere.\n"
     "    --timesync-latency-factor\n"
-    "                        The factor to multiply the time query latency with to\n"
-    "                        calculate the dynamic minimum adjust time.\n"
-    "                        The default is 8 times.\n"
-    "    --timesync-max-latency\n"
-    "                        The max host timer query latency to accept.\n"
-    "                        The default is 250 ms.\n"
+    "                            The factor to multiply the time query latency with\n"
+    "                            to calculate the dynamic minimum adjust time.\n"
+    "                            The default is 8 times.\n"
+    "    --timesync-max-latency  The max host timer query latency to accept.\n"
+    "                            The default is 250 ms.\n"
     "    --timesync-set-threshold\n"
-    "                        The absolute drift threshold, given as milliseconds,\n"
-    "                        where to start setting the time instead of trying to\n"
-    "                        adjust it. The default is 20 min.\n"
-    "    --timesync-set-start\n"
-    "                        Set the time when starting the time sync service.\n"
+    "                            The absolute drift threshold, given as milliseconds,\n"
+    "                            where to start setting the time instead of trying to\n"
+    "                            adjust it. The default is 20 min.\n"
+    "    --timesync-set-start    Set the time when starting the time sync service.\n"
     ,
     /* methods */
     VBoxServiceTimeSyncPreInit,

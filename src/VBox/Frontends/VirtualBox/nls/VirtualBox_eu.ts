@@ -24,7 +24,7 @@
         <translation></translation>
     </message>
     <message>
-        <source>Sun Microsystems, Inc.</source>
+        <source>Oracle Corporation</source>
         <comment>Comma-separated list of translators</comment>
         <translation>Piarres Beobide</translation>
     </message>
@@ -414,6 +414,1522 @@
     </message>
 </context>
 <context>
+    <name>QIWizardPage</name>
+    <message>
+        <source>Use the &lt;b&gt;%1&lt;/b&gt; button to go to the next page of the wizard and the &lt;b&gt;%2&lt;/b&gt; button to return to the previous page. You can also press &lt;b&gt;%3&lt;/b&gt; if you want to cancel the execution of this wizard.&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>UIActionsPool</name>
+    <message>
+        <source>&amp;Machine</source>
+        <translation>&amp;Makina</translation>
+    </message>
+    <message>
+        <source>&amp;Fullscreen Mode</source>
+        <translation type="obsolete">&amp;Panataila Osoko Modua</translation>
+    </message>
+    <message>
+        <source>Switch to fullscreen mode</source>
+        <translation>Panataila oso modura aldatu</translation>
+    </message>
+    <message>
+        <source>Seam&amp;less Mode</source>
+        <translation type="obsolete">Gardenta&amp;sun Modua</translation>
+    </message>
+    <message>
+        <source>Switch to seamless desktop integration mode</source>
+        <translation>Idazmahai integrazio garden modura aldatu</translation>
+    </message>
+    <message>
+        <source>Auto-resize &amp;Guest Display</source>
+        <translation type="obsolete">Automatikoki Tamaina Aldatu &amp;Bezero Pantaila</translation>
+    </message>
+    <message>
+        <source>Automatically resize the guest display when the window is resized (requires Guest Additions)</source>
+        <translation>Automatikoki tamainaz aldatu bezero pantaila leihoa tamaina aldatzean (Bezero Gehigarriak behar du)</translation>
+    </message>
+    <message>
+        <source>&amp;Adjust Window Size</source>
+        <translation>Leiho Tamaina &amp;Doitu</translation>
+    </message>
+    <message>
+        <source>Adjust window size and position to best fit the guest display</source>
+        <translation>Leiho tamaina eta kokalekua doitu bezero pantaila hobe sartzeko</translation>
+    </message>
+    <message>
+        <source>Disable &amp;Mouse Integration</source>
+        <translation>&amp;Sagu Integrazioa ezgaitu</translation>
+    </message>
+    <message>
+        <source>Temporarily disable host mouse pointer integration</source>
+        <translation>Aldirako ezgaitu sagu markatzaile integrazioa</translation>
+    </message>
+    <message>
+        <source>Enable &amp;Mouse Integration</source>
+        <translation>&amp;Sagu integrazioa gaitu</translation>
+    </message>
+    <message>
+        <source>Enable temporarily disabled host mouse pointer integration</source>
+        <translation>Aldirako ezgaituriko sagu markatzaile integrazioa gaitu</translation>
+    </message>
+    <message>
+        <source>&amp;Insert Ctrl-Alt-Del</source>
+        <translation>B&amp;idali Ktrl-Alt-Ezab</translation>
+    </message>
+    <message>
+        <source>Send the Ctrl-Alt-Del sequence to the virtual machine</source>
+        <translation>Ktrl+Alt+Ezab sekuentzia bidali makina birtualera</translation>
+    </message>
+    <message>
+        <source>&amp;Insert Ctrl-Alt-Backspace</source>
+        <translation>B&amp;idali Ktrl-Alt-Atzera-tekla</translation>
+    </message>
+    <message>
+        <source>Send the Ctrl-Alt-Backspace sequence to the virtual machine</source>
+        <translation>Ktrl-Alt-Atzera-tekla sekuentzia bidali makina birtualera</translation>
+    </message>
+    <message>
+        <source>Take &amp;Snapshot...</source>
+        <translation>&amp;Egoera-argazkia egin...</translation>
+    </message>
+    <message>
+        <source>Take a snapshot of the virtual machine</source>
+        <translation>Makina Birtualaren egoera-argazki bat egin</translation>
+    </message>
+    <message>
+        <source>Session I&amp;nformation Dialog</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Show Session Information Dialog</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>&amp;Pause</source>
+        <translation>&amp;Gelditu</translation>
+    </message>
+    <message>
+        <source>Suspend the execution of the virtual machine</source>
+        <translation>Makina Birtualaren exekuzioa gelditu</translation>
+    </message>
+    <message>
+        <source>R&amp;esume</source>
+        <translation>Ja&amp;rraitu</translation>
+    </message>
+    <message>
+        <source>Resume the execution of the virtual machine</source>
+        <translation>Makina birtualaren exekuzioa jarraitu</translation>
+    </message>
+    <message>
+        <source>&amp;Reset</source>
+        <translation>Be&amp;rrezarri</translation>
+    </message>
+    <message>
+        <source>Reset the virtual machine</source>
+        <translation>Makina Birtuala berrezarri</translation>
+    </message>
+    <message>
+        <source>ACPI Sh&amp;utdown</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>ACPI S&amp;hutdown</source>
+        <translation>ACPI It&amp;zalia</translation>
+    </message>
+    <message>
+        <source>Send the ACPI Power Button press event to the virtual machine</source>
+        <translation>ACPI Indar Botoia Gertaera bidali makina birtualera</translation>
+    </message>
+    <message>
+        <source>&amp;Close...</source>
+        <translation>It&amp;xi...</translation>
+    </message>
+    <message>
+        <source>Close the virtual machine</source>
+        <translation>Makina Birtuala itxi</translation>
+    </message>
+    <message>
+        <source>&amp;View</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>&amp;Devices</source>
+        <translation>&amp;Gailuak</translation>
+    </message>
+    <message>
+        <source>&amp;CD/DVD Devices</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>&amp;Floppy Devices</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>&amp;USB Devices</source>
+        <translation>&amp;USB Gailuak</translation>
+    </message>
+    <message>
+        <source>&amp;Network Adapters...</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Change the settings of network adapters</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>&amp;Shared Folders...</source>
+        <translation>&amp;Partekatutako Karpetak...</translation>
+    </message>
+    <message>
+        <source>Create or modify shared folders</source>
+        <translation>Partekatutako karpetekin aritzeko leihoa ireki</translation>
+    </message>
+    <message>
+        <source>Enable or disable remote desktop (RDP) connections to this machine</source>
+        <translation type="obsolete">Urruneko idazmahai (RDP) konexioak gaitu edo ezgaitu maina honetarako</translation>
+    </message>
+    <message>
+        <source>&amp;Install Guest Additions...</source>
+        <translation>Bezero Gehigarriak &amp;Instalatu...</translation>
+    </message>
+    <message>
+        <source>Mount the Guest Additions installation image</source>
+        <translation>Bezero Gehigarri instalazio irudia muntatu</translation>
+    </message>
+    <message>
+        <source>De&amp;bug</source>
+        <translation>Ara&amp;zpena</translation>
+    </message>
+    <message>
+        <source>&amp;Statistics...</source>
+        <comment>debug action</comment>
+        <translation>E&amp;statistikak...</translation>
+    </message>
+    <message>
+        <source>&amp;Command Line...</source>
+        <comment>debug action</comment>
+        <translation></translation>
+    </message>
+    <message>
+        <source>&amp;Help</source>
+        <translation>&amp;Laguntza</translation>
+    </message>
+    <message>
+        <source>Dock Icon</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Show Monitor Preview</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Show Application Icon</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Enter &amp;Fullscreen Mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Exit &amp;Fullscreen Mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Switch to normal mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enter Seam&amp;less Mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Exit Seam&amp;less Mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enable &amp;Guest Display Auto-resize</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Disable &amp;Guest Display Auto-resize</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Disable automatic resize of the guest display when the window is resized</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Enable Remote Display</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enable remote desktop (RDP) connections to this machine</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Disable Remote Display</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Disable remote desktop (RDP) connections to this machine</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enable &amp;Logging...</source>
+        <comment>debug action</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Disable &amp;Logging...</source>
+        <comment>debug action</comment>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>UIDownloader</name>
+    <message>
+        <source>Cancel</source>
+        <translation type="obsolete">Utzi</translation>
+    </message>
+    <message>
+        <source>Downloading the VirtualBox Guest Additions CD image from &lt;nobr&gt;&lt;b&gt;%1&lt;/b&gt;...&lt;/nobr&gt;</source>
+        <translation type="obsolete">VirtualBox Bezero Gehigarri CD irudia &lt;nobr&gt;&lt;b&gt;%1&lt;/b&gt;-etik deskargatzen...&lt;/nobr&gt;</translation>
+    </message>
+    <message>
+        <source>Cancel the VirtualBox Guest Additions CD image download</source>
+        <translation type="obsolete">Utzi VirtualBox Bezero Gehigarri CD irudi deskarga</translation>
+    </message>
+    <message>
+        <source>Could not locate the file on the server (response: %1).</source>
+        <translation type="obsolete">Ezin da fitxategia aurkitu zerbitzarian (erantzuna: %1).</translation>
+    </message>
+    <message>
+        <source>Could not determine the file size.</source>
+        <translation type="obsolete">Ezin da fitxategi tamaina atzeman.</translation>
+    </message>
+    <message>
+        <source>Could not connect to the server (%1).</source>
+        <translation type="obsolete">Ezin da zerbitzariarekin konektatu (%1).</translation>
+    </message>
+    <message>
+        <source>Could not download the file (%1).</source>
+        <translation type="obsolete">Ezin da fitxategia deskargatu (%1).</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;Failed to save the downloaded file as &lt;nobr&gt;&lt;b&gt;%1&lt;/b&gt;.&lt;/nobr&gt;&lt;/p&gt;</source>
+        <translation type="obsolete">&lt;p&gt;Huts deskargatutako fitxategia &lt;nobr&gt;&lt;b&gt;%1&lt;/b&gt; bezala gordetzerakoan.&lt;/nobr&gt;&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Select folder to save Guest Additions image to</source>
+        <translation type="obsolete">Hautau Bezero Gehigarri CD irudia gordetzeko karpeta</translation>
+    </message>
+    <message>
+        <source>Connection timed out.</source>
+        <translation type="obsolete">Konexioa denboraz kanpo.</translation>
+    </message>
+    <message>
+        <source>The download process has been cancelled by the user.</source>
+        <translation type="obsolete">Deskarga prozesua erabiltzaileak eten du.</translation>
+    </message>
+    <message>
+        <source>The download process has been canceled by the user.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>UIDownloaderAdditions</name>
+    <message>
+        <source>Cancel</source>
+        <translation type="obsolete">Utzi</translation>
+    </message>
+    <message>
+        <source>Downloading the VirtualBox Guest Additions CD image from &lt;nobr&gt;&lt;b&gt;%1&lt;/b&gt;...&lt;/nobr&gt;</source>
+        <translation type="obsolete">VirtualBox Bezero Gehigarri CD irudia &lt;nobr&gt;&lt;b&gt;%1&lt;/b&gt;-etik deskargatzen...&lt;/nobr&gt;</translation>
+    </message>
+    <message>
+        <source>Cancel the VirtualBox Guest Additions CD image download</source>
+        <translation type="obsolete">Utzi VirtualBox Bezero Gehigarri CD irudi deskarga</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;Failed to save the downloaded file as &lt;nobr&gt;&lt;b&gt;%1&lt;/b&gt;.&lt;/nobr&gt;&lt;/p&gt;</source>
+        <translation type="unfinished">&lt;p&gt;Huts deskargatutako fitxategia &lt;nobr&gt;&lt;b&gt;%1&lt;/b&gt; bezala gordetzerakoan.&lt;/nobr&gt;&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Select folder to save Guest Additions image to</source>
+        <translation type="unfinished">Hautau Bezero Gehigarri CD irudia gordetzeko karpeta</translation>
+    </message>
+</context>
+<context>
+    <name>UIDownloaderUserManual</name>
+    <message>
+        <source>Select folder to save User Manual to</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>UIExportApplianceWzd</name>
+    <message>
+        <source>Appliance Export Wizard</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="obsolete">Utzi</translation>
+    </message>
+    <message>
+        <source>Restore Defaults</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>UIExportApplianceWzdPage1</name>
+    <message>
+        <source>Welcome to the Appliance Export Wizard!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;This wizard will guide you through the process of exporting an appliance.&lt;/p&gt;&lt;p&gt;%1&lt;/p&gt;&lt;p&gt;Please select the virtual machines that should be added to the appliance. You can select more than one. Please note that these machines have to be turned off before they can be exported.&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>UIExportApplianceWzdPage2</name>
+    <message>
+        <source>Here you can change additional configuration values of the selected virtual machines. You can modify most of the properties shown by double-clicking on the items.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Appliance Export Settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>UIExportApplianceWzdPage3</name>
+    <message>
+        <source>Please specify the target for the OVF export. You can choose between a local file system export, uploading the OVF to the Sun Cloud service or an S3 storage server.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Local Filesystem </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sun &amp;Cloud</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Simple Storage System (S3)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Appliance Export Settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>UIExportApplianceWzdPage4</name>
+    <message>
+        <source>&amp;Username:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Password:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Hostname:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Bucket:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;File:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Write in legacy OVF 0.9 format for compatibility with other virtualization products.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Write legacy OVF 0.9</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Appliance Export Settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Appliance</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select a file to export into</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Open Virtualization Format (%1)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please choose a filename to export the OVF to.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please complete the additional fields like the username, password and the bucket, and provide a filename for the OVF target.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please complete the additional fields like the username, password, hostname and the bucket, and provide a filename for the OVF target.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Checking files ...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Removing files ...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Exporting Appliance ...</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>UIFirstRunWzd</name>
+    <message>
+        <source>First Run Wizard</source>
+        <translation>Lehen Abiarazte Morroia</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;You have started a newly created virtual machine for the first time. This wizard will help you to perform the steps necessary for installing an operating system of your choice onto this virtual machine.&lt;/p&gt;&lt;p&gt;Use the &lt;b&gt;Next&lt;/b&gt; button to go to the next page of the wizard and the &lt;b&gt;Back&lt;/b&gt; button to return to the previous page. You can also press &lt;b&gt;Cancel&lt;/b&gt; if you want to cancel the execution of this wizard.&lt;/p&gt;</source>
+        <translation type="obsolete">&lt;p&gt;Sortu berri duzun makina birtuala lehen aldiz abiarazi duzu. Morroi honek zure aukerako sistema eragile makina birtual horretan instalatzeko egin beharreko urratsetan lagunduko zaitu.&lt;/p&gt;&lt;p&gt;&lt;b&gt;Hurrengoa&lt;/b&gt; botoia erabili morroiaren hurrengo orrialdera joateko eta &lt;b&gt;Atzera&lt;/b&gt; botoia aurreko orrialdera joateko. Baita &lt;b&gt;Utzi&lt;/b&gt; sakatu dezakezu morroiaren exekuzioa eteteko.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Welcome to the First Run Wizard!</source>
+        <translation type="obsolete">Ongietorri Lehen Abiarazte Morroira!</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;Select the type of media you would like to use for installation.&lt;/p&gt;</source>
+        <translation type="obsolete">&lt;p&gt;Hautatu behean instalatzeko erabili nahi duzun instalazio medioa.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Media Type</source>
+        <translation type="obsolete">Euskarri Mota</translation>
+    </message>
+    <message>
+        <source>&amp;CD/DVD-ROM Device</source>
+        <translation type="obsolete">&amp;CD/DVD-ROM Gailua</translation>
+    </message>
+    <message>
+        <source>Alt+C</source>
+        <translation type="obsolete">Alt+C</translation>
+    </message>
+    <message>
+        <source>&amp;Floppy Device</source>
+        <translation type="obsolete">&amp;Diskete Gailua</translation>
+    </message>
+    <message>
+        <source>Alt+F</source>
+        <translation type="obsolete">Alt+D</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;Select the media which contains the setup program of the operating system you want to install. This media must be bootable, otherwise the setup program will not be able to start.&lt;/p&gt;</source>
+        <translation type="obsolete">&lt;p&gt;Hautatu instalatu nahi duzun sistema eragilearen instalazio programa duen euskarria. Euskarria abiarazgarria izan behar da, beste instalazio programak ezin izango du abiarazi.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Media Source</source>
+        <translation type="obsolete">Euskarri Jatorria</translation>
+    </message>
+    <message>
+        <source>&amp;Host Drive</source>
+        <translation type="obsolete">&amp;Ostalari Gailua</translation>
+    </message>
+    <message>
+        <source>Alt+H</source>
+        <translation type="obsolete">Alt+O</translation>
+    </message>
+    <message>
+        <source>&amp;Image File</source>
+        <translation type="obsolete">&amp;Irudi Fitxategia</translation>
+    </message>
+    <message>
+        <source>Alt+I</source>
+        <translation type="obsolete">Alt+I</translation>
+    </message>
+    <message>
+        <source>VDM</source>
+        <translation type="obsolete">VDM</translation>
+    </message>
+    <message>
+        <source>Select Installation Media</source>
+        <translation type="obsolete">Instalazio Euskarri Hautatu</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;You have selected the following media to boot from:&lt;/p&gt;</source>
+        <translation type="obsolete">&lt;p&gt;Bertatik abiarazteko hurrengo euskarria hautatu duzu:&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;If the above is correct, press the &lt;b&gt;Finish&lt;/b&gt; button. Once you press it, the selected media will be temporarily mounted on the virtual machine and the machine will start execution.&lt;/p&gt;&lt;p&gt;Please note that when you close the virtual machine, the specified media will be automatically unmounted and the boot device will be set back to the first hard disk.&lt;/p&gt;&lt;p&gt;Depending on the type of the setup program, you may need to manually unmount (eject) the media after the setup program reboots the virtual machine, to prevent the installation process from starting again. You can do this by selecting the corresponding &lt;b&gt;Unmount...&lt;/b&gt; action in the &lt;b&gt;Devices&lt;/b&gt; menu.&lt;/p&gt;</source>
+        <translation type="obsolete">&lt;p&gt;Aurrekoa zuzena bada, sakatu &lt;b&gt;Amaitu&lt;/b&gt; botoia. Egiten duzunean hautatutako euskarria aldi batetarako makina birtualean muntatu eta makinak exekuzioa abiaraziko du.&lt;/p&gt;&lt;p&gt;Mesedez kontutan izan zuk makina birtuala ixtean, ezarritako euskarri automatikoki desmuntatuko dela eta abio gailu bezala lehenengo disko gogorra ipiniko dela.&lt;/p&gt;&lt;p&gt;Konfigurazio programa motaren arabera agian diskoa desmuntatu (atera) egin behar duzu konfigurazio programa makina berrabiaraztean, instalazio prozesua berriz hasi ez dadin. Hau egiteko dagokion &lt;b&gt;desmuntatu...&lt;/b&gt; ekintza hautatu &lt;b&gt;Gailuak&lt;/b&gt; menuan.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Summary</source>
+        <translation type="obsolete">Laburpena</translation>
+    </message>
+    <message>
+        <source>CD/DVD-ROM Device</source>
+        <translation type="obsolete">CD/DVD-ROM Gailua</translation>
+    </message>
+    <message>
+        <source>Floppy Device</source>
+        <translation type="obsolete">Diskete Gailua</translation>
+    </message>
+    <message>
+        <source>Host Drive %1</source>
+        <translation type="obsolete">Ostalari Kontrolagailua %1</translation>
+    </message>
+    <message>
+        <source>&lt;table&gt;&lt;tr&gt;&lt;td&gt;Type:&lt;/td&gt;&lt;td&gt;%1&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Source:&lt;/td&gt;&lt;td&gt;%2&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</source>
+        <translation type="obsolete">&lt;table&gt;&lt;tr&gt;&lt;td&gt;Mota:&lt;/td&gt;&lt;td&gt;%1&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Jatorria:&lt;/td&gt;&lt;td&gt;%2&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;You have started a newly created virtual machine for the first time. This wizard will help you to perform the steps necessary for booting an operating system of your choice on the virtual machine.&lt;/p&gt;&lt;p&gt;Note that you will not be able to install an operating system into this virtual machine right now because you did not attach any hard disk to it. If this is not what you want, you can cancel the execution of this wizard, select &lt;b&gt;Settings&lt;/b&gt; from the &lt;b&gt;Machine&lt;/b&gt; menu of the main VirtualBox window to access the settings dialog of this machine and change the hard disk configuration.&lt;/p&gt;&lt;p&gt;Use the &lt;b&gt;Next&lt;/b&gt; button to go to the next page of the wizard and the &lt;b&gt;Back&lt;/b&gt; button to return to the previous page. You can also press &lt;b&gt;Cancel&lt;/b&gt; if you want to cancel the execution of this wizard.&lt;/p&gt;</source>
+        <translation type="obsolete">&lt;p&gt;Sortu  berri duzun makina birtuala lehen aldiz abiarazi duzu. Morroi honek hautatu duzun sistema eragile makina birtualean abiarazteko bete beharreko urratsak betetzen lagunduko zaitu.&lt;/p&gt;&lt;p&gt;Kontutan izan ezin duzula sistema eragile bat orain instalatu makina birtual honetan ez bait duzu disko gogorrik erantsi makina birtualari. Hau ez bada nahi duzuna, morroi honen exekuzioa utzi dezakezu, &lt;b&gt;Ezarpenak&lt;/b&gt; hautatu VirtusalBox leiho nagusiaren &lt;b&gt;Makina&lt;/b&gt; menutik makina honen ezapen leihoa eskuratzeko eta disko gogor konfigurazioa aldatu.&lt;/p&gt;&lt;p&gt;Erabili &lt;b&gt;Hurrengoa&lt;/b&gt; botoia morroiko hurrengo orrialdera joateko eta &lt;b&gt;Atzera&lt;/b&gt; botoia sakatu aurreko orrialdera joateko. &lt;b&gt;Utzi&lt;/b&gt; sakatu dezakezu morroiaren exekuzioa bertan behera uzteko.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;Select the type of media you would like to use for booting an operating system.&lt;/p&gt;</source>
+        <translation type="obsolete">&lt;p&gt;Hautatu sistema eragile bat abiarazteko erabili nahi duzun medio mota.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;Select the media that contains the operating system you want to work with. This media must be bootable, otherwise the operating system will not be able to start.&lt;/p&gt;</source>
+        <translation type="obsolete">&lt;p&gt;Hautatu berarekin lan egin nahi duzun sistema eragile duen euskarria. Euskarri hau abiarazgarria izan behar da, bestela sistema eragilea ez da abiarazteko gai izango&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;You have selected the following media to boot an operating system from:&lt;/p&gt;</source>
+        <translation type="obsolete">&lt;p&gt;Bertatik abiarazteko sistema eragilea duen hurrengo medioa hautatu duzu:&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;If the above is correct, press the &lt;b&gt;Finish&lt;/b&gt; button. Once you press it, the selected media will be mounted on the virtual machine and the machine will start execution.&lt;/p&gt;</source>
+        <translation type="obsolete">&lt;p&gt;Aurrekoa zuzena bada &lt;b&gt;Amaitu&lt;/b&gt; botoia sakatu. Behin sakatu duzunean, hautatutako medioa makina birtualean kargatuko da eta makinak exekuzioa abiaraziko du.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="obsolete">Utzi</translation>
+    </message>
+</context>
+<context>
+    <name>UIFirstRunWzdPage1</name>
+    <message>
+        <source>Welcome to the First Run Wizard!</source>
+        <translation type="unfinished">Ongietorri Lehen Abiarazte Morroira!</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;You have started a newly created virtual machine for the first time. This wizard will help you to perform the steps necessary for installing an operating system of your choice onto this virtual machine.&lt;/p&gt;&lt;p&gt;%1&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;You have started a newly created virtual machine for the first time. This wizard will help you to perform the steps necessary for booting an operating system of your choice on the virtual machine.&lt;/p&gt;&lt;p&gt;Note that you will not be able to install an operating system into this virtual machine right now because you did not attach any hard disk to it. If this is not what you want, you can cancel the execution of this wizard, select &lt;b&gt;Settings&lt;/b&gt; from the &lt;b&gt;Machine&lt;/b&gt; menu of the main VirtualBox window to access the settings dialog of this machine and change the hard disk configuration.&lt;/p&gt;&lt;p&gt;%1&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>UIFirstRunWzdPage2</name>
+    <message>
+        <source>&lt;p&gt;Select the media which contains the setup program of the operating system you want to install. This media must be bootable, otherwise the setup program will not be able to start.&lt;/p&gt;</source>
+        <translation type="unfinished">&lt;p&gt;Hautatu instalatu nahi duzun sistema eragilearen instalazio programa duen euskarria. Euskarria abiarazgarria izan behar da, beste instalazio programak ezin izango du abiarazi.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;Select the media that contains the operating system you want to work with. This media must be bootable, otherwise the operating system will not be able to start.&lt;/p&gt;</source>
+        <translation type="unfinished">&lt;p&gt;Hautatu berarekin lan egin nahi duzun sistema eragile duen euskarria. Euskarri hau abiarazgarria izan behar da, bestela sistema eragilea ez da abiarazteko gai izango&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Media Source</source>
+        <translation type="unfinished">Euskarri Jatorria</translation>
+    </message>
+    <message>
+        <source>Select Installation Media</source>
+        <translation type="unfinished">Instalazio Euskarri Hautatu</translation>
+    </message>
+</context>
+<context>
+    <name>UIFirstRunWzdPage3</name>
+    <message>
+        <source>&lt;p&gt;You have selected the following media to boot from:&lt;/p&gt;</source>
+        <translation type="unfinished">&lt;p&gt;Bertatik abiarazteko hurrengo euskarria hautatu duzu:&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;You have selected the following media to boot an operating system from:&lt;/p&gt;</source>
+        <translation type="unfinished">&lt;p&gt;Bertatik abiarazteko sistema eragilea duen hurrengo medioa hautatu duzu:&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;If the above is correct, press the &lt;b&gt;Finish&lt;/b&gt; button. Once you press it, the selected media will be temporarily mounted on the virtual machine and the machine will start execution.&lt;/p&gt;&lt;p&gt;Please note that when you close the virtual machine, the specified media will be automatically unmounted and the boot device will be set back to the first hard disk.&lt;/p&gt;&lt;p&gt;Depending on the type of the setup program, you may need to manually unmount (eject) the media after the setup program reboots the virtual machine, to prevent the installation process from starting again. You can do this by selecting the corresponding &lt;b&gt;Unmount...&lt;/b&gt; action in the &lt;b&gt;Devices&lt;/b&gt; menu.&lt;/p&gt;</source>
+        <translation type="unfinished">&lt;p&gt;Aurrekoa zuzena bada, sakatu &lt;b&gt;Amaitu&lt;/b&gt; botoia. Egiten duzunean hautatutako euskarria aldi batetarako makina birtualean muntatu eta makinak exekuzioa abiaraziko du.&lt;/p&gt;&lt;p&gt;Mesedez kontutan izan zuk makina birtuala ixtean, ezarritako euskarri automatikoki desmuntatuko dela eta abio gailu bezala lehenengo disko gogorra ipiniko dela.&lt;/p&gt;&lt;p&gt;Konfigurazio programa motaren arabera agian diskoa desmuntatu (atera) egin behar duzu konfigurazio programa makina berrabiaraztean, instalazio prozesua berriz hasi ez dadin. Hau egiteko dagokion &lt;b&gt;desmuntatu...&lt;/b&gt; ekintza hautatu &lt;b&gt;Gailuak&lt;/b&gt; menuan.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;If the above is correct, press the &lt;b&gt;Finish&lt;/b&gt; button. Once you press it, the selected media will be mounted on the virtual machine and the machine will start execution.&lt;/p&gt;</source>
+        <translation type="unfinished">&lt;p&gt;Aurrekoa zuzena bada &lt;b&gt;Amaitu&lt;/b&gt; botoia sakatu. Behin sakatu duzunean, hautatutako medioa makina birtualean kargatuko da eta makinak exekuzioa abiaraziko du.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Summary</source>
+        <translation type="unfinished">Laburpena</translation>
+    </message>
+    <message>
+        <source>CD/DVD-ROM Device</source>
+        <translation type="unfinished">CD/DVD-ROM Gailua</translation>
+    </message>
+    <message>
+        <source>Type</source>
+        <comment>summary</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Source</source>
+        <comment>summary</comment>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>UIImportApplianceWzd</name>
+    <message>
+        <source>Appliance Import Wizard</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="obsolete">Utzi</translation>
+    </message>
+    <message>
+        <source>Restore Defaults</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>UIImportApplianceWzdPage1</name>
+    <message>
+        <source>Select an appliance to import</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Open Virtualization Format (%1)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Welcome to the Appliance Import Wizard!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;This wizard will guide you through importing an appliance.&lt;/p&gt;&lt;p&gt;%1&lt;/p&gt;&lt;p&gt;VirtualBox currently supports importing appliances saved in the Open Virtualization Format (OVF). To continue, select the file to import below:&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>UIImportApplianceWzdPage2</name>
+    <message>
+        <source>These are the virtual machines contained in the appliance and the suggested settings of the imported VirtualBox machines. You can change many of the properties shown by double-clicking on the items and disable others using the check boxes below.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Appliance Import Settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>UIImportLicenseViewer</name>
+    <message>
+        <source>&lt;b&gt;The virtual system &quot;%1&quot; requires that you agree to the terms and conditions of the software license agreement shown below.&lt;/b&gt;&lt;br /&gt;&lt;br /&gt;Click &lt;b&gt;Agree&lt;/b&gt; to continue or click &lt;b&gt;Disagree&lt;/b&gt; to cancel the import.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Software License Agreement</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Disagree</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Agree</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Print...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Save...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Text (*.txt)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Save license to file...</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>UIIndicatorsPool</name>
+    <message>
+        <source>&lt;p style=&apos;white-space:pre&apos;&gt;&lt;nobr&gt;Indicates the activity of the virtual hard disks:&lt;/nobr&gt;%1&lt;/p&gt;</source>
+        <comment>HDD tooltip</comment>
+        <translation></translation>
+    </message>
+    <message>
+        <source>&lt;p style=&apos;white-space:pre&apos;&gt;&lt;nobr&gt;Indicates the activity of the CD/DVD devices:&lt;/nobr&gt;%1&lt;/p&gt;</source>
+        <comment>CD/DVD tooltip</comment>
+        <translation></translation>
+    </message>
+    <message>
+        <source>&lt;p style=&apos;white-space:pre&apos;&gt;&lt;nobr&gt;Indicates the activity of the floppy devices:&lt;/nobr&gt;%1&lt;/p&gt;</source>
+        <comment>FD tooltip</comment>
+        <translation></translation>
+    </message>
+    <message>
+        <source>&lt;p style=&apos;white-space:pre&apos;&gt;&lt;nobr&gt;Indicates the activity of the network interfaces:&lt;/nobr&gt;%1&lt;/p&gt;</source>
+        <comment>Network adapters tooltip</comment>
+        <translation></translation>
+    </message>
+    <message>
+        <source>&lt;br&gt;&lt;nobr&gt;&lt;b&gt;Adapter %1 (%2)&lt;/b&gt;: %3 cable %4&lt;/nobr&gt;</source>
+        <comment>Network adapters tooltip</comment>
+        <translation></translation>
+    </message>
+    <message>
+        <source>connected</source>
+        <comment>Network adapters tooltip</comment>
+        <translation>konektatuta</translation>
+    </message>
+    <message>
+        <source>disconnected</source>
+        <comment>Network adapters tooltip</comment>
+        <translation>deskonektatuta</translation>
+    </message>
+    <message>
+        <source>&lt;br&gt;&lt;nobr&gt;&lt;b&gt;All network adapters are disabled&lt;/b&gt;&lt;/nobr&gt;</source>
+        <comment>Network adapters tooltip</comment>
+        <translation>&lt;br&gt;&lt;nobr&gt;&lt;b&gt;Sare moldagailu guztiak ezgaiturik daude&lt;/b&gt;&lt;/nobr&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;p style=&apos;white-space:pre&apos;&gt;&lt;nobr&gt;Indicates the activity of the attached USB devices:&lt;/nobr&gt;%1&lt;/p&gt;</source>
+        <comment>USB device tooltip</comment>
+        <translation></translation>
+    </message>
+    <message>
+        <source>&lt;br&gt;&lt;nobr&gt;&lt;b&gt;No USB devices attached&lt;/b&gt;&lt;/nobr&gt;</source>
+        <comment>USB device tooltip</comment>
+        <translation>&lt;br&gt;&lt;nobr&gt;&lt;b&gt;Ez dago USB gailurik erantsirik&lt;/b&gt;&lt;/nobr&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;br&gt;&lt;nobr&gt;&lt;b&gt;USB Controller is disabled&lt;/b&gt;&lt;/nobr&gt;</source>
+        <comment>USB device tooltip</comment>
+        <translation>&lt;br&gt;&lt;nobr&gt;&lt;b&gt;USB Kontrolatzailea ezgaiturik dago&lt;/b&gt;&lt;/nobr&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;p style=&apos;white-space:pre&apos;&gt;&lt;nobr&gt;Indicates the activity of the machine&apos;s shared folders:&lt;/nobr&gt;%1&lt;/p&gt;</source>
+        <comment>Shared folders tooltip</comment>
+        <translation></translation>
+    </message>
+    <message>
+        <source>&lt;br&gt;&lt;nobr&gt;&lt;b&gt;No shared folders&lt;/b&gt;&lt;/nobr&gt;</source>
+        <comment>Shared folders tooltip</comment>
+        <translation>&lt;br&gt;&lt;nobr&gt;&lt;b&gt;Ez dago partekatutako karpetarik&lt;/b&gt;&lt;/nobr&gt;</translation>
+    </message>
+    <message>
+        <source>Indicates whether the Remote Display (VRDP Server) is enabled (&lt;img src=:/vrdp_16px.png/&gt;) or not (&lt;img src=:/vrdp_disabled_16px.png/&gt;).</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>&lt;hr&gt;The VRDP Server is listening on port %1</source>
+        <translation>&lt;hr&gt;VRDP Zerbitzaria %1 atakan entzuten ari da</translation>
+    </message>
+    <message>
+        <source>Indicates the status of the hardware virtualization features used by this virtual machine:&lt;br&gt;&lt;nobr&gt;&lt;b&gt;%1:&lt;/b&gt;&amp;nbsp;%2&lt;/nobr&gt;&lt;br&gt;&lt;nobr&gt;&lt;b&gt;%3:&lt;/b&gt;&amp;nbsp;%4&lt;/nobr&gt;</source>
+        <comment>Virtualization Stuff LED</comment>
+        <translation></translation>
+    </message>
+    <message>
+        <source>&lt;br&gt;&lt;nobr&gt;&lt;b&gt;%1:&lt;/b&gt;&amp;nbsp;%2&lt;/nobr&gt;</source>
+        <comment>Virtualization Stuff LED</comment>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Indicates whether the host mouse pointer is captured by the guest OS:&lt;br&gt;&lt;nobr&gt;&lt;img src=:/mouse_disabled_16px.png/&gt;&amp;nbsp;&amp;nbsp;pointer is not captured&lt;/nobr&gt;&lt;br&gt;&lt;nobr&gt;&lt;img src=:/mouse_16px.png/&gt;&amp;nbsp;&amp;nbsp;pointer is captured&lt;/nobr&gt;&lt;br&gt;&lt;nobr&gt;&lt;img src=:/mouse_seamless_16px.png/&gt;&amp;nbsp;&amp;nbsp;mouse integration (MI) is On&lt;/nobr&gt;&lt;br&gt;&lt;nobr&gt;&lt;img src=:/mouse_can_seamless_16px.png/&gt;&amp;nbsp;&amp;nbsp;MI is Off, pointer is captured&lt;/nobr&gt;&lt;br&gt;&lt;nobr&gt;&lt;img src=:/mouse_can_seamless_uncaptured_16px.png/&gt;&amp;nbsp;&amp;nbsp;MI is Off, pointer is not captured&lt;/nobr&gt;&lt;br&gt;Note that the mouse integration feature requires Guest Additions to be installed in the guest OS.</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Indicates whether the keyboard is captured by the guest OS (&lt;img src=:/hostkey_captured_16px.png/&gt;) or not (&lt;img src=:/hostkey_16px.png/&gt;).</source>
+        <translation></translation>
+    </message>
+</context>
+<context>
+    <name>UIMachineLogic</name>
+    <message>
+        <source>VirtualBox OSE</source>
+        <translation>VirtualBox OSE</translation>
+    </message>
+    <message>
+        <source> EXPERIMENTAL build %1r%2 - %3</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Preview Monitor %1</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Snapshot %1</source>
+        <translation>%1 egoera-argazkia</translation>
+    </message>
+    <message>
+        <source>More CD/DVD Images...</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Unmount CD/DVD Device</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>More Floppy Images...</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Unmount Floppy Device</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>No CD/DVD Devices Attached</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>No CD/DVD devices attached to that VM</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>No Floppy Devices Attached</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>No floppy devices attached to that VM</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>No USB Devices Connected</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>No supported devices connected to the host PC</source>
+        <translation>Ez dago onartutako gailurik konektaturik ostalari PC-ra</translation>
+    </message>
+</context>
+<context>
+    <name>UIMachineWindowNormal</name>
+    <message>
+        <source>Shows the currently assigned Host key.&lt;br&gt;This key, when pressed alone, toggles the keyboard and mouse capture state. It can also be used in combination with other keys to quickly perform actions from the main menu.</source>
+        <translation></translation>
+    </message>
+</context>
+<context>
+    <name>UIMiniProcessWidgetAdditions</name>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished">Utzi</translation>
+    </message>
+    <message>
+        <source>Cancel the VirtualBox Guest Additions CD image download</source>
+        <translation type="unfinished">Utzi VirtualBox Bezero Gehigarri CD irudi deskarga</translation>
+    </message>
+    <message>
+        <source>Downloading the VirtualBox Guest Additions CD image from &lt;nobr&gt;&lt;b&gt;%1&lt;/b&gt;...&lt;/nobr&gt;</source>
+        <translation type="unfinished">VirtualBox Bezero Gehigarri CD irudia &lt;nobr&gt;&lt;b&gt;%1&lt;/b&gt;-etik deskargatzen...&lt;/nobr&gt;</translation>
+    </message>
+</context>
+<context>
+    <name>UIMiniProcessWidgetUserManual</name>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished">Utzi</translation>
+    </message>
+    <message>
+        <source>Cancel the VirtualBox User Manual download</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Downloading the VirtualBox User Manual</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Downloading the VirtualBox User Manual &lt;nobr&gt;&lt;b&gt;%1&lt;/b&gt;...&lt;/nobr&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>UIMultiScreenLayout</name>
+    <message>
+        <source>Virtual Screen %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Use Host Screen %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>UINewHDWzd</name>
+    <message>
+        <source>Create New Virtual Disk</source>
+        <translation>Disko Birtual Berria Sortu</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;This wizard will help you to create a new virtual hard disk image for your virtual machine.&lt;/p&gt;
+&lt;p&gt;Use the &lt;b&gt;Next&lt;/b&gt; button to go to the next page of the wizard
+and the &lt;b&gt;Back&lt;/b&gt; button to return to the previous page.&lt;/p&gt;</source>
+        <translation type="obsolete">&lt;p&gt;Morroi honek zure makina birtualarentzat disko gogor birtual berriak sortzen lagunduko zaitu.&lt;/p&gt;
+&lt;p&gt;Erabili &lt;b&gt;Hurrengoa&lt;/b&gt; botoia morroiaren hurrengo orrialdera joateko
+eta &lt;b&gt;Atzera&lt;/b&gt; botoia morroiaren aurreko orrialdera joateko.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Welcome to the Create New Virtual Disk Wizard!</source>
+        <translation type="obsolete">Ongietorri Disko Gogor Birtual Berriak Sortzeko Morroira!</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;Select the type of virtual hard disk image you want to create.&lt;/p&gt;
+&lt;p&gt;A &lt;b&gt;dynamically expanding image&lt;/b&gt; initially occupies a very small amount
+of space on your physical hard disk. It will grow dynamically (up to
+the size specified) as the Guest OS claims disk space.&lt;/p&gt;
+&lt;p&gt;A &lt;b&gt;fixed-size image&lt;/b&gt; does not grow. It is stored in a file of approximately
+the same size as the size of the virtual hard disk.&lt;/p&gt;</source>
+        <translation type="obsolete">&lt;p&gt;Hautatu sortu nahi duzun disko gogor birtual irudiaren mota.&lt;/p&gt;
+&lt;p&gt;A &lt;b&gt;dinamikoki hedatzen&lt;/b&gt; diren irudiek hasiera batetan disko
+gogorrean tamaina oso txikia artzen dute. Berau dinamikoki handituko
+da (ezarritako muga arte) bezero sistema eragileak lekua eskatzen
+duen eran.&lt;/p&gt;
+&lt;p&gt;&lt;b&gt;tamaina ezarritako irudiak&lt;/b&gt; ez dira hazten, hauek disko
+gogor birtualaren antzeko tamaina batetako fitxategi batetan gordetzen dira.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Image Type</source>
+        <translation type="obsolete">Irudi Mota</translation>
+    </message>
+    <message>
+        <source>&amp;Dynamically expanding image</source>
+        <translation type="obsolete">&amp;Dinamikoki hedatzen den irudia</translation>
+    </message>
+    <message>
+        <source>Alt+D</source>
+        <translation type="obsolete">Alt+D</translation>
+    </message>
+    <message>
+        <source>&amp;Fixed-size image</source>
+        <translation type="obsolete">&amp;Tamaina-ezarritako irudia</translation>
+    </message>
+    <message>
+        <source>Alt+F</source>
+        <translation type="obsolete">Alt+T</translation>
+    </message>
+    <message>
+        <source>Virtual Disk Image Type</source>
+        <translation type="obsolete">Disko Birtual Irudi Mota</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;Press the &lt;b&gt;Select&lt;/b&gt; button to select the location and name of the file
+to store the virtual hard disk image or type a file name in the entry field.&lt;/p&gt;</source>
+        <translation type="obsolete">&lt;p&gt;Sakatu &lt;b&gt;Hautatu&lt;/b&gt; botoia disko gogor birtuala gordetzeko
+erabiliko den fitxategiaren kokaleku eta izena hautatu edo fitxategi izen bat idazteko sarrera eremuan.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&amp;Image File Name</source>
+        <translation type="obsolete">&amp;Irudi Fitxategi Izena</translation>
+    </message>
+    <message>
+        <source>Select</source>
+        <translation type="obsolete">Hautatu</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;Select the size of the virtual hard disk image in megabytes. This size will be reported to the Guest OS
+as the size of the virtual hard disk.&lt;/p&gt;</source>
+        <translation type="obsolete">&lt;p&gt;Hautatu disko birtual irudi tamaina megabyte-tan. Tamaina hau SE ostalariari emango zaio
+disko gogor birtual tamaina bezala&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Image &amp;Size</source>
+        <translation type="obsolete">Irudi &amp;Tamaina</translation>
+    </message>
+    <message>
+        <source>Virtual Disk Location and Size</source>
+        <translation type="obsolete">Disko Birtual Kokapen eta Tamaina</translation>
+    </message>
+    <message>
+        <source>You are going to create a new virtual hard disk image with the following parameters:</source>
+        <translation type="obsolete">Hurrengo parametroak erabiliaz disko gogor birtual bat sortzera zoaz:</translation>
+    </message>
+    <message>
+        <source>If the above settings are correct, press the &lt;b&gt;Finish&lt;/b&gt; button.
+                            Once you press it, a new hard disk image will be created.
+                            </source>
+        <translation type="obsolete">Aurreko ezarpen guztiak zuzenak badira, sakatu &lt;b&gt;Amaitu&lt;/b&gt; botoia.
+                            Behin sakatu duzunean, disko irudi berria sortuko da.
+                            </translation>
+    </message>
+    <message>
+        <source>Summary</source>
+        <translation type="obsolete">Laburpena</translation>
+    </message>
+    <message>
+        <source>&lt;nobr&gt;%1 Bytes&lt;/nobr&gt;</source>
+        <translation type="obsolete">&lt;nobr&gt;%1 Byte&lt;/nobr&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;table&gt;&lt;tr&gt;&lt;td&gt;Type:&lt;/td&gt;&lt;td&gt;%1&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Location:&lt;/td&gt;&lt;td&gt;%2&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Size:&lt;/td&gt;&lt;td&gt;%3&amp;nbsp;(%4&amp;nbsp;Bytes)&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</source>
+        <translation type="obsolete">&lt;table&gt;&lt;tr&gt;&lt;td&gt;Mota:&lt;/td&gt;&lt;td&gt;%1&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Kokapena:&lt;/td&gt;&lt;td&gt;%2&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Tamaina:&lt;/td&gt;&lt;td&gt;%3&amp;nbsp;(%4&amp;nbsp;Byte)&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</translation>
+    </message>
+    <message>
+        <source>Hard disk images (*.vdi)</source>
+        <translation type="obsolete">Disko gogor irudiak (*.vdi)</translation>
+    </message>
+    <message>
+        <source>Select a file for the new hard disk image file</source>
+        <translation type="obsolete">Hautatu fitxategi bat disko gogor berriaren irudi fitxategiarentzat</translation>
+    </message>
+    <message>
+        <source>Location</source>
+        <comment>summary</comment>
+        <translation type="obsolete">Kokalekuak</translation>
+    </message>
+    <message>
+        <source>Size</source>
+        <comment>summary</comment>
+        <translation type="obsolete">Tamaina</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="obsolete">Utzi</translation>
+    </message>
+    <message>
+        <source>Storage Type</source>
+        <translation type="obsolete">Biltegiratze Mota</translation>
+    </message>
+</context>
+<context>
+    <name>UINewHDWzdPage1</name>
+    <message>
+        <source>Welcome to the Create New Virtual Disk Wizard!</source>
+        <translation type="unfinished">Ongietorri Disko Gogor Birtual Berriak Sortzeko Morroira!</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;This wizard will help you to create a new virtual hard disk for your virtual machine.&lt;/p&gt;&lt;p&gt;%1&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>UINewHDWzdPage2</name>
+    <message>
+        <source>&lt;p&gt;Select the type of virtual hard disk you want to create.&lt;/p&gt;&lt;p&gt;A &lt;b&gt;dynamically expanding storage&lt;/b&gt; initially occupies a very small amount of space on your physical hard disk. It will grow dynamically (up to the size specified) as the Guest OS claims disk space.&lt;/p&gt;&lt;p&gt;A &lt;b&gt;fixed-size storage&lt;/b&gt; does not grow. It is stored in a file of approximately the same size as the size of the virtual hard disk. The creation of a fixed-size storage may take a long time depending on the storage size and the write performance of your harddisk.&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Storage Type</source>
+        <translation type="unfinished">Biltegiratze Mota</translation>
+    </message>
+    <message>
+        <source>&amp;Dynamically expanding storage</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Fixed-size storage</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hard Disk Storage Type</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>UINewHDWzdPage3</name>
+    <message>
+        <source>&lt;p&gt;Press the &lt;b&gt;Select&lt;/b&gt; button to select the location of a file to store the hard disk data or type a file name in the entry field.&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Location</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;Select the size of the virtual hard disk in megabytes. This size will be reported to the Guest OS as the maximum size of this hard disk.&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Size</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Virtual Disk Location and Size</source>
+        <translation type="unfinished">Disko Birtual Kokapen eta Tamaina</translation>
+    </message>
+    <message>
+        <source>Select a file for the new hard disk image file</source>
+        <translation type="unfinished">Hautatu fitxategi bat disko gogor berriaren irudi fitxategiarentzat</translation>
+    </message>
+    <message>
+        <source>Hard disk images (*.vdi)</source>
+        <translation type="unfinished">Disko gogor irudiak (*.vdi)</translation>
+    </message>
+    <message>
+        <source>&lt;nobr&gt;%1 (%2 B)&lt;/nobr&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>UINewHDWzdPage4</name>
+    <message>
+        <source>You are going to create a new virtual hard disk with the following parameters:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Summary</source>
+        <translation type="unfinished">Laburpena</translation>
+    </message>
+    <message>
+        <source>%1 B</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Type</source>
+        <comment>summary</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Location</source>
+        <comment>summary</comment>
+        <translation type="unfinished">Kokalekuak</translation>
+    </message>
+    <message>
+        <source>Size</source>
+        <comment>summary</comment>
+        <translation type="unfinished">Tamaina</translation>
+    </message>
+    <message>
+        <source>If the above settings are correct, press the &lt;b&gt;%1&lt;/b&gt; button. Once you press it, a new hard disk will be created.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>UINewVMWzd</name>
+    <message>
+        <source>Create New Virtual Machine</source>
+        <translation>Makina Birtual Berria Sortu</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;This wizard will guide you through the steps that are necessary to create
+a new virtual machine for VirtualBox.&lt;/p&gt;
+&lt;p&gt;Use the &lt;b&gt;Next&lt;/b&gt; button to go the next page of the wizard
+and the &lt;b&gt;Back&lt;/b&gt; button to return to the previous page.&lt;/p&gt;</source>
+        <translation type="obsolete">&lt;p&gt;Morroi honek VirtualBox-rentzat makina birtual berriak sortzeko egin
+beharreko huratsetan algunduko zaitu.&lt;/p&gt;
+&lt;p&gt;Erabili &lt;b&gt;Hurrengoa&lt;/b&gt; botoia morroiaren hurrengo orrialdera joateko
+eta &lt;b&gt;Atzera&lt;/b&gt; botoia morroiaren aurreko orrialdera joateko.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Welcome to the New Virtual Machine Wizard!</source>
+        <translation type="obsolete">Ongietorri Makina Birtual Berriak Sortzeko Morroira!</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;Enter a name for the new virtual machine and select the type of the guest operating
+system you plan to install onto the virtual machine.&lt;/p&gt;
+&lt;p&gt;The name of the virtual machine usually indicates its software and hardware configuration.
+It will be used by all VirtualBox components to identify your virtual machine.&lt;/p&gt;</source>
+        <translation type="obsolete">&lt;p&gt;Idatzi makina birtual berriaren izena eta makina horretan instalatzea
+pentsatzen duzun sistema eragile mota hautatu&lt;/p&gt;
+ &lt;p&gt;Makina birtualaren izenak normalean duen software eta hardware konfigurazioa erakusten du.
+Hau VirtualBox-ek zure makina birtuala identifikatzeko erabiliko du.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>N&amp;ame</source>
+        <translation type="obsolete">Izen&amp;a</translation>
+    </message>
+    <message>
+        <source>OS &amp;Type</source>
+        <translation type="obsolete">SE mo&amp;ta</translation>
+    </message>
+    <message>
+        <source>VM Name and OS Type</source>
+        <translation type="obsolete">MB Izena SE Mota</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;Select the amount of base memory (RAM) in megabytes to be allocated to the virtual machine.&lt;/p&gt;</source>
+        <translation type="obsolete">&lt;p&gt;Hautatu makina birtualak esleituko duen oinarri memoria (RAM) kopurua.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Base &amp;Memory Size</source>
+        <translation type="obsolete">Oinarri &amp;Memoria Tamaina</translation>
+    </message>
+    <message>
+        <source>&lt;</source>
+        <translation type="obsolete">&lt;</translation>
+    </message>
+    <message>
+        <source>=</source>
+        <translation type="obsolete">=</translation>
+    </message>
+    <message>
+        <source>&gt;</source>
+        <translation type="obsolete">&gt;</translation>
+    </message>
+    <message>
+        <source>MB</source>
+        <translation type="obsolete">MB</translation>
+    </message>
+    <message>
+        <source>Memory</source>
+        <translation type="obsolete">Memoria</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;Select a hard disk image to be used
+as the boot hard disk of the virtual machine. You can either create a new hard
+disk using the &lt;b&gt;New&lt;/b&gt; button or select an existing hard disk
+image from the drop-down list or by pressing the &lt;b&gt;Existing&lt;/b&gt;
+button (to invoke the Virtual Disk Manager dialog).&lt;/p&gt;
+&lt;p&gt;If you need a more complicated hard disk setup, you can also skip this
+step and attach hard disks later using the VM Settings dialog.&lt;/p&gt;</source>
+        <translation type="obsolete">&lt;p&gt;Hautatu makina birtualak abio disko gogor bezala
+erabiliko duen disko gogor irudia. Edo &lt;b&gt;Berria&lt;/b&gt; botoia sakatuaz
+disko gogor berri bat sortu edo hautapen zerrendatik irudi bat hautatu
+&lt;b&gt;Dagoena&lt;/b&gt; botoia sakatuaz (Disko Gogor Kudeatzaile irekiaz).&lt;/p&gt;
+&lt;p&gt;Disko gogor konfigurazio hedatuago bat behar izanez gero, urrats
+hau albo batetara utzi eta beranduago MB ezarpen leiho erabiliaz disko
+gogorrak erantsi ditzakezu.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>B&amp;oot Hard Disk (Primary Master)</source>
+        <translation type="obsolete">Abi&amp;o Disko Gogorra (Lehen Mailako Maisua)</translation>
+    </message>
+    <message>
+        <source>N&amp;ew...</source>
+        <translation type="obsolete">&amp;Berria...</translation>
+    </message>
+    <message>
+        <source>E&amp;xisting...</source>
+        <translation type="obsolete">Da&amp;goena...</translation>
+    </message>
+    <message>
+        <source>Virtual Hard Disk</source>
+        <translation type="obsolete">Disko Gogor Birtuala</translation>
+    </message>
+    <message>
+        <source>
+                            &lt;p&gt;
+                            You are going to create a new virtual machine
+                            with the following parameters:
+                            &lt;/p&gt;
+                            </source>
+        <translation type="obsolete">
+                            &lt;p&gt;
+                            Hurrengo ezarpenekin makina birtual berri bat
+                            sortzera zoaz:
+                            &lt;/p&gt;
+                            </translation>
+    </message>
+    <message>
+        <source>
+                            &lt;p&gt;
+                            If the above is correct press the &lt;b&gt;Finish&lt;/b&gt; button.
+                            Once you press it, a new virtual machine will be created.
+                            &lt;/p&gt;&lt;p&gt;
+                            Note that you can alter these and all other setting of the
+                            created virtual machine at any time using the
+                            &lt;b&gt;Settings&lt;/b&gt; dialog accessible through
+                            the menu of the main window.
+                            &lt;/p&gt;
+                            </source>
+        <translation type="obsolete">
+                            &lt;p&gt;
+                            Aurrekoa zuzena bada sakatu  &lt;b&gt;Amaitu&lt;/b&gt; botoia.
+                            Bein botoia sakatu duzunean makina birtual berria sortuko da.
+                            &lt;/p&gt;&lt;p&gt;
+                            Kontutan izan ezarpen hauek eta beste batzuk edozein unetan
+                            menu nagusiko &lt;b&gt;Ezarpenak&lt;/b&gt; aukeraren bidez aldatu ditzakezula
+                            &lt;/p&gt;
+                            </translation>
+    </message>
+    <message>
+        <source>Summary</source>
+        <translation type="obsolete">Laburpena</translation>
+    </message>
+    <message>
+        <source>&lt;qt&gt;%1&amp;nbsp;MB&lt;/qt&gt;</source>
+        <translation type="obsolete">&lt;qt&gt;%1&amp;nbsp;MB&lt;/qt&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;tr&gt;&lt;td&gt;Name:&lt;/td&gt;&lt;td&gt;%1&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;OS Type:&lt;/td&gt;&lt;td&gt;%2&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Base Memory:&lt;/td&gt;&lt;td&gt;%3&amp;nbsp;MB&lt;/td&gt;&lt;/tr&gt;</source>
+        <translation type="obsolete">&lt;tr&gt;&lt;td&gt;Izena:&lt;/td&gt;&lt;td&gt;%1&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;SE Mota:&lt;/td&gt;&lt;td&gt;%2&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Oinarri Memoria:&lt;/td&gt;&lt;td&gt;%3&amp;nbsp;MB&lt;/td&gt;&lt;/tr&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;tr&gt;&lt;td&gt;Boot Hard Disk:&lt;/td&gt;&lt;td&gt;%4&lt;/td&gt;&lt;/tr&gt;</source>
+        <translation type="obsolete">&lt;tr&gt;&lt;td&gt;Abio Disko Gogorra:&lt;/td&gt;&lt;td&gt;%4&lt;/td&gt;&lt;/tr&gt;</translation>
+    </message>
+    <message>
+        <source>The recommended base memory size is &lt;b&gt;%1&lt;/b&gt; MB.</source>
+        <translation type="obsolete">Gomendatutako oinarri memoria &lt;b&gt;%1&lt;/b&gt; MB-eko da.</translation>
+    </message>
+    <message>
+        <source>The recommended size of the boot hard disk is &lt;b&gt;%1&lt;/b&gt; MB.</source>
+        <translation type="obsolete">Abio diskoaren gomendatutako tamaina &lt;b&gt;%1&lt;/b&gt; MB da.</translation>
+    </message>
+    <message>
+        <source>MB</source>
+        <comment>megabytes</comment>
+        <translation type="obsolete">MB</translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <comment>summary</comment>
+        <translation type="obsolete">Izena</translation>
+    </message>
+    <message>
+        <source>OS Type</source>
+        <comment>summary</comment>
+        <translation type="obsolete">SE mota</translation>
+    </message>
+    <message>
+        <source>Base Memory</source>
+        <comment>summary</comment>
+        <translation type="obsolete">Oinarri Memoria</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="obsolete">Utzi</translation>
+    </message>
+</context>
+<context>
+    <name>UINewVMWzdPage1</name>
+    <message>
+        <source>Welcome to the New Virtual Machine Wizard!</source>
+        <translation type="unfinished">Ongietorri Makina Birtual Berriak Sortzeko Morroira!</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;This wizard will guide you through the steps that are necessary to create a new virtual machine for VirtualBox.&lt;/p&gt;&lt;p&gt;%1&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>UINewVMWzdPage2</name>
+    <message>
+        <source>&lt;p&gt;Enter a name for the new virtual machine and select the type of the guest operating system you plan to install onto the virtual machine.&lt;/p&gt;&lt;p&gt;The name of the virtual machine usually indicates its software and hardware configuration. It will be used by all VirtualBox components to identify your virtual machine.&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>N&amp;ame</source>
+        <translation type="unfinished">Izen&amp;a</translation>
+    </message>
+    <message>
+        <source>OS &amp;Type</source>
+        <translation type="unfinished">SE mo&amp;ta</translation>
+    </message>
+    <message>
+        <source>VM Name and OS Type</source>
+        <translation type="unfinished">MB Izena SE Mota</translation>
+    </message>
+</context>
+<context>
+    <name>UINewVMWzdPage3</name>
+    <message>
+        <source>&lt;p&gt;Select the amount of base memory (RAM) in megabytes to be allocated to the virtual machine.&lt;/p&gt;</source>
+        <translation type="unfinished">&lt;p&gt;Hautatu makina birtualak esleituko duen oinarri memoria (RAM) kopurua.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Base &amp;Memory Size</source>
+        <translation type="unfinished">Oinarri &amp;Memoria Tamaina</translation>
+    </message>
+    <message>
+        <source>MB</source>
+        <translation type="unfinished">MB</translation>
+    </message>
+    <message>
+        <source>Memory</source>
+        <translation type="unfinished">Memoria</translation>
+    </message>
+    <message>
+        <source>The recommended base memory size is &lt;b&gt;%1&lt;/b&gt; MB.</source>
+        <translation type="unfinished">Gomendatutako oinarri memoria &lt;b&gt;%1&lt;/b&gt; MB-eko da.</translation>
+    </message>
+    <message>
+        <source>MB</source>
+        <comment>size suffix MBytes=1024 KBytes</comment>
+        <translation type="unfinished">MB</translation>
+    </message>
+</context>
+<context>
+    <name>UINewVMWzdPage4</name>
+    <message>
+        <source>&lt;p&gt;Select a hard disk image to be used as the boot hard disk of the virtual machine. You can either create a new hard disk using the &lt;b&gt;New&lt;/b&gt; button or select an existing hard disk image from the drop-down list or by pressing the &lt;b&gt;Existing&lt;/b&gt; button (to invoke the Virtual Media Manager dialog).&lt;/p&gt;&lt;p&gt;If you need a more complicated hard disk setup, you can also skip this step and attach hard disks later using the VM Settings dialog.&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Create new hard disk</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Use existing hard disk</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Virtual Hard Disk</source>
+        <translation type="unfinished">Disko Gogor Birtuala</translation>
+    </message>
+    <message>
+        <source>The recommended size of the boot hard disk is &lt;b&gt;%1&lt;/b&gt; MB.</source>
+        <translation type="unfinished">Abio diskoaren gomendatutako tamaina &lt;b&gt;%1&lt;/b&gt; MB da.</translation>
+    </message>
+    <message>
+        <source>Boot Hard &amp;Disk</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>UINewVMWzdPage5</name>
+    <message>
+        <source>&lt;p&gt;You are going to create a new virtual machine with the following parameters:&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Summary</source>
+        <translation type="unfinished">Laburpena</translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <comment>summary</comment>
+        <translation type="unfinished">Izena</translation>
+    </message>
+    <message>
+        <source>OS Type</source>
+        <comment>summary</comment>
+        <translation type="unfinished">SE mota</translation>
+    </message>
+    <message>
+        <source>Base Memory</source>
+        <comment>summary</comment>
+        <translation type="unfinished">Oinarri Memoria</translation>
+    </message>
+    <message>
+        <source>MB</source>
+        <comment>size suffix MBytes=1024KBytes</comment>
+        <translation type="unfinished">MB</translation>
+    </message>
+    <message>
+        <source>Boot Hard Disk</source>
+        <comment>summary</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;If the above is correct press the &lt;b&gt;%1&lt;/b&gt; button. Once you press it, a new virtual machine will be created. &lt;/p&gt;&lt;p&gt;Note that you can alter these and all other setting of the created virtual machine at any time using the &lt;b&gt;Settings&lt;/b&gt; dialog accessible through the menu of the main window.&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>VBoxAboutDlg</name>
     <message>
         <source>VirtualBox - About</source>
@@ -508,29 +2024,6 @@
     </message>
 </context>
 <context>
-    <name>VBoxAdditionsDownloader</name>
-    <message>
-        <source>Cancel</source>
-        <translation type="unfinished">Utzi</translation>
-    </message>
-    <message>
-        <source>Downloading the VirtualBox Guest Additions CD image from &lt;nobr&gt;&lt;b&gt;%1&lt;/b&gt;...&lt;/nobr&gt;</source>
-        <translation type="unfinished">VirtualBox Bezero Gehigarri CD irudia &lt;nobr&gt;&lt;b&gt;%1&lt;/b&gt;-etik deskargatzen...&lt;/nobr&gt;</translation>
-    </message>
-    <message>
-        <source>Cancel the VirtualBox Guest Additions CD image download</source>
-        <translation type="unfinished">Utzi VirtualBox Bezero Gehigarri CD irudi deskarga</translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;Failed to save the downloaded file as &lt;nobr&gt;&lt;b&gt;%1&lt;/b&gt;.&lt;/nobr&gt;&lt;/p&gt;</source>
-        <translation type="unfinished">&lt;p&gt;Huts deskargatutako fitxategia &lt;nobr&gt;&lt;b&gt;%1&lt;/b&gt; bezala gordetzerakoan.&lt;/nobr&gt;&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>Select folder to save Guest Additions image to</source>
-        <translation type="unfinished">Hautau Bezero Gehigarri CD irudia gordetzeko karpeta</translation>
-    </message>
-</context>
-<context>
     <name>VBoxApplianceEditorWgt</name>
     <message>
         <source>Virtual System %1</source>
@@ -622,7 +2115,7 @@
     </message>
     <message>
         <source>MB</source>
-        <translation type="unfinished">MB</translation>
+        <translation type="obsolete">MB</translation>
     </message>
     <message>
         <source>&lt;b&gt;Original Value:&lt;/b&gt; %1</source>
@@ -634,6 +2127,20 @@
     </message>
     <message>
         <source>Warnings:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>MB</source>
+        <comment>size suffix MBytes=1024 KBytes</comment>
+        <translation type="unfinished">MB</translation>
+    </message>
+    <message>
+        <source>MB</source>
+        <comment>size suffix MBytes=1024KBytes</comment>
+        <translation type="obsolete">MB</translation>
+    </message>
+    <message>
+        <source>Hard Disk Controller (SAS)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -728,7 +2235,7 @@
     <name>VBoxConsoleWnd</name>
     <message>
         <source>VirtualBox OSE</source>
-        <translation>VirtualBox OSE</translation>
+        <translation type="obsolete">VirtualBox OSE</translation>
     </message>
     <message>
         <source>innotek VirtualBox</source>
@@ -736,85 +2243,85 @@
     </message>
     <message>
         <source>&amp;Fullscreen Mode</source>
-        <translation>&amp;Panataila Osoko Modua</translation>
+        <translation type="obsolete">&amp;Panataila Osoko Modua</translation>
     </message>
     <message>
         <source>Switch to fullscreen mode</source>
-        <translation>Panataila oso modura aldatu</translation>
+        <translation type="obsolete">Panataila oso modura aldatu</translation>
     </message>
     <message>
         <source>Mouse Integration</source>
         <comment>enable/disable...</comment>
-        <translation>Sagu integrazioa</translation>
+        <translation type="obsolete">Sagu integrazioa</translation>
     </message>
     <message>
         <source>Auto-resize Guest Display</source>
         <comment>enable/disable...</comment>
-        <translation>Automatikoki Tamaina Aldatu Bezero Pantaila</translation>
+        <translation type="obsolete">Automatikoki Tamaina Aldatu Bezero Pantaila</translation>
     </message>
     <message>
         <source>Auto-resize &amp;Guest Display</source>
-        <translation>Automatikoki Tamaina Aldatu &amp;Bezero Pantaila</translation>
+        <translation type="obsolete">Automatikoki Tamaina Aldatu &amp;Bezero Pantaila</translation>
     </message>
     <message>
         <source>Automatically resize the guest display when the window is resized (requires Guest Additions)</source>
-        <translation>Automatikoki tamainaz aldatu bezero pantaila leihoa tamaina aldatzean (Bezero Gehigarriak behar du)</translation>
+        <translation type="obsolete">Automatikoki tamainaz aldatu bezero pantaila leihoa tamaina aldatzean (Bezero Gehigarriak behar du)</translation>
     </message>
     <message>
         <source>&amp;Adjust Window Size</source>
-        <translation>Leiho Tamaina &amp;Doitu</translation>
+        <translation type="obsolete">Leiho Tamaina &amp;Doitu</translation>
     </message>
     <message>
         <source>Adjust window size and position to best fit the guest display</source>
-        <translation>Leiho tamaina eta kokalekua doitu bezero pantaila hobe sartzeko</translation>
+        <translation type="obsolete">Leiho tamaina eta kokalekua doitu bezero pantaila hobe sartzeko</translation>
     </message>
     <message>
         <source>&amp;Insert Ctrl-Alt-Del</source>
-        <translation>B&amp;idali Ktrl-Alt-Ezab</translation>
+        <translation type="obsolete">B&amp;idali Ktrl-Alt-Ezab</translation>
     </message>
     <message>
         <source>Send the Ctrl-Alt-Del sequence to the virtual machine</source>
-        <translation>Ktrl+Alt+Ezab sekuentzia bidali makina birtualera</translation>
+        <translation type="obsolete">Ktrl+Alt+Ezab sekuentzia bidali makina birtualera</translation>
     </message>
     <message>
         <source>&amp;Insert Ctrl-Alt-Backspace</source>
-        <translation>B&amp;idali Ktrl-Alt-Atzera-tekla</translation>
+        <translation type="obsolete">B&amp;idali Ktrl-Alt-Atzera-tekla</translation>
     </message>
     <message>
         <source>Send the Ctrl-Alt-Backspace sequence to the virtual machine</source>
-        <translation>Ktrl-Alt-Atzera-tekla sekuentzia bidali makina birtualera</translation>
+        <translation type="obsolete">Ktrl-Alt-Atzera-tekla sekuentzia bidali makina birtualera</translation>
     </message>
     <message>
         <source>&amp;Reset</source>
-        <translation>Be&amp;rrezarri</translation>
+        <translation type="obsolete">Be&amp;rrezarri</translation>
     </message>
     <message>
         <source>Reset the virtual machine</source>
-        <translation>Makina Birtuala berrezarri</translation>
+        <translation type="obsolete">Makina Birtuala berrezarri</translation>
     </message>
     <message>
         <source>ACPI S&amp;hutdown</source>
-        <translation>ACPI It&amp;zalia</translation>
+        <translation type="obsolete">ACPI It&amp;zalia</translation>
     </message>
     <message>
         <source>Send the ACPI Power Button press event to the virtual machine</source>
-        <translation>ACPI Indar Botoia Gertaera bidali makina birtualera</translation>
+        <translation type="obsolete">ACPI Indar Botoia Gertaera bidali makina birtualera</translation>
     </message>
     <message>
         <source>&amp;Close...</source>
-        <translation>It&amp;xi...</translation>
+        <translation type="obsolete">It&amp;xi...</translation>
     </message>
     <message>
         <source>Close the virtual machine</source>
-        <translation>Makina Birtuala itxi</translation>
+        <translation type="obsolete">Makina Birtuala itxi</translation>
     </message>
     <message>
         <source>Take &amp;Snapshot...</source>
-        <translation>&amp;Egoera-argazkia egin...</translation>
+        <translation type="obsolete">&amp;Egoera-argazkia egin...</translation>
     </message>
     <message>
         <source>Take a snapshot of the virtual machine</source>
-        <translation>Makina Birtualaren egoera-argazki bat egin</translation>
+        <translation type="obsolete">Makina Birtualaren egoera-argazki bat egin</translation>
     </message>
     <message>
         <source>&amp;Floppy Image...</source>
@@ -851,7 +2358,7 @@
     <message>
         <source>Remote Desktop (RDP) Server</source>
         <comment>enable/disable...</comment>
-        <translation type="unfinished">Urruneko Idazmahai Zerbitzaria (RDP)</translation>
+        <translation type="obsolete">Urruneko Idazmahai Zerbitzaria (RDP)</translation>
     </message>
     <message>
         <source>Remote Dis&amp;play</source>
@@ -859,23 +2366,23 @@
     </message>
     <message>
         <source>Enable or disable remote desktop (RDP) connections to this machine</source>
-        <translation>Urruneko idazmahai (RDP) konexioak gaitu edo ezgaitu maina honetarako</translation>
+        <translation type="obsolete">Urruneko idazmahai (RDP) konexioak gaitu edo ezgaitu maina honetarako</translation>
     </message>
     <message>
         <source>&amp;Shared Folders...</source>
-        <translation>&amp;Partekatutako Karpetak...</translation>
+        <translation type="obsolete">&amp;Partekatutako Karpetak...</translation>
     </message>
     <message>
         <source>Create or modify shared folders</source>
-        <translation>Partekatutako karpetekin aritzeko leihoa ireki</translation>
+        <translation type="obsolete">Partekatutako karpetekin aritzeko leihoa ireki</translation>
     </message>
     <message>
         <source>&amp;Install Guest Additions...</source>
-        <translation>Bezero Gehigarriak &amp;Instalatu...</translation>
+        <translation type="obsolete">Bezero Gehigarriak &amp;Instalatu...</translation>
     </message>
     <message>
         <source>Mount the Guest Additions installation image</source>
-        <translation>Bezero Gehigarri instalazio irudia muntatu</translation>
+        <translation type="obsolete">Bezero Gehigarri instalazio irudia muntatu</translation>
     </message>
     <message>
         <source>&amp;Statistics...</source>
@@ -919,19 +2426,19 @@
     </message>
     <message>
         <source>&amp;USB Devices</source>
-        <translation>&amp;USB Gailuak</translation>
+        <translation type="obsolete">&amp;USB Gailuak</translation>
     </message>
     <message>
         <source>&amp;Devices</source>
-        <translation>&amp;Gailuak</translation>
+        <translation type="obsolete">&amp;Gailuak</translation>
     </message>
     <message>
         <source>De&amp;bug</source>
-        <translation>Ara&amp;zpena</translation>
+        <translation type="obsolete">Ara&amp;zpena</translation>
     </message>
     <message>
         <source>&amp;Help</source>
-        <translation>&amp;Laguntza</translation>
+        <translation type="obsolete">&amp;Laguntza</translation>
     </message>
     <message>
         <source>Indicates whether the guest display auto-resize function is On (&lt;img src=auto_resize_on_16px.png/&gt;) or Off (&lt;img src=auto_resize_off_16px.png/&gt;). Note that this function requires Guest Additions to be installed in the guest OS.</source>
@@ -947,43 +2454,43 @@
     </message>
     <message>
         <source>&lt;hr&gt;The VRDP Server is listening on port %1</source>
-        <translation>&lt;hr&gt;VRDP Zerbitzaria %1 atakan entzuten ari da</translation>
+        <translation type="obsolete">&lt;hr&gt;VRDP Zerbitzaria %1 atakan entzuten ari da</translation>
     </message>
     <message>
         <source>&amp;Pause</source>
-        <translation>&amp;Gelditu</translation>
+        <translation type="obsolete">&amp;Gelditu</translation>
     </message>
     <message>
         <source>Suspend the execution of the virtual machine</source>
-        <translation>Makina Birtualaren exekuzioa gelditu</translation>
+        <translation type="obsolete">Makina Birtualaren exekuzioa gelditu</translation>
     </message>
     <message>
         <source>R&amp;esume</source>
-        <translation>Ja&amp;rraitu</translation>
+        <translation type="obsolete">Ja&amp;rraitu</translation>
     </message>
     <message>
         <source>Resume the execution of the virtual machine</source>
-        <translation>Makina birtualaren exekuzioa jarraitu</translation>
+        <translation type="obsolete">Makina birtualaren exekuzioa jarraitu</translation>
     </message>
     <message>
         <source>Disable &amp;Mouse Integration</source>
-        <translation>&amp;Sagu Integrazioa ezgaitu</translation>
+        <translation type="obsolete">&amp;Sagu Integrazioa ezgaitu</translation>
     </message>
     <message>
         <source>Temporarily disable host mouse pointer integration</source>
-        <translation>Aldirako ezgaitu sagu markatzaile integrazioa</translation>
+        <translation type="obsolete">Aldirako ezgaitu sagu markatzaile integrazioa</translation>
     </message>
     <message>
         <source>Enable &amp;Mouse Integration</source>
-        <translation>&amp;Sagu integrazioa gaitu</translation>
+        <translation type="obsolete">&amp;Sagu integrazioa gaitu</translation>
     </message>
     <message>
         <source>Enable temporarily disabled host mouse pointer integration</source>
-        <translation>Aldirako ezgaituriko sagu markatzaile integrazioa gaitu</translation>
+        <translation type="obsolete">Aldirako ezgaituriko sagu markatzaile integrazioa gaitu</translation>
     </message>
     <message>
         <source>Snapshot %1</source>
-        <translation>%1 egoera-argazkia</translation>
+        <translation type="obsolete">%1 egoera-argazkia</translation>
     </message>
     <message>
         <source>Host Drive </source>
@@ -991,11 +2498,7 @@
     </message>
     <message>
         <source>&amp;Machine</source>
-        <translation>&amp;Makina</translation>
-    </message>
-    <message>
-        <source>Sun VirtualBox</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">&amp;Makina</translation>
     </message>
     <message>
         <source>&amp;Network Adapters</source>
@@ -1021,7 +2524,7 @@
     </message>
     <message>
         <source>Seam&amp;less Mode</source>
-        <translation>Gardenta&amp;sun Modua</translation>
+        <translation type="obsolete">Gardenta&amp;sun Modua</translation>
     </message>
     <message>
         <source>Switch to seamless desktop integration mode</source>
@@ -1065,7 +2568,7 @@
     <message>
         <source>&lt;br&gt;&lt;nobr&gt;&lt;b&gt;No hard disks attached&lt;/b&gt;&lt;/nobr&gt;</source>
         <comment>HDD tooltip</comment>
-        <translation>&lt;br&gt;&lt;nobr&gt;&lt;b&gt;Ez dago disko gogorrik erantsirik&lt;/b&gt;&lt;/nobr&gt;</translation>
+        <translation type="obsolete">&lt;br&gt;&lt;nobr&gt;&lt;b&gt;Ez dago disko gogorrik erantsirik&lt;/b&gt;&lt;/nobr&gt;</translation>
     </message>
     <message>
         <source>&lt;qt&gt;&lt;nobr&gt;Indicates the activity of the network interfaces:&lt;/nobr&gt;%1&lt;/qt&gt;</source>
@@ -1075,22 +2578,22 @@
     <message>
         <source>&lt;br&gt;&lt;nobr&gt;&lt;b&gt;Adapter %1 (%2)&lt;/b&gt;: cable %3&lt;/nobr&gt;</source>
         <comment>Network adapters tooltip</comment>
-        <translation>&lt;br&gt;&lt;nobr&gt;&lt;b&gt;Moldagailua: %1 (%2)&lt;/b&gt;: kablea %3&lt;/nobr&gt;</translation>
+        <translation type="obsolete">&lt;br&gt;&lt;nobr&gt;&lt;b&gt;Moldagailua: %1 (%2)&lt;/b&gt;: kablea %3&lt;/nobr&gt;</translation>
     </message>
     <message>
         <source>connected</source>
         <comment>Network adapters tooltip</comment>
-        <translation>konektatuta</translation>
+        <translation type="obsolete">konektatuta</translation>
     </message>
     <message>
         <source>disconnected</source>
         <comment>Network adapters tooltip</comment>
-        <translation>deskonektatuta</translation>
+        <translation type="obsolete">deskonektatuta</translation>
     </message>
     <message>
         <source>&lt;br&gt;&lt;nobr&gt;&lt;b&gt;All network adapters are disabled&lt;/b&gt;&lt;/nobr&gt;</source>
         <comment>Network adapters tooltip</comment>
-        <translation>&lt;br&gt;&lt;nobr&gt;&lt;b&gt;Sare moldagailu guztiak ezgaiturik daude&lt;/b&gt;&lt;/nobr&gt;</translation>
+        <translation type="obsolete">&lt;br&gt;&lt;nobr&gt;&lt;b&gt;Sare moldagailu guztiak ezgaiturik daude&lt;/b&gt;&lt;/nobr&gt;</translation>
     </message>
     <message>
         <source>&lt;qt&gt;&lt;nobr&gt;Indicates the activity of the attached USB devices:&lt;/nobr&gt;%1&lt;/qt&gt;</source>
@@ -1100,12 +2603,12 @@
     <message>
         <source>&lt;br&gt;&lt;nobr&gt;&lt;b&gt;No USB devices attached&lt;/b&gt;&lt;/nobr&gt;</source>
         <comment>USB device tooltip</comment>
-        <translation>&lt;br&gt;&lt;nobr&gt;&lt;b&gt;Ez dago USB gailurik erantsirik&lt;/b&gt;&lt;/nobr&gt;</translation>
+        <translation type="obsolete">&lt;br&gt;&lt;nobr&gt;&lt;b&gt;Ez dago USB gailurik erantsirik&lt;/b&gt;&lt;/nobr&gt;</translation>
     </message>
     <message>
         <source>&lt;br&gt;&lt;nobr&gt;&lt;b&gt;USB Controller is disabled&lt;/b&gt;&lt;/nobr&gt;</source>
         <comment>USB device tooltip</comment>
-        <translation>&lt;br&gt;&lt;nobr&gt;&lt;b&gt;USB Kontrolatzailea ezgaiturik dago&lt;/b&gt;&lt;/nobr&gt;</translation>
+        <translation type="obsolete">&lt;br&gt;&lt;nobr&gt;&lt;b&gt;USB Kontrolatzailea ezgaiturik dago&lt;/b&gt;&lt;/nobr&gt;</translation>
     </message>
     <message>
         <source>Indicates whether the Remote Display (VRDP Server) is enabled (&lt;img src=vrdp_16px.png/&gt;) or not (&lt;img src=vrdp_disabled_16px.png/&gt;).</source>
@@ -1119,11 +2622,11 @@
     <message>
         <source>&lt;br&gt;&lt;nobr&gt;&lt;b&gt;No shared folders&lt;/b&gt;&lt;/nobr&gt;</source>
         <comment>Shared folders tooltip</comment>
-        <translation>&lt;br&gt;&lt;nobr&gt;&lt;b&gt;Ez dago partekatutako karpetarik&lt;/b&gt;&lt;/nobr&gt;</translation>
+        <translation type="obsolete">&lt;br&gt;&lt;nobr&gt;&lt;b&gt;Ez dago partekatutako karpetarik&lt;/b&gt;&lt;/nobr&gt;</translation>
     </message>
     <message>
         <source>Switch to seamless desktop integration mode</source>
-        <translation type="unfinished">Idazmahai integrazio garden modura aldatu</translation>
+        <translation type="obsolete">Idazmahai integrazio garden modura aldatu</translation>
     </message>
     <message>
         <source>&amp;Contents...</source>
@@ -1158,145 +2661,13 @@
         <translation type="obsolete">Ostalari PC-ko hautaturiko gailu fisikoa muntatu</translation>
     </message>
     <message>
-        <source>Session I&amp;nformation Dialog</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Show Session Information Dialog</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>&amp;Statistics...</source>
         <comment>debug action</comment>
-        <translation type="unfinished">E&amp;statistikak...</translation>
+        <translation type="obsolete">E&amp;statistikak...</translation>
     </message>
     <message>
-        <source>&amp;Command Line...</source>
-        <comment>debug action</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Indicates whether the guest display auto-resize function is On (&lt;img src=:/auto_resize_on_16px.png/&gt;) or Off (&lt;img src=:/auto_resize_off_16px.png/&gt;). Note that this function requires Guest Additions to be installed in the guest OS.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Indicates whether the host mouse pointer is captured by the guest OS:&lt;br&gt;&lt;nobr&gt;&lt;img src=:/mouse_disabled_16px.png/&gt;&amp;nbsp;&amp;nbsp;pointer is not captured&lt;/nobr&gt;&lt;br&gt;&lt;nobr&gt;&lt;img src=:/mouse_16px.png/&gt;&amp;nbsp;&amp;nbsp;pointer is captured&lt;/nobr&gt;&lt;br&gt;&lt;nobr&gt;&lt;img src=:/mouse_seamless_16px.png/&gt;&amp;nbsp;&amp;nbsp;mouse integration (MI) is On&lt;/nobr&gt;&lt;br&gt;&lt;nobr&gt;&lt;img src=:/mouse_can_seamless_16px.png/&gt;&amp;nbsp;&amp;nbsp;MI is Off, pointer is captured&lt;/nobr&gt;&lt;br&gt;&lt;nobr&gt;&lt;img src=:/mouse_can_seamless_uncaptured_16px.png/&gt;&amp;nbsp;&amp;nbsp;MI is Off, pointer is not captured&lt;/nobr&gt;&lt;br&gt;Note that the mouse integration feature requires Guest Additions to be installed in the guest OS.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Indicates whether the keyboard is captured by the guest OS (&lt;img src=:/hostkey_captured_16px.png/&gt;) or not (&lt;img src=:/hostkey_16px.png/&gt;).</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Indicates whether the Remote Display (VRDP Server) is enabled (&lt;img src=:/vrdp_16px.png/&gt;) or not (&lt;img src=:/vrdp_disabled_16px.png/&gt;).</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Logging...</source>
-        <comment>debug action</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Shows the currently assigned Host key.&lt;br&gt;This key, when pressed alone, toggles the keyboard and mouse capture state. It can also be used in combination with other keys to quickly perform actions from the main menu.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Indicates the status of the hardware virtualization features used by this virtual machine:&lt;br&gt;&lt;nobr&gt;&lt;b&gt;%1:&lt;/b&gt;&amp;nbsp;%2&lt;/nobr&gt;&lt;br&gt;&lt;nobr&gt;&lt;b&gt;%3:&lt;/b&gt;&amp;nbsp;%4&lt;/nobr&gt;</source>
-        <comment>Virtualization Stuff LED</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;br&gt;&lt;nobr&gt;&lt;b&gt;%1:&lt;/b&gt;&amp;nbsp;%2&lt;/nobr&gt;</source>
-        <comment>Virtualization Stuff LED</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source> EXPERIMENTAL build %1r%2 - %3</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;CD/DVD Devices</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Floppy Devices</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Network Adapters...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Change the settings of network adapters</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Remote Display</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>More CD/DVD Images...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Unmount CD/DVD Device</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>More Floppy Images...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Unmount Floppy Device</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>No CD/DVD Devices Attached</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>No Floppy Devices Attached</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;p style=&apos;white-space:pre&apos;&gt;&lt;nobr&gt;Indicates the activity of the virtual hard disks:&lt;/nobr&gt;%1&lt;/p&gt;</source>
-        <comment>HDD tooltip</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;p style=&apos;white-space:pre&apos;&gt;&lt;nobr&gt;Indicates the activity of the CD/DVD devices:&lt;/nobr&gt;%1&lt;/p&gt;</source>
-        <comment>CD/DVD tooltip</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;br&gt;&lt;nobr&gt;&lt;b&gt;No CD/DVD devices attached&lt;/b&gt;&lt;/nobr&gt;</source>
-        <comment>CD/DVD tooltip</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;p style=&apos;white-space:pre&apos;&gt;&lt;nobr&gt;Indicates the activity of the floppy devices:&lt;/nobr&gt;%1&lt;/p&gt;</source>
-        <comment>FD tooltip</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;br&gt;&lt;nobr&gt;&lt;b&gt;No floppy devices attached&lt;/b&gt;&lt;/nobr&gt;</source>
-        <comment>FD tooltip</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;p style=&apos;white-space:pre&apos;&gt;&lt;nobr&gt;Indicates the activity of the network interfaces:&lt;/nobr&gt;%1&lt;/p&gt;</source>
-        <comment>Network adapters tooltip</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;p style=&apos;white-space:pre&apos;&gt;&lt;nobr&gt;Indicates the activity of the attached USB devices:&lt;/nobr&gt;%1&lt;/p&gt;</source>
-        <comment>USB device tooltip</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;p style=&apos;white-space:pre&apos;&gt;&lt;nobr&gt;Indicates the activity of the machine&apos;s shared folders:&lt;/nobr&gt;%1&lt;/p&gt;</source>
-        <comment>Shared folders tooltip</comment>
-        <translation type="unfinished"></translation>
+        <source>No supported devices connected to the host PC</source>
+        <translation type="obsolete">Ez dago onartutako gailurik konektaturik ostalari PC-ra</translation>
     </message>
 </context>
 <context>
@@ -1566,185 +2937,9 @@
     </message>
 </context>
 <context>
-    <name>VBoxDownloaderWgt</name>
-    <message>
-        <source>Cancel</source>
-        <translation type="obsolete">Utzi</translation>
-    </message>
-    <message>
-        <source>Downloading the VirtualBox Guest Additions CD image from &lt;nobr&gt;&lt;b&gt;%1&lt;/b&gt;...&lt;/nobr&gt;</source>
-        <translation type="obsolete">VirtualBox Bezero Gehigarri CD irudia &lt;nobr&gt;&lt;b&gt;%1&lt;/b&gt;-etik deskargatzen...&lt;/nobr&gt;</translation>
-    </message>
-    <message>
-        <source>Cancel the VirtualBox Guest Additions CD image download</source>
-        <translation type="obsolete">Utzi VirtualBox Bezero Gehigarri CD irudi deskarga</translation>
-    </message>
-    <message>
-        <source>Could not locate the file on the server (response: %1).</source>
-        <translation type="obsolete">Ezin da fitxategia aurkitu zerbitzarian (erantzuna: %1).</translation>
-    </message>
-    <message>
-        <source>Could not determine the file size.</source>
-        <translation type="obsolete">Ezin da fitxategi tamaina atzeman.</translation>
-    </message>
-    <message>
-        <source>Could not connect to the server (%1).</source>
-        <translation type="obsolete">Ezin da zerbitzariarekin konektatu (%1).</translation>
-    </message>
-    <message>
-        <source>Could not download the file (%1).</source>
-        <translation type="obsolete">Ezin da fitxategia deskargatu (%1).</translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;Failed to save the downloaded file as &lt;nobr&gt;&lt;b&gt;%1&lt;/b&gt;.&lt;/nobr&gt;&lt;/p&gt;</source>
-        <translation type="obsolete">&lt;p&gt;Huts deskargatutako fitxategia &lt;nobr&gt;&lt;b&gt;%1&lt;/b&gt; bezala gordetzerakoan.&lt;/nobr&gt;&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>Select folder to save Guest Additions image to</source>
-        <translation type="obsolete">Hautau Bezero Gehigarri CD irudia gordetzeko karpeta</translation>
-    </message>
-    <message>
-        <source>Connection timed out.</source>
-        <translation type="obsolete">Konexioa denboraz kanpo.</translation>
-    </message>
-    <message>
-        <source>The download process has been cancelled by the user.</source>
-        <translation>Deskarga prozesua erabiltzaileak eten du.</translation>
-    </message>
-</context>
-<context>
     <name>VBoxEmptyFileSelector</name>
     <message>
         <source>&amp;Choose...</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>VBoxExportApplianceWzd</name>
-    <message>
-        <source>Select a file to export into</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Open Virtualization Format (%1)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Appliance</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Exporting Appliance ...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Appliance Export Wizard</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Welcome to the Appliance Export Wizard!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;This wizard will guide you through the process of exporting an appliance. &lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Use the &lt;span style=&quot; font-weight:600;&quot;&gt;Next&lt;/span&gt; button to go the next page of the wizard and the &lt;span style=&quot; font-weight:600;&quot;&gt;Back&lt;/span&gt; button to return to the previous page.&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Please select the virtual machines that you wish to the appliance. You can select more than one. Please note that these machines have to be turned off before they can be exported.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt; &amp;Back</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Next &gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation type="unfinished">Utzi</translation>
-    </message>
-    <message>
-        <source>Appliance Export Settings</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Here you can change additional configuration values of the selected virtual machines. You can modify most of the properties shown by double-clicking on the items.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Restore Defaults</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Write in legacy OVF 0.9 format for compatibility with other virtualization products.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Write legacy OVF 0.9</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Export &gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Please choose a filename to export the OVF to.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Please complete the additional fields like the username, password and the bucket, and provide a filename for the OVF target.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Please complete the additional fields like the username, password, hostname and the bucket, and provide a filename for the OVF target.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Checking files ...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Removing files ...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Please specify the target for the OVF export. You can choose between a local file system export, uploading the OVF to the Sun Cloud service or an S3 storage server.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Local Filesystem </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Sun &amp;Cloud</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Simple Storage System (S3)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Username:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Password:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;File:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Bucket:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Hostname:</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1861,14 +3056,6 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>When checked, the Dock Icon will reflect the VM window content in realtime.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Dock Icon Realtime Preview</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Displays the path to the default hard disk folder. This folder is used, if not explicitly specified otherwise, when adding existing or creating new virtual hard disks.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1881,7 +3068,7 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>&amp;Auto show Dock &amp;&amp; Menubar in fullscreen</source>
+        <source>&amp;Auto show Dock and Menubar in fullscreen</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1901,6 +3088,14 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>&amp;Auto Capture Keyboard</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Reset Host Key</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Resets the key used as a Host Key in the VM window.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3132,7 +4327,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>&lt;nobr&gt;%1 MB&lt;/nobr&gt;</source>
         <comment>details report</comment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&lt;nobr&gt;%4 MB&lt;/nobr&gt; {1 ?}</translation>
     </message>
     <message>
         <source>Processor(s)</source>
@@ -3400,6 +4595,95 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>(CD/DVD)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Screens</source>
+        <comment>details report</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>VDE network, &apos;%1&apos;</source>
+        <comment>details report (network)</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>SAS</source>
+        <comment>StorageBus</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>VDE Adapter</source>
+        <comment>NetworkAttachmentType</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>LsiLogic SAS</source>
+        <comment>StorageControllerType</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>^(?:(?:(\d+)(?:\s?(B|KB|MB|GB|TB|PB))?)|(?:(\d*)%1(\d{1,2})(?:\s?(KB|MB|GB|TB|PB))))$</source>
+        <comment>regexp for matching ####[.##] B|KB|MB|GB|TB|PB, %1=decimal point</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>B</source>
+        <comment>size suffix Bytes</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>KB</source>
+        <comment>size suffix KBytes=1024 Bytes</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>MB</source>
+        <comment>size suffix MBytes=1024 KBytes</comment>
+        <translation type="unfinished">MB</translation>
+    </message>
+    <message>
+        <source>GB</source>
+        <comment>size suffix GBytes=1024 MBytes</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>TB</source>
+        <comment>size suffix TBytes=1024 GBytes</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>PB</source>
+        <comment>size suffix PBytes=1024 TBytes</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enabled</source>
+        <comment>nested paging</comment>
+        <translation type="unfinished">Gaiturik</translation>
+    </message>
+    <message>
+        <source>Disabled</source>
+        <comment>nested paging</comment>
+        <translation type="unfinished">Ezgaiturik</translation>
+    </message>
+    <message>
+        <source>Nested Paging</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Shareable</source>
+        <comment>DiskType</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unknown device</source>
+        <comment>USB device details</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>SAS Port %1</source>
+        <comment>New Storage UI : Slot Name</comment>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3781,98 +5065,6 @@ sistemako lehenetsiriko hizkuntza berrezartzeko.&lt;/qt&gt;
     </message>
 </context>
 <context>
-    <name>VBoxImportApplianceWzd</name>
-    <message>
-        <source>Select an appliance to import</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Open Virtualization Format (%1)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Appliance Import Wizard</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Welcome to the Appliance Import Wizard!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;This wizard will guide you through importing an appliance. &lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Use the &lt;span style=&quot; font-weight:600;&quot;&gt;Next&lt;/span&gt; button to go the next page of the wizard and the &lt;span style=&quot; font-weight:600;&quot;&gt;Back&lt;/span&gt; button to return to the previous page.&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;VirtualBox currently supports importing appliances saved in the Open Virtualization Format (OVF). To continue, select the file to import below:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt; &amp;Back</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Next &gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation type="unfinished">Utzi</translation>
-    </message>
-    <message>
-        <source>Appliance Import Settings</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>These are the virtual machines contained in the appliance and the suggested settings of the imported VirtualBox machines. You can change many of the properties shown by double-clicking on the items and disable others using the check boxes below.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Restore Defaults</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Import &gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>VBoxImportLicenseViewer</name>
-    <message>
-        <source>&lt;b&gt;The virtual system &quot;%1&quot; requires that you agree to the terms and conditions of the software license agreement shown below.&lt;/b&gt;&lt;br /&gt;&lt;br /&gt;Click &lt;b&gt;Agree&lt;/b&gt; to continue or click &lt;b&gt;Disagree&lt;/b&gt; to cancel the import.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Software License Agreement</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Disagree</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Agree</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Print...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Save...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Text (*.txt)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Save license to file...</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>VBoxLicenseViewer</name>
     <message>
         <source>VirtualBox License</source>
@@ -4153,444 +5345,6 @@ p, li { white-space: pre-wrap; }
     <name>VBoxNetworkDialog</name>
     <message>
         <source>Network Adapters</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>VBoxNewHDWzd</name>
-    <message>
-        <source>Create New Virtual Disk</source>
-        <translation>Disko Birtual Berria Sortu</translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;This wizard will help you to create a new virtual hard disk image for your virtual machine.&lt;/p&gt;
-&lt;p&gt;Use the &lt;b&gt;Next&lt;/b&gt; button to go to the next page of the wizard
-and the &lt;b&gt;Back&lt;/b&gt; button to return to the previous page.&lt;/p&gt;</source>
-        <translation type="obsolete">&lt;p&gt;Morroi honek zure makina birtualarentzat disko gogor birtual berriak sortzen lagunduko zaitu.&lt;/p&gt;
-&lt;p&gt;Erabili &lt;b&gt;Hurrengoa&lt;/b&gt; botoia morroiaren hurrengo orrialdera joateko
-eta &lt;b&gt;Atzera&lt;/b&gt; botoia morroiaren aurreko orrialdera joateko.&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>Welcome to the Create New Virtual Disk Wizard!</source>
-        <translation>Ongietorri Disko Gogor Birtual Berriak Sortzeko Morroira!</translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;Select the type of virtual hard disk image you want to create.&lt;/p&gt;
-&lt;p&gt;A &lt;b&gt;dynamically expanding image&lt;/b&gt; initially occupies a very small amount
-of space on your physical hard disk. It will grow dynamically (up to
-the size specified) as the Guest OS claims disk space.&lt;/p&gt;
-&lt;p&gt;A &lt;b&gt;fixed-size image&lt;/b&gt; does not grow. It is stored in a file of approximately
-the same size as the size of the virtual hard disk.&lt;/p&gt;</source>
-        <translation type="obsolete">&lt;p&gt;Hautatu sortu nahi duzun disko gogor birtual irudiaren mota.&lt;/p&gt;
-&lt;p&gt;A &lt;b&gt;dinamikoki hedatzen&lt;/b&gt; diren irudiek hasiera batetan disko
-gogorrean tamaina oso txikia artzen dute. Berau dinamikoki handituko
-da (ezarritako muga arte) bezero sistema eragileak lekua eskatzen
-duen eran.&lt;/p&gt;
-&lt;p&gt;&lt;b&gt;tamaina ezarritako irudiak&lt;/b&gt; ez dira hazten, hauek disko
-gogor birtualaren antzeko tamaina batetako fitxategi batetan gordetzen dira.&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>Image Type</source>
-        <translation type="obsolete">Irudi Mota</translation>
-    </message>
-    <message>
-        <source>&amp;Dynamically expanding image</source>
-        <translation type="obsolete">&amp;Dinamikoki hedatzen den irudia</translation>
-    </message>
-    <message>
-        <source>Alt+D</source>
-        <translation type="obsolete">Alt+D</translation>
-    </message>
-    <message>
-        <source>&amp;Fixed-size image</source>
-        <translation type="obsolete">&amp;Tamaina-ezarritako irudia</translation>
-    </message>
-    <message>
-        <source>Alt+F</source>
-        <translation type="obsolete">Alt+T</translation>
-    </message>
-    <message>
-        <source>Virtual Disk Image Type</source>
-        <translation type="obsolete">Disko Birtual Irudi Mota</translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;Press the &lt;b&gt;Select&lt;/b&gt; button to select the location and name of the file
-to store the virtual hard disk image or type a file name in the entry field.&lt;/p&gt;</source>
-        <translation type="obsolete">&lt;p&gt;Sakatu &lt;b&gt;Hautatu&lt;/b&gt; botoia disko gogor birtuala gordetzeko
-erabiliko den fitxategiaren kokaleku eta izena hautatu edo fitxategi izen bat idazteko sarrera eremuan.&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>&amp;Image File Name</source>
-        <translation type="obsolete">&amp;Irudi Fitxategi Izena</translation>
-    </message>
-    <message>
-        <source>Select</source>
-        <translation type="obsolete">Hautatu</translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;Select the size of the virtual hard disk image in megabytes. This size will be reported to the Guest OS
-as the size of the virtual hard disk.&lt;/p&gt;</source>
-        <translation type="obsolete">&lt;p&gt;Hautatu disko birtual irudi tamaina megabyte-tan. Tamaina hau SE ostalariari emango zaio
-disko gogor birtual tamaina bezala&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>Image &amp;Size</source>
-        <translation type="obsolete">Irudi &amp;Tamaina</translation>
-    </message>
-    <message>
-        <source>Virtual Disk Location and Size</source>
-        <translation>Disko Birtual Kokapen eta Tamaina</translation>
-    </message>
-    <message>
-        <source>You are going to create a new virtual hard disk image with the following parameters:</source>
-        <translation type="obsolete">Hurrengo parametroak erabiliaz disko gogor birtual bat sortzera zoaz:</translation>
-    </message>
-    <message>
-        <source>If the above settings are correct, press the &lt;b&gt;Finish&lt;/b&gt; button.
-                            Once you press it, a new hard disk image will be created.
-                            </source>
-        <translation type="obsolete">Aurreko ezarpen guztiak zuzenak badira, sakatu &lt;b&gt;Amaitu&lt;/b&gt; botoia.
-                            Behin sakatu duzunean, disko irudi berria sortuko da.
-                            </translation>
-    </message>
-    <message>
-        <source>Summary</source>
-        <translation>Laburpena</translation>
-    </message>
-    <message>
-        <source>&lt;nobr&gt;%1 Bytes&lt;/nobr&gt;</source>
-        <translation>&lt;nobr&gt;%1 Byte&lt;/nobr&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;table&gt;&lt;tr&gt;&lt;td&gt;Type:&lt;/td&gt;&lt;td&gt;%1&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Location:&lt;/td&gt;&lt;td&gt;%2&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Size:&lt;/td&gt;&lt;td&gt;%3&amp;nbsp;(%4&amp;nbsp;Bytes)&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</source>
-        <translation type="obsolete">&lt;table&gt;&lt;tr&gt;&lt;td&gt;Mota:&lt;/td&gt;&lt;td&gt;%1&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Kokapena:&lt;/td&gt;&lt;td&gt;%2&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Tamaina:&lt;/td&gt;&lt;td&gt;%3&amp;nbsp;(%4&amp;nbsp;Byte)&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</translation>
-    </message>
-    <message>
-        <source>Hard disk images (*.vdi)</source>
-        <translation>Disko gogor irudiak (*.vdi)</translation>
-    </message>
-    <message>
-        <source>Select a file for the new hard disk image file</source>
-        <translation>Hautatu fitxategi bat disko gogor berriaren irudi fitxategiarentzat</translation>
-    </message>
-    <message>
-        <source>&lt; &amp;Back</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Next &gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Finish</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Type</source>
-        <comment>summary</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Location</source>
-        <comment>summary</comment>
-        <translation type="unfinished">Kokalekuak</translation>
-    </message>
-    <message>
-        <source>Size</source>
-        <comment>summary</comment>
-        <translation type="unfinished">Tamaina</translation>
-    </message>
-    <message>
-        <source>Bytes</source>
-        <comment>summary</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation type="unfinished">Utzi</translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;This wizard will help you to create a new virtual hard disk for your virtual machine.&lt;/p&gt;&lt;p&gt;Use the &lt;b&gt;Next&lt;/b&gt; button to go to the next page of the wizard and the &lt;b&gt;Back&lt;/b&gt; button to return to the previous page.&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Hard Disk Storage Type</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;Select the type of virtual hard disk you want to create.&lt;/p&gt;&lt;p&gt;A &lt;b&gt;dynamically expanding storage&lt;/b&gt; initially occupies a very small amount of space on your physical hard disk. It will grow dynamically (up to the size specified) as the Guest OS claims disk space.&lt;/p&gt;&lt;p&gt;A &lt;b&gt;fixed-size storage&lt;/b&gt; does not grow. It is stored in a file of approximately the same size as the size of the virtual hard disk. The creation of a fixed-size storage may take a long time depending on the storage size and the write performance of your harddisk.&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Storage Type</source>
-        <translation type="unfinished">Biltegiratze Mota</translation>
-    </message>
-    <message>
-        <source>&amp;Dynamically expanding storage</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Fixed-size storage</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;Press the &lt;b&gt;Select&lt;/b&gt; button to select the location of a file to store the hard disk data or type a file name in the entry field.&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Location</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;Select the size of the virtual hard disk in megabytes. This size will be reported to the Guest OS as the maximum size of this hard disk.&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Size</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>You are going to create a new virtual hard disk with the following parameters:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>If the above settings are correct, press the &lt;b&gt;Finish&lt;/b&gt; button. Once you press it, a new hard disk will be created.</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>VBoxNewVMWzd</name>
-    <message>
-        <source>Create New Virtual Machine</source>
-        <translation>Makina Birtual Berria Sortu</translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;This wizard will guide you through the steps that are necessary to create
-a new virtual machine for VirtualBox.&lt;/p&gt;
-&lt;p&gt;Use the &lt;b&gt;Next&lt;/b&gt; button to go the next page of the wizard
-and the &lt;b&gt;Back&lt;/b&gt; button to return to the previous page.&lt;/p&gt;</source>
-        <translation type="obsolete">&lt;p&gt;Morroi honek VirtualBox-rentzat makina birtual berriak sortzeko egin
-beharreko huratsetan algunduko zaitu.&lt;/p&gt;
-&lt;p&gt;Erabili &lt;b&gt;Hurrengoa&lt;/b&gt; botoia morroiaren hurrengo orrialdera joateko
-eta &lt;b&gt;Atzera&lt;/b&gt; botoia morroiaren aurreko orrialdera joateko.&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>Welcome to the New Virtual Machine Wizard!</source>
-        <translation>Ongietorri Makina Birtual Berriak Sortzeko Morroira!</translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;Enter a name for the new virtual machine and select the type of the guest operating
-system you plan to install onto the virtual machine.&lt;/p&gt;
-&lt;p&gt;The name of the virtual machine usually indicates its software and hardware configuration.
-It will be used by all VirtualBox components to identify your virtual machine.&lt;/p&gt;</source>
-        <translation type="obsolete">&lt;p&gt;Idatzi makina birtual berriaren izena eta makina horretan instalatzea
-pentsatzen duzun sistema eragile mota hautatu&lt;/p&gt;
- &lt;p&gt;Makina birtualaren izenak normalean duen software eta hardware konfigurazioa erakusten du.
-Hau VirtualBox-ek zure makina birtuala identifikatzeko erabiliko du.&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>N&amp;ame</source>
-        <translation>Izen&amp;a</translation>
-    </message>
-    <message>
-        <source>OS &amp;Type</source>
-        <translation>SE mo&amp;ta</translation>
-    </message>
-    <message>
-        <source>VM Name and OS Type</source>
-        <translation>MB Izena SE Mota</translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;Select the amount of base memory (RAM) in megabytes to be allocated to the virtual machine.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Hautatu makina birtualak esleituko duen oinarri memoria (RAM) kopurua.&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>Base &amp;Memory Size</source>
-        <translation>Oinarri &amp;Memoria Tamaina</translation>
-    </message>
-    <message>
-        <source>&lt;</source>
-        <translation type="obsolete">&lt;</translation>
-    </message>
-    <message>
-        <source>=</source>
-        <translation type="obsolete">=</translation>
-    </message>
-    <message>
-        <source>&gt;</source>
-        <translation type="obsolete">&gt;</translation>
-    </message>
-    <message>
-        <source>MB</source>
-        <translation>MB</translation>
-    </message>
-    <message>
-        <source>Memory</source>
-        <translation>Memoria</translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;Select a hard disk image to be used
-as the boot hard disk of the virtual machine. You can either create a new hard
-disk using the &lt;b&gt;New&lt;/b&gt; button or select an existing hard disk
-image from the drop-down list or by pressing the &lt;b&gt;Existing&lt;/b&gt;
-button (to invoke the Virtual Disk Manager dialog).&lt;/p&gt;
-&lt;p&gt;If you need a more complicated hard disk setup, you can also skip this
-step and attach hard disks later using the VM Settings dialog.&lt;/p&gt;</source>
-        <translation type="obsolete">&lt;p&gt;Hautatu makina birtualak abio disko gogor bezala
-erabiliko duen disko gogor irudia. Edo &lt;b&gt;Berria&lt;/b&gt; botoia sakatuaz
-disko gogor berri bat sortu edo hautapen zerrendatik irudi bat hautatu
-&lt;b&gt;Dagoena&lt;/b&gt; botoia sakatuaz (Disko Gogor Kudeatzaile irekiaz).&lt;/p&gt;
-&lt;p&gt;Disko gogor konfigurazio hedatuago bat behar izanez gero, urrats
-hau albo batetara utzi eta beranduago MB ezarpen leiho erabiliaz disko
-gogorrak erantsi ditzakezu.&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>B&amp;oot Hard Disk (Primary Master)</source>
-        <translation type="obsolete">Abi&amp;o Disko Gogorra (Lehen Mailako Maisua)</translation>
-    </message>
-    <message>
-        <source>N&amp;ew...</source>
-        <translation type="obsolete">&amp;Berria...</translation>
-    </message>
-    <message>
-        <source>E&amp;xisting...</source>
-        <translation type="obsolete">Da&amp;goena...</translation>
-    </message>
-    <message>
-        <source>Virtual Hard Disk</source>
-        <translation>Disko Gogor Birtuala</translation>
-    </message>
-    <message>
-        <source>
-                            &lt;p&gt;
-                            You are going to create a new virtual machine
-                            with the following parameters:
-                            &lt;/p&gt;
-                            </source>
-        <translation type="obsolete">
-                            &lt;p&gt;
-                            Hurrengo ezarpenekin makina birtual berri bat
-                            sortzera zoaz:
-                            &lt;/p&gt;
-                            </translation>
-    </message>
-    <message>
-        <source>
-                            &lt;p&gt;
-                            If the above is correct press the &lt;b&gt;Finish&lt;/b&gt; button.
-                            Once you press it, a new virtual machine will be created.
-                            &lt;/p&gt;&lt;p&gt;
-                            Note that you can alter these and all other setting of the
-                            created virtual machine at any time using the
-                            &lt;b&gt;Settings&lt;/b&gt; dialog accessible through
-                            the menu of the main window.
-                            &lt;/p&gt;
-                            </source>
-        <translation type="obsolete">
-                            &lt;p&gt;
-                            Aurrekoa zuzena bada sakatu  &lt;b&gt;Amaitu&lt;/b&gt; botoia.
-                            Bein botoia sakatu duzunean makina birtual berria sortuko da.
-                            &lt;/p&gt;&lt;p&gt;
-                            Kontutan izan ezarpen hauek eta beste batzuk edozein unetan
-                            menu nagusiko &lt;b&gt;Ezarpenak&lt;/b&gt; aukeraren bidez aldatu ditzakezula
-                            &lt;/p&gt;
-                            </translation>
-    </message>
-    <message>
-        <source>Summary</source>
-        <translation>Laburpena</translation>
-    </message>
-    <message>
-        <source>&lt;qt&gt;%1&amp;nbsp;MB&lt;/qt&gt;</source>
-        <translation type="obsolete">&lt;qt&gt;%1&amp;nbsp;MB&lt;/qt&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;tr&gt;&lt;td&gt;Name:&lt;/td&gt;&lt;td&gt;%1&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;OS Type:&lt;/td&gt;&lt;td&gt;%2&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Base Memory:&lt;/td&gt;&lt;td&gt;%3&amp;nbsp;MB&lt;/td&gt;&lt;/tr&gt;</source>
-        <translation type="obsolete">&lt;tr&gt;&lt;td&gt;Izena:&lt;/td&gt;&lt;td&gt;%1&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;SE Mota:&lt;/td&gt;&lt;td&gt;%2&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Oinarri Memoria:&lt;/td&gt;&lt;td&gt;%3&amp;nbsp;MB&lt;/td&gt;&lt;/tr&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;tr&gt;&lt;td&gt;Boot Hard Disk:&lt;/td&gt;&lt;td&gt;%4&lt;/td&gt;&lt;/tr&gt;</source>
-        <translation type="obsolete">&lt;tr&gt;&lt;td&gt;Abio Disko Gogorra:&lt;/td&gt;&lt;td&gt;%4&lt;/td&gt;&lt;/tr&gt;</translation>
-    </message>
-    <message>
-        <source>The recommended base memory size is &lt;b&gt;%1&lt;/b&gt; MB.</source>
-        <translation>Gomendatutako oinarri memoria &lt;b&gt;%1&lt;/b&gt; MB-eko da.</translation>
-    </message>
-    <message>
-        <source>The recommended size of the boot hard disk is &lt;b&gt;%1&lt;/b&gt; MB.</source>
-        <translation>Abio diskoaren gomendatutako tamaina &lt;b&gt;%1&lt;/b&gt; MB da.</translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;This wizard will guide you through the steps that are necessary to create a new virtual machine for VirtualBox.&lt;/p&gt;&lt;p&gt;Use the &lt;b&gt;Next&lt;/b&gt; button to go the next page of the wizard and the &lt;b&gt;Back&lt;/b&gt; button to return to the previous page.&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt; &amp;Back</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Next &gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;Enter a name for the new virtual machine and select the type of the guest operating system you plan to install onto the virtual machine.&lt;/p&gt;&lt;p&gt;The name of the virtual machine usually indicates its software and hardware configuration. It will be used by all VirtualBox components to identify your virtual machine.&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Create new hard disk</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Use existing hard disk</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;You are going to create a new virtual machine with the following parameters:&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;If the above is correct press the &lt;b&gt;Finish&lt;/b&gt; button. Once you press it, a new virtual machine will be created. &lt;/p&gt;&lt;p&gt;Note that you can alter these and all other setting of the created virtual machine at any time using the &lt;b&gt;Settings&lt;/b&gt; dialog accessible through the menu of the main window.&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Finish</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>MB</source>
-        <comment>megabytes</comment>
-        <translation type="unfinished">MB</translation>
-    </message>
-    <message>
-        <source>Name</source>
-        <comment>summary</comment>
-        <translation type="unfinished">Izena</translation>
-    </message>
-    <message>
-        <source>OS Type</source>
-        <comment>summary</comment>
-        <translation type="unfinished">SE mota</translation>
-    </message>
-    <message>
-        <source>Base Memory</source>
-        <comment>summary</comment>
-        <translation type="unfinished">Oinarri Memoria</translation>
-    </message>
-    <message>
-        <source>Boot Hard Disk</source>
-        <comment>summary</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation type="unfinished">Utzi</translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;Select a hard disk image to be used as the boot hard disk of the virtual machine. You can either create a new hard disk using the &lt;b&gt;New&lt;/b&gt; button or select an existing hard disk image from the drop-down list or by pressing the &lt;b&gt;Existing&lt;/b&gt; button (to invoke the Virtual Media Manager dialog).&lt;/p&gt;&lt;p&gt;If you need a more complicated hard disk setup, you can also skip this step and attach hard disks later using the VM Settings dialog.&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Boot Hard &amp;Disk (Primary Master)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -5582,6 +6336,54 @@ gogorrak erantsi ditzakezu.&lt;/p&gt;</translation>
         <comment>medium</comment>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>&lt;p&gt;VT-x/AMD-V hardware acceleration is not available on your system. Your 64-bit guest will fail to detect a 64-bit CPU and will not be able to boot.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;VT-x/AMD-V hardware acceleration is not available on your system. Certain guests (e.g. OS/2 and QNX) require this feature and will fail to boot without it.&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;Deleting the snapshot %1 will temporarily need more disk space. In the worst case the size of image %2 will grow by %3, however on this filesystem there is only %4 free.&lt;/p&gt;&lt;p&gt;Running out of disk space during the merge operation can result in corruption of the image and the VM configuration, i.e. loss of the VM and its data.&lt;/p&gt;&lt;p&gt;You may continue with deleting the snapshot at your own risk.&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;Could not change the guest screen to this host screen due to insufficient guest video memory.&lt;/p&gt;&lt;p&gt;You should configure the virtual machine to have at least &lt;b&gt;%1&lt;/b&gt; of video memory.&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;Could not change the guest screen to this host screen due to insufficient guest video memory.&lt;/p&gt;&lt;p&gt;You should configure the virtual machine to have at least &lt;b&gt;%1&lt;/b&gt; of video memory.&lt;/p&gt;&lt;p&gt;Press &lt;b&gt;Ignore&lt;/b&gt; to switch the screen anyway or press &lt;b&gt;Cancel&lt;/b&gt; to cancel the operation.&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;Can not switch the guest display to fullscreen mode. You have more virtual screens configured than physical screens are attached to your host.&lt;/p&gt;&lt;p&gt;Please either lower the virtual screens in your VM configuration or attach additional screens to your host.&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;Can not switch the guest display to seamless mode. You have more virtual screens configured than physical screens are attached to your host.&lt;/p&gt;&lt;p&gt;Please either lower the virtual screens in your VM configuration or attach additional screens to your host.&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;Could not find the VirtualBox User Manual &lt;nobr&gt;&lt;b&gt;%1&lt;/b&gt;.&lt;/nobr&gt;&lt;/p&gt;&lt;p&gt;Do you wish to download this file from the Internet?&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;Are you sure you want to download the VirtualBox User Manual from &lt;nobr&gt;&lt;a href=&quot;%1&quot;&gt;%2&lt;/a&gt;&lt;/nobr&gt; (size %3 bytes)?&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;Failed to download the VirtualBox User Manual from &lt;nobr&gt;&lt;a href=&quot;%1&quot;&gt;%2&lt;/a&gt;.&lt;/nobr&gt;&lt;/p&gt;&lt;p&gt;%3&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;The VirtualBox User Manual has been successfully downloaded from &lt;nobr&gt;&lt;a href=&quot;%1&quot;&gt;%2&lt;/a&gt;&lt;/nobr&gt; and saved locally as &lt;nobr&gt;&lt;b&gt;%3&lt;/b&gt;.&lt;/nobr&gt;&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;The VirtualBox User Manual has been successfully downloaded from &lt;nobr&gt;&lt;a href=&quot;%1&quot;&gt;%2&lt;/a&gt;&lt;/nobr&gt; but can&apos;t be saved locally as &lt;nobr&gt;&lt;b&gt;%3&lt;/b&gt;.&lt;/nobr&gt;&lt;/p&gt;&lt;p&gt;Please choose another location for that file.&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>VBoxProgressDialog</name>
@@ -5615,88 +6417,12 @@ gogorrak erantsi ditzakezu.&lt;/p&gt;</translation>
 <context>
     <name>VBoxRegistrationDlg</name>
     <message>
-        <source>VirtualBox Registration Dialog</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Enter your full name using Latin characters.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Enter your e-mail address. Please use a valid address here.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Welcome to the VirtualBox Registration Form!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Connection timed out.</source>
         <translation type="obsolete">Konexioa denboraz kanpo.</translation>
     </message>
     <message>
-        <source>Could not perform connection handshake.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Cancel</source>
-        <translation type="unfinished">Utzi</translation>
-    </message>
-    <message>
-        <source>Select Country/Territory</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;Please fill out this registration form to let us know that you use VirtualBox and, optionally, to keep you informed about VirtualBox news and updates.&lt;/p&gt;&lt;p&gt;Please use Latin characters only to fill in  the fields below. Sun Microsystems will use this information only to gather product usage statistics and to send you VirtualBox newsletters. In particular, Sun Microsystems will never pass your data to third parties. Detailed information about how we use your personal data can be found in the &lt;b&gt;Privacy Policy&lt;/b&gt; section of the VirtualBox Manual or on the &lt;a href=http://www.virtualbox.org/wiki/PrivacyPolicy&gt;Privacy Policy&lt;/a&gt; page of the VirtualBox web-site.&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>I &amp;already have a Sun Online account:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;E-mail:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Password:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>I &amp;would like to create a new Sun Online account:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;First Name:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Last Name:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Company:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Co&amp;untry:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>E-&amp;mail:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>P&amp;assword:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Co&amp;nfirm Password:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Register</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">Utzi</translation>
     </message>
 </context>
 <context>
@@ -5894,7 +6620,7 @@ gogorrak erantsi ditzakezu.&lt;/p&gt;</translation>
     </message>
     <message>
         <source>&amp;File</source>
-        <translation>&amp;Fitxategia</translation>
+        <translation type="obsolete">&amp;Fitxategia</translation>
     </message>
     <message>
         <source>&amp;Help</source>
@@ -5973,10 +6699,6 @@ gogorrak erantsi ditzakezu.&lt;/p&gt;</translation>
         <translation type="unfinished">&amp;Gelditu</translation>
     </message>
     <message>
-        <source>Sun VirtualBox</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>&amp;Import Appliance...</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6016,6 +6738,16 @@ gogorrak erantsi ditzakezu.&lt;/p&gt;</translation>
         <source>Log</source>
         <comment>icon text</comment>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;File</source>
+        <comment>Mac OS X version</comment>
+        <translation type="unfinished">&amp;Fitxategia</translation>
+    </message>
+    <message>
+        <source>&amp;File</source>
+        <comment>Non Mac OS X version</comment>
+        <translation type="unfinished">&amp;Fitxategia</translation>
     </message>
 </context>
 <context>
@@ -6737,151 +7469,6 @@ Kate hutsak edozein balio bilatuko du.&lt;/qt&gt;</translation>
     </message>
 </context>
 <context>
-    <name>VBoxVMFirstRunWzd</name>
-    <message>
-        <source>First Run Wizard</source>
-        <translation>Lehen Abiarazte Morroia</translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;You have started a newly created virtual machine for the first time. This wizard will help you to perform the steps necessary for installing an operating system of your choice onto this virtual machine.&lt;/p&gt;&lt;p&gt;Use the &lt;b&gt;Next&lt;/b&gt; button to go to the next page of the wizard and the &lt;b&gt;Back&lt;/b&gt; button to return to the previous page. You can also press &lt;b&gt;Cancel&lt;/b&gt; if you want to cancel the execution of this wizard.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Sortu berri duzun makina birtuala lehen aldiz abiarazi duzu. Morroi honek zure aukerako sistema eragile makina birtual horretan instalatzeko egin beharreko urratsetan lagunduko zaitu.&lt;/p&gt;&lt;p&gt;&lt;b&gt;Hurrengoa&lt;/b&gt; botoia erabili morroiaren hurrengo orrialdera joateko eta &lt;b&gt;Atzera&lt;/b&gt; botoia aurreko orrialdera joateko. Baita &lt;b&gt;Utzi&lt;/b&gt; sakatu dezakezu morroiaren exekuzioa eteteko.&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>Welcome to the First Run Wizard!</source>
-        <translation>Ongietorri Lehen Abiarazte Morroira!</translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;Select the type of media you would like to use for installation.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Hautatu behean instalatzeko erabili nahi duzun instalazio medioa.&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>Media Type</source>
-        <translation>Euskarri Mota</translation>
-    </message>
-    <message>
-        <source>&amp;CD/DVD-ROM Device</source>
-        <translation>&amp;CD/DVD-ROM Gailua</translation>
-    </message>
-    <message>
-        <source>Alt+C</source>
-        <translation type="obsolete">Alt+C</translation>
-    </message>
-    <message>
-        <source>&amp;Floppy Device</source>
-        <translation>&amp;Diskete Gailua</translation>
-    </message>
-    <message>
-        <source>Alt+F</source>
-        <translation type="obsolete">Alt+D</translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;Select the media which contains the setup program of the operating system you want to install. This media must be bootable, otherwise the setup program will not be able to start.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Hautatu instalatu nahi duzun sistema eragilearen instalazio programa duen euskarria. Euskarria abiarazgarria izan behar da, beste instalazio programak ezin izango du abiarazi.&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>Media Source</source>
-        <translation>Euskarri Jatorria</translation>
-    </message>
-    <message>
-        <source>&amp;Host Drive</source>
-        <translation type="obsolete">&amp;Ostalari Gailua</translation>
-    </message>
-    <message>
-        <source>Alt+H</source>
-        <translation type="obsolete">Alt+O</translation>
-    </message>
-    <message>
-        <source>&amp;Image File</source>
-        <translation type="obsolete">&amp;Irudi Fitxategia</translation>
-    </message>
-    <message>
-        <source>Alt+I</source>
-        <translation type="obsolete">Alt+I</translation>
-    </message>
-    <message>
-        <source>VDM</source>
-        <translation type="obsolete">VDM</translation>
-    </message>
-    <message>
-        <source>Select Installation Media</source>
-        <translation>Instalazio Euskarri Hautatu</translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;You have selected the following media to boot from:&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Bertatik abiarazteko hurrengo euskarria hautatu duzu:&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;If the above is correct, press the &lt;b&gt;Finish&lt;/b&gt; button. Once you press it, the selected media will be temporarily mounted on the virtual machine and the machine will start execution.&lt;/p&gt;&lt;p&gt;Please note that when you close the virtual machine, the specified media will be automatically unmounted and the boot device will be set back to the first hard disk.&lt;/p&gt;&lt;p&gt;Depending on the type of the setup program, you may need to manually unmount (eject) the media after the setup program reboots the virtual machine, to prevent the installation process from starting again. You can do this by selecting the corresponding &lt;b&gt;Unmount...&lt;/b&gt; action in the &lt;b&gt;Devices&lt;/b&gt; menu.&lt;/p&gt;</source>
-        <translation type="unfinished">&lt;p&gt;Aurrekoa zuzena bada, sakatu &lt;b&gt;Amaitu&lt;/b&gt; botoia. Egiten duzunean hautatutako euskarria aldi batetarako makina birtualean muntatu eta makinak exekuzioa abiaraziko du.&lt;/p&gt;&lt;p&gt;Mesedez kontutan izan zuk makina birtuala ixtean, ezarritako euskarri automatikoki desmuntatuko dela eta abio gailu bezala lehenengo disko gogorra ipiniko dela.&lt;/p&gt;&lt;p&gt;Konfigurazio programa motaren arabera agian diskoa desmuntatu (atera) egin behar duzu konfigurazio programa makina berrabiaraztean, instalazio prozesua berriz hasi ez dadin. Hau egiteko dagokion &lt;b&gt;desmuntatu...&lt;/b&gt; ekintza hautatu &lt;b&gt;Gailuak&lt;/b&gt; menuan.&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>Summary</source>
-        <translation>Laburpena</translation>
-    </message>
-    <message>
-        <source>CD/DVD-ROM Device</source>
-        <translation>CD/DVD-ROM Gailua</translation>
-    </message>
-    <message>
-        <source>Floppy Device</source>
-        <translation>Diskete Gailua</translation>
-    </message>
-    <message>
-        <source>Host Drive %1</source>
-        <translation type="obsolete">Ostalari Kontrolagailua %1</translation>
-    </message>
-    <message>
-        <source>&lt;table&gt;&lt;tr&gt;&lt;td&gt;Type:&lt;/td&gt;&lt;td&gt;%1&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Source:&lt;/td&gt;&lt;td&gt;%2&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</source>
-        <translation type="obsolete">&lt;table&gt;&lt;tr&gt;&lt;td&gt;Mota:&lt;/td&gt;&lt;td&gt;%1&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Jatorria:&lt;/td&gt;&lt;td&gt;%2&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;You have started a newly created virtual machine for the first time. This wizard will help you to perform the steps necessary for booting an operating system of your choice on the virtual machine.&lt;/p&gt;&lt;p&gt;Note that you will not be able to install an operating system into this virtual machine right now because you did not attach any hard disk to it. If this is not what you want, you can cancel the execution of this wizard, select &lt;b&gt;Settings&lt;/b&gt; from the &lt;b&gt;Machine&lt;/b&gt; menu of the main VirtualBox window to access the settings dialog of this machine and change the hard disk configuration.&lt;/p&gt;&lt;p&gt;Use the &lt;b&gt;Next&lt;/b&gt; button to go to the next page of the wizard and the &lt;b&gt;Back&lt;/b&gt; button to return to the previous page. You can also press &lt;b&gt;Cancel&lt;/b&gt; if you want to cancel the execution of this wizard.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Sortu  berri duzun makina birtuala lehen aldiz abiarazi duzu. Morroi honek hautatu duzun sistema eragile makina birtualean abiarazteko bete beharreko urratsak betetzen lagunduko zaitu.&lt;/p&gt;&lt;p&gt;Kontutan izan ezin duzula sistema eragile bat orain instalatu makina birtual honetan ez bait duzu disko gogorrik erantsi makina birtualari. Hau ez bada nahi duzuna, morroi honen exekuzioa utzi dezakezu, &lt;b&gt;Ezarpenak&lt;/b&gt; hautatu VirtusalBox leiho nagusiaren &lt;b&gt;Makina&lt;/b&gt; menutik makina honen ezapen leihoa eskuratzeko eta disko gogor konfigurazioa aldatu.&lt;/p&gt;&lt;p&gt;Erabili &lt;b&gt;Hurrengoa&lt;/b&gt; botoia morroiko hurrengo orrialdera joateko eta &lt;b&gt;Atzera&lt;/b&gt; botoia sakatu aurreko orrialdera joateko. &lt;b&gt;Utzi&lt;/b&gt; sakatu dezakezu morroiaren exekuzioa bertan behera uzteko.&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;Select the type of media you would like to use for booting an operating system.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Hautatu sistema eragile bat abiarazteko erabili nahi duzun medio mota.&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;Select the media that contains the operating system you want to work with. This media must be bootable, otherwise the operating system will not be able to start.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Hautatu berarekin lan egin nahi duzun sistema eragile duen euskarria. Euskarri hau abiarazgarria izan behar da, bestela sistema eragilea ez da abiarazteko gai izango&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;You have selected the following media to boot an operating system from:&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Bertatik abiarazteko sistema eragilea duen hurrengo medioa hautatu duzu:&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;If the above is correct, press the &lt;b&gt;Finish&lt;/b&gt; button. Once you press it, the selected media will be mounted on the virtual machine and the machine will start execution.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Aurrekoa zuzena bada &lt;b&gt;Amaitu&lt;/b&gt; botoia sakatu. Behin sakatu duzunean, hautatutako medioa makina birtualean kargatuko da eta makinak exekuzioa abiaraziko du.&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>&lt; &amp;Back</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Next &gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Finish</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Type</source>
-        <comment>summary</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Source</source>
-        <comment>summary</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation type="unfinished">Utzi</translation>
-    </message>
-</context>
-<context>
     <name>VBoxVMInformationDlg</name>
     <message>
         <source>%1 - Session Information</source>
@@ -6940,11 +7527,6 @@ Kate hutsak edozein balio bilatuko du.&lt;/qt&gt;</translation>
         <translation type="obsolete">Ez erantsia</translation>
     </message>
     <message>
-        <source>Version %1.%2</source>
-        <comment>guest additions</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Not Detected</source>
         <comment>guest additions</comment>
         <translation type="unfinished"></translation>
@@ -6969,16 +7551,12 @@ Kate hutsak edozein balio bilatuko du.&lt;/qt&gt;</translation>
     <message>
         <source>Enabled</source>
         <comment>nested paging</comment>
-        <translation type="unfinished">Gaiturik</translation>
+        <translation type="obsolete">Gaiturik</translation>
     </message>
     <message>
         <source>Disabled</source>
         <comment>nested paging</comment>
-        <translation type="unfinished">Ezgaiturik</translation>
-    </message>
-    <message>
-        <source>Nested Paging</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">Ezgaiturik</translation>
     </message>
     <message>
         <source>VBoxVMInformationDlg</source>
@@ -7478,6 +8056,18 @@ Kate hutsak edozein balio bilatuko du.&lt;/qt&gt;</translation>
     </message>
     <message>
         <source>The VRDP Server port number. You may specify &lt;tt&gt;0&lt;/tt&gt; (zero), to select port 3389, the standard port for RDP.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Mo&amp;nitor Count:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Controls the amount of virtual monitors provided to the virtual machine.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;qt&gt;%1&lt;/qt&gt;</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -8322,6 +8912,10 @@ bezeroak audio txartela ikustea eragiten du baina sortzen duen edozein irteera b
         <source>you have 2D Video Acceleration enabled. As 2D Video Acceleration is supported for Windows guests only, this feature will be disabled.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>you have enabled a USB HID (Human Interface Device). This will not work unless USB emulation is also enabled. This will be done automatically when you accept the VM Settings by pressing the OK button.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>VBoxVMSettingsFD</name>
@@ -8717,6 +9311,30 @@ bezeroak audio txartela ikustea eragiten du baina sortzen duen edozein irteera b
     </message>
     <message>
         <source>Attached To:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows to use host I/O caching capabilities.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Use host I/O cache</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add SAS Controller</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>SAS Controller</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Storage Controller</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Storage Controller 1</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -9213,10 +9831,6 @@ bezeroak audio txartela ikustea eragiten du baina sortzen duen edozein irteera b
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Controls the number of virtual CPUs in the virtual machine.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>When checked, the Physical Address Extension (PAE) feature of the host CPU will be exposed to the virtual machine.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -9259,6 +9873,26 @@ bezeroak audio txartela ikustea eragiten du baina sortzen duen edozein irteera b
     </message>
     <message>
         <source>Enable &amp;EFI (special OSes only)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If checked, the RTC device will report the time in UTC, otherwise in local (host) time. Unix usually expects the hardware clock to be set to UTC.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hardware clock in &amp;UTC time</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Controls the number of virtual CPUs in the virtual machine. You need hardware virtualization support on your host system to use more than one virtual CPU.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If checked, an absolute pointing device (a USB tablet) will be supported. Otherwise, only a standard PS/2 mouse will be emulated.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enable &amp;absolute pointing device</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

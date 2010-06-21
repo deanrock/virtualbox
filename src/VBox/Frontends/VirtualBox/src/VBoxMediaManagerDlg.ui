@@ -2,19 +2,15 @@
  <comment>
  VBox frontends: Qt4 GUI ("VirtualBox"):
 
- Copyright (C) 2006-2009 Sun Microsystems, Inc.
+     Copyright (C) 2006-2009 Oracle Corporation
 
- This file is part of VirtualBox Open Source Edition (OSE), as
- available from http://www.virtualbox.org. This file is free software;
- you can redistribute it and/or modify it under the terms of the GNU
- General Public License (GPL) as published by the Free Software
- Foundation, in version 2 as it comes in the "COPYING" file of the
- VirtualBox OSE distribution. VirtualBox OSE is distributed in the
- hope that it will be useful, but WITHOUT ANY WARRANTY of any kind.
-
- Please contact Sun Microsystems, Inc., 4150 Network Circle, Santa
- Clara, CA 95054 USA or visit http://www.sun.com if you need
- additional information or have any questions.
+     This file is part of VirtualBox Open Source Edition (OSE), as
+     available from http://www.virtualbox.org. This file is free software;
+     you can redistribute it and/or modify it under the terms of the GNU
+     General Public License (GPL) as published by the Free Software
+     Foundation, in version 2 as it comes in the "COPYING" file of the
+     VirtualBox OSE distribution. VirtualBox OSE is distributed in the
+     hope that it will be useful, but WITHOUT ANY WARRANTY of any kind.
  </comment>
  <class>VBoxMediaManagerDlg</class>
  <widget class="QMainWindow" name="VBoxMediaManagerDlg" >
@@ -38,7 +34,7 @@
   <widget class="QWidget" name="mCentralWidget" >
    <layout class="QVBoxLayout" >
     <item>
-     <widget class="QTabWidget" name="mTabWidget" >
+     <widget class="QITabWidget" name="mTabWidget" >
       <property name="sizePolicy" >
        <sizepolicy vsizetype="Expanding" hsizetype="Preferred" >
         <horstretch>0</horstretch>
@@ -362,6 +358,11 @@
    <class>QILabel</class>
    <extends>QLabel</extends>
    <header>QILabel.h</header>
+  </customwidget>
+  <customwidget>
+   <class>QITabWidget</class>
+   <extends>QTabWidget</extends>
+   <header>QITabWidget.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

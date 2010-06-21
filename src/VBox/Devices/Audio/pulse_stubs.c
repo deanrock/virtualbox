@@ -1,10 +1,10 @@
+/* $Id: pulse_stubs.c $ */
 /** @file
- *
  * Stubs for libpulse.
  */
 
 /*
- * Copyright (C) 2006-2007 Sun Microsystems, Inc.
+ * Copyright (C) 2006-2010 Oracle Corporation
  *
  * This file is part of VirtualBox Open Source Edition (OSE), as
  * available from http://www.virtualbox.org. This file is free software;
@@ -13,10 +13,6 @@
  * Foundation, in version 2 as it comes in the "COPYING" file of the
  * VirtualBox OSE distribution. VirtualBox OSE is distributed in the
  * hope that it will be useful, but WITHOUT ANY WARRANTY of any kind.
- *
- * Please contact Sun Microsystems, Inc., 4150 Network Circle, Santa
- * Clara, CA 95054 USA or visit http://www.sun.com if you need
- * additional information or have any questions.
  */
 
 #include <iprt/assert.h>
@@ -32,14 +28,20 @@
 #define VBOX_PULSE_LIB "libpulse.so.0"
 
 #define PROXY_STUB(function, rettype, signature, shortsig) \
-void (*function ## _fn)(void); \
-rettype function signature \
-{ return ( (rettype (*) signature) function ## _fn ) shortsig; }
+    static rettype (*g_pfn_ ## function) signature; \
+    \
+    rettype function signature \
+    { \
+        return g_pfn_ ## function shortsig; \
+    }
 
 #define PROXY_STUB_VOID(function, signature, shortsig) \
-void (*function ## _fn)(void); \
-void function signature \
-{ ( (void (*) signature) function ## _fn ) shortsig; }
+    static void (*g_pfn_ ## function) signature; \
+    \
+    void function signature \
+    { \
+        g_pfn_ ## function shortsig; \
+    }
 
 #if PA_PROTOCOL_VERSION >= 16
 PROXY_STUB     (pa_stream_connect_playback, int,
@@ -78,12 +80,15 @@ PROXY_STUB     (pa_stream_get_state, pa_stream_state_t,
 PROXY_STUB_VOID(pa_stream_set_state_callback,
                 (pa_stream *s, pa_stream_notify_cb_t cb, void *userdata),
                 (s, cb, userdata))
+PROXY_STUB     (pa_stream_flush, pa_operation*,
+                (pa_stream *s, pa_stream_success_cb_t cb, void *userdata),
+                (s, cb, userdata))
 PROXY_STUB     (pa_stream_drain, pa_operation*,
                 (pa_stream *s, pa_stream_success_cb_t cb, void *userdata),
                 (s, cb, userdata))
 PROXY_STUB     (pa_stream_trigger, pa_operation*,
                 (pa_stream *s, pa_stream_success_cb_t cb, void *userdata),
-		(s, cb, userdata))
+                (s, cb, userdata))
 PROXY_STUB     (pa_stream_new, pa_stream*,
                 (pa_context *c, const char *name, const pa_sample_spec *ss,
                  const pa_channel_map *map),
@@ -172,13 +177,16 @@ PROXY_STUB_VOID(pa_operation_unref,
                 (o))
 PROXY_STUB     (pa_operation_get_state, pa_operation_state_t,
                 (pa_operation *o),
-		(o))
+                (o))
+PROXY_STUB_VOID(pa_operation_cancel,
+                (pa_operation *o),
+                (o))
 PROXY_STUB     (pa_strerror, const char*,
                 (int error),
                 (error))
 PROXY_STUB     (pa_stream_readable_size, size_t,
                 (pa_stream *p),
-		(p))
+                (p))
 
 
 typedef struct
@@ -187,7 +195,7 @@ typedef struct
     void (**fn)(void);
 } SHARED_FUNC;
 
-#define ELEMENT(s) { #s , & s ## _fn }
+#define ELEMENT(function) { #function , (void (**)(void)) & g_pfn_ ## function }
 static SHARED_FUNC SharedFuncs[] =
 {
     ELEMENT(pa_stream_connect_playback),
@@ -199,6 +207,7 @@ static SHARED_FUNC SharedFuncs[] =
     ELEMENT(pa_stream_unref),
     ELEMENT(pa_stream_get_state),
     ELEMENT(pa_stream_set_state_callback),
+    ELEMENT(pa_stream_flush),
     ELEMENT(pa_stream_drain),
     ELEMENT(pa_stream_trigger),
     ELEMENT(pa_stream_new),
@@ -230,6 +239,7 @@ static SHARED_FUNC SharedFuncs[] =
     ELEMENT(pa_channel_map_init_auto),
     ELEMENT(pa_operation_unref),
     ELEMENT(pa_operation_get_state),
+    ELEMENT(pa_operation_cancel),
     ELEMENT(pa_strerror),
     ELEMENT(pa_stream_readable_size)
 };
@@ -273,3 +283,4 @@ int audioLoadPulseLib(void)
     isLibLoaded = YES;
     return rc;
 }
+

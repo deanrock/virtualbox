@@ -5,7 +5,7 @@
  */
 
 /*
- * Copyright (C) 2006-2007 Sun Microsystems, Inc.
+ * Copyright (C) 2006-2007 Oracle Corporation
  *
  * This file is part of VirtualBox Open Source Edition (OSE), as
  * available from http://www.virtualbox.org. This file is free software;
@@ -14,10 +14,6 @@
  * Foundation, in version 2 as it comes in the "COPYING" file of the
  * VirtualBox OSE distribution. VirtualBox OSE is distributed in the
  * hope that it will be useful, but WITHOUT ANY WARRANTY of any kind.
- *
- * Please contact Sun Microsystems, Inc., 4150 Network Circle, Santa
- * Clara, CA 95054 USA or visit http://www.sun.com if you need
- * additional information or have any questions.
  */
 
 #ifndef ___VBoxToolBar_h___
@@ -25,7 +21,7 @@
 
 #include <QGlobalStatic> /* for Q_WS_MAC */
 #ifdef Q_WS_MAC
-#include "VBoxUtils.h"
+# include "VBoxUtils.h"
 #endif
 
 /* Qt includes */
@@ -69,50 +65,26 @@ public:
     void setMacToolbar()
     {
         if (mMainWindow)
-        {
             mMainWindow->setUnifiedTitleAndToolBarOnMac (true);
-#ifndef QT_MAC_USE_COCOA
-            WindowRef window = ::darwinToNativeWindow (this);
-            EventHandlerUPP eventHandler = ::NewEventHandlerUPP (VBoxToolBar::macEventFilter);
-            EventTypeSpec eventTypes[2];
-            eventTypes[0].eventClass = kEventClassMouse;
-            eventTypes[0].eventKind  = kEventMouseDown;
-            eventTypes[1].eventClass = kEventClassMouse;
-            eventTypes[1].eventKind  = kEventMouseUp;
-            InstallWindowEventHandler (window, eventHandler,
-                                       RT_ELEMENTS (eventTypes), eventTypes,
-                                       NULL, NULL);
-#endif /* !QT_MAC_USE_COCOA */
-        }
     }
-
-#ifndef QT_MAC_USE_COCOA
-    static pascal OSStatus macEventFilter (EventHandlerCallRef aNextHandler,
-                                           EventRef aEvent, void * /* aUserData */)
-    {
-        UInt32 eclass = GetEventClass (aEvent);
-        if (eclass == kEventClassMouse)
-        {
-            WindowPartCode partCode;
-            GetEventParameter (aEvent, kEventParamWindowPartCode, typeWindowPartCode, NULL, sizeof (WindowPartCode), NULL, &partCode);
-            UInt32 ekind = GetEventKind (aEvent);
-            if (partCode == 15 ||
-                partCode == 4)
-                if(ekind == kEventMouseDown || ekind == kEventMouseUp)
-                {
-                    EventMouseButton button = 0;
-                    GetEventParameter (aEvent, kEventParamMouseButton, typeMouseButton, NULL, sizeof (button), NULL, &button);
-                    if (button != kEventMouseButtonPrimary)
-                        return noErr;
-                }
-        }
-        return CallNextEventHandler (aNextHandler, aEvent);
-    }
-#endif /* !QT_MAC_USE_COCOA */
 
     void setShowToolBarButton (bool aShow)
     {
         ::darwinSetShowsToolbarButton (this, aShow);
+    }
+
+    void updateLayout()
+    {
+        /* There is a bug in Qt Cocoa which result in showing a "more arrow" when
+           the necessary size of the toolbar is increased. Also for some languages
+           the with doesn't match if the text increase. So manually adjust the size
+           after changing the text. */
+        QSizePolicy sp = sizePolicy();
+        setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+        adjustSize();
+        setSizePolicy(sp);
+        layout()->invalidate();
+        layout()->activate();
     }
 #endif /* Q_WS_MAC */
 

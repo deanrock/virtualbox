@@ -4,7 +4,7 @@
  */
 
 /*
- * Copyright (C) 2006-2007 Sun Microsystems, Inc.
+ * Copyright (C) 2006-2007 Oracle Corporation
  *
  * This file is part of VirtualBox Open Source Edition (OSE), as
  * available from http://www.virtualbox.org. This file is free software;
@@ -13,10 +13,6 @@
  * Foundation, in version 2 as it comes in the "COPYING" file of the
  * VirtualBox OSE distribution. VirtualBox OSE is distributed in the
  * hope that it will be useful, but WITHOUT ANY WARRANTY of any kind.
- *
- * Please contact Sun Microsystems, Inc., 4150 Network Circle, Santa
- * Clara, CA 95054 USA or visit http://www.sun.com if you need
- * additional information or have any questions.
  */
 
 #ifndef ___IOMInternal_h
@@ -106,31 +102,25 @@ typedef struct IOMMMIOSTATS
     /** Avl node core with the address as Key. */
     AVLOGCPHYSNODECORE          Core;
 
-    /** Number of reads to this address from R3. */
-    STAMCOUNTER                 ReadR3;
+    /** Number of accesses (subtract ReadRZToR3 and WriteRZToR3 to get the right
+     *  number). */
+    STAMCOUNTER                 Accesses;
+
     /** Profiling read handler overhead in R3. */
-    STAMPROFILEADV              ProfReadR3;
-
-    /** Number of writes to this address from R3. */
-    STAMCOUNTER                 WriteR3;
+    STAMPROFILE                 ProfReadR3;
     /** Profiling write handler overhead in R3. */
-    STAMPROFILEADV              ProfWriteR3;
+    STAMPROFILE                 ProfWriteR3;
+    /** Counting and profiling reads in R0/RC. */
+    STAMPROFILE                 ProfReadRZ;
+    /** Counting and profiling writes in R0/RC. */
+    STAMPROFILE                 ProfWriteRZ;
 
-    /** Number of reads to this address from R0/RC. */
-    STAMCOUNTER                 ReadRZ;
-    /** Profiling read handler overhead in R0/RC. */
-    STAMPROFILEADV              ProfReadRZ;
     /** Number of reads to this address from R0/RC which was serviced in R3. */
     STAMCOUNTER                 ReadRZToR3;
-
-    /** Number of writes to this address from R0/RC. */
-    STAMCOUNTER                 WriteRZ;
-    /** Profiling write handler overhead in R0/RC. */
-    STAMPROFILEADV              ProfWriteRZ;
     /** Number of writes to this address from R0/RC which was serviced in R3. */
     STAMCOUNTER                 WriteRZToR3;
 } IOMMMIOSTATS;
-AssertCompileMemberAlignment(IOMMMIOSTATS, ReadR3, 8);
+AssertCompileMemberAlignment(IOMMMIOSTATS, Accesses, 8);
 /** Pointer to I/O port statistics. */
 typedef IOMMMIOSTATS *PIOMMMIOSTATS;
 
@@ -248,23 +238,23 @@ typedef struct IOMIOPORTSTATS
     /** Number of INs to this port from R3. */
     STAMCOUNTER                 InR3;
     /** Profiling IN handler overhead in R3. */
-    STAMPROFILEADV              ProfInR3;
+    STAMPROFILE                 ProfInR3;
     /** Number of OUTs to this port from R3. */
     STAMCOUNTER                 OutR3;
     /** Profiling OUT handler overhead in R3. */
-    STAMPROFILEADV              ProfOutR3;
+    STAMPROFILE                 ProfOutR3;
 
     /** Number of INs to this port from R0/RC. */
     STAMCOUNTER                 InRZ;
     /** Profiling IN handler overhead in R0/RC. */
-    STAMPROFILEADV              ProfInRZ;
+    STAMPROFILE                 ProfInRZ;
     /** Number of INs to this port from R0/RC which was serviced in R3. */
     STAMCOUNTER                 InRZToR3;
 
     /** Number of OUTs to this port from R0/RC. */
     STAMCOUNTER                 OutRZ;
     /** Profiling OUT handler overhead in R0/RC. */
-    STAMPROFILEADV              ProfOutRZ;
+    STAMPROFILE                 ProfOutRZ;
     /** Number of OUTs to this port from R0/RC which was serviced in R3. */
     STAMCOUNTER                 OutRZToR3;
 } IOMIOPORTSTATS;

@@ -3,7 +3,7 @@
  */
 
 /*
- * Copyright (C) 2009 Sun Microsystems, Inc.
+ * Copyright (C) 2009 Oracle Corporation
  *
  * This file is part of VirtualBox Open Source Edition (OSE), as
  * available from http://www.virtualbox.org. This file is free software;
@@ -21,10 +21,6 @@
  *
  * You may elect to license modified versions of this file under the
  * terms and conditions of either the GPL or the CDDL or both.
- *
- * Please contact Sun Microsystems, Inc., 4150 Network Circle, Santa
- * Clara, CA 95054 USA or visit http://www.sun.com if you need
- * additional information or have any questions.
  */
 
 #ifndef ___iprt_manifest_h
@@ -53,6 +49,18 @@ typedef struct RTMANIFESTTEST
 } RTMANIFESTTEST;
 /** Pointer to the input structure. */
 typedef RTMANIFESTTEST* PRTMANIFESTTEST;
+
+/**
+ * Manifest progress callback.
+ *
+ * @returns IPRT status code.
+ *
+ * @param   uPercent    The progress completion percentage.
+ * @param   pvUser      The user defined parameter.
+ */
+typedef DECLCALLBACK(int) FNRTMANIFESTPROGRESS(unsigned uPercent, void *pvUser);
+/** Pointer to a manifest progress callback. */
+typedef FNRTMANIFESTPROGRESS *PFNRTMANIFESTPROGRESS;
 
 /**
  * Verify the given SHA1 digests against the entries in the manifest file.
@@ -85,8 +93,10 @@ RTR3DECL(int) RTManifestVerify(const char *pszManifestFile, PRTMANIFESTTEST paTe
  * @param   piFailed             A index to papszFiles in the
  *                               VERR_MANIFEST_DIGEST_MISMATCH error case
  *                               (optional).
+ * @param   pfnProgressCallback  optional callback for the progress indication
+ * @param   pvUser               user defined pointer for the callback
  */
-RTR3DECL(int) RTManifestVerifyFiles(const char *pszManifestFile, const char * const *papszFiles, size_t cFiles, size_t *piFailed);
+RTR3DECL(int) RTManifestVerifyFiles(const char *pszManifestFile, const char * const *papszFiles, size_t cFiles, size_t *piFailed, PFNRTMANIFESTPROGRESS pfnProgressCallback, void *pvUser);
 
 /**
  * Creates a manifest file for a set of files. The manifest file contains SHA1
@@ -98,8 +108,10 @@ RTR3DECL(int) RTManifestVerifyFiles(const char *pszManifestFile, const char * co
  * @param   pszManifestFile      Filename of the manifest file to create.
  * @param   papszFiles           Array of files to create SHA1 sums for.
  * @param   cFiles               Number of entries in papszFiles.
+ * @param   pfnProgressCallback  optional callback for the progress indication
+ * @param   pvUser               user defined pointer for the callback
  */
-RTR3DECL(int) RTManifestWriteFiles(const char *pszManifestFile, const char * const *papszFiles, size_t cFiles);
+RTR3DECL(int) RTManifestWriteFiles(const char *pszManifestFile, const char * const *papszFiles, size_t cFiles, PFNRTMANIFESTPROGRESS pfnProgressCallback, void *pvUser);
 
 /** @} */
 

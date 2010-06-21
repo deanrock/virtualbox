@@ -24,7 +24,7 @@
         <translation>--</translation>
     </message>
     <message>
-        <source>Sun Microsystems, Inc.</source>
+        <source>Oracle Corporation</source>
         <comment>Comma-separated list of translators</comment>
         <translation>Serdar SOYTETİR &lt;tulliana@gmail.com&gt; .</translation>
     </message>
@@ -437,6 +437,1616 @@
     </message>
 </context>
 <context>
+    <name>QIWizardPage</name>
+    <message>
+        <source>Use the &lt;b&gt;%1&lt;/b&gt; button to go to the next page of the wizard and the &lt;b&gt;%2&lt;/b&gt; button to return to the previous page. You can also press &lt;b&gt;%3&lt;/b&gt; if you want to cancel the execution of this wizard.&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>UIActionsPool</name>
+    <message>
+        <source>&amp;Machine</source>
+        <translation>&amp;Makine</translation>
+    </message>
+    <message>
+        <source>&amp;Fullscreen Mode</source>
+        <translation type="obsolete">&amp;Tam Ekran Kipi</translation>
+    </message>
+    <message>
+        <source>Switch to fullscreen mode</source>
+        <translation>Tam ekran kipine geç</translation>
+    </message>
+    <message>
+        <source>Seam&amp;less Mode</source>
+        <translation type="obsolete">Tam U&amp;yum Kipi</translation>
+    </message>
+    <message>
+        <source>Switch to seamless desktop integration mode</source>
+        <translation>Tam masaüstü uyumu kipine geç</translation>
+    </message>
+    <message>
+        <source>Auto-resize &amp;Guest Display</source>
+        <translation type="obsolete">Misafir E&amp;kranı Otomatik olarak Yeniden Boyutlandır</translation>
+    </message>
+    <message>
+        <source>Automatically resize the guest display when the window is resized (requires Guest Additions)</source>
+        <translation>Pencere yeniden boyutlandırıldığında misafir ekranını otomatik olarak boyutlandır (Misafir Eklentilerini gerektirir)</translation>
+    </message>
+    <message>
+        <source>&amp;Adjust Window Size</source>
+        <translation>Pencere Boyutun&amp;u Ayarla</translation>
+    </message>
+    <message>
+        <source>Adjust window size and position to best fit the guest display</source>
+        <translation>Pencere boyutunu ve konumunu misafir ekrana en uygun şekilde ayarla</translation>
+    </message>
+    <message>
+        <source>Disable &amp;Mouse Integration</source>
+        <translation>&amp;Fare Uyumunu Pasifleştir</translation>
+    </message>
+    <message>
+        <source>Temporarily disable host mouse pointer integration</source>
+        <translation>Sunucu fare işaretçisi uyumunu geçici olarak pasifleştir</translation>
+    </message>
+    <message>
+        <source>Enable &amp;Mouse Integration</source>
+        <translation>&amp;Fare Uyumu Etkin</translation>
+    </message>
+    <message>
+        <source>Enable temporarily disabled host mouse pointer integration</source>
+        <translation>Geçici olarak durdurulan fare işaretçisi uyumunu etkinleştir</translation>
+    </message>
+    <message>
+        <source>&amp;Insert Ctrl-Alt-Del</source>
+        <translation>Ctrl-Alt-Del &amp;Ekle</translation>
+    </message>
+    <message>
+        <source>Send the Ctrl-Alt-Del sequence to the virtual machine</source>
+        <translation>Sanal makineye Ctrl-Alt-Del sonucu gönder</translation>
+    </message>
+    <message>
+        <source>&amp;Insert Ctrl-Alt-Backspace</source>
+        <translation>Ctrl-Alt-Backspace &amp;Ekle</translation>
+    </message>
+    <message>
+        <source>Send the Ctrl-Alt-Backspace sequence to the virtual machine</source>
+        <translation>Sanal makineye Ctrl-Alt-Backspace sonucu gönder</translation>
+    </message>
+    <message>
+        <source>Take &amp;Snapshot...</source>
+        <translation>Anlık Görünt&amp;ü Kaydet...</translation>
+    </message>
+    <message>
+        <source>Take a snapshot of the virtual machine</source>
+        <translation>Sanal makinenin bir anlık görüntüsünü al</translation>
+    </message>
+    <message>
+        <source>Session I&amp;nformation Dialog</source>
+        <translation>Oturum &amp;Bilgileri Penceresi</translation>
+    </message>
+    <message>
+        <source>Show Session Information Dialog</source>
+        <translation>Oturum Bilgileri Penceresini Göster</translation>
+    </message>
+    <message>
+        <source>&amp;Pause</source>
+        <translation>&amp;Duraklat</translation>
+    </message>
+    <message>
+        <source>Suspend the execution of the virtual machine</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>R&amp;esume</source>
+        <translation>D&amp;evam Et</translation>
+    </message>
+    <message>
+        <source>Resume the execution of the virtual machine</source>
+        <translation>Sanal makine uygulamasını devam ettir</translation>
+    </message>
+    <message>
+        <source>&amp;Reset</source>
+        <translation>&amp;Sıfırla</translation>
+    </message>
+    <message>
+        <source>Reset the virtual machine</source>
+        <translation>Sanal makineyi sıfırlar, yeniden başlatır</translation>
+    </message>
+    <message>
+        <source>ACPI Sh&amp;utdown</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>ACPI S&amp;hutdown</source>
+        <translation>ACPI ile &amp;Kapat</translation>
+    </message>
+    <message>
+        <source>Send the ACPI Power Button press event to the virtual machine</source>
+        <translation>ACPI güç butonuna basılmasının sonucunu sanal makineye gönder</translation>
+    </message>
+    <message>
+        <source>&amp;Close...</source>
+        <translation>&amp;Kapat...</translation>
+    </message>
+    <message>
+        <source>Close the virtual machine</source>
+        <translation>Sanal makineyi kapat</translation>
+    </message>
+    <message>
+        <source>&amp;View</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>&amp;Devices</source>
+        <translation>&amp;Aygıtlar</translation>
+    </message>
+    <message>
+        <source>&amp;CD/DVD Devices</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>&amp;Floppy Devices</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>&amp;USB Devices</source>
+        <translation>&amp;USB Aygıtları</translation>
+    </message>
+    <message>
+        <source>&amp;Network Adapters...</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Change the settings of network adapters</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>&amp;Shared Folders...</source>
+        <translation>&amp;Paylaşılan Dizinler...</translation>
+    </message>
+    <message>
+        <source>Create or modify shared folders</source>
+        <translation>Paylaşılan dizinler üzerinde işlem yapmak için pencereyi aç</translation>
+    </message>
+    <message>
+        <source>Enable or disable remote desktop (RDP) connections to this machine</source>
+        <translation type="obsolete">Bu makineye yapılan uzak masaüstü (RDP) bağlantılarını etkinleştir ya da pasifleştir</translation>
+    </message>
+    <message>
+        <source>&amp;Install Guest Additions...</source>
+        <translation>&amp;Misafir Eklentilerini (Guest Additions) Yükle...</translation>
+    </message>
+    <message>
+        <source>Mount the Guest Additions installation image</source>
+        <translation>Misafir Eklentilerini yükleyici kalıbı bağla</translation>
+    </message>
+    <message>
+        <source>De&amp;bug</source>
+        <translation>&amp;Hata Ayıkla</translation>
+    </message>
+    <message>
+        <source>&amp;Statistics...</source>
+        <comment>debug action</comment>
+        <translation>İ&amp;statistikler...</translation>
+    </message>
+    <message>
+        <source>&amp;Command Line...</source>
+        <comment>debug action</comment>
+        <translation>&amp;Komut satırı...</translation>
+    </message>
+    <message>
+        <source>&amp;Logging...</source>
+        <comment>debug action</comment>
+        <translation type="obsolete">Gün&amp;lük Kayıtları...</translation>
+    </message>
+    <message>
+        <source>&amp;Help</source>
+        <translation>&amp;Yardım</translation>
+    </message>
+    <message>
+        <source>Dock Icon</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Show Monitor Preview</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Show Application Icon</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Enter &amp;Fullscreen Mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Exit &amp;Fullscreen Mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Switch to normal mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enter Seam&amp;less Mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Exit Seam&amp;less Mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enable &amp;Guest Display Auto-resize</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Disable &amp;Guest Display Auto-resize</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Disable automatic resize of the guest display when the window is resized</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Enable Remote Display</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enable remote desktop (RDP) connections to this machine</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Disable Remote Display</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Disable remote desktop (RDP) connections to this machine</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enable &amp;Logging...</source>
+        <comment>debug action</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Disable &amp;Logging...</source>
+        <comment>debug action</comment>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>UIDownloader</name>
+    <message>
+        <source>Cancel</source>
+        <translation type="obsolete">İptal</translation>
+    </message>
+    <message>
+        <source>Downloading the VirtualBox Guest Additions CD image from &lt;nobr&gt;&lt;b&gt;%1&lt;/b&gt;...&lt;/nobr&gt;</source>
+        <translation type="obsolete">VirtualBox Guest Additions CD kalıbı &lt;nobr&gt;&lt;b&gt;%1&lt;/b&gt; adresinden indiriliyor...&lt;/nobr&gt;</translation>
+    </message>
+    <message>
+        <source>Cancel the VirtualBox Guest Additions CD image download</source>
+        <translation type="obsolete">VirtualBox Guest Additions CD kalıbı indirme işlemini iptal et</translation>
+    </message>
+    <message>
+        <source>Could not locate the file on the server (response: %1).</source>
+        <translation type="obsolete">Dosya sunucu üzerinde konumlandırılamadı (yanıt: %1).</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;Failed to save the downloaded file as &lt;nobr&gt;&lt;b&gt;%1&lt;/b&gt;.&lt;/nobr&gt;&lt;/p&gt;</source>
+        <translation type="obsolete">&lt;p&gt;İndirilen dosyalar &lt;nobr&gt;&lt;b&gt;%1&lt;/b&gt; olarak kaydedilemedi.&lt;/nobr&gt;&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Select folder to save Guest Additions image to</source>
+        <translation type="obsolete">Guest Additions kalıbını kaydetmek için gereken dizini seç</translation>
+    </message>
+    <message>
+        <source>Connection timed out.</source>
+        <translation type="obsolete">Bağlantıda zaman aşımı oluştu.</translation>
+    </message>
+    <message>
+        <source>The download process has been cancelled by the user.</source>
+        <translation type="obsolete">İndirme işlemi kullanıcı tarafından iptal edildi.</translation>
+    </message>
+    <message>
+        <source>The download process has been canceled by the user.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>UIDownloaderAdditions</name>
+    <message>
+        <source>Cancel</source>
+        <translation type="obsolete">İptal</translation>
+    </message>
+    <message>
+        <source>Downloading the VirtualBox Guest Additions CD image from &lt;nobr&gt;&lt;b&gt;%1&lt;/b&gt;...&lt;/nobr&gt;</source>
+        <translation type="obsolete">VirtualBox Guest Additions CD kalıbı &lt;nobr&gt;&lt;b&gt;%1&lt;/b&gt; adresinden indiriliyor...&lt;/nobr&gt;</translation>
+    </message>
+    <message>
+        <source>Cancel the VirtualBox Guest Additions CD image download</source>
+        <translation type="obsolete">VirtualBox Guest Additions CD kalıbı indirme işlemini iptal et</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;Failed to save the downloaded file as &lt;nobr&gt;&lt;b&gt;%1&lt;/b&gt;.&lt;/nobr&gt;&lt;/p&gt;</source>
+        <translation>&lt;p&gt;İndirilen dosyalar &lt;nobr&gt;&lt;b&gt;%1&lt;/b&gt; olarak kaydedilemedi.&lt;/nobr&gt;&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Select folder to save Guest Additions image to</source>
+        <translation>Guest Additions kalıbını kaydetmek için gereken dizini seç</translation>
+    </message>
+</context>
+<context>
+    <name>UIDownloaderUserManual</name>
+    <message>
+        <source>Select folder to save User Manual to</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>UIExportApplianceWzd</name>
+    <message>
+        <source>Appliance Export Wizard</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt; &amp;Back</source>
+        <translation type="obsolete">&lt; &amp;Geri</translation>
+    </message>
+    <message>
+        <source>&amp;Next &gt;</source>
+        <translation type="obsolete">&amp;İleri &gt;</translation>
+    </message>
+    <message>
+        <source>Restore Defaults</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>UIExportApplianceWzdPage1</name>
+    <message>
+        <source>Welcome to the Appliance Export Wizard!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;This wizard will guide you through the process of exporting an appliance.&lt;/p&gt;&lt;p&gt;%1&lt;/p&gt;&lt;p&gt;Please select the virtual machines that should be added to the appliance. You can select more than one. Please note that these machines have to be turned off before they can be exported.&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>UIExportApplianceWzdPage2</name>
+    <message>
+        <source>Here you can change additional configuration values of the selected virtual machines. You can modify most of the properties shown by double-clicking on the items.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Appliance Export Settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>UIExportApplianceWzdPage3</name>
+    <message>
+        <source>Please specify the target for the OVF export. You can choose between a local file system export, uploading the OVF to the Sun Cloud service or an S3 storage server.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Local Filesystem </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sun &amp;Cloud</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Simple Storage System (S3)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Appliance Export Settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>UIExportApplianceWzdPage4</name>
+    <message>
+        <source>&amp;Username:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Password:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Hostname:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Bucket:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;File:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Write in legacy OVF 0.9 format for compatibility with other virtualization products.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Write legacy OVF 0.9</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Appliance Export Settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Appliance</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select a file to export into</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Open Virtualization Format (%1)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please choose a filename to export the OVF to.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please complete the additional fields like the username, password and the bucket, and provide a filename for the OVF target.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please complete the additional fields like the username, password, hostname and the bucket, and provide a filename for the OVF target.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Checking files ...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Removing files ...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Exporting Appliance ...</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>UIFirstRunWzd</name>
+    <message>
+        <source>First Run Wizard</source>
+        <translation>İlk Çalıştırma Sihirbazı</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;You have started a newly created virtual machine for the first time. This wizard will help you to perform the steps necessary for installing an operating system of your choice onto this virtual machine.&lt;/p&gt;&lt;p&gt;Use the &lt;b&gt;Next&lt;/b&gt; button to go to the next page of the wizard and the &lt;b&gt;Back&lt;/b&gt; button to return to the previous page. You can also press &lt;b&gt;Cancel&lt;/b&gt; if you want to cancel the execution of this wizard.&lt;/p&gt;</source>
+        <translation type="obsolete">&lt;p&gt;Yeni oluşturduğunuz bir sanal makineyi ilk defa çalıştırdınız. Bu sihirbaz bu sanal makine üzerine tercih ettiğiniz işletim sistemini kurmanızı sağlayacak aşamalarda size yardım edecek.&lt;/p&gt;&lt;p&gt;Sonraki sayfaya gitmek için &lt;b&gt;İleri&lt;/b&gt;, önceki sayfaya dönmek için &lt;b&gt;Geri&lt;/b&gt; düğmelerini kullanın. Bu sihirbazı kapatmak için &lt;b&gt;İptal&lt;/b&gt; düğmesine basabilirsiniz.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Welcome to the First Run Wizard!</source>
+        <translation type="obsolete">İlk Çalıştırma Sihirbazına Hoşgeldiniz!</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;Select the type of media you would like to use for installation.&lt;/p&gt;</source>
+        <translation type="obsolete">&lt;p&gt;Aşağıdaki yükleme isteği için kullanmak istediğiniz ortamın tipini seçin.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Media Type</source>
+        <translation type="obsolete">Ortam Tipi</translation>
+    </message>
+    <message>
+        <source>&amp;CD/DVD-ROM Device</source>
+        <translation type="obsolete">&amp;CD/DVD-ROM Sürücü</translation>
+    </message>
+    <message>
+        <source>&amp;Floppy Device</source>
+        <translation type="obsolete">&amp;Disket Sürücü</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;Select the media which contains the setup program of the operating system you want to install. This media must be bootable, otherwise the setup program will not be able to start.&lt;/p&gt;</source>
+        <translation type="obsolete">&lt;p&gt;Yüklemek istediğiniz işletim sisteminin kur uygulamasını içeren ortamı seçin. Bu ortam başlatılabilir (bootable) olmalıdır, aksi taktirde kur uygulaması başlatılamaz.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Media Source</source>
+        <translation type="obsolete">Ortam Kaynağı</translation>
+    </message>
+    <message>
+        <source>&amp;Host Drive</source>
+        <translation type="obsolete">&amp;Sunucu Sürücüsü</translation>
+    </message>
+    <message>
+        <source>&amp;Image File</source>
+        <translation type="obsolete">Kal&amp;ıp Dosyası</translation>
+    </message>
+    <message>
+        <source>VDM</source>
+        <translation type="obsolete">VDM</translation>
+    </message>
+    <message>
+        <source>Select Installation Media</source>
+        <translation type="obsolete">Yükleme Ortamını Seç</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;You have selected the following media to boot from:&lt;/p&gt;</source>
+        <translation type="obsolete">&lt;p&gt;Şu ortamdan başlatmayı (boot) seçtiniz:&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;If the above is correct, press the &lt;b&gt;Finish&lt;/b&gt; button. Once you press it, the selected media will be temporarily mounted on the virtual machine and the machine will start execution.&lt;/p&gt;&lt;p&gt;Please note that when you close the virtual machine, the specified media will be automatically unmounted and the boot device will be set back to the first hard disk.&lt;/p&gt;&lt;p&gt;Depending on the type of the setup program, you may need to manually unmount (eject) the media after the setup program reboots the virtual machine, to prevent the installation process from starting again. You can do this by selecting the corresponding &lt;b&gt;Unmount...&lt;/b&gt; action in the &lt;b&gt;Devices&lt;/b&gt; menu.&lt;/p&gt;</source>
+        <translation type="obsolete">&lt;p&gt;Eğer yukarıdakiler doğru ise,&lt;b&gt;Bitir&lt;/b&gt; düğmesine basın. Düğmeye bastığınızda, seçilen ortam sanal makineye bağlanacak ve makine çalıştırılmaya başlanacak.&lt;/p&gt;&lt;p&gt;Sanal makineyi kapattığınızda belirtilen ortamın otomatik olarak ayrılacağını ve başlangıç aygıtının yeniden sabit disk olarak ayarlanacağını unutmayın.&lt;/p&gt;&lt;p&gt;Kur uygulamasına bağlı olarak değişmekle birlikte, kur işleminin yeniden başlamasını engellemek için kur bittikten sonra ortamı el ile ayırmanız (eject) gerekebilir. Bu işlemi &lt;b&gt;Aygıtlar&lt;/b&gt; menüsündeki &lt;b&gt;Ayır...&lt;/b&gt; ile yapabilirsiniz.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Summary</source>
+        <translation type="obsolete">Özet</translation>
+    </message>
+    <message>
+        <source>CD/DVD-ROM Device</source>
+        <translation type="obsolete">CD/DVD-ROM Sürücü</translation>
+    </message>
+    <message>
+        <source>Floppy Device</source>
+        <translation type="obsolete">Disket Sürücü</translation>
+    </message>
+    <message>
+        <source>Host Drive %1</source>
+        <translation type="obsolete">Sunucu Sürücüsü  %1</translation>
+    </message>
+    <message>
+        <source>&lt;table&gt;&lt;tr&gt;&lt;td&gt;Type:&lt;/td&gt;&lt;td&gt;%1&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Source:&lt;/td&gt;&lt;td&gt;%2&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</source>
+        <translation type="obsolete">&lt;table&gt;&lt;tr&gt;&lt;td&gt;Tip:&lt;/td&gt;&lt;td&gt;%1&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Kaynak:&lt;/td&gt;&lt;td&gt;%2&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;You have started a newly created virtual machine for the first time. This wizard will help you to perform the steps necessary for booting an operating system of your choice on the virtual machine.&lt;/p&gt;&lt;p&gt;Note that you will not be able to install an operating system into this virtual machine right now because you did not attach any hard disk to it. If this is not what you want, you can cancel the execution of this wizard, select &lt;b&gt;Settings&lt;/b&gt; from the &lt;b&gt;Machine&lt;/b&gt; menu of the main VirtualBox window to access the settings dialog of this machine and change the hard disk configuration.&lt;/p&gt;&lt;p&gt;Use the &lt;b&gt;Next&lt;/b&gt; button to go to the next page of the wizard and the &lt;b&gt;Back&lt;/b&gt; button to return to the previous page. You can also press &lt;b&gt;Cancel&lt;/b&gt; if you want to cancel the execution of this wizard.&lt;/p&gt;</source>
+        <translation type="obsolete">&lt;p&gt;Yeni oluşturduğunuz bir sanal makineyi ilk defa çalıştırdınız. Bu sihirbaz bu sanal makine üzerinde tercih ettiğiniz işletim sistemini başlatmanızı (boot) sağlayacak aşamalarda size yardım edecek.&lt;/p&gt;&lt;p&gt;Bu sanal makineye bir sabit disk eklemediğiniz için şu anda bir işletim sistemi kuramayacağınızı unutmayın. Eğer istediğiniz bu değilse, bu sihirbazı iptal edip &lt;b&gt;Makine&lt;/b&gt; menüsünden &lt;b&gt;Ayarlar&lt;/b&gt; yolunu takip ederek sabit disk yapılandırmanızı değiştirin.&lt;/p&gt;&lt;p&gt;Sonraki sayfaya gitmek için &lt;b&gt;İleri&lt;/b&gt;, önceki sayfaya dönmek için &lt;b&gt;Geri&lt;/b&gt; düğmelerini kullanın. Bu sihirbazı kapatmak için &lt;b&gt;İptal&lt;/b&gt; düğmesine basabilirsiniz.&lt;/p&gt;.</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;Select the type of media you would like to use for booting an operating system.&lt;/p&gt;</source>
+        <translation type="obsolete">&lt;p&gt;Bir işletim sistemini başlatmak için kullanmak istediğiniz ortamın tipini seçin.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;Select the media that contains the operating system you want to work with. This media must be bootable, otherwise the operating system will not be able to start.&lt;/p&gt;</source>
+        <translation type="obsolete">&lt;p&gt;Çalışmak istediğiniz işletim sistemini içeren ortamı seçin. Bu ortam başlatılabilir (bootable) olmalıdır, aksi taktirde işletim sistemi başlatılamayacak.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;You have selected the following media to boot an operating system from:&lt;/p&gt;</source>
+        <translation type="obsolete">&lt;p&gt;Bir işletim sistemini başlatmak için şu ortam tipini seçtiniz:&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;If the above is correct, press the &lt;b&gt;Finish&lt;/b&gt; button. Once you press it, the selected media will be mounted on the virtual machine and the machine will start execution.&lt;/p&gt;</source>
+        <translation type="obsolete">&lt;p&gt;Eğer yukarıdakiler doğru ise,&lt;b&gt;Bitir&lt;/b&gt; düğmesine basın. Düğmeye bastığınızda, seçilen ortam sanal makineye bağlanacak ve makine çalıştırılmaya başlanacak.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&lt; &amp;Back</source>
+        <translation type="obsolete">&lt; &amp;Geri</translation>
+    </message>
+    <message>
+        <source>&amp;Next &gt;</source>
+        <translation type="obsolete">&amp;İleri &gt;</translation>
+    </message>
+    <message>
+        <source>&amp;Finish</source>
+        <translation type="obsolete">&amp;Bitir</translation>
+    </message>
+    <message>
+        <source>Type</source>
+        <comment>summary</comment>
+        <translation type="obsolete">Tip</translation>
+    </message>
+    <message>
+        <source>Source</source>
+        <comment>summary</comment>
+        <translation type="obsolete">Kaynak</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="obsolete">İptal</translation>
+    </message>
+</context>
+<context>
+    <name>UIFirstRunWzdPage1</name>
+    <message>
+        <source>Welcome to the First Run Wizard!</source>
+        <translation type="unfinished">İlk Çalıştırma Sihirbazına Hoşgeldiniz!</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;You have started a newly created virtual machine for the first time. This wizard will help you to perform the steps necessary for installing an operating system of your choice onto this virtual machine.&lt;/p&gt;&lt;p&gt;%1&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;You have started a newly created virtual machine for the first time. This wizard will help you to perform the steps necessary for booting an operating system of your choice on the virtual machine.&lt;/p&gt;&lt;p&gt;Note that you will not be able to install an operating system into this virtual machine right now because you did not attach any hard disk to it. If this is not what you want, you can cancel the execution of this wizard, select &lt;b&gt;Settings&lt;/b&gt; from the &lt;b&gt;Machine&lt;/b&gt; menu of the main VirtualBox window to access the settings dialog of this machine and change the hard disk configuration.&lt;/p&gt;&lt;p&gt;%1&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>UIFirstRunWzdPage2</name>
+    <message>
+        <source>&lt;p&gt;Select the media which contains the setup program of the operating system you want to install. This media must be bootable, otherwise the setup program will not be able to start.&lt;/p&gt;</source>
+        <translation type="unfinished">&lt;p&gt;Yüklemek istediğiniz işletim sisteminin kur uygulamasını içeren ortamı seçin. Bu ortam başlatılabilir (bootable) olmalıdır, aksi taktirde kur uygulaması başlatılamaz.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;Select the media that contains the operating system you want to work with. This media must be bootable, otherwise the operating system will not be able to start.&lt;/p&gt;</source>
+        <translation type="unfinished">&lt;p&gt;Çalışmak istediğiniz işletim sistemini içeren ortamı seçin. Bu ortam başlatılabilir (bootable) olmalıdır, aksi taktirde işletim sistemi başlatılamayacak.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Media Source</source>
+        <translation type="unfinished">Ortam Kaynağı</translation>
+    </message>
+    <message>
+        <source>Select Installation Media</source>
+        <translation type="unfinished">Yükleme Ortamını Seç</translation>
+    </message>
+</context>
+<context>
+    <name>UIFirstRunWzdPage3</name>
+    <message>
+        <source>&lt;p&gt;You have selected the following media to boot from:&lt;/p&gt;</source>
+        <translation type="unfinished">&lt;p&gt;Şu ortamdan başlatmayı (boot) seçtiniz:&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;You have selected the following media to boot an operating system from:&lt;/p&gt;</source>
+        <translation type="unfinished">&lt;p&gt;Bir işletim sistemini başlatmak için şu ortam tipini seçtiniz:&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;If the above is correct, press the &lt;b&gt;Finish&lt;/b&gt; button. Once you press it, the selected media will be temporarily mounted on the virtual machine and the machine will start execution.&lt;/p&gt;&lt;p&gt;Please note that when you close the virtual machine, the specified media will be automatically unmounted and the boot device will be set back to the first hard disk.&lt;/p&gt;&lt;p&gt;Depending on the type of the setup program, you may need to manually unmount (eject) the media after the setup program reboots the virtual machine, to prevent the installation process from starting again. You can do this by selecting the corresponding &lt;b&gt;Unmount...&lt;/b&gt; action in the &lt;b&gt;Devices&lt;/b&gt; menu.&lt;/p&gt;</source>
+        <translation type="unfinished">&lt;p&gt;Eğer yukarıdakiler doğru ise,&lt;b&gt;Bitir&lt;/b&gt; düğmesine basın. Düğmeye bastığınızda, seçilen ortam sanal makineye bağlanacak ve makine çalıştırılmaya başlanacak.&lt;/p&gt;&lt;p&gt;Sanal makineyi kapattığınızda belirtilen ortamın otomatik olarak ayrılacağını ve başlangıç aygıtının yeniden sabit disk olarak ayarlanacağını unutmayın.&lt;/p&gt;&lt;p&gt;Kur uygulamasına bağlı olarak değişmekle birlikte, kur işleminin yeniden başlamasını engellemek için kur bittikten sonra ortamı el ile ayırmanız (eject) gerekebilir. Bu işlemi &lt;b&gt;Aygıtlar&lt;/b&gt; menüsündeki &lt;b&gt;Ayır...&lt;/b&gt; ile yapabilirsiniz.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;If the above is correct, press the &lt;b&gt;Finish&lt;/b&gt; button. Once you press it, the selected media will be mounted on the virtual machine and the machine will start execution.&lt;/p&gt;</source>
+        <translation type="unfinished">&lt;p&gt;Eğer yukarıdakiler doğru ise,&lt;b&gt;Bitir&lt;/b&gt; düğmesine basın. Düğmeye bastığınızda, seçilen ortam sanal makineye bağlanacak ve makine çalıştırılmaya başlanacak.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Summary</source>
+        <translation type="unfinished">Özet</translation>
+    </message>
+    <message>
+        <source>CD/DVD-ROM Device</source>
+        <translation type="unfinished">CD/DVD-ROM Sürücü</translation>
+    </message>
+    <message>
+        <source>Type</source>
+        <comment>summary</comment>
+        <translation type="unfinished">Tip</translation>
+    </message>
+    <message>
+        <source>Source</source>
+        <comment>summary</comment>
+        <translation type="unfinished">Kaynak</translation>
+    </message>
+</context>
+<context>
+    <name>UIImportApplianceWzd</name>
+    <message>
+        <source>Appliance Import Wizard</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt; &amp;Back</source>
+        <translation type="obsolete">&lt; &amp;Geri</translation>
+    </message>
+    <message>
+        <source>&amp;Next &gt;</source>
+        <translation type="obsolete">&amp;İleri &gt;</translation>
+    </message>
+    <message>
+        <source>Restore Defaults</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>UIImportApplianceWzdPage1</name>
+    <message>
+        <source>Select an appliance to import</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Open Virtualization Format (%1)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Welcome to the Appliance Import Wizard!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;This wizard will guide you through importing an appliance.&lt;/p&gt;&lt;p&gt;%1&lt;/p&gt;&lt;p&gt;VirtualBox currently supports importing appliances saved in the Open Virtualization Format (OVF). To continue, select the file to import below:&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>UIImportApplianceWzdPage2</name>
+    <message>
+        <source>These are the virtual machines contained in the appliance and the suggested settings of the imported VirtualBox machines. You can change many of the properties shown by double-clicking on the items and disable others using the check boxes below.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Appliance Import Settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>UIImportLicenseViewer</name>
+    <message>
+        <source>&lt;b&gt;The virtual system &quot;%1&quot; requires that you agree to the terms and conditions of the software license agreement shown below.&lt;/b&gt;&lt;br /&gt;&lt;br /&gt;Click &lt;b&gt;Agree&lt;/b&gt; to continue or click &lt;b&gt;Disagree&lt;/b&gt; to cancel the import.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Software License Agreement</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Disagree</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Agree</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Print...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Save...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Text (*.txt)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Save license to file...</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>UIIndicatorsPool</name>
+    <message>
+        <source>&lt;p style=&apos;white-space:pre&apos;&gt;&lt;nobr&gt;Indicates the activity of the virtual hard disks:&lt;/nobr&gt;%1&lt;/p&gt;</source>
+        <comment>HDD tooltip</comment>
+        <translation></translation>
+    </message>
+    <message>
+        <source>&lt;p style=&apos;white-space:pre&apos;&gt;&lt;nobr&gt;Indicates the activity of the CD/DVD devices:&lt;/nobr&gt;%1&lt;/p&gt;</source>
+        <comment>CD/DVD tooltip</comment>
+        <translation></translation>
+    </message>
+    <message>
+        <source>&lt;p style=&apos;white-space:pre&apos;&gt;&lt;nobr&gt;Indicates the activity of the floppy devices:&lt;/nobr&gt;%1&lt;/p&gt;</source>
+        <comment>FD tooltip</comment>
+        <translation></translation>
+    </message>
+    <message>
+        <source>&lt;p style=&apos;white-space:pre&apos;&gt;&lt;nobr&gt;Indicates the activity of the network interfaces:&lt;/nobr&gt;%1&lt;/p&gt;</source>
+        <comment>Network adapters tooltip</comment>
+        <translation></translation>
+    </message>
+    <message>
+        <source>&lt;br&gt;&lt;nobr&gt;&lt;b&gt;Adapter %1 (%2)&lt;/b&gt;: %3 cable %4&lt;/nobr&gt;</source>
+        <comment>Network adapters tooltip</comment>
+        <translation></translation>
+    </message>
+    <message>
+        <source>connected</source>
+        <comment>Network adapters tooltip</comment>
+        <translation>bağlı</translation>
+    </message>
+    <message>
+        <source>disconnected</source>
+        <comment>Network adapters tooltip</comment>
+        <translation>bağlı değil</translation>
+    </message>
+    <message>
+        <source>&lt;br&gt;&lt;nobr&gt;&lt;b&gt;All network adapters are disabled&lt;/b&gt;&lt;/nobr&gt;</source>
+        <comment>Network adapters tooltip</comment>
+        <translation>&lt;br&gt;&lt;nobr&gt;&lt;b&gt;Tüm bağdaştırıcılar pasifleştirilmiş&lt;/b&gt;&lt;/nobr&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;p style=&apos;white-space:pre&apos;&gt;&lt;nobr&gt;Indicates the activity of the attached USB devices:&lt;/nobr&gt;%1&lt;/p&gt;</source>
+        <comment>USB device tooltip</comment>
+        <translation></translation>
+    </message>
+    <message>
+        <source>&lt;br&gt;&lt;nobr&gt;&lt;b&gt;No USB devices attached&lt;/b&gt;&lt;/nobr&gt;</source>
+        <comment>USB device tooltip</comment>
+        <translation>&lt;br&gt;&lt;nobr&gt;&lt;b&gt;Eklenmiş USB aygıtı yok&lt;/b&gt;&lt;/nobr&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;br&gt;&lt;nobr&gt;&lt;b&gt;USB Controller is disabled&lt;/b&gt;&lt;/nobr&gt;</source>
+        <comment>USB device tooltip</comment>
+        <translation>&lt;br&gt;&lt;nobr&gt;&lt;b&gt;USB Denetleyici pasifleştirilmiş&lt;/b&gt;&lt;/nobr&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;p style=&apos;white-space:pre&apos;&gt;&lt;nobr&gt;Indicates the activity of the machine&apos;s shared folders:&lt;/nobr&gt;%1&lt;/p&gt;</source>
+        <comment>Shared folders tooltip</comment>
+        <translation></translation>
+    </message>
+    <message>
+        <source>&lt;br&gt;&lt;nobr&gt;&lt;b&gt;No shared folders&lt;/b&gt;&lt;/nobr&gt;</source>
+        <comment>Shared folders tooltip</comment>
+        <translation>&lt;br&gt;&lt;nobr&gt;&lt;b&gt;Paylaşılan dizin yok&lt;/b&gt;&lt;/nobr&gt;</translation>
+    </message>
+    <message>
+        <source>Indicates whether the Remote Display (VRDP Server) is enabled (&lt;img src=:/vrdp_16px.png/&gt;) or not (&lt;img src=:/vrdp_disabled_16px.png/&gt;).</source>
+        <translation>Uzak Masaüstünün (VRDP Sunucu) etkin olup olmadığını gösterir (&lt;img src=vrdp_16px.png/&gt;) ya da (&lt;img src=vrdp_disabled_16px.png/&gt;).</translation>
+    </message>
+    <message>
+        <source>&lt;hr&gt;The VRDP Server is listening on port %1</source>
+        <translation>&lt;hr&gt;VRDP Sunusu %1 portundan dinleniyor</translation>
+    </message>
+    <message>
+        <source>Indicates the status of the hardware virtualization features used by this virtual machine:&lt;br&gt;&lt;nobr&gt;&lt;b&gt;%1:&lt;/b&gt;&amp;nbsp;%2&lt;/nobr&gt;&lt;br&gt;&lt;nobr&gt;&lt;b&gt;%3:&lt;/b&gt;&amp;nbsp;%4&lt;/nobr&gt;</source>
+        <comment>Virtualization Stuff LED</comment>
+        <translation></translation>
+    </message>
+    <message>
+        <source>&lt;br&gt;&lt;nobr&gt;&lt;b&gt;%1:&lt;/b&gt;&amp;nbsp;%2&lt;/nobr&gt;</source>
+        <comment>Virtualization Stuff LED</comment>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Indicates whether the host mouse pointer is captured by the guest OS:&lt;br&gt;&lt;nobr&gt;&lt;img src=:/mouse_disabled_16px.png/&gt;&amp;nbsp;&amp;nbsp;pointer is not captured&lt;/nobr&gt;&lt;br&gt;&lt;nobr&gt;&lt;img src=:/mouse_16px.png/&gt;&amp;nbsp;&amp;nbsp;pointer is captured&lt;/nobr&gt;&lt;br&gt;&lt;nobr&gt;&lt;img src=:/mouse_seamless_16px.png/&gt;&amp;nbsp;&amp;nbsp;mouse integration (MI) is On&lt;/nobr&gt;&lt;br&gt;&lt;nobr&gt;&lt;img src=:/mouse_can_seamless_16px.png/&gt;&amp;nbsp;&amp;nbsp;MI is Off, pointer is captured&lt;/nobr&gt;&lt;br&gt;&lt;nobr&gt;&lt;img src=:/mouse_can_seamless_uncaptured_16px.png/&gt;&amp;nbsp;&amp;nbsp;MI is Off, pointer is not captured&lt;/nobr&gt;&lt;br&gt;Note that the mouse integration feature requires Guest Additions to be installed in the guest OS.</source>
+        <translation>Misafir işletim sistemi tarafından sunucunun fare işaretçisinin yakalanıp yakalanmadığını gösterir: &lt;br&gt;&lt;nobr&gt;&lt;img src=mouse_disabled_16px.png/&gt;&amp;nbsp;&amp;nbsp;işaretçi yakalandı&lt;/nobr&gt;&lt;br&gt;&lt;nobr&gt;&lt;img src=mouse_16px.png/&gt;&amp;nbsp;&amp;nbsp;işaretçi yakalandı&lt;/nobr&gt;&lt;br&gt;&lt;nobr&gt;&lt;img src=mouse_seamless_16px.png/&gt;&amp;nbsp;&amp;nbsp;fare uyumu (MI) açık&lt;/nobr&gt;&lt;br&gt;&lt;nobr&gt;&lt;img src=mouse_can_seamless_16px.png/&gt;&amp;nbsp;&amp;nbsp;fare uyumu (MI) kapalı, işaretçi yakalndı&lt;/nobr&gt;&lt;br&gt;&lt;nobr&gt;&lt;img src=mouse_can_seamless_uncaptured_16px.png/&gt;&amp;nbsp;&amp;nbsp;fare uyumu (MI) kapalı, işaretçi yakalanmadı&lt;/nobr&gt;&lt;br&gt; Bu fonksiyonu kullanabilmeniz için Guest Additions yüklü olmalıdır.</translation>
+    </message>
+    <message>
+        <source>Indicates whether the keyboard is captured by the guest OS (&lt;img src=:/hostkey_captured_16px.png/&gt;) or not (&lt;img src=:/hostkey_16px.png/&gt;).</source>
+        <translation>Misafir işletim sistemi tarafından klavyenin yakalanıp yakalanmadığını gösterir (&lt;img src=hostkey_captured_16px.png/&gt;) ya da (&lt;img src=hostkey_16px.png/&gt;).</translation>
+    </message>
+</context>
+<context>
+    <name>UIMachineLogic</name>
+    <message>
+        <source>VirtualBox OSE</source>
+        <translation>VirtualBox OSE</translation>
+    </message>
+    <message>
+        <source> EXPERIMENTAL build %1r%2 - %3</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Preview Monitor %1</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Snapshot %1</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>More CD/DVD Images...</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Unmount CD/DVD Device</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>More Floppy Images...</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Unmount Floppy Device</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>No CD/DVD Devices Attached</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>No CD/DVD devices attached to that VM</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>No Floppy Devices Attached</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>No floppy devices attached to that VM</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>No USB Devices Connected</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>No supported devices connected to the host PC</source>
+        <translation>Sunucu makineye desteklenen bir cihaz bağlanmamış</translation>
+    </message>
+</context>
+<context>
+    <name>UIMachineWindowNormal</name>
+    <message>
+        <source>Shows the currently assigned Host key.&lt;br&gt;This key, when pressed alone, toggles the keyboard and mouse capture state. It can also be used in combination with other keys to quickly perform actions from the main menu.</source>
+        <translation>Atanmış sunucu anahtarını gösterir.&lt;br&gt; Sunucu anahtarına yanlız basıldığında klavye ve farenin yakalanma durumunu değiştirir. İşlemlerinizi daha hızlı yapmak için ana menüden diğer kullanılabilir tuş kombinasyonlarını görebilirsiniz.</translation>
+    </message>
+</context>
+<context>
+    <name>UIMiniProcessWidgetAdditions</name>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cancel the VirtualBox Guest Additions CD image download</source>
+        <translation type="unfinished">VirtualBox Guest Additions CD kalıbı indirme işlemini iptal et</translation>
+    </message>
+    <message>
+        <source>Downloading the VirtualBox Guest Additions CD image from &lt;nobr&gt;&lt;b&gt;%1&lt;/b&gt;...&lt;/nobr&gt;</source>
+        <translation type="unfinished">VirtualBox Guest Additions CD kalıbı &lt;nobr&gt;&lt;b&gt;%1&lt;/b&gt; adresinden indiriliyor...&lt;/nobr&gt;</translation>
+    </message>
+</context>
+<context>
+    <name>UIMiniProcessWidgetUserManual</name>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cancel the VirtualBox User Manual download</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Downloading the VirtualBox User Manual</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Downloading the VirtualBox User Manual &lt;nobr&gt;&lt;b&gt;%1&lt;/b&gt;...&lt;/nobr&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>UIMultiScreenLayout</name>
+    <message>
+        <source>Virtual Screen %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Use Host Screen %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>UINewHDWzd</name>
+    <message>
+        <source>Create New Virtual Disk</source>
+        <translation>Yeni Sanal Disk Oluştur</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;This wizard will help you to create a new virtual hard disk image for your virtual machine.&lt;/p&gt;
+&lt;p&gt;Use the &lt;b&gt;Next&lt;/b&gt; button to go to the next page of the wizard
+and the &lt;b&gt;Back&lt;/b&gt; button to return to the previous page.&lt;/p&gt;</source>
+        <translation type="obsolete">&lt;p&gt;Bu sihirbaz, size kendi sanal makineniz için yeni bir sanal sabit disk kalıbı oluşturmanız için yardım eder.&lt;/p&gt;
+&lt;p&gt;&lt;b&gt;İleri&lt;/b&gt; düğmesini kullanarak sihirbazın bir sonraki sayfasına, &lt;b&gt;Geri&lt;/b&gt; düğmesine basarak da bir önceki sayfasına gidebilirsiniz.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Welcome to the Create New Virtual Disk Wizard!</source>
+        <translation type="obsolete">Sanal Disk Oluşturma Sihirbazına Hoşgeldiniz!</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;Select the type of virtual hard disk image you want to create.&lt;/p&gt;
+&lt;p&gt;A &lt;b&gt;dynamically expanding image&lt;/b&gt; initially occupies a very small amount
+of space on your physical hard disk. It will grow dynamically (up to
+the size specified) as the Guest OS claims disk space.&lt;/p&gt;
+&lt;p&gt;A &lt;b&gt;fixed-size image&lt;/b&gt; does not grow. It is stored in a file of approximately
+the same size as the size of the virtual hard disk.&lt;/p&gt;</source>
+        <translation type="obsolete">&lt;p&gt;Oluşturmak istediğiniz sanal sabit disk tipini seçin.&lt;/p&gt;
+&lt;p&gt;&lt;b&gt;Dinamik olarak genişleyebilir bir kalıp&lt;/b&gt; başlangıç olarak fiziksel diskinizde çok az yer tutar. Misafir işletim sistemi disk alanına gereksinim duydukça (belirlenen boyuta kadar) dinamik olarak genişler.&lt;/p&gt;
+&lt;p&gt;&lt;b&gt;Sabit boyutlu bir kalıp&lt;/b&gt; genişlemez. Bu disk kalıbı sanal disk boyutu kadar yer kaplayan bir dosya içerisine kaydedilir.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Image Type</source>
+        <translation type="obsolete">Kalıp Tipi</translation>
+    </message>
+    <message>
+        <source>&amp;Dynamically expanding image</source>
+        <translation type="obsolete">&amp;Dinamik olarak genişleyen kalıp</translation>
+    </message>
+    <message>
+        <source>&amp;Fixed-size image</source>
+        <translation type="obsolete">&amp;Sabit boyutlu kalıp</translation>
+    </message>
+    <message>
+        <source>Virtual Disk Image Type</source>
+        <translation type="obsolete">Sanal Sürücü Kalıbı Tipi</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;Press the &lt;b&gt;Select&lt;/b&gt; button to select the location and name of the file
+to store the virtual hard disk image or type a file name in the entry field.&lt;/p&gt;</source>
+        <translation type="obsolete">&lt;p&gt;&lt;b&gt;Seç&lt;/b&gt; simgesine basarak sanal sabit disk kalıbının saklanacağı
+konumu ve oluşturulacak dosyanın adını seçebilirsiniz ya da aşağıdaki alanına bir dosya ismi yazabilirsiniz.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&amp;Image File Name</source>
+        <translation type="obsolete">Kal&amp;ıp Dosyası Adı</translation>
+    </message>
+    <message>
+        <source>Select</source>
+        <translation type="obsolete">Seç</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;Select the size of the virtual hard disk image in megabytes. This size will be reported to the Guest OS
+as the size of the virtual hard disk.&lt;/p&gt;</source>
+        <translation type="obsolete">&lt;p&gt;Sanal sabit disk kalıbının boyutunu megabyte cinsinden seçin. Bu boyut, misafir işletim sistemine
+sanal sabit disk boyutu olarak rapor edilecektir.&lt;/p&gt;  </translation>
+    </message>
+    <message>
+        <source>Image &amp;Size</source>
+        <translation type="obsolete">Kalıp Bo&amp;yutu</translation>
+    </message>
+    <message>
+        <source>Virtual Disk Location and Size</source>
+        <translation type="obsolete">Sanal Disk Konumu ve Boyutu</translation>
+    </message>
+    <message>
+        <source>You are going to create a new virtual hard disk image with the following parameters:</source>
+        <translation type="obsolete">Aşağıdaki ayarlara göre yeni bir sanal sabit disk kalıbı oluşturacaksınız:</translation>
+    </message>
+    <message>
+        <source>If the above settings are correct, press the &lt;b&gt;Finish&lt;/b&gt; button.
+                            Once you press it, a new hard disk image will be created.
+                            </source>
+        <translation type="obsolete">Eğer aşağıdaki ayarlar doğruysa &lt;b&gt;Bitir&lt;/b&gt; düğmesine basın.
+                            Bitir düğmesine bastığınızda, yeni bir sabit disk kalıbı oluşturulacaktır.
+                            </translation>
+    </message>
+    <message>
+        <source>Summary</source>
+        <translation type="obsolete">Özet</translation>
+    </message>
+    <message>
+        <source>&lt;nobr&gt;%1 Bytes&lt;/nobr&gt;</source>
+        <translation type="obsolete">&lt;nobr&gt;%1 Byte&lt;/nobr&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;table&gt;&lt;tr&gt;&lt;td&gt;Type:&lt;/td&gt;&lt;td&gt;%1&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Location:&lt;/td&gt;&lt;td&gt;%2&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Size:&lt;/td&gt;&lt;td&gt;%3&amp;nbsp;(%4&amp;nbsp;Bytes)&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</source>
+        <translation type="obsolete">&lt;table&gt;&lt;tr&gt;&lt;td&gt;Tip:&lt;/td&gt;&lt;td&gt;%1&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Konum:&lt;/td&gt;&lt;td&gt;%2&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Boyut:&lt;/td&gt;&lt;td&gt;%3&amp;nbsp;(%4&amp;nbsp;Bytes)&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</translation>
+    </message>
+    <message>
+        <source>Hard disk images (*.vdi)</source>
+        <translation type="obsolete">Sabit disk kalıpları (*.vdi)</translation>
+    </message>
+    <message>
+        <source>Select a file for the new hard disk image file</source>
+        <translation type="obsolete">Yeni sabit disk kalıbı dosyası için, bir dosya seçin</translation>
+    </message>
+    <message>
+        <source>&lt; &amp;Back</source>
+        <translation type="obsolete">&lt; &amp;Geri</translation>
+    </message>
+    <message>
+        <source>&amp;Next &gt;</source>
+        <translation type="obsolete">&amp;İleri &gt;</translation>
+    </message>
+    <message>
+        <source>&amp;Finish</source>
+        <translation type="obsolete">&amp;Bitir</translation>
+    </message>
+    <message>
+        <source>Type</source>
+        <comment>summary</comment>
+        <translation type="obsolete">Tip</translation>
+    </message>
+    <message>
+        <source>Location</source>
+        <comment>summary</comment>
+        <translation type="obsolete">Konum</translation>
+    </message>
+    <message>
+        <source>Size</source>
+        <comment>summary</comment>
+        <translation type="obsolete">Boyut</translation>
+    </message>
+    <message>
+        <source>Bytes</source>
+        <comment>summary</comment>
+        <translation type="obsolete">Bayt</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="obsolete">İptal</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;This wizard will help you to create a new virtual hard disk for your virtual machine.&lt;/p&gt;&lt;p&gt;Use the &lt;b&gt;Next&lt;/b&gt; button to go to the next page of the wizard and the &lt;b&gt;Back&lt;/b&gt; button to return to the previous page.&lt;/p&gt;</source>
+        <translation type="obsolete">&lt;p&gt;Bu sihirbaz, size kendi sanal makineniz için yeni bir sanal sabit disk kalıbı oluşturmanız için yardım eder.&lt;/p&gt;&lt;p&gt;&lt;b&gt;İleri&lt;/b&gt; düğmesini kullanarak sihirbazın bir sonraki sayfasına, &lt;b&gt;Geri&lt;/b&gt; düğmesine basarak da bir önceki sayfasına gidebilirsiniz.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Hard Disk Storage Type</source>
+        <translation type="obsolete">Sabit Disk Depolama Tipi</translation>
+    </message>
+    <message>
+        <source>Storage Type</source>
+        <translation type="obsolete">Depolama Tipi</translation>
+    </message>
+    <message>
+        <source>&amp;Dynamically expanding storage</source>
+        <translation type="obsolete">&amp;Dinamik olarak genişleyen kalıp</translation>
+    </message>
+    <message>
+        <source>&amp;Fixed-size storage</source>
+        <translation type="obsolete">&amp;Sabit boyutlu depolama</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;Press the &lt;b&gt;Select&lt;/b&gt; button to select the location of a file to store the hard disk data or type a file name in the entry field.&lt;/p&gt;</source>
+        <translation type="obsolete">&lt;p&gt;&lt;b&gt;Seç&lt;/b&gt; simgesine basarak sanal sabit disk kalıbının saklanacağı konumu ve oluşturulacak dosyanın adını seçebilirsiniz ya da aşağıdaki alanına bir dosya ismi yazabilirsiniz.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&amp;Location</source>
+        <translation type="obsolete">&amp;Konum</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;Select the size of the virtual hard disk in megabytes. This size will be reported to the Guest OS as the maximum size of this hard disk.&lt;/p&gt;</source>
+        <translation type="obsolete">&lt;p&gt;Sanal sabit disk kalıbının boyutunu megabayt cinsinden seçin. Bu boyut, misafir işletim sistemine sanal sabit disk boyutu olarak rapor edilecektir.&lt;/p&gt;  </translation>
+    </message>
+    <message>
+        <source>&amp;Size</source>
+        <translation type="obsolete">&amp;Boyut</translation>
+    </message>
+    <message>
+        <source>You are going to create a new virtual hard disk with the following parameters:</source>
+        <translation type="obsolete">Aşağıdaki ayarlara göre yeni bir sanal sabit disk kalıbı oluşturacaksınız:</translation>
+    </message>
+    <message>
+        <source>If the above settings are correct, press the &lt;b&gt;Finish&lt;/b&gt; button. Once you press it, a new hard disk will be created.</source>
+        <translation type="obsolete">Eğer aşağıdaki ayarlar doğruysa &lt;b&gt;Bitir&lt;/b&gt; düğmesine basın. Bitir düğmesine bastığınızda, yeni bir sabit disk kalıbı oluşturulacaktır.</translation>
+    </message>
+</context>
+<context>
+    <name>UINewHDWzdPage1</name>
+    <message>
+        <source>Welcome to the Create New Virtual Disk Wizard!</source>
+        <translation type="unfinished">Sanal Disk Oluşturma Sihirbazına Hoşgeldiniz!</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;This wizard will help you to create a new virtual hard disk for your virtual machine.&lt;/p&gt;&lt;p&gt;%1&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>UINewHDWzdPage2</name>
+    <message>
+        <source>&lt;p&gt;Select the type of virtual hard disk you want to create.&lt;/p&gt;&lt;p&gt;A &lt;b&gt;dynamically expanding storage&lt;/b&gt; initially occupies a very small amount of space on your physical hard disk. It will grow dynamically (up to the size specified) as the Guest OS claims disk space.&lt;/p&gt;&lt;p&gt;A &lt;b&gt;fixed-size storage&lt;/b&gt; does not grow. It is stored in a file of approximately the same size as the size of the virtual hard disk. The creation of a fixed-size storage may take a long time depending on the storage size and the write performance of your harddisk.&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Storage Type</source>
+        <translation type="unfinished">Depolama Tipi</translation>
+    </message>
+    <message>
+        <source>&amp;Dynamically expanding storage</source>
+        <translation type="unfinished">&amp;Dinamik olarak genişleyen kalıp</translation>
+    </message>
+    <message>
+        <source>&amp;Fixed-size storage</source>
+        <translation type="unfinished">&amp;Sabit boyutlu depolama</translation>
+    </message>
+    <message>
+        <source>Hard Disk Storage Type</source>
+        <translation type="unfinished">Sabit Disk Depolama Tipi</translation>
+    </message>
+</context>
+<context>
+    <name>UINewHDWzdPage3</name>
+    <message>
+        <source>&lt;p&gt;Press the &lt;b&gt;Select&lt;/b&gt; button to select the location of a file to store the hard disk data or type a file name in the entry field.&lt;/p&gt;</source>
+        <translation type="unfinished">&lt;p&gt;&lt;b&gt;Seç&lt;/b&gt; simgesine basarak sanal sabit disk kalıbının saklanacağı konumu ve oluşturulacak dosyanın adını seçebilirsiniz ya da aşağıdaki alanına bir dosya ismi yazabilirsiniz.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&amp;Location</source>
+        <translation type="unfinished">&amp;Konum</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;Select the size of the virtual hard disk in megabytes. This size will be reported to the Guest OS as the maximum size of this hard disk.&lt;/p&gt;</source>
+        <translation type="unfinished">&lt;p&gt;Sanal sabit disk kalıbının boyutunu megabayt cinsinden seçin. Bu boyut, misafir işletim sistemine sanal sabit disk boyutu olarak rapor edilecektir.&lt;/p&gt;  </translation>
+    </message>
+    <message>
+        <source>&amp;Size</source>
+        <translation type="unfinished">&amp;Boyut</translation>
+    </message>
+    <message>
+        <source>Virtual Disk Location and Size</source>
+        <translation type="unfinished">Sanal Disk Konumu ve Boyutu</translation>
+    </message>
+    <message>
+        <source>Select a file for the new hard disk image file</source>
+        <translation type="unfinished">Yeni sabit disk kalıbı dosyası için, bir dosya seçin</translation>
+    </message>
+    <message>
+        <source>Hard disk images (*.vdi)</source>
+        <translation type="unfinished">Sabit disk kalıpları (*.vdi)</translation>
+    </message>
+    <message>
+        <source>&lt;nobr&gt;%1 (%2 B)&lt;/nobr&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>UINewHDWzdPage4</name>
+    <message>
+        <source>You are going to create a new virtual hard disk with the following parameters:</source>
+        <translation type="unfinished">Aşağıdaki ayarlara göre yeni bir sanal sabit disk kalıbı oluşturacaksınız:</translation>
+    </message>
+    <message>
+        <source>Summary</source>
+        <translation type="unfinished">Özet</translation>
+    </message>
+    <message>
+        <source>%1 B</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Type</source>
+        <comment>summary</comment>
+        <translation type="unfinished">Tip</translation>
+    </message>
+    <message>
+        <source>Location</source>
+        <comment>summary</comment>
+        <translation type="unfinished">Konum</translation>
+    </message>
+    <message>
+        <source>Size</source>
+        <comment>summary</comment>
+        <translation type="unfinished">Boyut</translation>
+    </message>
+    <message>
+        <source>If the above settings are correct, press the &lt;b&gt;%1&lt;/b&gt; button. Once you press it, a new hard disk will be created.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>UINewVMWzd</name>
+    <message>
+        <source>Create New Virtual Machine</source>
+        <translation>Yeni Sanal Makine Oluştur</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;This wizard will guide you through the steps that are necessary to create
+a new virtual machine for VirtualBox.&lt;/p&gt;
+&lt;p&gt;Use the &lt;b&gt;Next&lt;/b&gt; button to go the next page of the wizard
+and the &lt;b&gt;Back&lt;/b&gt; button to return to the previous page.&lt;/p&gt;</source>
+        <translation type="obsolete">&lt;p&gt;Bu sihirbaz size VirtualBox içerisinde yeni bir sanal makine
+oluşturmanız için yardımcı olacaktır.&lt;/p&gt;
+&lt;p&gt; Sonraki sayfaya gitmek için &lt;b&gt;İleri&lt;/b&gt;, önceki sayfaya
+ dönmek için &lt;b&gt;Geri&lt;/b&gt; düğmesini kullanın.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Welcome to the New Virtual Machine Wizard!</source>
+        <translation type="obsolete">Sanal Makine Oluşturma Sihirbazına Hoşgeldiniz!</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;Enter a name for the new virtual machine and select the type of the guest operating
+system you plan to install onto the virtual machine.&lt;/p&gt;
+&lt;p&gt;The name of the virtual machine usually indicates its software and hardware configuration.
+It will be used by all VirtualBox components to identify your virtual machine.&lt;/p&gt;</source>
+        <translation type="obsolete">&lt;p&gt;Yeni sanal makine için bir isim girin ve bu sanal makineye kurmayı düşündüğünüz misafir
+ işletim sisteminin tipini seçin.&lt;/p&gt;
+&lt;p&gt;Sanal makinenin adı genellikle o makinenin yazılım ve donanım yapılandırması hakkında bilgiler içerir.
+Bu isim tüm VirtualBox bileşenleri tarafından sanal makinenizi tanımak için kullanılacaktır.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>N&amp;ame</source>
+        <translation type="obsolete">İ&amp;sim</translation>
+    </message>
+    <message>
+        <source>OS &amp;Type</source>
+        <translation type="obsolete">İşletim Sistemi &amp;Tipi</translation>
+    </message>
+    <message>
+        <source>VM Name and OS Type</source>
+        <translation type="obsolete">Sanal Makine Adı ve İşletim Sistemi Tipi</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;Select the amount of base memory (RAM) in megabytes to be allocated to the virtual machine.&lt;/p&gt;</source>
+        <translation type="obsolete">&lt;p&gt;Sanal makine için kullanılacak olan temel bellek (RAM) boyutunu mb olarak seçin.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Base &amp;Memory Size</source>
+        <translation type="obsolete">Te&amp;mel Bellek Boyutu</translation>
+    </message>
+    <message>
+        <source>&lt;</source>
+        <translation type="obsolete">&lt;</translation>
+    </message>
+    <message>
+        <source>=</source>
+        <translation type="obsolete">=</translation>
+    </message>
+    <message>
+        <source>&gt;</source>
+        <translation type="obsolete">&gt;</translation>
+    </message>
+    <message>
+        <source>MB</source>
+        <translation type="obsolete">MB</translation>
+    </message>
+    <message>
+        <source>Memory</source>
+        <translation type="obsolete">Bellek</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;Select a hard disk image to be used
+as the boot hard disk of the virtual machine. You can either create a new hard
+disk using the &lt;b&gt;New&lt;/b&gt; button or select an existing hard disk
+image from the drop-down list or by pressing the &lt;b&gt;Existing&lt;/b&gt;
+button (to invoke the Virtual Disk Manager dialog).&lt;/p&gt;
+&lt;p&gt;If you need a more complicated hard disk setup, you can also skip this
+step and attach hard disks later using the VM Settings dialog.&lt;/p&gt;</source>
+        <translation type="obsolete">&lt;p&gt;Sanal makineyi başlatmak için (boot)  kullanılacak bir sabit disk kalıbı seçin. &lt;b&gt;Yeni&lt;/b&gt; düğmesine tıklayarak Yeni bir sabit disk oluşturabilirsiniz ya da açılabilir listeden bir &lt;b&gt;Varolan sabit disk&lt;/b&gt; seçebilirsiniz.&lt;/p&gt;
+&lt;p&gt;Eğer daha karmaşık bir sabit disk ayarlamasına gereksinim duyuyorsanız
+bu basamağı atlayarak sabit diskleri Sanal Makine Ayarları penceresinden ekleyebilirsiniz.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>B&amp;oot Hard Disk (Primary Master)</source>
+        <translation type="obsolete">&amp;Başlangıç (Boot) Sabit Diski (Primary Master)</translation>
+    </message>
+    <message>
+        <source>N&amp;ew...</source>
+        <translation type="obsolete">Ye&amp;ni...</translation>
+    </message>
+    <message>
+        <source>E&amp;xisting...</source>
+        <translation type="obsolete">&amp;Varolan bir sabit disk...</translation>
+    </message>
+    <message>
+        <source>Virtual Hard Disk</source>
+        <translation type="obsolete">Sanal Sabit Disk Sürücü</translation>
+    </message>
+    <message>
+        <source>
+                            &lt;p&gt;
+                            You are going to create a new virtual machine
+                            with the following parameters:
+                            &lt;/p&gt;
+                            </source>
+        <translation type="obsolete">
+                            &lt;p&gt;
+                            Buradaki ayarları kullanarak
+                            bir sanal makine oluşturacaksınız:
+                            &lt;/p&gt;
+                            </translation>
+    </message>
+    <message>
+        <source>
+                            &lt;p&gt;
+                            If the above is correct press the &lt;b&gt;Finish&lt;/b&gt; button.
+                            Once you press it, a new virtual machine will be created.
+                            &lt;/p&gt;&lt;p&gt;
+                            Note that you can alter these and all other setting of the
+                            created virtual machine at any time using the
+                            &lt;b&gt;Settings&lt;/b&gt; dialog accessible through
+                            the menu of the main window.
+                            &lt;/p&gt;
+                            </source>
+        <translation type="obsolete">
+                            &lt;p&gt;
+                            Eğer yukarıdaki bilgiler doğruysa &lt;b&gt;Bitir&lt;/b&gt; düğmesine basın.
+                            Bu düğmeye bastığınızda yeni bir sanal makine oluşturulmuş olacaktır.
+                            &lt;/p&gt;&lt;p&gt;
+                            Oluşturduğunuz bu makinenin
+                            her türlü ayarını ana pencerede bulunan menüdeki
+                           &lt;b&gt;Ayarlar&lt;/b&gt; yolu ile açılabilen pencereyi kullanarak değiştirebilirsiniz.
+                           &lt;/p&gt;
+                            </translation>
+    </message>
+    <message>
+        <source>Summary</source>
+        <translation type="obsolete">Özet</translation>
+    </message>
+    <message>
+        <source>&lt;qt&gt;%1&amp;nbsp;MB&lt;/qt&gt;</source>
+        <translation type="obsolete">&lt;qt&gt;%1&amp;nbsp;MB&lt;/qt&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;tr&gt;&lt;td&gt;Name:&lt;/td&gt;&lt;td&gt;%1&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;OS Type:&lt;/td&gt;&lt;td&gt;%2&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Base Memory:&lt;/td&gt;&lt;td&gt;%3&amp;nbsp;MB&lt;/td&gt;&lt;/tr&gt;</source>
+        <translation type="obsolete">&lt;tr&gt;&lt;td&gt;İsim:&lt;/td&gt;&lt;td&gt;%1&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;İşletim Sistemi Tipi:&lt;/td&gt;&lt;td&gt;%2&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Temel Bellek:&lt;/td&gt;&lt;td&gt;%3&amp;nbsp;MB&lt;/td&gt;&lt;/tr&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;tr&gt;&lt;td&gt;Boot Hard Disk:&lt;/td&gt;&lt;td&gt;%4&lt;/td&gt;&lt;/tr&gt;</source>
+        <translation type="obsolete">&lt;tr&gt;&lt;td&gt;Başlangıç (Boot) Sabit Diski:&lt;/td&gt;&lt;td&gt;%4&lt;/td&gt;&lt;/tr&gt;</translation>
+    </message>
+    <message>
+        <source>The recommended base memory size is &lt;b&gt;%1&lt;/b&gt; MB.</source>
+        <translation type="obsolete">Önerilen temel bellek boyutu &lt;b&gt;%1&lt;/b&gt; MB.</translation>
+    </message>
+    <message>
+        <source>The recommended size of the boot hard disk is &lt;b&gt;%1&lt;/b&gt; MB.</source>
+        <translation type="obsolete">Önerilen başlangıç sabit diski boyutu &lt;b&gt;%1&lt;/b&gt; MB.</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;This wizard will guide you through the steps that are necessary to create a new virtual machine for VirtualBox.&lt;/p&gt;&lt;p&gt;Use the &lt;b&gt;Next&lt;/b&gt; button to go the next page of the wizard and the &lt;b&gt;Back&lt;/b&gt; button to return to the previous page.&lt;/p&gt;</source>
+        <translation type="obsolete">&lt;p&gt;Bu sihirbaz size VirtualBox içerisinde yeni bir sanal makine oluşturmanız için yardımcı olacaktır.&lt;/p&gt;&lt;p&gt; Sonraki sayfaya gitmek için &lt;b&gt;İleri&lt;/b&gt;, önceki sayfaya dönmek için &lt;b&gt;Geri&lt;/b&gt; düğmesini kullanın.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&lt; &amp;Back</source>
+        <translation type="obsolete">&lt; &amp;Geri</translation>
+    </message>
+    <message>
+        <source>&amp;Next &gt;</source>
+        <translation type="obsolete">&amp;İleri &gt;</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;Enter a name for the new virtual machine and select the type of the guest operating system you plan to install onto the virtual machine.&lt;/p&gt;&lt;p&gt;The name of the virtual machine usually indicates its software and hardware configuration. It will be used by all VirtualBox components to identify your virtual machine.&lt;/p&gt;</source>
+        <translation type="obsolete">&lt;p&gt;Yeni sanal makine için bir isim girin ve bu sanal makineye kurmayı düşündüğünüz misafir işletim sisteminin tipini seçin.&lt;/p&gt;&lt;p&gt;Sanal makinenin adı genellikle o makinenin yazılım ve donanım yapılandırması hakkında bilgiler içerir. Bu isim tüm VirtualBox bileşenleri tarafından sanal makinenizi tanımak için kullanılacaktır.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;You are going to create a new virtual machine with the following parameters:&lt;/p&gt;</source>
+        <translation type="obsolete">&lt;p&gt;Aşağıdaki ayarlara göre yeni bir sanal makine oluşturacaksınız:&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&amp;Finish</source>
+        <translation type="obsolete">&amp;Bitir</translation>
+    </message>
+    <message>
+        <source>MB</source>
+        <comment>megabytes</comment>
+        <translation type="obsolete">MB</translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <comment>summary</comment>
+        <translation type="obsolete">İsim</translation>
+    </message>
+    <message>
+        <source>OS Type</source>
+        <comment>summary</comment>
+        <translation type="obsolete">İşletim Sistemi Tipi</translation>
+    </message>
+    <message>
+        <source>Base Memory</source>
+        <comment>summary</comment>
+        <translation type="obsolete">Temel Bellek</translation>
+    </message>
+    <message>
+        <source>Boot Hard Disk</source>
+        <comment>summary</comment>
+        <translation type="obsolete">Başlangıç (Boot) Sabit Diski</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="obsolete">İptal</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;Select a hard disk image to be used as the boot hard disk of the virtual machine. You can either create a new hard disk using the &lt;b&gt;New&lt;/b&gt; button or select an existing hard disk image from the drop-down list or by pressing the &lt;b&gt;Existing&lt;/b&gt; button (to invoke the Virtual Media Manager dialog).&lt;/p&gt;&lt;p&gt;If you need a more complicated hard disk setup, you can also skip this step and attach hard disks later using the VM Settings dialog.&lt;/p&gt;</source>
+        <translation type="obsolete">&lt;p&gt;Sanal makineyi başlatmak için (boot)  kullanılacak bir sabit disk kalıbı seçin. &lt;b&gt;Yeni&lt;/b&gt; düğmesine tıklayarak Yeni bir sabit disk oluşturabilirsiniz ya da açılabilir listeden bir &lt;b&gt;Varolan sabit disk&lt;/b&gt; seçebilirsiniz.&lt;/p&gt;&lt;p&gt;Eğer daha karmaşık bir sabit disk ayarlamasına gereksinim duyuyorsanız bu basamağı atlayarak sabit diskleri Sanal Makine Ayarları penceresinden ekleyebilirsiniz.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Boot Hard &amp;Disk (Primary Master)</source>
+        <translation type="obsolete">&amp;Başlangıç (Boot) Sabit Diski (Primary Master)</translation>
+    </message>
+</context>
+<context>
+    <name>UINewVMWzdPage1</name>
+    <message>
+        <source>Welcome to the New Virtual Machine Wizard!</source>
+        <translation type="unfinished">Sanal Makine Oluşturma Sihirbazına Hoşgeldiniz!</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;This wizard will guide you through the steps that are necessary to create a new virtual machine for VirtualBox.&lt;/p&gt;&lt;p&gt;%1&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>UINewVMWzdPage2</name>
+    <message>
+        <source>&lt;p&gt;Enter a name for the new virtual machine and select the type of the guest operating system you plan to install onto the virtual machine.&lt;/p&gt;&lt;p&gt;The name of the virtual machine usually indicates its software and hardware configuration. It will be used by all VirtualBox components to identify your virtual machine.&lt;/p&gt;</source>
+        <translation type="unfinished">&lt;p&gt;Yeni sanal makine için bir isim girin ve bu sanal makineye kurmayı düşündüğünüz misafir işletim sisteminin tipini seçin.&lt;/p&gt;&lt;p&gt;Sanal makinenin adı genellikle o makinenin yazılım ve donanım yapılandırması hakkında bilgiler içerir. Bu isim tüm VirtualBox bileşenleri tarafından sanal makinenizi tanımak için kullanılacaktır.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>N&amp;ame</source>
+        <translation type="unfinished">İ&amp;sim</translation>
+    </message>
+    <message>
+        <source>OS &amp;Type</source>
+        <translation type="unfinished">İşletim Sistemi &amp;Tipi</translation>
+    </message>
+    <message>
+        <source>VM Name and OS Type</source>
+        <translation type="unfinished">Sanal Makine Adı ve İşletim Sistemi Tipi</translation>
+    </message>
+</context>
+<context>
+    <name>UINewVMWzdPage3</name>
+    <message>
+        <source>&lt;p&gt;Select the amount of base memory (RAM) in megabytes to be allocated to the virtual machine.&lt;/p&gt;</source>
+        <translation type="unfinished">&lt;p&gt;Sanal makine için kullanılacak olan temel bellek (RAM) boyutunu mb olarak seçin.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Base &amp;Memory Size</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>MB</source>
+        <translation type="unfinished">MB</translation>
+    </message>
+    <message>
+        <source>Memory</source>
+        <translation type="unfinished">Bellek</translation>
+    </message>
+    <message>
+        <source>The recommended base memory size is &lt;b&gt;%1&lt;/b&gt; MB.</source>
+        <translation type="unfinished">Önerilen temel bellek boyutu &lt;b&gt;%1&lt;/b&gt; MB.</translation>
+    </message>
+    <message>
+        <source>MB</source>
+        <comment>size suffix MBytes=1024 KBytes</comment>
+        <translation type="unfinished">MB</translation>
+    </message>
+</context>
+<context>
+    <name>UINewVMWzdPage4</name>
+    <message>
+        <source>&lt;p&gt;Select a hard disk image to be used as the boot hard disk of the virtual machine. You can either create a new hard disk using the &lt;b&gt;New&lt;/b&gt; button or select an existing hard disk image from the drop-down list or by pressing the &lt;b&gt;Existing&lt;/b&gt; button (to invoke the Virtual Media Manager dialog).&lt;/p&gt;&lt;p&gt;If you need a more complicated hard disk setup, you can also skip this step and attach hard disks later using the VM Settings dialog.&lt;/p&gt;</source>
+        <translation type="unfinished">&lt;p&gt;Sanal makineyi başlatmak için (boot)  kullanılacak bir sabit disk kalıbı seçin. &lt;b&gt;Yeni&lt;/b&gt; düğmesine tıklayarak Yeni bir sabit disk oluşturabilirsiniz ya da açılabilir listeden bir &lt;b&gt;Varolan sabit disk&lt;/b&gt; seçebilirsiniz.&lt;/p&gt;&lt;p&gt;Eğer daha karmaşık bir sabit disk ayarlamasına gereksinim duyuyorsanız bu basamağı atlayarak sabit diskleri Sanal Makine Ayarları penceresinden ekleyebilirsiniz.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Boot Hard &amp;Disk (Primary Master)</source>
+        <translation type="obsolete">&amp;Başlangıç (Boot) Sabit Diski (Primary Master)</translation>
+    </message>
+    <message>
+        <source>&amp;Create new hard disk</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Use existing hard disk</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Virtual Hard Disk</source>
+        <translation type="unfinished">Sanal Sabit Disk Sürücü</translation>
+    </message>
+    <message>
+        <source>The recommended size of the boot hard disk is &lt;b&gt;%1&lt;/b&gt; MB.</source>
+        <translation type="unfinished">Önerilen başlangıç sabit diski boyutu &lt;b&gt;%1&lt;/b&gt; MB.</translation>
+    </message>
+    <message>
+        <source>Boot Hard &amp;Disk</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>UINewVMWzdPage5</name>
+    <message>
+        <source>&lt;p&gt;You are going to create a new virtual machine with the following parameters:&lt;/p&gt;</source>
+        <translation type="unfinished">&lt;p&gt;Aşağıdaki ayarlara göre yeni bir sanal makine oluşturacaksınız:&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Summary</source>
+        <translation type="unfinished">Özet</translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <comment>summary</comment>
+        <translation type="unfinished">İsim</translation>
+    </message>
+    <message>
+        <source>OS Type</source>
+        <comment>summary</comment>
+        <translation type="unfinished">İşletim Sistemi Tipi</translation>
+    </message>
+    <message>
+        <source>Base Memory</source>
+        <comment>summary</comment>
+        <translation type="unfinished">Temel Bellek</translation>
+    </message>
+    <message>
+        <source>MB</source>
+        <comment>size suffix MBytes=1024KBytes</comment>
+        <translation type="unfinished">MB</translation>
+    </message>
+    <message>
+        <source>Boot Hard Disk</source>
+        <comment>summary</comment>
+        <translation type="unfinished">Başlangıç (Boot) Sabit Diski</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;If the above is correct press the &lt;b&gt;%1&lt;/b&gt; button. Once you press it, a new virtual machine will be created. &lt;/p&gt;&lt;p&gt;Note that you can alter these and all other setting of the created virtual machine at any time using the &lt;b&gt;Settings&lt;/b&gt; dialog accessible through the menu of the main window.&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>VBoxAboutDlg</name>
     <message>
         <source>VirtualBox - About</source>
@@ -548,29 +2158,6 @@ Version %1</source>
     </message>
 </context>
 <context>
-    <name>VBoxAdditionsDownloader</name>
-    <message>
-        <source>Cancel</source>
-        <translation>İptal</translation>
-    </message>
-    <message>
-        <source>Downloading the VirtualBox Guest Additions CD image from &lt;nobr&gt;&lt;b&gt;%1&lt;/b&gt;...&lt;/nobr&gt;</source>
-        <translation>VirtualBox Guest Additions CD kalıbı &lt;nobr&gt;&lt;b&gt;%1&lt;/b&gt; adresinden indiriliyor...&lt;/nobr&gt;</translation>
-    </message>
-    <message>
-        <source>Cancel the VirtualBox Guest Additions CD image download</source>
-        <translation>VirtualBox Guest Additions CD kalıbı indirme işlemini iptal et</translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;Failed to save the downloaded file as &lt;nobr&gt;&lt;b&gt;%1&lt;/b&gt;.&lt;/nobr&gt;&lt;/p&gt;</source>
-        <translation>&lt;p&gt;İndirilen dosyalar &lt;nobr&gt;&lt;b&gt;%1&lt;/b&gt; olarak kaydedilemedi.&lt;/nobr&gt;&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>Select folder to save Guest Additions image to</source>
-        <translation>Guest Additions kalıbını kaydetmek için gereken dizini seç</translation>
-    </message>
-</context>
-<context>
     <name>VBoxApplianceEditorWgt</name>
     <message>
         <source>Virtual System %1</source>
@@ -662,7 +2249,7 @@ Version %1</source>
     </message>
     <message>
         <source>MB</source>
-        <translation type="unfinished">MB</translation>
+        <translation type="obsolete">MB</translation>
     </message>
     <message>
         <source>&lt;b&gt;Original Value:&lt;/b&gt; %1</source>
@@ -674,6 +2261,20 @@ Version %1</source>
     </message>
     <message>
         <source>Warnings:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>MB</source>
+        <comment>size suffix MBytes=1024 KBytes</comment>
+        <translation type="unfinished">MB</translation>
+    </message>
+    <message>
+        <source>MB</source>
+        <comment>size suffix MBytes=1024KBytes</comment>
+        <translation type="obsolete">MB</translation>
+    </message>
+    <message>
+        <source>Hard Disk Controller (SAS)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -774,7 +2375,7 @@ Version %1</source>
     <name>VBoxConsoleWnd</name>
     <message>
         <source>VirtualBox OSE</source>
-        <translation>VirtualBox OSE</translation>
+        <translation type="obsolete">VirtualBox OSE</translation>
     </message>
     <message>
         <source>innotek VirtualBox</source>
@@ -782,85 +2383,85 @@ Version %1</source>
     </message>
     <message>
         <source>&amp;Fullscreen Mode</source>
-        <translation>&amp;Tam Ekran Kipi</translation>
+        <translation type="obsolete">&amp;Tam Ekran Kipi</translation>
     </message>
     <message>
         <source>Switch to fullscreen mode</source>
-        <translation>Tam ekran kipine geç</translation>
+        <translation type="obsolete">Tam ekran kipine geç</translation>
     </message>
     <message>
         <source>Mouse Integration</source>
         <comment>enable/disable...</comment>
-        <translation>Fare Uyumu</translation>
+        <translation type="obsolete">Fare Uyumu</translation>
     </message>
     <message>
         <source>Auto-resize Guest Display</source>
         <comment>enable/disable...</comment>
-        <translation>Misafir Ekranı Otomatik olarak Yeniden Boyutlandır</translation>
+        <translation type="obsolete">Misafir Ekranı Otomatik olarak Yeniden Boyutlandır</translation>
     </message>
     <message>
         <source>Auto-resize &amp;Guest Display</source>
-        <translation>Misafir E&amp;kranı Otomatik olarak Yeniden Boyutlandır</translation>
+        <translation type="obsolete">Misafir E&amp;kranı Otomatik olarak Yeniden Boyutlandır</translation>
     </message>
     <message>
         <source>Automatically resize the guest display when the window is resized (requires Guest Additions)</source>
-        <translation>Pencere yeniden boyutlandırıldığında misafir ekranını otomatik olarak boyutlandır (Misafir Eklentilerini gerektirir)</translation>
+        <translation type="obsolete">Pencere yeniden boyutlandırıldığında misafir ekranını otomatik olarak boyutlandır (Misafir Eklentilerini gerektirir)</translation>
     </message>
     <message>
         <source>&amp;Adjust Window Size</source>
-        <translation>Pencere Boyutun&amp;u Ayarla</translation>
+        <translation type="obsolete">Pencere Boyutun&amp;u Ayarla</translation>
     </message>
     <message>
         <source>Adjust window size and position to best fit the guest display</source>
-        <translation>Pencere boyutunu ve konumunu misafir ekrana en uygun şekilde ayarla</translation>
+        <translation type="obsolete">Pencere boyutunu ve konumunu misafir ekrana en uygun şekilde ayarla</translation>
     </message>
     <message>
         <source>&amp;Insert Ctrl-Alt-Del</source>
-        <translation>Ctrl-Alt-Del &amp;Ekle</translation>
+        <translation type="obsolete">Ctrl-Alt-Del &amp;Ekle</translation>
     </message>
     <message>
         <source>Send the Ctrl-Alt-Del sequence to the virtual machine</source>
-        <translation>Sanal makineye Ctrl-Alt-Del sonucu gönder</translation>
+        <translation type="obsolete">Sanal makineye Ctrl-Alt-Del sonucu gönder</translation>
     </message>
     <message>
         <source>&amp;Insert Ctrl-Alt-Backspace</source>
-        <translation>Ctrl-Alt-Backspace &amp;Ekle</translation>
+        <translation type="obsolete">Ctrl-Alt-Backspace &amp;Ekle</translation>
     </message>
     <message>
         <source>Send the Ctrl-Alt-Backspace sequence to the virtual machine</source>
-        <translation>Sanal makineye Ctrl-Alt-Backspace sonucu gönder</translation>
+        <translation type="obsolete">Sanal makineye Ctrl-Alt-Backspace sonucu gönder</translation>
     </message>
     <message>
         <source>&amp;Reset</source>
-        <translation>&amp;Sıfırla</translation>
+        <translation type="obsolete">&amp;Sıfırla</translation>
     </message>
     <message>
         <source>Reset the virtual machine</source>
-        <translation>Sanal makineyi sıfırlar, yeniden başlatır</translation>
+        <translation type="obsolete">Sanal makineyi sıfırlar, yeniden başlatır</translation>
     </message>
     <message>
         <source>ACPI S&amp;hutdown</source>
-        <translation>ACPI ile &amp;Kapat</translation>
+        <translation type="obsolete">ACPI ile &amp;Kapat</translation>
     </message>
     <message>
         <source>Send the ACPI Power Button press event to the virtual machine</source>
-        <translation>ACPI güç butonuna basılmasının sonucunu sanal makineye gönder</translation>
+        <translation type="obsolete">ACPI güç butonuna basılmasının sonucunu sanal makineye gönder</translation>
     </message>
     <message>
         <source>&amp;Close...</source>
-        <translation>&amp;Kapat...</translation>
+        <translation type="obsolete">&amp;Kapat...</translation>
     </message>
     <message>
         <source>Close the virtual machine</source>
-        <translation>Sanal makineyi kapat</translation>
+        <translation type="obsolete">Sanal makineyi kapat</translation>
     </message>
     <message>
         <source>Take &amp;Snapshot...</source>
-        <translation>Anlık Görünt&amp;ü Kaydet...</translation>
+        <translation type="obsolete">Anlık Görünt&amp;ü Kaydet...</translation>
     </message>
     <message>
         <source>Take a snapshot of the virtual machine</source>
-        <translation>Sanal makinenin bir anlık görüntüsünü al</translation>
+        <translation type="obsolete">Sanal makinenin bir anlık görüntüsünü al</translation>
     </message>
     <message>
         <source>&amp;Floppy Image...</source>
@@ -897,7 +2498,7 @@ Version %1</source>
     <message>
         <source>Remote Desktop (RDP) Server</source>
         <comment>enable/disable...</comment>
-        <translation type="unfinished">Uzak Masaüstü (RDP) Sunucusu</translation>
+        <translation type="obsolete">Uzak Masaüstü (RDP) Sunucusu</translation>
     </message>
     <message>
         <source>Remote Dis&amp;play</source>
@@ -905,23 +2506,23 @@ Version %1</source>
     </message>
     <message>
         <source>Enable or disable remote desktop (RDP) connections to this machine</source>
-        <translation>Bu makineye yapılan uzak masaüstü (RDP) bağlantılarını etkinleştir ya da pasifleştir</translation>
+        <translation type="obsolete">Bu makineye yapılan uzak masaüstü (RDP) bağlantılarını etkinleştir ya da pasifleştir</translation>
     </message>
     <message>
         <source>&amp;Shared Folders...</source>
-        <translation>&amp;Paylaşılan Dizinler...</translation>
+        <translation type="obsolete">&amp;Paylaşılan Dizinler...</translation>
     </message>
     <message>
         <source>Create or modify shared folders</source>
-        <translation>Paylaşılan dizinler üzerinde işlem yapmak için pencereyi aç</translation>
+        <translation type="obsolete">Paylaşılan dizinler üzerinde işlem yapmak için pencereyi aç</translation>
     </message>
     <message>
         <source>&amp;Install Guest Additions...</source>
-        <translation>&amp;Misafir Eklentilerini (Guest Additions) Yükle...</translation>
+        <translation type="obsolete">&amp;Misafir Eklentilerini (Guest Additions) Yükle...</translation>
     </message>
     <message>
         <source>Mount the Guest Additions installation image</source>
-        <translation>Misafir Eklentilerini yükleyici kalıbı bağla</translation>
+        <translation type="obsolete">Misafir Eklentilerini yükleyici kalıbı bağla</translation>
     </message>
     <message>
         <source>&amp;Statistics...</source>
@@ -965,19 +2566,19 @@ Version %1</source>
     </message>
     <message>
         <source>&amp;USB Devices</source>
-        <translation>&amp;USB Aygıtları</translation>
+        <translation type="obsolete">&amp;USB Aygıtları</translation>
     </message>
     <message>
         <source>&amp;Devices</source>
-        <translation>&amp;Aygıtlar</translation>
+        <translation type="obsolete">&amp;Aygıtlar</translation>
     </message>
     <message>
         <source>De&amp;bug</source>
-        <translation>&amp;Hata Ayıkla</translation>
+        <translation type="obsolete">&amp;Hata Ayıkla</translation>
     </message>
     <message>
         <source>&amp;Help</source>
-        <translation>&amp;Yardım</translation>
+        <translation type="obsolete">&amp;Yardım</translation>
     </message>
     <message>
         <source>Indicates whether the guest display auto-resize function is On (&lt;img src=auto_resize_on_16px.png/&gt;) or Off (&lt;img src=auto_resize_off_16px.png/&gt;). Note that this function requires Guest Additions to be installed in the guest OS.</source>
@@ -993,43 +2594,43 @@ Version %1</source>
     </message>
     <message>
         <source>&lt;hr&gt;The VRDP Server is listening on port %1</source>
-        <translation>&lt;hr&gt;VRDP Sunusu %1 portundan dinleniyor</translation>
+        <translation type="obsolete">&lt;hr&gt;VRDP Sunusu %1 portundan dinleniyor</translation>
     </message>
     <message>
         <source>&amp;Pause</source>
-        <translation>&amp;Duraklat</translation>
+        <translation type="obsolete">&amp;Duraklat</translation>
     </message>
     <message>
         <source>Suspend the execution of the virtual machine</source>
-        <translation>Sanal makine uygulamasını geçici olarak durdur</translation>
+        <translation type="obsolete">Sanal makine uygulamasını geçici olarak durdur</translation>
     </message>
     <message>
         <source>R&amp;esume</source>
-        <translation>D&amp;evam Et</translation>
+        <translation type="obsolete">D&amp;evam Et</translation>
     </message>
     <message>
         <source>Resume the execution of the virtual machine</source>
-        <translation>Sanal makine uygulamasını devam ettir</translation>
+        <translation type="obsolete">Sanal makine uygulamasını devam ettir</translation>
     </message>
     <message>
         <source>Disable &amp;Mouse Integration</source>
-        <translation>&amp;Fare Uyumunu Pasifleştir</translation>
+        <translation type="obsolete">&amp;Fare Uyumunu Pasifleştir</translation>
     </message>
     <message>
         <source>Temporarily disable host mouse pointer integration</source>
-        <translation>Sunucu fare işaretçisi uyumunu geçici olarak pasifleştir</translation>
+        <translation type="obsolete">Sunucu fare işaretçisi uyumunu geçici olarak pasifleştir</translation>
     </message>
     <message>
         <source>Enable &amp;Mouse Integration</source>
-        <translation>&amp;Fare Uyumu Etkin</translation>
+        <translation type="obsolete">&amp;Fare Uyumu Etkin</translation>
     </message>
     <message>
         <source>Enable temporarily disabled host mouse pointer integration</source>
-        <translation>Geçici olarak durdurulan fare işaretçisi uyumunu etkinleştir</translation>
+        <translation type="obsolete">Geçici olarak durdurulan fare işaretçisi uyumunu etkinleştir</translation>
     </message>
     <message>
         <source>Snapshot %1</source>
-        <translation>Anlık Görüntü %1</translation>
+        <translation type="obsolete">Anlık Görüntü %1</translation>
     </message>
     <message>
         <source>Host Drive </source>
@@ -1037,7 +2638,7 @@ Version %1</source>
     </message>
     <message>
         <source>&amp;Machine</source>
-        <translation>&amp;Makine</translation>
+        <translation type="obsolete">&amp;Makine</translation>
     </message>
     <message>
         <source>&amp;Network Adapters</source>
@@ -1068,11 +2669,11 @@ Version %1</source>
     </message>
     <message>
         <source>Seam&amp;less Mode</source>
-        <translation>Tam U&amp;yum Kipi</translation>
+        <translation type="obsolete">Tam U&amp;yum Kipi</translation>
     </message>
     <message>
         <source>Switch to seamless desktop integration mode</source>
-        <translation>Tam masaüstü uyumu kipine geç</translation>
+        <translation type="obsolete">Tam masaüstü uyumu kipine geç</translation>
     </message>
     <message>
         <source>Indicates whether the keyboard is captured by the guest OS (&lt;img src=hostkey_captured_16px.png/&gt;) or not (&lt;img src=hostkey_16px.png/&gt;).</source>
@@ -1126,7 +2727,7 @@ Version %1</source>
     <message>
         <source>&lt;br&gt;&lt;nobr&gt;&lt;b&gt;No hard disks attached&lt;/b&gt;&lt;/nobr&gt;</source>
         <comment>HDD tooltip</comment>
-        <translation>&lt;br&gt;&lt;nobr&gt;&lt;b&gt;Eklenmiş sabit disk yok&lt;/b&gt;&lt;/nobr&gt;</translation>
+        <translation type="obsolete">&lt;br&gt;&lt;nobr&gt;&lt;b&gt;Eklenmiş sabit disk yok&lt;/b&gt;&lt;/nobr&gt;</translation>
     </message>
     <message>
         <source>&lt;qt&gt;&lt;nobr&gt;Indicates the activity of the network interfaces:&lt;/nobr&gt;%1&lt;/qt&gt;</source>
@@ -1136,22 +2737,22 @@ Version %1</source>
     <message>
         <source>&lt;br&gt;&lt;nobr&gt;&lt;b&gt;Adapter %1 (%2)&lt;/b&gt;: cable %3&lt;/nobr&gt;</source>
         <comment>Network adapters tooltip</comment>
-        <translation>&lt;br&gt;&lt;nobr&gt;&lt;b&gt;Bağdaştırıcı %1 (%2)&lt;/b&gt;: kablo %3&lt;/nobr&gt;</translation>
+        <translation type="obsolete">&lt;br&gt;&lt;nobr&gt;&lt;b&gt;Bağdaştırıcı %1 (%2)&lt;/b&gt;: kablo %3&lt;/nobr&gt;</translation>
     </message>
     <message>
         <source>connected</source>
         <comment>Network adapters tooltip</comment>
-        <translation>bağlı</translation>
+        <translation type="obsolete">bağlı</translation>
     </message>
     <message>
         <source>disconnected</source>
         <comment>Network adapters tooltip</comment>
-        <translation>bağlı değil</translation>
+        <translation type="obsolete">bağlı değil</translation>
     </message>
     <message>
         <source>&lt;br&gt;&lt;nobr&gt;&lt;b&gt;All network adapters are disabled&lt;/b&gt;&lt;/nobr&gt;</source>
         <comment>Network adapters tooltip</comment>
-        <translation>&lt;br&gt;&lt;nobr&gt;&lt;b&gt;Tüm bağdaştırıcılar pasifleştirilmiş&lt;/b&gt;&lt;/nobr&gt;</translation>
+        <translation type="obsolete">&lt;br&gt;&lt;nobr&gt;&lt;b&gt;Tüm bağdaştırıcılar pasifleştirilmiş&lt;/b&gt;&lt;/nobr&gt;</translation>
     </message>
     <message>
         <source>&lt;qt&gt;&lt;nobr&gt;Indicates the activity of the attached USB devices:&lt;/nobr&gt;%1&lt;/qt&gt;</source>
@@ -1161,12 +2762,12 @@ Version %1</source>
     <message>
         <source>&lt;br&gt;&lt;nobr&gt;&lt;b&gt;No USB devices attached&lt;/b&gt;&lt;/nobr&gt;</source>
         <comment>USB device tooltip</comment>
-        <translation>&lt;br&gt;&lt;nobr&gt;&lt;b&gt;Eklenmiş USB aygıtı yok&lt;/b&gt;&lt;/nobr&gt;</translation>
+        <translation type="obsolete">&lt;br&gt;&lt;nobr&gt;&lt;b&gt;Eklenmiş USB aygıtı yok&lt;/b&gt;&lt;/nobr&gt;</translation>
     </message>
     <message>
         <source>&lt;br&gt;&lt;nobr&gt;&lt;b&gt;USB Controller is disabled&lt;/b&gt;&lt;/nobr&gt;</source>
         <comment>USB device tooltip</comment>
-        <translation>&lt;br&gt;&lt;nobr&gt;&lt;b&gt;USB Denetleyici pasifleştirilmiş&lt;/b&gt;&lt;/nobr&gt;</translation>
+        <translation type="obsolete">&lt;br&gt;&lt;nobr&gt;&lt;b&gt;USB Denetleyici pasifleştirilmiş&lt;/b&gt;&lt;/nobr&gt;</translation>
     </message>
     <message>
         <source>Indicates whether the Remote Display (VRDP Server) is enabled (&lt;img src=vrdp_16px.png/&gt;) or not (&lt;img src=vrdp_disabled_16px.png/&gt;).</source>
@@ -1180,7 +2781,7 @@ Version %1</source>
     <message>
         <source>&lt;br&gt;&lt;nobr&gt;&lt;b&gt;No shared folders&lt;/b&gt;&lt;/nobr&gt;</source>
         <comment>Shared folders tooltip</comment>
-        <translation>&lt;br&gt;&lt;nobr&gt;&lt;b&gt;Paylaşılan dizin yok&lt;/b&gt;&lt;/nobr&gt;</translation>
+        <translation type="obsolete">&lt;br&gt;&lt;nobr&gt;&lt;b&gt;Paylaşılan dizin yok&lt;/b&gt;&lt;/nobr&gt;</translation>
     </message>
     <message>
         <source>&amp;Contents...</source>
@@ -1204,148 +2805,50 @@ Version %1</source>
     </message>
     <message>
         <source>Session I&amp;nformation Dialog</source>
-        <translation>Oturum &amp;Bilgileri Penceresi</translation>
+        <translation type="obsolete">Oturum &amp;Bilgileri Penceresi</translation>
     </message>
     <message>
         <source>Show Session Information Dialog</source>
-        <translation>Oturum Bilgileri Penceresini Göster</translation>
+        <translation type="obsolete">Oturum Bilgileri Penceresini Göster</translation>
     </message>
     <message>
         <source>&amp;Statistics...</source>
         <comment>debug action</comment>
-        <translation>İ&amp;statistikler...</translation>
+        <translation type="obsolete">İ&amp;statistikler...</translation>
     </message>
     <message>
         <source>&amp;Command Line...</source>
         <comment>debug action</comment>
-        <translation>&amp;Komut satırı...</translation>
+        <translation type="obsolete">&amp;Komut satırı...</translation>
     </message>
     <message>
         <source>&amp;Logging...</source>
         <comment>debug action</comment>
-        <translation>Gün&amp;lük Kayıtları...</translation>
+        <translation type="obsolete">Gün&amp;lük Kayıtları...</translation>
     </message>
     <message>
         <source>Indicates whether the guest display auto-resize function is On (&lt;img src=:/auto_resize_on_16px.png/&gt;) or Off (&lt;img src=:/auto_resize_off_16px.png/&gt;). Note that this function requires Guest Additions to be installed in the guest OS.</source>
-        <translation>Misafir ekranını otomatik olarak boyutlandırma fonksiyonunun Açık (&lt;img src=auto_resize_on_16px.png/&gt;) yada Kapalı (&lt;img src=auto_resize_off_16px.png/&gt;) olduğunu gösterir. Bu fonksiyonu kullanabilmeniz için Guest Additions yüklü olmalıdır.</translation>
+        <translation type="obsolete">Misafir ekranını otomatik olarak boyutlandırma fonksiyonunun Açık (&lt;img src=auto_resize_on_16px.png/&gt;) yada Kapalı (&lt;img src=auto_resize_off_16px.png/&gt;) olduğunu gösterir. Bu fonksiyonu kullanabilmeniz için Guest Additions yüklü olmalıdır.</translation>
     </message>
     <message>
         <source>Indicates whether the host mouse pointer is captured by the guest OS:&lt;br&gt;&lt;nobr&gt;&lt;img src=:/mouse_disabled_16px.png/&gt;&amp;nbsp;&amp;nbsp;pointer is not captured&lt;/nobr&gt;&lt;br&gt;&lt;nobr&gt;&lt;img src=:/mouse_16px.png/&gt;&amp;nbsp;&amp;nbsp;pointer is captured&lt;/nobr&gt;&lt;br&gt;&lt;nobr&gt;&lt;img src=:/mouse_seamless_16px.png/&gt;&amp;nbsp;&amp;nbsp;mouse integration (MI) is On&lt;/nobr&gt;&lt;br&gt;&lt;nobr&gt;&lt;img src=:/mouse_can_seamless_16px.png/&gt;&amp;nbsp;&amp;nbsp;MI is Off, pointer is captured&lt;/nobr&gt;&lt;br&gt;&lt;nobr&gt;&lt;img src=:/mouse_can_seamless_uncaptured_16px.png/&gt;&amp;nbsp;&amp;nbsp;MI is Off, pointer is not captured&lt;/nobr&gt;&lt;br&gt;Note that the mouse integration feature requires Guest Additions to be installed in the guest OS.</source>
-        <translation>Misafir işletim sistemi tarafından sunucunun fare işaretçisinin yakalanıp yakalanmadığını gösterir: &lt;br&gt;&lt;nobr&gt;&lt;img src=mouse_disabled_16px.png/&gt;&amp;nbsp;&amp;nbsp;işaretçi yakalandı&lt;/nobr&gt;&lt;br&gt;&lt;nobr&gt;&lt;img src=mouse_16px.png/&gt;&amp;nbsp;&amp;nbsp;işaretçi yakalandı&lt;/nobr&gt;&lt;br&gt;&lt;nobr&gt;&lt;img src=mouse_seamless_16px.png/&gt;&amp;nbsp;&amp;nbsp;fare uyumu (MI) açık&lt;/nobr&gt;&lt;br&gt;&lt;nobr&gt;&lt;img src=mouse_can_seamless_16px.png/&gt;&amp;nbsp;&amp;nbsp;fare uyumu (MI) kapalı, işaretçi yakalndı&lt;/nobr&gt;&lt;br&gt;&lt;nobr&gt;&lt;img src=mouse_can_seamless_uncaptured_16px.png/&gt;&amp;nbsp;&amp;nbsp;fare uyumu (MI) kapalı, işaretçi yakalanmadı&lt;/nobr&gt;&lt;br&gt; Bu fonksiyonu kullanabilmeniz için Guest Additions yüklü olmalıdır.</translation>
+        <translation type="obsolete">Misafir işletim sistemi tarafından sunucunun fare işaretçisinin yakalanıp yakalanmadığını gösterir: &lt;br&gt;&lt;nobr&gt;&lt;img src=mouse_disabled_16px.png/&gt;&amp;nbsp;&amp;nbsp;işaretçi yakalandı&lt;/nobr&gt;&lt;br&gt;&lt;nobr&gt;&lt;img src=mouse_16px.png/&gt;&amp;nbsp;&amp;nbsp;işaretçi yakalandı&lt;/nobr&gt;&lt;br&gt;&lt;nobr&gt;&lt;img src=mouse_seamless_16px.png/&gt;&amp;nbsp;&amp;nbsp;fare uyumu (MI) açık&lt;/nobr&gt;&lt;br&gt;&lt;nobr&gt;&lt;img src=mouse_can_seamless_16px.png/&gt;&amp;nbsp;&amp;nbsp;fare uyumu (MI) kapalı, işaretçi yakalndı&lt;/nobr&gt;&lt;br&gt;&lt;nobr&gt;&lt;img src=mouse_can_seamless_uncaptured_16px.png/&gt;&amp;nbsp;&amp;nbsp;fare uyumu (MI) kapalı, işaretçi yakalanmadı&lt;/nobr&gt;&lt;br&gt; Bu fonksiyonu kullanabilmeniz için Guest Additions yüklü olmalıdır.</translation>
     </message>
     <message>
         <source>Indicates whether the keyboard is captured by the guest OS (&lt;img src=:/hostkey_captured_16px.png/&gt;) or not (&lt;img src=:/hostkey_16px.png/&gt;).</source>
-        <translation>Misafir işletim sistemi tarafından klavyenin yakalanıp yakalanmadığını gösterir (&lt;img src=hostkey_captured_16px.png/&gt;) ya da (&lt;img src=hostkey_16px.png/&gt;).</translation>
+        <translation type="obsolete">Misafir işletim sistemi tarafından klavyenin yakalanıp yakalanmadığını gösterir (&lt;img src=hostkey_captured_16px.png/&gt;) ya da (&lt;img src=hostkey_16px.png/&gt;).</translation>
     </message>
     <message>
         <source>Indicates whether the Remote Display (VRDP Server) is enabled (&lt;img src=:/vrdp_16px.png/&gt;) or not (&lt;img src=:/vrdp_disabled_16px.png/&gt;).</source>
-        <translation>Uzak Masaüstünün (VRDP Sunucu) etkin olup olmadığını gösterir (&lt;img src=vrdp_16px.png/&gt;) ya da (&lt;img src=vrdp_disabled_16px.png/&gt;).</translation>
+        <translation type="obsolete">Uzak Masaüstünün (VRDP Sunucu) etkin olup olmadığını gösterir (&lt;img src=vrdp_16px.png/&gt;) ya da (&lt;img src=vrdp_disabled_16px.png/&gt;).</translation>
     </message>
     <message>
         <source>Shows the currently assigned Host key.&lt;br&gt;This key, when pressed alone, toggles the keyboard and mouse capture state. It can also be used in combination with other keys to quickly perform actions from the main menu.</source>
-        <translation>Atanmış sunucu anahtarını gösterir.&lt;br&gt; Sunucu anahtarına yanlız basıldığında klavye ve farenin yakalanma durumunu değiştirir. İşlemlerinizi daha hızlı yapmak için ana menüden diğer kullanılabilir tuş kombinasyonlarını görebilirsiniz.</translation>
+        <translation type="obsolete">Atanmış sunucu anahtarını gösterir.&lt;br&gt; Sunucu anahtarına yanlız basıldığında klavye ve farenin yakalanma durumunu değiştirir. İşlemlerinizi daha hızlı yapmak için ana menüden diğer kullanılabilir tuş kombinasyonlarını görebilirsiniz.</translation>
     </message>
     <message>
-        <source>Sun VirtualBox</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Indicates the status of the hardware virtualization features used by this virtual machine:&lt;br&gt;&lt;nobr&gt;&lt;b&gt;%1:&lt;/b&gt;&amp;nbsp;%2&lt;/nobr&gt;&lt;br&gt;&lt;nobr&gt;&lt;b&gt;%3:&lt;/b&gt;&amp;nbsp;%4&lt;/nobr&gt;</source>
-        <comment>Virtualization Stuff LED</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;br&gt;&lt;nobr&gt;&lt;b&gt;%1:&lt;/b&gt;&amp;nbsp;%2&lt;/nobr&gt;</source>
-        <comment>Virtualization Stuff LED</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source> EXPERIMENTAL build %1r%2 - %3</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;CD/DVD Devices</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Floppy Devices</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Network Adapters...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Change the settings of network adapters</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Remote Display</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>More CD/DVD Images...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Unmount CD/DVD Device</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>More Floppy Images...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Unmount Floppy Device</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>No CD/DVD Devices Attached</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>No Floppy Devices Attached</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;p style=&apos;white-space:pre&apos;&gt;&lt;nobr&gt;Indicates the activity of the virtual hard disks:&lt;/nobr&gt;%1&lt;/p&gt;</source>
-        <comment>HDD tooltip</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;p style=&apos;white-space:pre&apos;&gt;&lt;nobr&gt;Indicates the activity of the CD/DVD devices:&lt;/nobr&gt;%1&lt;/p&gt;</source>
-        <comment>CD/DVD tooltip</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;br&gt;&lt;nobr&gt;&lt;b&gt;No CD/DVD devices attached&lt;/b&gt;&lt;/nobr&gt;</source>
-        <comment>CD/DVD tooltip</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;p style=&apos;white-space:pre&apos;&gt;&lt;nobr&gt;Indicates the activity of the floppy devices:&lt;/nobr&gt;%1&lt;/p&gt;</source>
-        <comment>FD tooltip</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;br&gt;&lt;nobr&gt;&lt;b&gt;No floppy devices attached&lt;/b&gt;&lt;/nobr&gt;</source>
-        <comment>FD tooltip</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;p style=&apos;white-space:pre&apos;&gt;&lt;nobr&gt;Indicates the activity of the network interfaces:&lt;/nobr&gt;%1&lt;/p&gt;</source>
-        <comment>Network adapters tooltip</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;p style=&apos;white-space:pre&apos;&gt;&lt;nobr&gt;Indicates the activity of the attached USB devices:&lt;/nobr&gt;%1&lt;/p&gt;</source>
-        <comment>USB device tooltip</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;p style=&apos;white-space:pre&apos;&gt;&lt;nobr&gt;Indicates the activity of the machine&apos;s shared folders:&lt;/nobr&gt;%1&lt;/p&gt;</source>
-        <comment>Shared folders tooltip</comment>
-        <translation type="unfinished"></translation>
+        <source>No supported devices connected to the host PC</source>
+        <translation type="obsolete">Sunucu makineye desteklenen bir cihaz bağlanmamış</translation>
     </message>
 </context>
 <context>
@@ -1611,173 +3114,9 @@ Version %1</source>
     </message>
 </context>
 <context>
-    <name>VBoxDownloaderWgt</name>
-    <message>
-        <source>Cancel</source>
-        <translation type="obsolete">İptal</translation>
-    </message>
-    <message>
-        <source>Downloading the VirtualBox Guest Additions CD image from &lt;nobr&gt;&lt;b&gt;%1&lt;/b&gt;...&lt;/nobr&gt;</source>
-        <translation type="obsolete">VirtualBox Guest Additions CD kalıbı &lt;nobr&gt;&lt;b&gt;%1&lt;/b&gt; adresinden indiriliyor...&lt;/nobr&gt;</translation>
-    </message>
-    <message>
-        <source>Cancel the VirtualBox Guest Additions CD image download</source>
-        <translation type="obsolete">VirtualBox Guest Additions CD kalıbı indirme işlemini iptal et</translation>
-    </message>
-    <message>
-        <source>Could not locate the file on the server (response: %1).</source>
-        <translation type="obsolete">Dosya sunucu üzerinde konumlandırılamadı (yanıt: %1).</translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;Failed to save the downloaded file as &lt;nobr&gt;&lt;b&gt;%1&lt;/b&gt;.&lt;/nobr&gt;&lt;/p&gt;</source>
-        <translation type="obsolete">&lt;p&gt;İndirilen dosyalar &lt;nobr&gt;&lt;b&gt;%1&lt;/b&gt; olarak kaydedilemedi.&lt;/nobr&gt;&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>Select folder to save Guest Additions image to</source>
-        <translation type="obsolete">Guest Additions kalıbını kaydetmek için gereken dizini seç</translation>
-    </message>
-    <message>
-        <source>Connection timed out.</source>
-        <translation type="obsolete">Bağlantıda zaman aşımı oluştu.</translation>
-    </message>
-    <message>
-        <source>The download process has been cancelled by the user.</source>
-        <translation>İndirme işlemi kullanıcı tarafından iptal edildi.</translation>
-    </message>
-</context>
-<context>
     <name>VBoxEmptyFileSelector</name>
     <message>
         <source>&amp;Choose...</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>VBoxExportApplianceWzd</name>
-    <message>
-        <source>Select a file to export into</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Open Virtualization Format (%1)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Appliance</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Exporting Appliance ...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Appliance Export Wizard</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Welcome to the Appliance Export Wizard!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;This wizard will guide you through the process of exporting an appliance. &lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Use the &lt;span style=&quot; font-weight:600;&quot;&gt;Next&lt;/span&gt; button to go the next page of the wizard and the &lt;span style=&quot; font-weight:600;&quot;&gt;Back&lt;/span&gt; button to return to the previous page.&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Please select the virtual machines that you wish to the appliance. You can select more than one. Please note that these machines have to be turned off before they can be exported.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt; &amp;Back</source>
-        <translation type="unfinished">&lt; &amp;Geri</translation>
-    </message>
-    <message>
-        <source>&amp;Next &gt;</source>
-        <translation type="unfinished">&amp;İleri &gt;</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Appliance Export Settings</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Here you can change additional configuration values of the selected virtual machines. You can modify most of the properties shown by double-clicking on the items.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Restore Defaults</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Export &gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Write in legacy OVF 0.9 format for compatibility with other virtualization products.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Write legacy OVF 0.9</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Please choose a filename to export the OVF to.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Please complete the additional fields like the username, password and the bucket, and provide a filename for the OVF target.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Please complete the additional fields like the username, password, hostname and the bucket, and provide a filename for the OVF target.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Checking files ...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Removing files ...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Please specify the target for the OVF export. You can choose between a local file system export, uploading the OVF to the Sun Cloud service or an S3 storage server.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Local Filesystem </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Sun &amp;Cloud</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Simple Storage System (S3)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Username:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Password:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;File:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Bucket:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Hostname:</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1906,15 +3245,7 @@ p, li { white-space: pre-wrap; }
         <translation>Sistem Çekmecesi Simgesini &amp;Göster</translation>
     </message>
     <message>
-        <source>When checked, the Dock Icon will reflect the VM window content in realtime.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Dock Icon Realtime Preview</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Auto show Dock &amp;&amp; Menubar in fullscreen</source>
+        <source>&amp;Auto show Dock and Menubar in fullscreen</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1935,6 +3266,14 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>&amp;Auto Capture Keyboard</source>
         <translation>&amp;Klavyeyi Otomatik Yakala</translation>
+    </message>
+    <message>
+        <source>Reset Host Key</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Resets the key used as a Host Key in the VM window.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -3215,7 +4554,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>&lt;nobr&gt;%1 MB&lt;/nobr&gt;</source>
         <comment>details report</comment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&lt;nobr&gt;%4 MB&lt;/nobr&gt; {1 ?}</translation>
     </message>
     <message>
         <source>Processor(s)</source>
@@ -3483,6 +4822,95 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>(CD/DVD)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Screens</source>
+        <comment>details report</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>VDE network, &apos;%1&apos;</source>
+        <comment>details report (network)</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>SAS</source>
+        <comment>StorageBus</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>VDE Adapter</source>
+        <comment>NetworkAttachmentType</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>LsiLogic SAS</source>
+        <comment>StorageControllerType</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>^(?:(?:(\d+)(?:\s?(B|KB|MB|GB|TB|PB))?)|(?:(\d*)%1(\d{1,2})(?:\s?(KB|MB|GB|TB|PB))))$</source>
+        <comment>regexp for matching ####[.##] B|KB|MB|GB|TB|PB, %1=decimal point</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>B</source>
+        <comment>size suffix Bytes</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>KB</source>
+        <comment>size suffix KBytes=1024 Bytes</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>MB</source>
+        <comment>size suffix MBytes=1024 KBytes</comment>
+        <translation type="unfinished">MB</translation>
+    </message>
+    <message>
+        <source>GB</source>
+        <comment>size suffix GBytes=1024 MBytes</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>TB</source>
+        <comment>size suffix TBytes=1024 GBytes</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>PB</source>
+        <comment>size suffix PBytes=1024 TBytes</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enabled</source>
+        <comment>nested paging</comment>
+        <translation type="unfinished">Etkin</translation>
+    </message>
+    <message>
+        <source>Disabled</source>
+        <comment>nested paging</comment>
+        <translation type="unfinished">Pasifleştirilmiş</translation>
+    </message>
+    <message>
+        <source>Nested Paging</source>
+        <translation type="unfinished">Yerleşik Sayfalama</translation>
+    </message>
+    <message>
+        <source>Shareable</source>
+        <comment>DiskType</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unknown device</source>
+        <comment>USB device details</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>SAS Port %1</source>
+        <comment>New Storage UI : Slot Name</comment>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4017,98 +5445,6 @@ to the system default language.&lt;/qt&gt;
     </message>
 </context>
 <context>
-    <name>VBoxImportApplianceWzd</name>
-    <message>
-        <source>Select an appliance to import</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Open Virtualization Format (%1)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Appliance Import Wizard</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Welcome to the Appliance Import Wizard!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;This wizard will guide you through importing an appliance. &lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Use the &lt;span style=&quot; font-weight:600;&quot;&gt;Next&lt;/span&gt; button to go the next page of the wizard and the &lt;span style=&quot; font-weight:600;&quot;&gt;Back&lt;/span&gt; button to return to the previous page.&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;VirtualBox currently supports importing appliances saved in the Open Virtualization Format (OVF). To continue, select the file to import below:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt; &amp;Back</source>
-        <translation type="unfinished">&lt; &amp;Geri</translation>
-    </message>
-    <message>
-        <source>&amp;Next &gt;</source>
-        <translation type="unfinished">&amp;İleri &gt;</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Appliance Import Settings</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>These are the virtual machines contained in the appliance and the suggested settings of the imported VirtualBox machines. You can change many of the properties shown by double-clicking on the items and disable others using the check boxes below.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Restore Defaults</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Import &gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>VBoxImportLicenseViewer</name>
-    <message>
-        <source>&lt;b&gt;The virtual system &quot;%1&quot; requires that you agree to the terms and conditions of the software license agreement shown below.&lt;/b&gt;&lt;br /&gt;&lt;br /&gt;Click &lt;b&gt;Agree&lt;/b&gt; to continue or click &lt;b&gt;Disagree&lt;/b&gt; to cancel the import.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Software License Agreement</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Disagree</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Agree</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Print...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Save...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Text (*.txt)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Save license to file...</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>VBoxLicenseViewer</name>
     <message>
         <source>I &amp;Agree</source>
@@ -4397,428 +5733,6 @@ p, li { white-space: pre-wrap; }
     <name>VBoxNetworkDialog</name>
     <message>
         <source>Network Adapters</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>VBoxNewHDWzd</name>
-    <message>
-        <source>Create New Virtual Disk</source>
-        <translation>Yeni Sanal Disk Oluştur</translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;This wizard will help you to create a new virtual hard disk image for your virtual machine.&lt;/p&gt;
-&lt;p&gt;Use the &lt;b&gt;Next&lt;/b&gt; button to go to the next page of the wizard
-and the &lt;b&gt;Back&lt;/b&gt; button to return to the previous page.&lt;/p&gt;</source>
-        <translation type="obsolete">&lt;p&gt;Bu sihirbaz, size kendi sanal makineniz için yeni bir sanal sabit disk kalıbı oluşturmanız için yardım eder.&lt;/p&gt;
-&lt;p&gt;&lt;b&gt;İleri&lt;/b&gt; düğmesini kullanarak sihirbazın bir sonraki sayfasına, &lt;b&gt;Geri&lt;/b&gt; düğmesine basarak da bir önceki sayfasına gidebilirsiniz.&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>Welcome to the Create New Virtual Disk Wizard!</source>
-        <translation>Sanal Disk Oluşturma Sihirbazına Hoşgeldiniz!</translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;Select the type of virtual hard disk image you want to create.&lt;/p&gt;
-&lt;p&gt;A &lt;b&gt;dynamically expanding image&lt;/b&gt; initially occupies a very small amount
-of space on your physical hard disk. It will grow dynamically (up to
-the size specified) as the Guest OS claims disk space.&lt;/p&gt;
-&lt;p&gt;A &lt;b&gt;fixed-size image&lt;/b&gt; does not grow. It is stored in a file of approximately
-the same size as the size of the virtual hard disk.&lt;/p&gt;</source>
-        <translation type="obsolete">&lt;p&gt;Oluşturmak istediğiniz sanal sabit disk tipini seçin.&lt;/p&gt;
-&lt;p&gt;&lt;b&gt;Dinamik olarak genişleyebilir bir kalıp&lt;/b&gt; başlangıç olarak fiziksel diskinizde çok az yer tutar. Misafir işletim sistemi disk alanına gereksinim duydukça (belirlenen boyuta kadar) dinamik olarak genişler.&lt;/p&gt;
-&lt;p&gt;&lt;b&gt;Sabit boyutlu bir kalıp&lt;/b&gt; genişlemez. Bu disk kalıbı sanal disk boyutu kadar yer kaplayan bir dosya içerisine kaydedilir.&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>Image Type</source>
-        <translation type="obsolete">Kalıp Tipi</translation>
-    </message>
-    <message>
-        <source>&amp;Dynamically expanding image</source>
-        <translation type="obsolete">&amp;Dinamik olarak genişleyen kalıp</translation>
-    </message>
-    <message>
-        <source>&amp;Fixed-size image</source>
-        <translation type="obsolete">&amp;Sabit boyutlu kalıp</translation>
-    </message>
-    <message>
-        <source>Virtual Disk Image Type</source>
-        <translation type="obsolete">Sanal Sürücü Kalıbı Tipi</translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;Press the &lt;b&gt;Select&lt;/b&gt; button to select the location and name of the file
-to store the virtual hard disk image or type a file name in the entry field.&lt;/p&gt;</source>
-        <translation type="obsolete">&lt;p&gt;&lt;b&gt;Seç&lt;/b&gt; simgesine basarak sanal sabit disk kalıbının saklanacağı
-konumu ve oluşturulacak dosyanın adını seçebilirsiniz ya da aşağıdaki alanına bir dosya ismi yazabilirsiniz.&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>&amp;Image File Name</source>
-        <translation type="obsolete">Kal&amp;ıp Dosyası Adı</translation>
-    </message>
-    <message>
-        <source>Select</source>
-        <translation type="obsolete">Seç</translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;Select the size of the virtual hard disk image in megabytes. This size will be reported to the Guest OS
-as the size of the virtual hard disk.&lt;/p&gt;</source>
-        <translation type="obsolete">&lt;p&gt;Sanal sabit disk kalıbının boyutunu megabyte cinsinden seçin. Bu boyut, misafir işletim sistemine
-sanal sabit disk boyutu olarak rapor edilecektir.&lt;/p&gt;  </translation>
-    </message>
-    <message>
-        <source>Image &amp;Size</source>
-        <translation type="obsolete">Kalıp Bo&amp;yutu</translation>
-    </message>
-    <message>
-        <source>Virtual Disk Location and Size</source>
-        <translation>Sanal Disk Konumu ve Boyutu</translation>
-    </message>
-    <message>
-        <source>You are going to create a new virtual hard disk image with the following parameters:</source>
-        <translation type="obsolete">Aşağıdaki ayarlara göre yeni bir sanal sabit disk kalıbı oluşturacaksınız:</translation>
-    </message>
-    <message>
-        <source>If the above settings are correct, press the &lt;b&gt;Finish&lt;/b&gt; button.
-                            Once you press it, a new hard disk image will be created.
-                            </source>
-        <translation type="obsolete">Eğer aşağıdaki ayarlar doğruysa &lt;b&gt;Bitir&lt;/b&gt; düğmesine basın.
-                            Bitir düğmesine bastığınızda, yeni bir sabit disk kalıbı oluşturulacaktır.
-                            </translation>
-    </message>
-    <message>
-        <source>Summary</source>
-        <translation>Özet</translation>
-    </message>
-    <message>
-        <source>&lt;nobr&gt;%1 Bytes&lt;/nobr&gt;</source>
-        <translation>&lt;nobr&gt;%1 Byte&lt;/nobr&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;table&gt;&lt;tr&gt;&lt;td&gt;Type:&lt;/td&gt;&lt;td&gt;%1&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Location:&lt;/td&gt;&lt;td&gt;%2&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Size:&lt;/td&gt;&lt;td&gt;%3&amp;nbsp;(%4&amp;nbsp;Bytes)&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</source>
-        <translation type="obsolete">&lt;table&gt;&lt;tr&gt;&lt;td&gt;Tip:&lt;/td&gt;&lt;td&gt;%1&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Konum:&lt;/td&gt;&lt;td&gt;%2&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Boyut:&lt;/td&gt;&lt;td&gt;%3&amp;nbsp;(%4&amp;nbsp;Bytes)&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</translation>
-    </message>
-    <message>
-        <source>Hard disk images (*.vdi)</source>
-        <translation>Sabit disk kalıpları (*.vdi)</translation>
-    </message>
-    <message>
-        <source>Select a file for the new hard disk image file</source>
-        <translation>Yeni sabit disk kalıbı dosyası için, bir dosya seçin</translation>
-    </message>
-    <message>
-        <source>&lt; &amp;Back</source>
-        <translation>&lt; &amp;Geri</translation>
-    </message>
-    <message>
-        <source>&amp;Next &gt;</source>
-        <translation>&amp;İleri &gt;</translation>
-    </message>
-    <message>
-        <source>&amp;Finish</source>
-        <translation>&amp;Bitir</translation>
-    </message>
-    <message>
-        <source>Type</source>
-        <comment>summary</comment>
-        <translation>Tip</translation>
-    </message>
-    <message>
-        <source>Location</source>
-        <comment>summary</comment>
-        <translation>Konum</translation>
-    </message>
-    <message>
-        <source>Size</source>
-        <comment>summary</comment>
-        <translation>Boyut</translation>
-    </message>
-    <message>
-        <source>Bytes</source>
-        <comment>summary</comment>
-        <translation>Bayt</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation>İptal</translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;This wizard will help you to create a new virtual hard disk for your virtual machine.&lt;/p&gt;&lt;p&gt;Use the &lt;b&gt;Next&lt;/b&gt; button to go to the next page of the wizard and the &lt;b&gt;Back&lt;/b&gt; button to return to the previous page.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Bu sihirbaz, size kendi sanal makineniz için yeni bir sanal sabit disk kalıbı oluşturmanız için yardım eder.&lt;/p&gt;&lt;p&gt;&lt;b&gt;İleri&lt;/b&gt; düğmesini kullanarak sihirbazın bir sonraki sayfasına, &lt;b&gt;Geri&lt;/b&gt; düğmesine basarak da bir önceki sayfasına gidebilirsiniz.&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>Hard Disk Storage Type</source>
-        <translation>Sabit Disk Depolama Tipi</translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;Select the type of virtual hard disk you want to create.&lt;/p&gt;&lt;p&gt;A &lt;b&gt;dynamically expanding storage&lt;/b&gt; initially occupies a very small amount of space on your physical hard disk. It will grow dynamically (up to the size specified) as the Guest OS claims disk space.&lt;/p&gt;&lt;p&gt;A &lt;b&gt;fixed-size storage&lt;/b&gt; does not grow. It is stored in a file of approximately the same size as the size of the virtual hard disk. The creation of a fixed-size storage may take a long time depending on the storage size and the write performance of your harddisk.&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Storage Type</source>
-        <translation>Depolama Tipi</translation>
-    </message>
-    <message>
-        <source>&amp;Dynamically expanding storage</source>
-        <translation>&amp;Dinamik olarak genişleyen kalıp</translation>
-    </message>
-    <message>
-        <source>&amp;Fixed-size storage</source>
-        <translation>&amp;Sabit boyutlu depolama</translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;Press the &lt;b&gt;Select&lt;/b&gt; button to select the location of a file to store the hard disk data or type a file name in the entry field.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;&lt;b&gt;Seç&lt;/b&gt; simgesine basarak sanal sabit disk kalıbının saklanacağı konumu ve oluşturulacak dosyanın adını seçebilirsiniz ya da aşağıdaki alanına bir dosya ismi yazabilirsiniz.&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>&amp;Location</source>
-        <translation>&amp;Konum</translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;Select the size of the virtual hard disk in megabytes. This size will be reported to the Guest OS as the maximum size of this hard disk.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Sanal sabit disk kalıbının boyutunu megabayt cinsinden seçin. Bu boyut, misafir işletim sistemine sanal sabit disk boyutu olarak rapor edilecektir.&lt;/p&gt;  </translation>
-    </message>
-    <message>
-        <source>&amp;Size</source>
-        <translation>&amp;Boyut</translation>
-    </message>
-    <message>
-        <source>You are going to create a new virtual hard disk with the following parameters:</source>
-        <translation>Aşağıdaki ayarlara göre yeni bir sanal sabit disk kalıbı oluşturacaksınız:</translation>
-    </message>
-    <message>
-        <source>If the above settings are correct, press the &lt;b&gt;Finish&lt;/b&gt; button. Once you press it, a new hard disk will be created.</source>
-        <translation>Eğer aşağıdaki ayarlar doğruysa &lt;b&gt;Bitir&lt;/b&gt; düğmesine basın. Bitir düğmesine bastığınızda, yeni bir sabit disk kalıbı oluşturulacaktır.</translation>
-    </message>
-</context>
-<context>
-    <name>VBoxNewVMWzd</name>
-    <message>
-        <source>Create New Virtual Machine</source>
-        <translation>Yeni Sanal Makine Oluştur</translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;This wizard will guide you through the steps that are necessary to create
-a new virtual machine for VirtualBox.&lt;/p&gt;
-&lt;p&gt;Use the &lt;b&gt;Next&lt;/b&gt; button to go the next page of the wizard
-and the &lt;b&gt;Back&lt;/b&gt; button to return to the previous page.&lt;/p&gt;</source>
-        <translation type="obsolete">&lt;p&gt;Bu sihirbaz size VirtualBox içerisinde yeni bir sanal makine
-oluşturmanız için yardımcı olacaktır.&lt;/p&gt;
-&lt;p&gt; Sonraki sayfaya gitmek için &lt;b&gt;İleri&lt;/b&gt;, önceki sayfaya
- dönmek için &lt;b&gt;Geri&lt;/b&gt; düğmesini kullanın.&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>Welcome to the New Virtual Machine Wizard!</source>
-        <translation>Sanal Makine Oluşturma Sihirbazına Hoşgeldiniz!</translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;Enter a name for the new virtual machine and select the type of the guest operating
-system you plan to install onto the virtual machine.&lt;/p&gt;
-&lt;p&gt;The name of the virtual machine usually indicates its software and hardware configuration.
-It will be used by all VirtualBox components to identify your virtual machine.&lt;/p&gt;</source>
-        <translation type="obsolete">&lt;p&gt;Yeni sanal makine için bir isim girin ve bu sanal makineye kurmayı düşündüğünüz misafir
- işletim sisteminin tipini seçin.&lt;/p&gt;
-&lt;p&gt;Sanal makinenin adı genellikle o makinenin yazılım ve donanım yapılandırması hakkında bilgiler içerir.
-Bu isim tüm VirtualBox bileşenleri tarafından sanal makinenizi tanımak için kullanılacaktır.&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>N&amp;ame</source>
-        <translation>İ&amp;sim</translation>
-    </message>
-    <message>
-        <source>OS &amp;Type</source>
-        <translation>İşletim Sistemi &amp;Tipi</translation>
-    </message>
-    <message>
-        <source>VM Name and OS Type</source>
-        <translation>Sanal Makine Adı ve İşletim Sistemi Tipi</translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;Select the amount of base memory (RAM) in megabytes to be allocated to the virtual machine.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Sanal makine için kullanılacak olan temel bellek (RAM) boyutunu mb olarak seçin.&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>Base &amp;Memory Size</source>
-        <translation>Te&amp;mel Bellek Boyutu</translation>
-    </message>
-    <message>
-        <source>&lt;</source>
-        <translation type="obsolete">&lt;</translation>
-    </message>
-    <message>
-        <source>=</source>
-        <translation type="obsolete">=</translation>
-    </message>
-    <message>
-        <source>&gt;</source>
-        <translation type="obsolete">&gt;</translation>
-    </message>
-    <message>
-        <source>MB</source>
-        <translation>MB</translation>
-    </message>
-    <message>
-        <source>Memory</source>
-        <translation>Bellek</translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;Select a hard disk image to be used
-as the boot hard disk of the virtual machine. You can either create a new hard
-disk using the &lt;b&gt;New&lt;/b&gt; button or select an existing hard disk
-image from the drop-down list or by pressing the &lt;b&gt;Existing&lt;/b&gt;
-button (to invoke the Virtual Disk Manager dialog).&lt;/p&gt;
-&lt;p&gt;If you need a more complicated hard disk setup, you can also skip this
-step and attach hard disks later using the VM Settings dialog.&lt;/p&gt;</source>
-        <translation type="obsolete">&lt;p&gt;Sanal makineyi başlatmak için (boot)  kullanılacak bir sabit disk kalıbı seçin. &lt;b&gt;Yeni&lt;/b&gt; düğmesine tıklayarak Yeni bir sabit disk oluşturabilirsiniz ya da açılabilir listeden bir &lt;b&gt;Varolan sabit disk&lt;/b&gt; seçebilirsiniz.&lt;/p&gt;
-&lt;p&gt;Eğer daha karmaşık bir sabit disk ayarlamasına gereksinim duyuyorsanız
-bu basamağı atlayarak sabit diskleri Sanal Makine Ayarları penceresinden ekleyebilirsiniz.&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>B&amp;oot Hard Disk (Primary Master)</source>
-        <translation type="obsolete">&amp;Başlangıç (Boot) Sabit Diski (Primary Master)</translation>
-    </message>
-    <message>
-        <source>N&amp;ew...</source>
-        <translation type="obsolete">Ye&amp;ni...</translation>
-    </message>
-    <message>
-        <source>E&amp;xisting...</source>
-        <translation type="obsolete">&amp;Varolan bir sabit disk...</translation>
-    </message>
-    <message>
-        <source>Virtual Hard Disk</source>
-        <translation>Sanal Sabit Disk Sürücü</translation>
-    </message>
-    <message>
-        <source>
-                            &lt;p&gt;
-                            You are going to create a new virtual machine
-                            with the following parameters:
-                            &lt;/p&gt;
-                            </source>
-        <translation type="obsolete">
-                            &lt;p&gt;
-                            Buradaki ayarları kullanarak
-                            bir sanal makine oluşturacaksınız:
-                            &lt;/p&gt;
-                            </translation>
-    </message>
-    <message>
-        <source>
-                            &lt;p&gt;
-                            If the above is correct press the &lt;b&gt;Finish&lt;/b&gt; button.
-                            Once you press it, a new virtual machine will be created.
-                            &lt;/p&gt;&lt;p&gt;
-                            Note that you can alter these and all other setting of the
-                            created virtual machine at any time using the
-                            &lt;b&gt;Settings&lt;/b&gt; dialog accessible through
-                            the menu of the main window.
-                            &lt;/p&gt;
-                            </source>
-        <translation type="obsolete">
-                            &lt;p&gt;
-                            Eğer yukarıdaki bilgiler doğruysa &lt;b&gt;Bitir&lt;/b&gt; düğmesine basın.
-                            Bu düğmeye bastığınızda yeni bir sanal makine oluşturulmuş olacaktır.
-                            &lt;/p&gt;&lt;p&gt;
-                            Oluşturduğunuz bu makinenin
-                            her türlü ayarını ana pencerede bulunan menüdeki
-                           &lt;b&gt;Ayarlar&lt;/b&gt; yolu ile açılabilen pencereyi kullanarak değiştirebilirsiniz.
-                           &lt;/p&gt;
-                            </translation>
-    </message>
-    <message>
-        <source>Summary</source>
-        <translation>Özet</translation>
-    </message>
-    <message>
-        <source>&lt;qt&gt;%1&amp;nbsp;MB&lt;/qt&gt;</source>
-        <translation type="obsolete">&lt;qt&gt;%1&amp;nbsp;MB&lt;/qt&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;tr&gt;&lt;td&gt;Name:&lt;/td&gt;&lt;td&gt;%1&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;OS Type:&lt;/td&gt;&lt;td&gt;%2&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Base Memory:&lt;/td&gt;&lt;td&gt;%3&amp;nbsp;MB&lt;/td&gt;&lt;/tr&gt;</source>
-        <translation type="obsolete">&lt;tr&gt;&lt;td&gt;İsim:&lt;/td&gt;&lt;td&gt;%1&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;İşletim Sistemi Tipi:&lt;/td&gt;&lt;td&gt;%2&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Temel Bellek:&lt;/td&gt;&lt;td&gt;%3&amp;nbsp;MB&lt;/td&gt;&lt;/tr&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;tr&gt;&lt;td&gt;Boot Hard Disk:&lt;/td&gt;&lt;td&gt;%4&lt;/td&gt;&lt;/tr&gt;</source>
-        <translation type="obsolete">&lt;tr&gt;&lt;td&gt;Başlangıç (Boot) Sabit Diski:&lt;/td&gt;&lt;td&gt;%4&lt;/td&gt;&lt;/tr&gt;</translation>
-    </message>
-    <message>
-        <source>The recommended base memory size is &lt;b&gt;%1&lt;/b&gt; MB.</source>
-        <translation>Önerilen temel bellek boyutu &lt;b&gt;%1&lt;/b&gt; MB.</translation>
-    </message>
-    <message>
-        <source>The recommended size of the boot hard disk is &lt;b&gt;%1&lt;/b&gt; MB.</source>
-        <translation>Önerilen başlangıç sabit diski boyutu &lt;b&gt;%1&lt;/b&gt; MB.</translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;This wizard will guide you through the steps that are necessary to create a new virtual machine for VirtualBox.&lt;/p&gt;&lt;p&gt;Use the &lt;b&gt;Next&lt;/b&gt; button to go the next page of the wizard and the &lt;b&gt;Back&lt;/b&gt; button to return to the previous page.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Bu sihirbaz size VirtualBox içerisinde yeni bir sanal makine oluşturmanız için yardımcı olacaktır.&lt;/p&gt;&lt;p&gt; Sonraki sayfaya gitmek için &lt;b&gt;İleri&lt;/b&gt;, önceki sayfaya dönmek için &lt;b&gt;Geri&lt;/b&gt; düğmesini kullanın.&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>&lt; &amp;Back</source>
-        <translation>&lt; &amp;Geri</translation>
-    </message>
-    <message>
-        <source>&amp;Next &gt;</source>
-        <translation>&amp;İleri &gt;</translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;Enter a name for the new virtual machine and select the type of the guest operating system you plan to install onto the virtual machine.&lt;/p&gt;&lt;p&gt;The name of the virtual machine usually indicates its software and hardware configuration. It will be used by all VirtualBox components to identify your virtual machine.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Yeni sanal makine için bir isim girin ve bu sanal makineye kurmayı düşündüğünüz misafir işletim sisteminin tipini seçin.&lt;/p&gt;&lt;p&gt;Sanal makinenin adı genellikle o makinenin yazılım ve donanım yapılandırması hakkında bilgiler içerir. Bu isim tüm VirtualBox bileşenleri tarafından sanal makinenizi tanımak için kullanılacaktır.&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;You are going to create a new virtual machine with the following parameters:&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Aşağıdaki ayarlara göre yeni bir sanal makine oluşturacaksınız:&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;If the above is correct press the &lt;b&gt;Finish&lt;/b&gt; button. Once you press it, a new virtual machine will be created. &lt;/p&gt;&lt;p&gt;Note that you can alter these and all other setting of the created virtual machine at any time using the &lt;b&gt;Settings&lt;/b&gt; dialog accessible through the menu of the main window.&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Finish</source>
-        <translation>&amp;Bitir</translation>
-    </message>
-    <message>
-        <source>MB</source>
-        <comment>megabytes</comment>
-        <translation>MB</translation>
-    </message>
-    <message>
-        <source>Name</source>
-        <comment>summary</comment>
-        <translation>İsim</translation>
-    </message>
-    <message>
-        <source>OS Type</source>
-        <comment>summary</comment>
-        <translation>İşletim Sistemi Tipi</translation>
-    </message>
-    <message>
-        <source>Base Memory</source>
-        <comment>summary</comment>
-        <translation>Temel Bellek</translation>
-    </message>
-    <message>
-        <source>Boot Hard Disk</source>
-        <comment>summary</comment>
-        <translation>Başlangıç (Boot) Sabit Diski</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation>İptal</translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;Select a hard disk image to be used as the boot hard disk of the virtual machine. You can either create a new hard disk using the &lt;b&gt;New&lt;/b&gt; button or select an existing hard disk image from the drop-down list or by pressing the &lt;b&gt;Existing&lt;/b&gt; button (to invoke the Virtual Media Manager dialog).&lt;/p&gt;&lt;p&gt;If you need a more complicated hard disk setup, you can also skip this step and attach hard disks later using the VM Settings dialog.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Sanal makineyi başlatmak için (boot)  kullanılacak bir sabit disk kalıbı seçin. &lt;b&gt;Yeni&lt;/b&gt; düğmesine tıklayarak Yeni bir sabit disk oluşturabilirsiniz ya da açılabilir listeden bir &lt;b&gt;Varolan sabit disk&lt;/b&gt; seçebilirsiniz.&lt;/p&gt;&lt;p&gt;Eğer daha karmaşık bir sabit disk ayarlamasına gereksinim duyuyorsanız bu basamağı atlayarak sabit diskleri Sanal Makine Ayarları penceresinden ekleyebilirsiniz.&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>Boot Hard &amp;Disk (Primary Master)</source>
-        <translation>&amp;Başlangıç (Boot) Sabit Diski (Primary Master)</translation>
-    </message>
-    <message>
-        <source>&amp;Create new hard disk</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Use existing hard disk</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -5848,6 +6762,54 @@ Bu Sanal Makinenin fare işaretçinizi ve klavyenizi &lt;b&gt;yakalamasına&lt;/
         <comment>medium</comment>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>&lt;p&gt;VT-x/AMD-V hardware acceleration is not available on your system. Your 64-bit guest will fail to detect a 64-bit CPU and will not be able to boot.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;VT-x/AMD-V hardware acceleration is not available on your system. Certain guests (e.g. OS/2 and QNX) require this feature and will fail to boot without it.&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;Deleting the snapshot %1 will temporarily need more disk space. In the worst case the size of image %2 will grow by %3, however on this filesystem there is only %4 free.&lt;/p&gt;&lt;p&gt;Running out of disk space during the merge operation can result in corruption of the image and the VM configuration, i.e. loss of the VM and its data.&lt;/p&gt;&lt;p&gt;You may continue with deleting the snapshot at your own risk.&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;Could not change the guest screen to this host screen due to insufficient guest video memory.&lt;/p&gt;&lt;p&gt;You should configure the virtual machine to have at least &lt;b&gt;%1&lt;/b&gt; of video memory.&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;Could not change the guest screen to this host screen due to insufficient guest video memory.&lt;/p&gt;&lt;p&gt;You should configure the virtual machine to have at least &lt;b&gt;%1&lt;/b&gt; of video memory.&lt;/p&gt;&lt;p&gt;Press &lt;b&gt;Ignore&lt;/b&gt; to switch the screen anyway or press &lt;b&gt;Cancel&lt;/b&gt; to cancel the operation.&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;Can not switch the guest display to fullscreen mode. You have more virtual screens configured than physical screens are attached to your host.&lt;/p&gt;&lt;p&gt;Please either lower the virtual screens in your VM configuration or attach additional screens to your host.&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;Can not switch the guest display to seamless mode. You have more virtual screens configured than physical screens are attached to your host.&lt;/p&gt;&lt;p&gt;Please either lower the virtual screens in your VM configuration or attach additional screens to your host.&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;Could not find the VirtualBox User Manual &lt;nobr&gt;&lt;b&gt;%1&lt;/b&gt;.&lt;/nobr&gt;&lt;/p&gt;&lt;p&gt;Do you wish to download this file from the Internet?&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;Are you sure you want to download the VirtualBox User Manual from &lt;nobr&gt;&lt;a href=&quot;%1&quot;&gt;%2&lt;/a&gt;&lt;/nobr&gt; (size %3 bytes)?&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;Failed to download the VirtualBox User Manual from &lt;nobr&gt;&lt;a href=&quot;%1&quot;&gt;%2&lt;/a&gt;.&lt;/nobr&gt;&lt;/p&gt;&lt;p&gt;%3&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;The VirtualBox User Manual has been successfully downloaded from &lt;nobr&gt;&lt;a href=&quot;%1&quot;&gt;%2&lt;/a&gt;&lt;/nobr&gt; and saved locally as &lt;nobr&gt;&lt;b&gt;%3&lt;/b&gt;.&lt;/nobr&gt;&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;The VirtualBox User Manual has been successfully downloaded from &lt;nobr&gt;&lt;a href=&quot;%1&quot;&gt;%2&lt;/a&gt;&lt;/nobr&gt; but can&apos;t be saved locally as &lt;nobr&gt;&lt;b&gt;%3&lt;/b&gt;.&lt;/nobr&gt;&lt;/p&gt;&lt;p&gt;Please choose another location for that file.&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>VBoxProgressDialog</name>
@@ -5882,7 +6844,7 @@ Bu Sanal Makinenin fare işaretçinizi ve klavyenizi &lt;b&gt;yakalamasına&lt;/
     <name>VBoxRegistrationDlg</name>
     <message>
         <source>VirtualBox Registration Dialog</source>
-        <translation>VirtualBox Kayıt Formu</translation>
+        <translation type="obsolete">VirtualBox Kayıt Formu</translation>
     </message>
     <message>
         <source>&lt;p&gt;Please fill out this registration form to let us know that you use VirtualBox and, optionally, to keep you informed about VirtualBox news and updates.&lt;/p&gt;&lt;p&gt;Enter your full name using Latin characters and your e-mail address to the fields below. Please note that innotek will use this information only to gather product usage statistics and to send you VirtualBox newsletters. In particular, innotek will never pass your data to third parties. Detailed information about how we use your personal data can be found in the &lt;b&gt;Privacy Policy&lt;/b&gt; section of the VirtualBox Manual or on the &lt;a href=http://www.virtualbox.org/wiki/PrivacyPolicy&gt;Privacy Policy&lt;/a&gt; page of the VirtualBox web-site.&lt;/p&gt;</source>
@@ -5894,7 +6856,7 @@ Bu Sanal Makinenin fare işaretçinizi ve klavyenizi &lt;b&gt;yakalamasına&lt;/
     </message>
     <message>
         <source>Enter your full name using Latin characters.</source>
-        <translation>Latin harflerini kullanarak tam adınızı girin.</translation>
+        <translation type="obsolete">Latin harflerini kullanarak tam adınızı girin.</translation>
     </message>
     <message>
         <source>&amp;E-mail</source>
@@ -5902,7 +6864,7 @@ Bu Sanal Makinenin fare işaretçinizi ve klavyenizi &lt;b&gt;yakalamasına&lt;/
     </message>
     <message>
         <source>Enter your e-mail address. Please use a valid address here.</source>
-        <translation>Geçerli e-posta adresinizi girin.</translation>
+        <translation type="obsolete">Geçerli e-posta adresinizi girin.</translation>
     </message>
     <message>
         <source>&amp;Please do not use this information to contact me</source>
@@ -5914,7 +6876,7 @@ Bu Sanal Makinenin fare işaretçinizi ve klavyenizi &lt;b&gt;yakalamasına&lt;/
     </message>
     <message>
         <source>Welcome to the VirtualBox Registration Form!</source>
-        <translation>VirtualBox Kayıt Formununa Hoşgeldiniz!</translation>
+        <translation type="obsolete">VirtualBox Kayıt Formununa Hoşgeldiniz!</translation>
     </message>
     <message>
         <source>&amp;Confirm</source>
@@ -5930,7 +6892,7 @@ Bu Sanal Makinenin fare işaretçinizi ve klavyenizi &lt;b&gt;yakalamasına&lt;/
     </message>
     <message>
         <source>Could not perform connection handshake.</source>
-        <translation>Bağlantı anlaşması yapılamadı.</translation>
+        <translation type="obsolete">Bağlantı anlaşması yapılamadı.</translation>
     </message>
     <message>
         <source>&lt;p&gt;Please fill out this registration form to let us know that you use VirtualBox and, optionally, to keep you informed about VirtualBox news and updates.&lt;/p&gt;&lt;p&gt;Enter your full name using Latin characters and your e-mail address to the fields below. Sun Microsystems will use this information only to gather product usage statistics and to send you VirtualBox newsletters. In particular, Sun Microsystems will never pass your data to third parties. Detailed information about how we use your personal data can be found in the &lt;b&gt;Privacy Policy&lt;/b&gt; section of the VirtualBox Manual or on the &lt;a href=http://www.virtualbox.org/wiki/PrivacyPolicy&gt;Privacy Policy&lt;/a&gt; page of the VirtualBox web-site.&lt;/p&gt;</source>
@@ -5946,63 +6908,7 @@ Bu Sanal Makinenin fare işaretçinizi ve klavyenizi &lt;b&gt;yakalamasına&lt;/
     </message>
     <message>
         <source>Cancel</source>
-        <translation>İptal</translation>
-    </message>
-    <message>
-        <source>Select Country/Territory</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;Please fill out this registration form to let us know that you use VirtualBox and, optionally, to keep you informed about VirtualBox news and updates.&lt;/p&gt;&lt;p&gt;Please use Latin characters only to fill in  the fields below. Sun Microsystems will use this information only to gather product usage statistics and to send you VirtualBox newsletters. In particular, Sun Microsystems will never pass your data to third parties. Detailed information about how we use your personal data can be found in the &lt;b&gt;Privacy Policy&lt;/b&gt; section of the VirtualBox Manual or on the &lt;a href=http://www.virtualbox.org/wiki/PrivacyPolicy&gt;Privacy Policy&lt;/a&gt; page of the VirtualBox web-site.&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>I &amp;already have a Sun Online account:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;E-mail:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Password:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>I &amp;would like to create a new Sun Online account:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;First Name:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Last Name:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Company:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Co&amp;untry:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>E-&amp;mail:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>P&amp;assword:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Co&amp;nfirm Password:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Register</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">İptal</translation>
     </message>
 </context>
 <context>
@@ -6200,7 +7106,7 @@ Bu Sanal Makinenin fare işaretçinizi ve klavyenizi &lt;b&gt;yakalamasına&lt;/
     </message>
     <message>
         <source>&amp;File</source>
-        <translation>&amp;Dosya</translation>
+        <translation type="obsolete">&amp;Dosya</translation>
     </message>
     <message>
         <source>&amp;Help</source>
@@ -6320,10 +7226,6 @@ Bu Sanal Makinenin fare işaretçinizi ve klavyenizi &lt;b&gt;yakalamasına&lt;/
         <translation>Günlük Kaydı</translation>
     </message>
     <message>
-        <source>Sun VirtualBox</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>&amp;Import Appliance...</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6342,6 +7244,16 @@ Bu Sanal Makinenin fare işaretçinizi ve klavyenizi &lt;b&gt;yakalamasına&lt;/
     <message>
         <source>Re&amp;fresh</source>
         <translation type="unfinished">&amp;Yenile</translation>
+    </message>
+    <message>
+        <source>&amp;File</source>
+        <comment>Mac OS X version</comment>
+        <translation type="unfinished">&amp;Dosya</translation>
+    </message>
+    <message>
+        <source>&amp;File</source>
+        <comment>Non Mac OS X version</comment>
+        <translation type="unfinished">&amp;Dosya</translation>
     </message>
 </context>
 <context>
@@ -7043,135 +7955,6 @@ eşleşebilir.&lt;/qt&gt;</translation>
     </message>
 </context>
 <context>
-    <name>VBoxVMFirstRunWzd</name>
-    <message>
-        <source>First Run Wizard</source>
-        <translation>İlk Çalıştırma Sihirbazı</translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;You have started a newly created virtual machine for the first time. This wizard will help you to perform the steps necessary for installing an operating system of your choice onto this virtual machine.&lt;/p&gt;&lt;p&gt;Use the &lt;b&gt;Next&lt;/b&gt; button to go to the next page of the wizard and the &lt;b&gt;Back&lt;/b&gt; button to return to the previous page. You can also press &lt;b&gt;Cancel&lt;/b&gt; if you want to cancel the execution of this wizard.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Yeni oluşturduğunuz bir sanal makineyi ilk defa çalıştırdınız. Bu sihirbaz bu sanal makine üzerine tercih ettiğiniz işletim sistemini kurmanızı sağlayacak aşamalarda size yardım edecek.&lt;/p&gt;&lt;p&gt;Sonraki sayfaya gitmek için &lt;b&gt;İleri&lt;/b&gt;, önceki sayfaya dönmek için &lt;b&gt;Geri&lt;/b&gt; düğmelerini kullanın. Bu sihirbazı kapatmak için &lt;b&gt;İptal&lt;/b&gt; düğmesine basabilirsiniz.&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>Welcome to the First Run Wizard!</source>
-        <translation>İlk Çalıştırma Sihirbazına Hoşgeldiniz!</translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;Select the type of media you would like to use for installation.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Aşağıdaki yükleme isteği için kullanmak istediğiniz ortamın tipini seçin.&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>Media Type</source>
-        <translation>Ortam Tipi</translation>
-    </message>
-    <message>
-        <source>&amp;CD/DVD-ROM Device</source>
-        <translation>&amp;CD/DVD-ROM Sürücü</translation>
-    </message>
-    <message>
-        <source>&amp;Floppy Device</source>
-        <translation>&amp;Disket Sürücü</translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;Select the media which contains the setup program of the operating system you want to install. This media must be bootable, otherwise the setup program will not be able to start.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Yüklemek istediğiniz işletim sisteminin kur uygulamasını içeren ortamı seçin. Bu ortam başlatılabilir (bootable) olmalıdır, aksi taktirde kur uygulaması başlatılamaz.&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>Media Source</source>
-        <translation>Ortam Kaynağı</translation>
-    </message>
-    <message>
-        <source>&amp;Host Drive</source>
-        <translation type="obsolete">&amp;Sunucu Sürücüsü</translation>
-    </message>
-    <message>
-        <source>&amp;Image File</source>
-        <translation type="obsolete">Kal&amp;ıp Dosyası</translation>
-    </message>
-    <message>
-        <source>VDM</source>
-        <translation type="obsolete">VDM</translation>
-    </message>
-    <message>
-        <source>Select Installation Media</source>
-        <translation>Yükleme Ortamını Seç</translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;You have selected the following media to boot from:&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Şu ortamdan başlatmayı (boot) seçtiniz:&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;If the above is correct, press the &lt;b&gt;Finish&lt;/b&gt; button. Once you press it, the selected media will be temporarily mounted on the virtual machine and the machine will start execution.&lt;/p&gt;&lt;p&gt;Please note that when you close the virtual machine, the specified media will be automatically unmounted and the boot device will be set back to the first hard disk.&lt;/p&gt;&lt;p&gt;Depending on the type of the setup program, you may need to manually unmount (eject) the media after the setup program reboots the virtual machine, to prevent the installation process from starting again. You can do this by selecting the corresponding &lt;b&gt;Unmount...&lt;/b&gt; action in the &lt;b&gt;Devices&lt;/b&gt; menu.&lt;/p&gt;</source>
-        <translation type="unfinished">&lt;p&gt;Eğer yukarıdakiler doğru ise,&lt;b&gt;Bitir&lt;/b&gt; düğmesine basın. Düğmeye bastığınızda, seçilen ortam sanal makineye bağlanacak ve makine çalıştırılmaya başlanacak.&lt;/p&gt;&lt;p&gt;Sanal makineyi kapattığınızda belirtilen ortamın otomatik olarak ayrılacağını ve başlangıç aygıtının yeniden sabit disk olarak ayarlanacağını unutmayın.&lt;/p&gt;&lt;p&gt;Kur uygulamasına bağlı olarak değişmekle birlikte, kur işleminin yeniden başlamasını engellemek için kur bittikten sonra ortamı el ile ayırmanız (eject) gerekebilir. Bu işlemi &lt;b&gt;Aygıtlar&lt;/b&gt; menüsündeki &lt;b&gt;Ayır...&lt;/b&gt; ile yapabilirsiniz.&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>Summary</source>
-        <translation>Özet</translation>
-    </message>
-    <message>
-        <source>CD/DVD-ROM Device</source>
-        <translation>CD/DVD-ROM Sürücü</translation>
-    </message>
-    <message>
-        <source>Floppy Device</source>
-        <translation>Disket Sürücü</translation>
-    </message>
-    <message>
-        <source>Host Drive %1</source>
-        <translation type="obsolete">Sunucu Sürücüsü  %1</translation>
-    </message>
-    <message>
-        <source>&lt;table&gt;&lt;tr&gt;&lt;td&gt;Type:&lt;/td&gt;&lt;td&gt;%1&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Source:&lt;/td&gt;&lt;td&gt;%2&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</source>
-        <translation type="obsolete">&lt;table&gt;&lt;tr&gt;&lt;td&gt;Tip:&lt;/td&gt;&lt;td&gt;%1&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Kaynak:&lt;/td&gt;&lt;td&gt;%2&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;You have started a newly created virtual machine for the first time. This wizard will help you to perform the steps necessary for booting an operating system of your choice on the virtual machine.&lt;/p&gt;&lt;p&gt;Note that you will not be able to install an operating system into this virtual machine right now because you did not attach any hard disk to it. If this is not what you want, you can cancel the execution of this wizard, select &lt;b&gt;Settings&lt;/b&gt; from the &lt;b&gt;Machine&lt;/b&gt; menu of the main VirtualBox window to access the settings dialog of this machine and change the hard disk configuration.&lt;/p&gt;&lt;p&gt;Use the &lt;b&gt;Next&lt;/b&gt; button to go to the next page of the wizard and the &lt;b&gt;Back&lt;/b&gt; button to return to the previous page. You can also press &lt;b&gt;Cancel&lt;/b&gt; if you want to cancel the execution of this wizard.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Yeni oluşturduğunuz bir sanal makineyi ilk defa çalıştırdınız. Bu sihirbaz bu sanal makine üzerinde tercih ettiğiniz işletim sistemini başlatmanızı (boot) sağlayacak aşamalarda size yardım edecek.&lt;/p&gt;&lt;p&gt;Bu sanal makineye bir sabit disk eklemediğiniz için şu anda bir işletim sistemi kuramayacağınızı unutmayın. Eğer istediğiniz bu değilse, bu sihirbazı iptal edip &lt;b&gt;Makine&lt;/b&gt; menüsünden &lt;b&gt;Ayarlar&lt;/b&gt; yolunu takip ederek sabit disk yapılandırmanızı değiştirin.&lt;/p&gt;&lt;p&gt;Sonraki sayfaya gitmek için &lt;b&gt;İleri&lt;/b&gt;, önceki sayfaya dönmek için &lt;b&gt;Geri&lt;/b&gt; düğmelerini kullanın. Bu sihirbazı kapatmak için &lt;b&gt;İptal&lt;/b&gt; düğmesine basabilirsiniz.&lt;/p&gt;.</translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;Select the type of media you would like to use for booting an operating system.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Bir işletim sistemini başlatmak için kullanmak istediğiniz ortamın tipini seçin.&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;Select the media that contains the operating system you want to work with. This media must be bootable, otherwise the operating system will not be able to start.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Çalışmak istediğiniz işletim sistemini içeren ortamı seçin. Bu ortam başlatılabilir (bootable) olmalıdır, aksi taktirde işletim sistemi başlatılamayacak.&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;You have selected the following media to boot an operating system from:&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Bir işletim sistemini başlatmak için şu ortam tipini seçtiniz:&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;If the above is correct, press the &lt;b&gt;Finish&lt;/b&gt; button. Once you press it, the selected media will be mounted on the virtual machine and the machine will start execution.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Eğer yukarıdakiler doğru ise,&lt;b&gt;Bitir&lt;/b&gt; düğmesine basın. Düğmeye bastığınızda, seçilen ortam sanal makineye bağlanacak ve makine çalıştırılmaya başlanacak.&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>&lt; &amp;Back</source>
-        <translation>&lt; &amp;Geri</translation>
-    </message>
-    <message>
-        <source>&amp;Next &gt;</source>
-        <translation>&amp;İleri &gt;</translation>
-    </message>
-    <message>
-        <source>&amp;Finish</source>
-        <translation>&amp;Bitir</translation>
-    </message>
-    <message>
-        <source>Type</source>
-        <comment>summary</comment>
-        <translation>Tip</translation>
-    </message>
-    <message>
-        <source>Source</source>
-        <comment>summary</comment>
-        <translation>Kaynak</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation>İptal</translation>
-    </message>
-</context>
-<context>
     <name>VBoxVMInformationDlg</name>
     <message>
         <source>Session Information Dialog</source>
@@ -7248,7 +8031,7 @@ eşleşebilir.&lt;/qt&gt;</translation>
     <message>
         <source>Version %1.%2</source>
         <comment>guest additions</comment>
-        <translation>Sürüm %1.%2</translation>
+        <translation type="obsolete">Sürüm %1.%2</translation>
     </message>
     <message>
         <source>Not Detected</source>
@@ -7283,16 +8066,16 @@ eşleşebilir.&lt;/qt&gt;</translation>
     <message>
         <source>Enabled</source>
         <comment>nested paging</comment>
-        <translation>Etkin</translation>
+        <translation type="obsolete">Etkin</translation>
     </message>
     <message>
         <source>Disabled</source>
         <comment>nested paging</comment>
-        <translation>Pasifleştirilmiş</translation>
+        <translation type="obsolete">Pasifleştirilmiş</translation>
     </message>
     <message>
         <source>Nested Paging</source>
-        <translation>Yerleşik Sayfalama</translation>
+        <translation type="obsolete">Yerleşik Sayfalama</translation>
     </message>
     <message>
         <source>VBoxVMInformationDlg</source>
@@ -7314,6 +8097,11 @@ eşleşebilir.&lt;/qt&gt;</translation>
     <message>
         <source>Network Statistics</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Nested Paging</source>
+        <comment>details report</comment>
+        <translation type="obsolete">Yerleşik Sayfalama</translation>
     </message>
 </context>
 <context>
@@ -7796,6 +8584,18 @@ eşleşebilir.&lt;/qt&gt;</translation>
     </message>
     <message>
         <source>The VRDP Server port number. You may specify &lt;tt&gt;0&lt;/tt&gt; (zero), to select port 3389, the standard port for RDP.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Mo&amp;nitor Count:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Controls the amount of virtual monitors provided to the virtual machine.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;qt&gt;%1&lt;/qt&gt;</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -8647,6 +9447,10 @@ makes the guest see an audio card, however every access to it will be ignored.&l
         <source>you have 2D Video Acceleration enabled. As 2D Video Acceleration is supported for Windows guests only, this feature will be disabled.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>you have enabled a USB HID (Human Interface Device). This will not work unless USB emulation is also enabled. This will be done automatically when you accept the VM Settings by pressing the OK button.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>VBoxVMSettingsFD</name>
@@ -9122,6 +9926,30 @@ makes the guest see an audio card, however every access to it will be ignored.&l
     </message>
     <message>
         <source>Attached To:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows to use host I/O caching capabilities.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Use host I/O cache</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add SAS Controller</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>SAS Controller</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Storage Controller</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Storage Controller 1</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -9677,10 +10505,6 @@ makes the guest see an audio card, however every access to it will be ignored.&l
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Controls the number of virtual CPUs in the virtual machine.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>When checked, the Physical Address Extension (PAE) feature of the host CPU will be exposed to the virtual machine.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -9723,6 +10547,26 @@ makes the guest see an audio card, however every access to it will be ignored.&l
     </message>
     <message>
         <source>Enable &amp;EFI (special OSes only)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If checked, the RTC device will report the time in UTC, otherwise in local (host) time. Unix usually expects the hardware clock to be set to UTC.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hardware clock in &amp;UTC time</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Controls the number of virtual CPUs in the virtual machine. You need hardware virtualization support on your host system to use more than one virtual CPU.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If checked, an absolute pointing device (a USB tablet) will be supported. Otherwise, only a standard PS/2 mouse will be emulated.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enable &amp;absolute pointing device</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

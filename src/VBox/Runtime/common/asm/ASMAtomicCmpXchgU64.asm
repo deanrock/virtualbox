@@ -4,7 +4,7 @@
 ;
 
 ;
-; Copyright (C) 2006-2009 Sun Microsystems, Inc.
+; Copyright (C) 2006-2010 Oracle Corporation
 ;
 ; This file is part of VirtualBox Open Source Edition (OSE), as
 ; available from http://www.virtualbox.org. This file is free software;
@@ -23,10 +23,6 @@
 ; You may elect to license modified versions of this file under the
 ; terms and conditions of either the GPL or the CDDL or both.
 ;
-; Please contact Sun Microsystems, Inc., 4150 Network Circle, Santa
-; Clara, CA 95054 USA or visit http://www.sun.com if you need
-; additional information or have any questions.
-;
 
 ;*******************************************************************************
 ;* Header Files                                                                *
@@ -38,17 +34,27 @@ BEGINCODE
 ;;
 ; Atomically compares and exchanges an unsigned 64-bit int.
 ;
-; @param    pu64     x86:ebp+8
-; @param    u64New   x86:ebp+c
-; @param    u64Old   x86:ebp+14
+; @param    pu64     x86:ebp+8   gcc:rdi  msc:rcx
+; @param    u64New   x86:ebp+c   gcc:rsi  msc:rdx
+; @param    u64Old   x86:ebp+14  gcc:rcx  msc:r8
 ;
 ; @returns  bool result: true if succesfully exchanged, false if not.
 ;           x86:al
 ;
 BEGINPROC_EXPORTED ASMAtomicCmpXchgU64
-%ifndef RT_ARCH_X86
- %error port me
+%ifdef RT_ARCH_AMD64
+ %ifdef ASM_CALL64_MSC
+        mov     rax, r8
+        lock cmpxchg [rcx], rdx
+ %else
+        mov     rax, rcx
+        lock cmpxchg [rdi], rsi
+ %endif
+        setz    al
+        movzx   eax, al
+        ret
 %endif
+%ifdef RT_ARCH_X86
         push    ebp
         mov     ebp, esp
         push    ebx
@@ -67,5 +73,6 @@ BEGINPROC_EXPORTED ASMAtomicCmpXchgU64
         pop     ebx
         leave
         ret
+%endif
 ENDPROC ASMAtomicCmpXchgU64
 

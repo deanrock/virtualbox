@@ -4,7 +4,7 @@
  */
 
 /*
- * Copyright (C) 2006-2007 Sun Microsystems, Inc.
+ * Copyright (C) 2006-2007 Oracle Corporation
  *
  * This file is part of VirtualBox Open Source Edition (OSE), as
  * available from http://www.virtualbox.org. This file is free software;
@@ -22,10 +22,6 @@
  *
  * You may elect to license modified versions of this file under the
  * terms and conditions of either the GPL or the CDDL or both.
- *
- * Please contact Sun Microsystems, Inc., 4150 Network Circle, Santa
- * Clara, CA 95054 USA or visit http://www.sun.com if you need
- * additional information or have any questions.
  */
 
 /*******************************************************************************
@@ -61,6 +57,40 @@ static DECLCALLBACK(size_t) TstType(PFNRTSTROUTPUT pfnOutput, void *pvArgOutput,
     size_t cchNum = RTStrFormatNumber(szNum, (uintptr_t)pvValue, 10, cchWidth, cchPrecision, fFlags);
     cch += pfnOutput(pvArgOutput, szNum, cchNum);
     return cch;
+}
+
+
+static void testNested(int iLine, const char *pszExpect, const char *pszFormat, ...)
+{
+    size_t  cchExpect = strlen(pszExpect);
+    char    szBuf[512];
+
+    va_list va;
+    va_start(va, pszFormat);
+    size_t cch = RTStrPrintf(szBuf, sizeof(szBuf), "%N", pszFormat, &va);
+    va_end(va);
+    if (strcmp(szBuf, pszExpect))
+        RTTestIFailed("at line %d: nested format '%s'\n"
+                      "    output: '%s'\n"
+                      "    wanted: '%s'\n",
+                      iLine, pszFormat, szBuf, pszExpect);
+    else if (cch != cchExpect)
+        RTTestIFailed("at line %d: Invalid length %d returned, expected %u!\n",
+                      iLine, cch, cchExpect);
+
+    va_start(va, pszFormat);
+    cch = RTStrPrintf(szBuf, sizeof(szBuf), "%uxxx%Nyyy%u", 43, pszFormat, &va, 43);
+    va_end(va);
+    if (   strncmp(szBuf, "43xxx", 5)
+        || strncmp(szBuf + 5, pszExpect, cchExpect)
+        || strcmp( szBuf + 5 + cchExpect, "yyy43") )
+        RTTestIFailed("at line %d: nested format '%s'\n"
+                      "    output: '%s'\n"
+                      "    wanted: '43xxx%syyy43'\n",
+                      iLine, pszFormat, szBuf, pszExpect);
+    else if (cch != 5 + cchExpect + 5)
+        RTTestIFailed("at line %d: Invalid length %d returned, expected %u!\n",
+                      iLine, cch, 5 + cchExpect + 5);
 }
 
 
@@ -120,11 +150,18 @@ int main()
     RTUuidCreate(&Uuid);
     char szCorrect[RTUUID_STR_LENGTH];
     RTUuidToStr(&Uuid, szCorrect, sizeof(szCorrect));
-    cch = RTStrPrintf(pszBuf, BUF_SIZE, "%Vuuid", &Uuid);
+    cch = RTStrPrintf(pszBuf, BUF_SIZE, "%RTuuid", &Uuid);
     if (strcmp(pszBuf, szCorrect))
         RTTestIFailed("error:    '%s'\n"
                       "expected: '%s'\n",
                       pszBuf, szCorrect);
+
+    /*
+     * Nested
+     */
+    RTTestSub(hTest, "Nested (%N)");
+    testNested(__LINE__, "42 2684354560 42 asdf 42", "42 %u 42 %s 42", 2684354560U, "asdf");
+    testNested(__LINE__, "", "");
 
     /*
      * allocation
@@ -229,6 +266,14 @@ int main()
 
     CHECK42("%RI8", (int8_t)1, "1");
     CHECK42("%RI8", (int8_t)-128, "-128");
+
+    CHECK42("%Rbn", "file.c", "file.c");
+    CHECK42("%Rbn", "foo/file.c", "file.c");
+    CHECK42("%Rbn", "/foo/file.c", "file.c");
+    CHECK42("%Rbn", "/dir/subdir/", "subdir/");
+
+    CHECK42("%Rfn", "function", "function");
+    CHECK42("%Rfn", "void function(void)", "function");
 
     CHECK42("%RTfile", (RTFILE)127, "127");
     CHECK42("%RTfile", (RTFILE)12341234, "12341234");
@@ -386,9 +431,15 @@ int main()
 
     CHECK42("%RU32", (uint32_t)1123, "1123");
     CHECK42("%RU32", (uint32_t)86596, "86596");
+    CHECK42("%4RU32",  (uint32_t)42, "  42");
+    CHECK42("%04RU32", (uint32_t)42, "0042");
+    CHECK42("%.4RU32", (uint32_t)42, "0042");
 
     CHECK42("%RU64", (uint64_t)112345987345ULL, "112345987345");
     CHECK42("%RU64", (uint64_t)8659643985723459ULL, "8659643985723459");
+    CHECK42("%14RU64",  (uint64_t)4, "             4");
+    CHECK42("%014RU64", (uint64_t)4, "00000000000004");
+    CHECK42("%.14RU64", (uint64_t)4, "00000000000004");
 
     CHECK42("%RU8", (uint8_t)1, "1");
     CHECK42("%RU8", (uint8_t)254, "254");
@@ -400,8 +451,12 @@ int main()
     CHECK42("%RX32", (uint32_t)0x1123, "1123");
     CHECK42("%RX32", (uint32_t)0x49939493, "49939493");
 
-    CHECK42("%RX64", (uint64_t)0x348734, "348734");
-    CHECK42("%RX64", (uint64_t)0x12312312312343fULL, "12312312312343f");
+    CHECK42("%RX64", UINT64_C(0x348734), "348734");
+    CHECK42("%RX64", UINT64_C(0x12312312312343f), "12312312312343f");
+    CHECK42("%5RX64",   UINT64_C(0x42), "   42");
+    CHECK42("%05RX64",  UINT64_C(0x42), "00042");
+    CHECK42("%.5RX64",  UINT64_C(0x42), "00042");
+    CHECK42("%.05RX64", UINT64_C(0x42), "00042"); /* '0' is ignored */
 
     CHECK42("%RX8", (uint8_t)1, "1");
     CHECK42("%RX8", (uint8_t)0xff, "ff");

@@ -4,7 +4,7 @@
  */
 
 /*
- * Copyright (C) 2007 Sun Microsystems, Inc.
+ * Copyright (C) 2007 Oracle Corporation
  *
  * This file is part of VirtualBox Open Source Edition (OSE), as
  * available from http://www.virtualbox.org. This file is free software;
@@ -13,10 +13,6 @@
  * Foundation, in version 2 as it comes in the "COPYING" file of the
  * VirtualBox OSE distribution. VirtualBox OSE is distributed in the
  * hope that it will be useful, but WITHOUT ANY WARRANTY of any kind.
- *
- * Please contact Sun Microsystems, Inc., 4150 Network Circle, Santa
- * Clara, CA 95054 USA or visit http://www.sun.com if you need
- * additional information or have any questions.
  */
 
 #include <VBox/types.h>
@@ -32,7 +28,15 @@
 
 #define PSTATUS_LNKSTAT 0x0004
 
-#define PSSTAT_LINK     0x0400
+/*
+ * Speed: 1000 Mb/s
+ * Duplex: full
+ * Page received
+ * Resolved
+ * Link up
+ * Receive Pause Enable
+ */
+#define PSSTAT_LINK     0xBC08
 
 namespace Phy
 {

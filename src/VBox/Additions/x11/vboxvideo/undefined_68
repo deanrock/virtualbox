@@ -74,5 +74,3 @@ xf86errno
 xf86CreateCursorInfoRec
 resVgaShared
 xf86SetBackingStore
-xf86snprintf
-XNFstrdup

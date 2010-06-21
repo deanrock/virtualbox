@@ -4,7 +4,7 @@
  */
 
 /*
- * Copyright (C) 2006-2008 Sun Microsystems, Inc.
+ * Copyright (C) 2006-2008 Oracle Corporation
  *
  * This file is part of VirtualBox Open Source Edition (OSE), as
  * available from http://www.virtualbox.org. This file is free software;
@@ -13,10 +13,6 @@
  * Foundation, in version 2 as it comes in the "COPYING" file of the
  * VirtualBox OSE distribution. VirtualBox OSE is distributed in the
  * hope that it will be useful, but WITHOUT ANY WARRANTY of any kind.
- *
- * Please contact Sun Microsystems, Inc., 4150 Network Circle, Santa
- * Clara, CA 95054 USA or visit http://www.sun.com if you need
- * additional information or have any questions.
  */
 
 #ifndef ___Storage_ATAController_h
@@ -72,6 +68,7 @@
 #define ATA_EVENT_STATUS_MEDIA_NEW              1    /**< new medium inserted */
 #define ATA_EVENT_STATUS_MEDIA_REMOVED          2    /**< medium removed */
 #define ATA_EVENT_STATUS_MEDIA_CHANGED          3    /**< medium was removed + new medium was inserted */
+#define ATA_EVENT_STATUS_MEDIA_EJECT_REQUESTED  4    /**< medium eject requested (eject button pressed) */
 
 
 /*******************************************************************************
@@ -422,7 +419,9 @@ RT_C_DECLS_END
  * @param   pcbSSMState    Where to store the size of the device state for loading/saving.
  * @param   szName         Name of the controller (Used to initialize the critical section).
  */
-int ataControllerInit(PPDMDEVINS pDevIns, PAHCIATACONTROLLER pCtl, PPDMIBASE pDrvBaseMaster, PPDMIBASE pDrvBaseSlave,
+int ataControllerInit(PPDMDEVINS pDevIns, PAHCIATACONTROLLER pCtl,
+                      unsigned iLUNMaster, PPDMIBASE pDrvBaseMaster,
+                      unsigned iLUNSlave, PPDMIBASE pDrvBaseSlave,
                       uint32_t *pcbSSMState, const char *szName, PPDMLED pLed, PSTAMCOUNTER pStatBytesRead, PSTAMCOUNTER pStatBytesWritten);
 
 /**
@@ -484,6 +483,28 @@ int ataControllerSaveExec(PAHCIATACONTROLLER pCtl, PSSMHANDLE pSSM);
  * @param   pSSM    SSM operation handle.
  */
 int ataControllerLoadExec(PAHCIATACONTROLLER pCtl, PSSMHANDLE pSSM);
+
+/**
+ * Attach command.
+ *
+ * This is called when we change block driver for the DVD drive.
+ *
+ * @returns VBox status code.
+ * @param   pDevIns     The device instance.
+ * @param   iLUN        The logical unit which is being detached.
+ */
+int  ataControllerAttach(PAHCIATACONTROLLER pCtl, PPDMIBASE pDrvBase, bool fMaster);
+
+/**
+ * Detach notification.
+ *
+ * The DVD drive has been unplugged.
+ *
+ * @param   pDevIns     The device instance.
+ * @param   fMaster     True if the master is detached
+ *                      false for the slave
+ */
+void ataControllerDetach(PAHCIATACONTROLLER pCtl, bool fMaster);
 
 #endif /* IN_RING3 */
 

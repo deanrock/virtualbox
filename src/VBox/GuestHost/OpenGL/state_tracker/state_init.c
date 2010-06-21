@@ -80,6 +80,8 @@ crStateCreateContextId(int i, const CRLimitsState *limits,
     int node32 = i >> 5;
     int node = i & 0x1f;
 
+    ctx->pImage = NULL;
+
     ctx->id = i;
     ctx->flush_func = NULL;
     for (j=0;j<CR_MAX_BITARRAY;j++){
@@ -196,6 +198,7 @@ crStateFreeContext(CRContext *ctx)
     crStateFreeShared(ctx->shared);
     crStateFramebufferObjectDestroy(ctx);
     crStateGLSLDestroy(ctx);
+    if (ctx->pImage) crFree(ctx->pImage);
     crFree( ctx );
 }
 
@@ -245,7 +248,20 @@ void crStateInit(void)
 #endif
 }
 
+void crStateDestroy(void)
+{
+    if (__currentBits)
+    {
+        crStateClientDestroyBits(&(__currentBits->client));
+        crStateLightingDestroyBits(&(__currentBits->lighting));
+        crFree(__currentBits);
+        __currentBits = NULL;
+    }
 
+#ifdef CHROMIUM_THREADSAFE
+    crFreeTSD(&__contextTSD);
+#endif
+}
 
 /*
  * Notes on context switching and the "default context".

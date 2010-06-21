@@ -4,7 +4,7 @@
  */
 
 /*
- * Copyright (C) 2008 Sun Microsystems, Inc.
+ * Copyright (C) 2008 Oracle Corporation
  *
  * This file is part of VirtualBox Open Source Edition (OSE), as
  * available from http://www.virtualbox.org. This file is free software;
@@ -22,10 +22,6 @@
  *
  * You may elect to license modified versions of this file under the
  * terms and conditions of either the GPL or the CDDL or both.
- *
- * Please contact Sun Microsystems, Inc., 4150 Network Circle, Santa
- * Clara, CA 95054 USA or visit http://www.sun.com if you need
- * additional information or have any questions.
  */
 
 
@@ -142,7 +138,7 @@ RTDECL(int) RTMpOnAll(PFNRTMPWORKER pfnWorker, void *pvUser1, void *pvUser2)
     Args.pvUser2 = pvUser2;
     Args.idCpu = NIL_RTCPUID;
     Args.cHits = 0;
-    smp_rendezvous(NULL, rtmpOnAllFreeBSDWrapper, NULL, &Args);
+    smp_rendezvous(NULL, rtmpOnAllFreeBSDWrapper, smp_no_rendevous_barrier, &Args);
     return VINF_SUCCESS;
 }
 
@@ -178,7 +174,7 @@ RTDECL(int) RTMpOnOthers(PFNRTMPWORKER pfnWorker, void *pvUser1, void *pvUser2)
         Args.idCpu = RTMpCpuId();
         Args.cHits = 0;
 #if __FreeBSD_version >= 700000
-        smp_rendezvous_cpus(Mask, NULL, rtmpOnOthersFreeBSDWrapper, NULL, &Args);
+        smp_rendezvous_cpus(Mask, NULL, rtmpOnOthersFreeBSDWrapper, smp_no_rendevous_barrier, &Args);
 #else
         smp_rendezvous(NULL, rtmpOnOthersFreeBSDWrapper, NULL, &Args);
 #endif
@@ -223,7 +219,7 @@ RTDECL(int) RTMpOnSpecific(RTCPUID idCpu, PFNRTMPWORKER pfnWorker, void *pvUser1
     Args.cHits = 0;
 #if __FreeBSD_version >= 700000
     Mask = (cpumask_t)1 << idCpu;
-    smp_rendezvous_cpus(Mask, NULL, rtmpOnSpecificFreeBSDWrapper, NULL, &Args);
+    smp_rendezvous_cpus(Mask, NULL, rtmpOnSpecificFreeBSDWrapper, smp_no_rendevous_barrier, &Args);
 #else
     smp_rendezvous(NULL, rtmpOnSpecificFreeBSDWrapper, NULL, &Args);
 #endif
@@ -253,7 +249,7 @@ RTDECL(int) RTMpPokeCpu(RTCPUID idCpu)
         return VERR_CPU_NOT_FOUND;
 
     Mask = (cpumask_t)1 << idCpu;
-    smp_rendezvous_cpus(Mask, NULL, rtmpFreeBSDPokeCallback, NULL, NULL);
+    smp_rendezvous_cpus(Mask, NULL, rtmpFreeBSDPokeCallback, smp_no_rendevous_barrier, NULL);
 
     return VINF_SUCCESS;
 }

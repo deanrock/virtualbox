@@ -4,7 +4,7 @@
  */
 
 /*
- * Copyright (C) 2006-2007 Sun Microsystems, Inc.
+ * Copyright (C) 2006-2007 Oracle Corporation
  *
  * This file is part of VirtualBox Open Source Edition (OSE), as
  * available from http://www.virtualbox.org. This file is free software;
@@ -22,10 +22,6 @@
  *
  * You may elect to license modified versions of this file under the
  * terms and conditions of either the GPL or the CDDL or both.
- *
- * Please contact Sun Microsystems, Inc., 4150 Network Circle, Santa
- * Clara, CA 95054 USA or visit http://www.sun.com if you need
- * additional information or have any questions.
  */
 
 
@@ -355,7 +351,8 @@ static int rtStrFormatNumber(char *psz, KSIZE64 ullValue, unsigned int uiBase, s
  * @param   pszFormat   Format string.
  * @param   InArgs      Argument list.
  */
-RTDECL(size_t) RTStrFormatV(PFNRTSTROUTPUT pfnOutput, void *pvArgOutput, PFNSTRFORMAT pfnFormat, void *pvArgFormat, const char *pszFormat, va_list InArgs)
+RTDECL(size_t) RTStrFormatV(PFNRTSTROUTPUT pfnOutput, void *pvArgOutput, PFNSTRFORMAT pfnFormat, void *pvArgFormat,
+                            const char *pszFormat, va_list InArgs)
 {
     va_list     args;
     KSIZE       cch = 0;
@@ -824,6 +821,7 @@ RTDECL(size_t) RTStrFormatV(PFNRTSTROUTPUT pfnOutput, void *pvArgOutput, PFNSTRF
                         va_copy(ArgsNested, *pArgsNested);
                         Assert(pszFormatNested);
                         cch += RTStrFormatV(pfnOutput, pvArgOutput, pfnFormat, pvArgFormat, pszFormatNested, ArgsNested);
+                        va_end(ArgsNested);
                         break;
                     }
 
@@ -835,27 +833,15 @@ RTDECL(size_t) RTStrFormatV(PFNRTSTROUTPUT pfnOutput, void *pvArgOutput, PFNSTRF
                         if (*pszFormat != '[')
                         {
                             pszFormat--;
-                            cch += rtstrFormatRt(pfnOutput, pvArgOutput, &pszFormat, &args, cchPrecision, cchWidth, fFlags, chArgSize);
+                            cch += rtstrFormatRt(pfnOutput, pvArgOutput, &pszFormat, &args, cchWidth, cchPrecision, fFlags, chArgSize);
                         }
                         else
                         {
                             pszFormat--;
-                            cch += rtstrFormatType(pfnOutput, pvArgOutput, &pszFormat, &args, cchPrecision, cchWidth, fFlags, chArgSize);
+                            cch += rtstrFormatType(pfnOutput, pvArgOutput, &pszFormat, &args, cchWidth, cchPrecision, fFlags, chArgSize);
                         }
                         break;
                     }
-
-#ifdef RT_WITH_VBOX
-                    /*
-                     * VBox extensions.
-                     */
-                    case 'V':
-                    {
-                        pszFormat--;
-                        cch += rtstrFormatVBox(pfnOutput, pvArgOutput, &pszFormat, &args, cchPrecision, cchWidth, fFlags, chArgSize);
-                        break;
-                    }
-#endif
 
                     /*
                      * Custom format.
@@ -865,7 +851,7 @@ RTDECL(size_t) RTStrFormatV(PFNRTSTROUTPUT pfnOutput, void *pvArgOutput, PFNSTRF
                         if (pfnFormat)
                         {
                             pszFormat--;
-                            cch += pfnFormat(pvArgFormat, pfnOutput, pvArgOutput, &pszFormat, &args, cchPrecision, cchWidth, fFlags, chArgSize);
+                            cch += pfnFormat(pvArgFormat, pfnOutput, pvArgOutput, &pszFormat, &args, cchWidth, cchPrecision, fFlags, chArgSize);
                         }
                         break;
                     }

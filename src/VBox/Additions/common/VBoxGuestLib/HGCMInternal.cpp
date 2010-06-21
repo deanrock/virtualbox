@@ -1,10 +1,10 @@
-/* $Revision: 57546 $ */
+/* $Revision: 61846 $ */
 /** @file
  * VBoxGuestLib - Host-Guest Communication Manager internal functions, implemented by VBoxGuest
  */
 
 /*
- * Copyright (C) 2006-2007 Sun Microsystems, Inc.
+ * Copyright (C) 2006-2007 Oracle Corporation
  *
  * This file is part of VirtualBox Open Source Edition (OSE), as
  * available from http://www.virtualbox.org. This file is free software;
@@ -22,10 +22,6 @@
  *
  * You may elect to license modified versions of this file under the
  * terms and conditions of either the GPL or the CDDL or both.
- *
- * Please contact Sun Microsystems, Inc., 4150 Network Circle, Santa
- * Clara, CA 95054 USA or visit http://www.sun.com if you need
- * additional information or have any questions.
  */
 
 /* Entire file is ifdef'ed with VBGL_VBOXGUEST */
@@ -49,7 +45,7 @@
 *   Defined Constants And Macros                                               *
 *******************************************************************************/
 /** The max parameter buffer size for a user request. */
-#define VBGLR0_MAX_HGCM_USER_PARM       (16*_1M)
+#define VBGLR0_MAX_HGCM_USER_PARM       (24*_1M)
 /** The max parameter buffer size for a kernel request. */
 #define VBGLR0_MAX_HGCM_KERNEL_PARM     (16*_1M)
 #ifdef RT_OS_LINUX
@@ -774,7 +770,7 @@ static int vbglR0HGCMInternalCopyBackResult(VBoxGuestHGCMCallInfo *pCallInfo, VM
     /*
      * Copy back parameters.
      */
-    for (iParm = 0; iParm < pCallInfo->cParms; iParm++, pSrcParm++, pDstParm++)
+    for (iParm = 0; iParm < cParms; iParm++, pSrcParm++, pDstParm++)
     {
         switch (pDstParm->type)
         {
@@ -905,7 +901,8 @@ DECLR0VBGL(int) VbglR0HGCMInternalCall(VBoxGuestHGCMCallInfo *pCallInfo, uint32_
             }
             else
             {
-                if (rc != VERR_INTERRUPTED)
+                if (   rc != VERR_INTERRUPTED
+                    && rc != VERR_TIMEOUT)
                     LogRel(("VbglR0HGCMInternalCall: vbglR0HGCMInternalDoCall failed. rc=%Rrc\n", rc));
             }
 

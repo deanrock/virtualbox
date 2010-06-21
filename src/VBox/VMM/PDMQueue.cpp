@@ -4,7 +4,7 @@
  */
 
 /*
- * Copyright (C) 2006-2007 Sun Microsystems, Inc.
+ * Copyright (C) 2006-2007 Oracle Corporation
  *
  * This file is part of VirtualBox Open Source Edition (OSE), as
  * available from http://www.virtualbox.org. This file is free software;
@@ -13,10 +13,6 @@
  * Foundation, in version 2 as it comes in the "COPYING" file of the
  * VirtualBox OSE distribution. VirtualBox OSE is distributed in the
  * hope that it will be useful, but WITHOUT ANY WARRANTY of any kind.
- *
- * Please contact Sun Microsystems, Inc., 4150 Network Circle, Santa
- * Clara, CA 95054 USA or visit http://www.sun.com if you need
- * additional information or have any questions.
  */
 
 
@@ -29,6 +25,7 @@
 #include <VBox/mm.h>
 #include <VBox/rem.h>
 #include <VBox/vm.h>
+#include <VBox/uvm.h>
 #include <VBox/err.h>
 
 #include <VBox/log.h>
@@ -62,6 +59,8 @@ static DECLCALLBACK(void)   pdmR3QueueTimer(PVM pVM, PTMTIMER pTimer, void *pvUs
 static int pdmR3QueueCreate(PVM pVM, RTUINT cbItem, RTUINT cItems, uint32_t cMilliesInterval, bool fRZEnabled,
                             const char *pszName, PPDMQUEUE *ppQueue)
 {
+    PUVM pUVM = pVM->pUVM;
+
     /*
      * Validate input.
      */
@@ -147,8 +146,8 @@ static int pdmR3QueueCreate(PVM pVM, RTUINT cbItem, RTUINT cItems, uint32_t cMil
          * Insert into the queue list for timer driven queues.
          */
         pdmLock(pVM);
-        pQueue->pNext = pVM->pdm.s.pQueuesTimer;
-        pVM->pdm.s.pQueuesTimer = pQueue;
+        pQueue->pNext = pUVM->pdm.s.pQueuesTimer;
+        pUVM->pdm.s.pQueuesTimer = pQueue;
         pdmUnlock(pVM);
     }
     else
@@ -164,11 +163,11 @@ static int pdmR3QueueCreate(PVM pVM, RTUINT cbItem, RTUINT cItems, uint32_t cMil
          *   problem any longer. The priority might be a nice feature for later though.
          */
         pdmLock(pVM);
-        if (!pVM->pdm.s.pQueuesForced)
-            pVM->pdm.s.pQueuesForced = pQueue;
+        if (!pUVM->pdm.s.pQueuesForced)
+            pUVM->pdm.s.pQueuesForced = pQueue;
         else
         {
-            PPDMQUEUE pPrev = pVM->pdm.s.pQueuesForced;
+            PPDMQUEUE pPrev = pUVM->pdm.s.pQueuesForced;
             while (pPrev->pNext)
                 pPrev = pPrev->pNext;
             pPrev->pNext = pQueue;
@@ -410,7 +409,8 @@ VMMR3DECL(int) PDMR3QueueDestroy(PPDMQUEUE pQueue)
     if (!pQueue)
         return VERR_INVALID_PARAMETER;
     Assert(pQueue && pQueue->pVMR3);
-    PVM pVM = pQueue->pVMR3;
+    PVM     pVM  = pQueue->pVMR3;
+    PUVM    pUVM = pVM->pUVM;
 
     pdmLock(pVM);
 
@@ -419,9 +419,9 @@ VMMR3DECL(int) PDMR3QueueDestroy(PPDMQUEUE pQueue)
      */
     if (pQueue->pTimer)
     {
-        if (pVM->pdm.s.pQueuesTimer != pQueue)
+        if (pUVM->pdm.s.pQueuesTimer != pQueue)
         {
-            PPDMQUEUE pCur = pVM->pdm.s.pQueuesTimer;
+            PPDMQUEUE pCur = pUVM->pdm.s.pQueuesTimer;
             while (pCur)
             {
                 if (pCur->pNext == pQueue)
@@ -434,13 +434,13 @@ VMMR3DECL(int) PDMR3QueueDestroy(PPDMQUEUE pQueue)
             AssertMsg(pCur, ("Didn't find the queue!\n"));
         }
         else
-            pVM->pdm.s.pQueuesTimer = pQueue->pNext;
+            pUVM->pdm.s.pQueuesTimer = pQueue->pNext;
     }
     else
     {
-        if (pVM->pdm.s.pQueuesForced != pQueue)
+        if (pUVM->pdm.s.pQueuesForced != pQueue)
         {
-            PPDMQUEUE pCur = pVM->pdm.s.pQueuesForced;
+            PPDMQUEUE pCur = pUVM->pdm.s.pQueuesForced;
             while (pCur)
             {
                 if (pCur->pNext == pQueue)
@@ -453,7 +453,7 @@ VMMR3DECL(int) PDMR3QueueDestroy(PPDMQUEUE pQueue)
             AssertMsg(pCur, ("Didn't find the queue!\n"));
         }
         else
-            pVM->pdm.s.pQueuesForced = pQueue->pNext;
+            pUVM->pdm.s.pQueuesForced = pQueue->pNext;
     }
     pQueue->pNext = NULL;
     pQueue->pVMR3 = NULL;
@@ -512,13 +512,14 @@ VMMR3DECL(int) PDMR3QueueDestroyDevice(PVM pVM, PPDMDEVINS pDevIns)
     if (!pDevIns)
         return VERR_INVALID_PARAMETER;
 
+    PUVM pUVM = pVM->pUVM;
     pdmLock(pVM);
 
     /*
      * Unlink it.
      */
-    PPDMQUEUE pQueueNext = pVM->pdm.s.pQueuesTimer;
-    PPDMQUEUE pQueue = pVM->pdm.s.pQueuesForced;
+    PPDMQUEUE pQueueNext = pUVM->pdm.s.pQueuesTimer;
+    PPDMQUEUE pQueue     = pUVM->pdm.s.pQueuesForced;
     do
     {
         while (pQueue)
@@ -563,13 +564,14 @@ VMMR3DECL(int) PDMR3QueueDestroyDriver(PVM pVM, PPDMDRVINS pDrvIns)
     if (!pDrvIns)
         return VERR_INVALID_PARAMETER;
 
+    PUVM pUVM = pVM->pUVM;
     pdmLock(pVM);
 
     /*
      * Unlink it.
      */
-    PPDMQUEUE pQueueNext = pVM->pdm.s.pQueuesTimer;
-    PPDMQUEUE pQueue = pVM->pdm.s.pQueuesForced;
+    PPDMQUEUE pQueueNext = pUVM->pdm.s.pQueuesTimer;
+    PPDMQUEUE pQueue     = pUVM->pdm.s.pQueuesForced;
     do
     {
         while (pQueue)
@@ -607,8 +609,9 @@ void pdmR3QueueRelocate(PVM pVM, RTGCINTPTR offDelta)
     /*
      * Process the queues.
      */
-    PPDMQUEUE pQueueNext = pVM->pdm.s.pQueuesTimer;
-    PPDMQUEUE pQueue = pVM->pdm.s.pQueuesForced;
+    PUVM      pUVM       = pVM->pUVM;
+    PPDMQUEUE pQueueNext = pUVM->pdm.s.pQueuesTimer;
+    PPDMQUEUE pQueue     = pUVM->pdm.s.pQueuesForced;
     do
     {
         while (pQueue)
@@ -662,29 +665,32 @@ VMMR3DECL(void) PDMR3QueueFlushAll(PVM pVM)
     LogFlow(("PDMR3QueuesFlush:\n"));
 
     /*
-     * Only let one EMT flushing queues at any one time to queue preserve order
+     * Only let one EMT flushing queues at any one time to preserve the order
      * and to avoid wasting time. The FF is always cleared here, because it's
      * only used to get someones attention. Queue inserts occuring during the
      * flush are caught using the pending bit.
      *
-     * Note. The order in which the FF and pending bit are set and cleared is important.
+     * Note! We must check the force action and pending flags after clearing
+     *       the active bit!
      */
     VM_FF_CLEAR(pVM, VM_FF_PDM_QUEUES);
-    if (!ASMAtomicBitTestAndSet(&pVM->pdm.s.fQueueFlushing, PDM_QUEUE_FLUSH_FLAG_ACTIVE_BIT))
+    while (!ASMAtomicBitTestAndSet(&pVM->pdm.s.fQueueFlushing, PDM_QUEUE_FLUSH_FLAG_ACTIVE_BIT))
     {
         ASMAtomicBitClear(&pVM->pdm.s.fQueueFlushing, PDM_QUEUE_FLUSH_FLAG_PENDING_BIT);
-        do
-        {
-            VM_FF_CLEAR(pVM, VM_FF_PDM_QUEUES);
-            for (PPDMQUEUE pCur = pVM->pdm.s.pQueuesForced; pCur; pCur = pCur->pNext)
-                if (    pCur->pPendingR3
-                    ||  pCur->pPendingR0
-                    ||  pCur->pPendingRC)
-                    pdmR3QueueFlush(pCur);
-        } while (   ASMAtomicBitTestAndClear(&pVM->pdm.s.fQueueFlushing, PDM_QUEUE_FLUSH_FLAG_PENDING_BIT)
-                 || VM_FF_ISPENDING(pVM, VM_FF_PDM_QUEUES));
+
+        for (PPDMQUEUE pCur = pVM->pUVM->pdm.s.pQueuesForced; pCur; pCur = pCur->pNext)
+            if (    pCur->pPendingR3
+                ||  pCur->pPendingR0
+                ||  pCur->pPendingRC)
+                pdmR3QueueFlush(pCur);
 
         ASMAtomicBitClear(&pVM->pdm.s.fQueueFlushing, PDM_QUEUE_FLUSH_FLAG_ACTIVE_BIT);
+
+        /* We're done if there were no inserts while we were busy. */
+        if (   !ASMBitTest(&pVM->pdm.s.fQueueFlushing, PDM_QUEUE_FLUSH_FLAG_PENDING_BIT)
+            && !VM_FF_ISPENDING(pVM, VM_FF_PDM_QUEUES))
+            break;
+        VM_FF_CLEAR(pVM, VM_FF_PDM_QUEUES);
     }
 }
 
@@ -703,15 +709,15 @@ static bool pdmR3QueueFlush(PPDMQUEUE pQueue)
     /*
      * Get the lists.
      */
-    PPDMQUEUEITEMCORE pItems = (PPDMQUEUEITEMCORE)ASMAtomicXchgPtr((void * volatile *)&pQueue->pPendingR3, NULL);
+    PPDMQUEUEITEMCORE pItems   = (PPDMQUEUEITEMCORE)ASMAtomicXchgPtr((void * volatile *)&pQueue->pPendingR3, NULL);
     RTRCPTR           pItemsRC = ASMAtomicXchgRCPtr(&pQueue->pPendingRC, NIL_RTRCPTR);
     RTR0PTR           pItemsR0 = ASMAtomicXchgR0Ptr(&pQueue->pPendingR0, NIL_RTR0PTR);
 
-    if (    !pItems
-        &&  !pItemsRC
-        &&  !pItemsR0)
-        /* Somebody may be racing us ... never mind. */
-        return true;
+    AssertMsgReturn(   pItemsR0
+                    || pItemsRC
+                    || pItems,
+                    ("Someone is racing us? This shouldn't happen!\n"),
+                    true);
 
     /*
      * Reverse the list (it's inserted in LIFO order to avoid semaphores, remember).
@@ -852,59 +858,6 @@ static bool pdmR3QueueFlush(PPDMQUEUE pQueue)
 
 
 /**
- * This is a worker function used by PDMQueueFlush to perform the
- * flush in ring-3.
- *
- * The queue which should be flushed is pointed to by either pQueueFlushRC,
- * pQueueFlushR0, or pQueue. This function will flush that queue and recalc
- * the queue FF.
- *
- * @param   pVM     The VM handle.
- * @param   pQueue  The queue to flush. Only used in Ring-3.
- */
-VMMR3DECL(void) PDMR3QueueFlushWorker(PVM pVM, PPDMQUEUE pQueue)
-{
-    Assert(pVM->pdm.s.pQueueFlushR0 || pVM->pdm.s.pQueueFlushRC || pQueue);
-    VM_ASSERT_EMT(pVM);
-
-    /** @todo This will clash with PDMR3QueueFlushAll (guest SMP)! */
-    Assert(!(pVM->pdm.s.fQueueFlushing & PDM_QUEUE_FLUSH_FLAG_ACTIVE));
-
-    /*
-     * Flush the queue.
-     */
-    if (!pQueue && pVM->pdm.s.pQueueFlushRC)
-    {
-        pQueue = (PPDMQUEUE)MMHyperRCToR3(pVM, pVM->pdm.s.pQueueFlushRC);
-        pVM->pdm.s.pQueueFlushRC = NIL_RTRCPTR;
-    }
-    else if (!pQueue && pVM->pdm.s.pQueueFlushR0)
-    {
-        pQueue = (PPDMQUEUE)MMHyperR0ToR3(pVM, pVM->pdm.s.pQueueFlushR0);
-        pVM->pdm.s.pQueueFlushR0 = NIL_RTR0PTR;
-    }
-    Assert(!pVM->pdm.s.pQueueFlushR0 && !pVM->pdm.s.pQueueFlushRC);
-
-    if (    !pQueue
-        ||  pdmR3QueueFlush(pQueue))
-    {
-        /*
-         * Recalc the FF (for the queues using force action).
-         */
-        VM_FF_CLEAR(pVM, VM_FF_PDM_QUEUES);
-        for (pQueue = pVM->pdm.s.pQueuesForced; pQueue; pQueue = pQueue->pNext)
-            if (    pQueue->pPendingRC
-                ||  pQueue->pPendingR0
-                ||  pQueue->pPendingR3)
-            {
-                VM_FF_SET(pVM, VM_FF_PDM_QUEUES);
-                break;
-            }
-    }
-}
-
-
-/**
  * Free an item.
  *
  * @param   pQueue  The queue.
@@ -943,9 +896,9 @@ static DECLCALLBACK(void) pdmR3QueueTimer(PVM pVM, PTMTIMER pTimer, void *pvUser
     PPDMQUEUE pQueue = (PPDMQUEUE)pvUser;
     Assert(pTimer == pQueue->pTimer); NOREF(pTimer);
 
-    if (    pQueue->pPendingR3
-        ||  pQueue->pPendingR0
-        ||  pQueue->pPendingRC)
+    if (   pQueue->pPendingR3
+        || pQueue->pPendingR0
+        || pQueue->pPendingRC)
         pdmR3QueueFlush(pQueue);
     int rc = TMTimerSetMillies(pQueue->pTimer, pQueue->cMilliesInterval);
     AssertRC(rc);

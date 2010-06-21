@@ -4,7 +4,7 @@
  */
 
 /*
- * Copyright (C) 2006-2007 Sun Microsystems, Inc.
+ * Copyright (C) 2006-2007 Oracle Corporation
  *
  * This file is part of VirtualBox Open Source Edition (OSE), as
  * available from http://www.virtualbox.org. This file is free software;
@@ -13,10 +13,6 @@
  * Foundation, in version 2 as it comes in the "COPYING" file of the
  * VirtualBox OSE distribution. VirtualBox OSE is distributed in the
  * hope that it will be useful, but WITHOUT ANY WARRANTY of any kind.
- *
- * Please contact Sun Microsystems, Inc., 4150 Network Circle, Santa
- * Clara, CA 95054 USA or visit http://www.sun.com if you need
- * additional information or have any questions.
  * --------------------------------------------------------------------
  *
  * This code is based on:
@@ -43,6 +39,14 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+#ifdef VBOX
+/** The default amount of VRAM. */
+# define VGA_VRAM_DEFAULT    (_4M)
+/** The maximum amount of VRAM. Limited by VBOX_MAX_ALLOC_PAGE_COUNT. */
+# define VGA_VRAM_MAX        (256 * _1M)
+/** The minimum amount of VRAM. */
+# define VGA_VRAM_MIN        (_1M)
+#endif
 
 #ifdef VBOX_WITH_HGSMI
 # include "HGSMI/HGSMIHost.h"
@@ -251,6 +255,10 @@ typedef void FNCURSORDRAWLINE(struct VGAState *s, uint8_t *d, int y);
 
 #endif /* VBOX */
 
+#ifdef VBOXVDMA
+typedef struct VBOXVDMAHOST *PVBOXVDMAHOST;
+#endif
+
 typedef struct VGAState {
     VGA_STATE_COMMON
 #ifdef VBOX
@@ -281,6 +289,9 @@ typedef struct VGAState {
 #ifdef VBOX_WITH_HGSMI
     R3PTRTYPE(PHGSMIINSTANCE)   pHGSMI;
 #endif /* VBOX_WITH_HGSMI */
+#ifdef VBOXVDMA
+    R3PTRTYPE(PVBOXVDMAHOST)    pVdma;
+#endif
 
     /** Current refresh timer interval. */
     uint32_t                    Padding2;
@@ -302,16 +313,13 @@ typedef struct VGAState {
     /** The critical section. */
     PDMCRITSECT                 lock;
 
-    /** The display port base interface. */
-    PDMIBASE                    Base;
-    /** The display port interface. */
-    PDMIDISPLAYPORT             Port;
-# if HC_ARCH_BITS == 32
-    uint32_t                    Padding8;
-# endif
+    /** LUN\#0: The display port base interface. */
+    PDMIBASE                    IBase;
+    /** LUN\#0: The display port interface. */
+    PDMIDISPLAYPORT             IPort;
 #if defined(VBOX_WITH_HGSMI) && defined(VBOX_WITH_VIDEOHWACCEL)
-    /** VBVA callbacks interface */
-    PDMDDISPLAYVBVACALLBACKS    VBVACallbacks;
+    /** LUN\#0: VBVA callbacks interface */
+    PDMIDISPLAYVBVACALLBACKS    IVBVACallbacks;
 #else
 # if HC_ARCH_BITS == 32
     uint32_t                    Padding3;
@@ -399,6 +407,12 @@ typedef struct VGAState {
 #ifdef VBOX_WITH_HGSMI
     /** Base port in the assigned PCI I/O space. */
     RTIOPORT                    IOPortBase;
+#ifdef VBOXVDMA
+    /* specifies guest driver caps, i.e. whether it can handle IRQs from the adapter,
+     * the way it can handle assync HGSMI command completion, etc. */
+    uint32_t                    fGuestCaps;
+#endif
+
     uint8_t                     Padding7[6];
 #endif /* VBOX_WITH_HGSMI */
 } VGAState;
@@ -457,13 +471,16 @@ int      VBVAInit       (PVGASTATE pVGAState);
 void     VBVADestroy    (PVGASTATE pVGAState);
 int      VBVAUpdateDisplay (PVGASTATE pVGAState);
 void     VBVAReset (PVGASTATE pVGAState);
+
+bool VBVAIsEnabled(PVGASTATE pVGAState);
+
 /* @return host-guest flags that were set on reset
  * this allows the caller to make further cleaning when needed,
  * e.g. reset the IRQ */
 uint32_t HGSMIReset (PHGSMIINSTANCE pIns);
 
 # ifdef VBOX_WITH_VIDEOHWACCEL
-int vbvaVHWACommandCompleteAsynch(PPDMDDISPLAYVBVACALLBACKS pInterface, PVBOXVHWACMD pCmd);
+int vbvaVHWACommandCompleteAsynch(PPDMIDISPLAYVBVACALLBACKS pInterface, PVBOXVHWACMD pCmd);
 int vbvaVHWAConstruct (PVGASTATE pVGAState);
 int vbvaVHWADisable (PVGASTATE pVGAState);
 int vbvaVHWAReset (PVGASTATE pVGAState);
@@ -474,6 +491,15 @@ int vboxVBVASaveStatePrep (PPDMDEVINS pDevIns, PSSMHANDLE pSSM);
 int vboxVBVASaveStateExec (PPDMDEVINS pDevIns, PSSMHANDLE pSSM);
 int vboxVBVALoadStateExec (PPDMDEVINS pDevIns, PSSMHANDLE pSSM, uint32_t u32Version);
 int vboxVBVALoadStateDone (PPDMDEVINS pDevIns, PSSMHANDLE pSSM);
+
+# ifdef VBOXVDMA
+typedef struct VBOXVDMAHOST *PVBOXVDMAHOST;
+int vboxVDMAConstruct(PVGASTATE pVGAState, struct VBOXVDMAHOST **ppVdma, uint32_t cPipeElements);
+int vboxVDMADestruct(PVBOXVDMAHOST pVdma);
+void vboxVDMAControl(PVBOXVDMAHOST pVdma, PVBOXVDMA_CTL pCmd);
+void vboxVDMACommand(PVBOXVDMAHOST pVdma, PVBOXVDMACBUF_DR pCmd);
+bool vboxVDMAIsEnabled(PVBOXVDMAHOST pVdma);
+# endif /* VBOXVDMA */
 
 #endif /* VBOX_WITH_HGSMI */
 

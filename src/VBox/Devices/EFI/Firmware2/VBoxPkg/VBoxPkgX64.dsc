@@ -222,6 +222,8 @@
 
   gEfiEdkModulePkgTokenSpaceGuid.PcdDxePcdDatabaseTraverseEnabled|TRUE
   gEfiMdeModulePkgTokenSpaceGuid.PcdVpdBaseAddress|0x0
+  gEfiMdeModulePkgTokenSpaceGuid.PcdFirmwareVendor|L"VBOX 64"|VOID*
+  gEfiMdeModulePkgTokenSpaceGuid.PcdFirmwareRevision|0x10001|UINT32
 
 [PcdsFeatureFlag.common]
   gEfiMdeModulePkgTokenSpaceGuid.PcdDxeIplSupportUefiDecompress|FALSE
@@ -352,7 +354,8 @@
   VBoxPkg/VBoxVgaMiniPortDxe/VBoxVgaMiniPortDxe.inf
   VBoxPkg/VBoxVgaDxe/VBoxVgaDxe.inf
   VBoxPkg/VBoxSysTables/VBoxSysTables.inf
-  VBoxPkg/AcpiTables/AcpiTables.inf
+  VBoxPkg/VBoxAppleSim/VBoxAppleSim.inf
+  VBoxPkg/VBoxConsoleDxe/VBoxConsoleDxe.inf
   # VBOX end
 
   #

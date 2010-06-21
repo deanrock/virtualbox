@@ -9,8 +9,9 @@
         VirtualBox.xidl. This PHP file represents our
         web service API. Depends on WSDL file for actual SOAP bindings.
 
-     Copyright (C) 2009 Sun Microsystems, Inc.
      Contributed by James Lucas (mjlucas at eng.uts.edu.au).
+
+     Copyright (C) 2009-2010 Oracle Corporation
 
      This file is part of VirtualBox Open Source Edition (OSE), as
      available from http://www.virtualbox.org. This file is free software;
@@ -19,10 +20,6 @@
      Foundation, in version 2 as it comes in the "COPYING" file of the
      VirtualBox OSE distribution. VirtualBox OSE is distributed in the
      hope that it will be useful, but WITHOUT ANY WARRANTY of any kind.
-
-     Please contact Sun Microsystems, Inc., 4150 Network Circle, Santa
-     Clara, CA 95054 USA or visit http://www.sun.com if you need
-     additional information or have any questions.
 -->
 
 
@@ -43,20 +40,75 @@
   <xsl:param name="safearray" />
 
   <xsl:choose>
-    <xsl:when test="$type='wstring' or $type='uuid'">(string)<xsl:value-of select="$value" /></xsl:when>
-    <xsl:when test="$type='boolean'">(bool)<xsl:value-of select="$value" /></xsl:when>
-    <xsl:when test="$type='long' or $type='unsigned long' or $type='long long' or $type='short' or $type='unsigned short' or $type='unsigned long long' or $type='result'">(int)<xsl:value-of select="$value" /></xsl:when>
-    <xsl:when test="$type='double' or $type='float'">(float)<xsl:value-of select="$value" /></xsl:when>
-    <xsl:when test="$type='octet'"><xsl:value-of select="$value" /></xsl:when>
+    <xsl:when test="$type='wstring' or $type='uuid'">
+      <xsl:call-template name="emitPrimitive">
+        <xsl:with-param name="type">string</xsl:with-param>
+        <xsl:with-param name="value" select="$value" />
+        <xsl:with-param name="safearray" select="$safearray"/>
+      </xsl:call-template>
+    </xsl:when>
+    <xsl:when test="$type='boolean'">
+      <xsl:call-template name="emitPrimitive">
+        <xsl:with-param name="type">bool</xsl:with-param>
+        <xsl:with-param name="value" select="$value" />
+        <xsl:with-param name="safearray" select="$safearray"/>
+      </xsl:call-template>
+    </xsl:when>
+    <xsl:when test="$type='short' or $type='unsigned short' or $type='long' or $type='octet'">
+      <xsl:call-template name="emitPrimitive">
+        <xsl:with-param name="type">int</xsl:with-param>
+        <xsl:with-param name="value" select="$value" />
+        <xsl:with-param name="safearray" select="$safearray"/>
+      </xsl:call-template>
+    </xsl:when>
+    <xsl:when test="$type='double' or $type='float' or $type='unsigned long' or $type='long long' or $type='unsigned long long'">
+      <xsl:call-template name="emitPrimitive">
+        <xsl:with-param name="type">float</xsl:with-param>
+        <xsl:with-param name="value" select="$value" />
+        <xsl:with-param name="safearray" select="$safearray"/>
+      </xsl:call-template>
+    </xsl:when>
+    <xsl:when test="$type='$unknown'">
+      <xsl:call-template name="emitObject">
+        <xsl:with-param name="type">VBox_ManagedObject</xsl:with-param>
+        <xsl:with-param name="value" select="$value" />
+        <xsl:with-param name="safearray" select="$safearray"/>
+      </xsl:call-template>
+   </xsl:when>
     <xsl:otherwise>
-        <xsl:choose>
-            <xsl:when test="$safearray='yes'">
-                <xsl:text>new </xsl:text><xsl:value-of select="$type" />Collection ($this->connection, <xsl:value-of select="$value"/><xsl:text>)</xsl:text>
-            </xsl:when>
-            <xsl:otherwise>
-                <xsl:text>new </xsl:text><xsl:value-of select="$type" /> ($this->connection, <xsl:value-of select="$value"/><xsl:text>)</xsl:text>
-            </xsl:otherwise>
-        </xsl:choose>
+      <xsl:call-template name="emitObject">
+        <xsl:with-param name="type" select="$type" />
+        <xsl:with-param name="value" select="$value" />
+        <xsl:with-param name="safearray" select="$safearray"/>
+      </xsl:call-template>
+    </xsl:otherwise>
+  </xsl:choose>
+</xsl:template>
+
+<xsl:template name="emitObject">
+  <xsl:param name="type" />
+  <xsl:param name="value" />
+  <xsl:param name="safearray" />
+  <xsl:choose>
+    <xsl:when test="$safearray='yes'">
+      <xsl:text>new </xsl:text><xsl:value-of select="$type" />Collection ($this->connection, (array)<xsl:value-of select="$value"/><xsl:text>)</xsl:text>
+    </xsl:when>
+    <xsl:otherwise>
+      <xsl:text>new </xsl:text><xsl:value-of select="$type" /> ($this->connection, <xsl:value-of select="$value"/><xsl:text>)</xsl:text>
+    </xsl:otherwise>
+  </xsl:choose>
+</xsl:template>
+
+<xsl:template name="emitPrimitive">
+  <xsl:param name="type" />
+  <xsl:param name="value" />
+  <xsl:param name="safearray" />
+  <xsl:choose>
+    <xsl:when test="$safearray='yes'">
+      <xsl:text>(array)</xsl:text><xsl:value-of select="$value"/>
+    </xsl:when>
+    <xsl:otherwise>
+      <xsl:text>(</xsl:text><xsl:value-of select="$type" /><xsl:text>)</xsl:text><xsl:value-of select="$value"/>
     </xsl:otherwise>
   </xsl:choose>
 </xsl:template>
@@ -87,7 +139,7 @@
   <xsl:param name="attrsafearray" />
   <xsl:variable name="fname"><xsl:call-template name="makeSetterName"><xsl:with-param name="attrname" select="$attrname"/></xsl:call-template></xsl:variable>
    public function <xsl:value-of select="$fname"/>($value) {
-       $request = stdClass();
+       $request = new stdClass();
        $request->_this = $this->handle;
        if (is_int($value) || is_string($value) || is_bool($value)) {
             $request-><xsl:value-of select="$attrname"/> = $value;
@@ -185,18 +237,35 @@ class <xsl:value-of select="$ifname"/> extends VBox_Struct {
     <xsl:for-each select="attribute">
        protected $<xsl:value-of select="@name"/>;
     </xsl:for-each>
-    public function __construct($connection, $handle) {
+    public function __construct($connection, $values) {
+       $this->connection = $connection;
     <xsl:for-each select="attribute">
-       $this-><xsl:value-of select="@name"/> = $handle-><xsl:value-of select="@name"/><xsl:text>;</xsl:text>
+       $this-><xsl:value-of select="@name"/> = $values-><xsl:value-of select="@name"/><xsl:text>;</xsl:text>
     </xsl:for-each>
     }
 
     <xsl:for-each select="attribute">
     public function <xsl:call-template name="makeGetterName"><xsl:with-param name="attrname" select="@name"/></xsl:call-template>() {
-       return $this-><xsl:value-of select="@name"/>;
+        <xsl:text>return </xsl:text>
+        <xsl:call-template name="emitOutParam">
+           <xsl:with-param name="type" select="@type" />
+           <xsl:with-param name="value" select="concat('$this->',@name)" />
+           <xsl:with-param name="safearray" select="@safearray"/>
+         </xsl:call-template>;
     }
     </xsl:for-each>
 
+}
+</xsl:template>
+
+<xsl:template name="structcollection">
+   <xsl:variable name="ifname"><xsl:value-of select="@name" /></xsl:variable>
+   <xsl:text>
+/**
+* Generated VBoxWebService Struct Collection
+*/</xsl:text>
+class <xsl:value-of select="$ifname"/>Collection extends VBox_StructCollection {
+   protected $_interfaceName = "<xsl:value-of select="$ifname"/>";
 }
 </xsl:template>
 
@@ -264,33 +333,48 @@ class <xsl:value-of select="@name"/> extends VBox_Enum {
 }
 </xsl:template>
 
+<xsl:template name="enumcollection">
+   <xsl:variable name="ifname"><xsl:value-of select="@name" /></xsl:variable>
+   <xsl:text>
+/**
+* Generated VBoxWebService Enum Collection
+*/</xsl:text>
+class <xsl:value-of select="$ifname"/>Collection extends VBox_EnumCollection {
+   protected $_interfaceName = "<xsl:value-of select="$ifname"/>";
+}
+</xsl:template>
+
 <xsl:template match="/">
 <xsl:text>&lt;?php
 
 /*
-* Copyright (C) 2009 Sun Microsystems, Inc.
-*
-* This file is part of VirtualBox Open Source Edition (OSE), as
-* available from http://www.virtualbox.org. This file is free software;
-* you can redistribute it and/or modify it under the terms of the GNU
-* General Public License (GPL) as published by the Free Software
-* Foundation, in version 2 as it comes in the "COPYING" file of the
-* VirtualBox OSE distribution. VirtualBox OSE is distributed in the
-* hope that it will be useful, but WITHOUT ANY WARRANTY of any kind.
-*
-* Please contact Sun Microsystems, Inc., 4150 Network Circle, Santa
-* Clara, CA 95054 USA or visit http://www.sun.com if you need
-* additional information or have any questions.
-*
-* This file is autogenerated from VirtualBox.xidl, DO NOT EDIT!
-*/
+ * Copyright (C) 2008-2010 Oracle Corporation
+ *
+ * This file is part of a free software library; you can redistribute
+ * it and/or modify it under the terms of the GNU Lesser General
+ * Public License version 2.1 as published by the Free Software
+ * Foundation and shipped in the "COPYING.LIB" file with this library.
+ * The library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY of any kind.
+ *
+ * Oracle LGPL Disclaimer: For the avoidance of doubt, except that if
+ * any license choice other than GPL or LGPL is available it will
+ * apply instead, Oracle elects to use only the Lesser General Public
+ * License version 2.1 (LGPLv2) at this time for any software where
+ * a choice of LGPL license versions is made available with the
+ * language indicating that LGPLv2 or any later version may be used,
+ * or where a choice of which version of the LGPL is applied is
+ * otherwise unspecified.
+ *
+ * This file is autogenerated from VirtualBox.xidl, DO NOT EDIT!
+ */
 
-abstract class VBox_ManagedObject
+class VBox_ManagedObject
 {
     protected $connection;
     protected $handle;
 
-    public function  __construct($soap, $handle = null)
+    public function __construct($soap, $handle = null)
     {
         $this->connection = $soap;
         $this->handle = $handle;
@@ -324,6 +408,15 @@ abstract class VBox_ManagedObject
        return $this->handle;
    }
 
+   public function cast($class)
+   {
+       if (is_subclass_of($class, 'VBox_ManagedObject'))
+       {
+           return new $class($this->connection, $this->handle);
+       }
+       throw new Exception('Cannot cast VBox_ManagedObject to non-child class VBox_ManagedObject');
+   }
+
    public function releaseRemote()
    {
        try
@@ -335,46 +428,101 @@ abstract class VBox_ManagedObject
    }
 }
 
-abstract class VBox_ManagedObjectCollection implements Iterator {
-    protected $connection;
-    protected $handles;
-    protected $_interfaceName = null;
+abstract class VBox_Collection implements ArrayAccess, Iterator, Countable {
+    protected $_connection;
+    protected $_values;
+    protected $_objects;
+    protected $_interfaceName;
 
-    public function __construct($soap, array $handles = array())
-    {
-        $this->connection = $soap;
-        $this->handles = $handles;
+    public function __construct($soap, array $values = array()) {
+        $this->_connection = $soap;
+        $this->_values = $values;
+        $this->_soapToObject();
     }
 
+    protected function _soapToObject() {
+        $this->_objects = array();
+        foreach($this->_values as $value)
+        {
+            $this->_objects[] = new $this->_interfaceName($this->_connection, $value);
+        }
+    }
+
+    /** ArrayAccess Functions **/
+    public function offsetSet($offset, $value) {
+        if ($value instanceof $this->_interfaceName)
+        {
+            if ($offset)
+            {
+                $this->_objects[$offset] = $value;
+            }
+            else
+            {
+                $this->_objects[] = $value;
+            }
+        }
+        else
+        {
+            throw new Exception("Value must be a instance of " . $this->_interfaceName);
+        }
+    }
+
+    public function offsetExists($offset) {
+        return isset($this->_objects[$offset]);
+    }
+
+    public function offsetUnset($offset) {
+        unset($this->_objects[$offset]);
+    }
+
+    public function offsetGet($offset) {
+        return isset($this->_objects[$offset]) ? $this->_objects[$offset] : null;
+    }
+
+    /** Iterator Functions **/
     public function rewind() {
-        reset($this->handles);
+        reset($this->_objects);
     }
 
     public function current() {
-        $handle = current($this->handles);
-        if ($handle !== false &amp;&amp; !$handle instanceof $this->_interfaceName) {
-            $handle = new $this->_interfaceName($this->connection, $handle);
-        }
-        return $handle;
+        return current($this->_objects);
     }
 
     public function key() {
-        $handle = key($this->handles);
-        return $handle;
+        return key($this->_objects);
     }
 
     public function next() {
-        $handle = next($this->handles);
-        return $handle;
+        return next($this->_objects);
     }
 
     public function valid() {
-        $handle = $this->current() !== false;
-        return $handle;
+        return ($this->current() !== false);
+    }
+
+    /** Countable Functions **/
+    public function count() {
+        return count($this->_objects);
+    }
+}
+
+class VBox_ManagedObjectCollection extends VBox_Collection {
+    protected $_interfaceName = 'VBox_ManagedObject';
+
+    // Result is undefined if this is called AFTER any call to VBox_Collection::offsetSet or VBox_Collection::offsetUnset
+    public function setInterfaceName($interface) {
+       if (!is_subclass_of($interface, 'VBox_ManagedObject'))
+       {
+           throw new Exception('Cannot set collection interface to non-child class of VBox_ManagedObject');
+       }
+       $this->_interfaceName = $interface;
+       $this->_soapToObject();
     }
 }
 
 abstract class VBox_Struct {
+    protected $connection;
+
     public function __get($attr)
     {
         $methodName = "get" . $attr;
@@ -385,21 +533,36 @@ abstract class VBox_Struct {
     }
 }
 
+abstract class VBox_StructCollection extends VBox_Collection {
+
+    public function __construct($soap, array $values = array())
+    {
+        if (!(array_values($values) === $values))
+        {
+            $values = array((object)$values); //Fix for when struct return value only contains one list item (e.g. one medium attachment)
+        }
+        parent::__construct($soap, $values);
+    }
+}
+
 abstract class VBox_Enum {
-   protected $handle;
+   protected $_handle;
 
    public function __construct($connection, $handle)
    {
        if (is_string($handle))
-           $this->handle = $this->ValueMap[$handle];
+           $this->_handle = $this->ValueMap[$handle];
        else
-           $this->handle = $handle;
+           $this->_handle = $handle;
    }
 
    public function __toString()
    {
-       return (string)$this->NameMap[$this->handle];
+       return (string)$this->NameMap[$this->_handle];
    }
+}
+
+abstract class VBox_EnumCollection extends VBox_Collection {
 }
 
 </xsl:text>
@@ -409,10 +572,11 @@ abstract class VBox_Enum {
   </xsl:for-each>
    <xsl:for-each select="//interface[@wsmap='struct']">
        <xsl:call-template name="interfacestruct"/>
-       <xsl:call-template name="collection"/>
+       <xsl:call-template name="structcollection"/>
   </xsl:for-each>
   <xsl:for-each select="//enum">
        <xsl:call-template name="enum"/>
+       <xsl:call-template name="enumcollection"/>
   </xsl:for-each>
 
 </xsl:template>

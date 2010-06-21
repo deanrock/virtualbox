@@ -4,7 +4,7 @@
  */
 
 /*
- * Copyright (C) 2006-2007 Sun Microsystems, Inc.
+ * Copyright (C) 2006-2007 Oracle Corporation
  *
  * This file is part of VirtualBox Open Source Edition (OSE), as
  * available from http://www.virtualbox.org. This file is free software;
@@ -13,10 +13,6 @@
  * Foundation, in version 2 as it comes in the "COPYING" file of the
  * VirtualBox OSE distribution. VirtualBox OSE is distributed in the
  * hope that it will be useful, but WITHOUT ANY WARRANTY of any kind.
- *
- * Please contact Sun Microsystems, Inc., 4150 Network Circle, Santa
- * Clara, CA 95054 USA or visit http://www.sun.com if you need
- * additional information or have any questions.
  */
 
 /*******************************************************************************
@@ -494,17 +490,9 @@ VMMR3DECL(void) VMMR3FatalDump(PVM pVM, PVMCPU pVCpu, int rcErr)
         { "cpumhost",       "verbose" },
         { "mode",           "all" },
         { "cpuid",          "verbose" },
-        { "gdt",            NULL },
-        { "ldt",            NULL },
-        //{ "tss",            NULL },
-        { "ioport",         NULL },
-        { "mmio",           NULL },
-        { "phys",           NULL },
-        //{ "pgmpd",          NULL }, - doesn't always work at init time...
+        { "handlers",       "phys virt hyper stats" },
         { "timers",         NULL },
         { "activetimers",   NULL },
-        { "handlers",       "phys virt hyper stats" },
-        { "cfgm",           NULL },
     };
     for (unsigned i = 0; i < RT_ELEMENTS(aInfo); i++)
     {
@@ -517,6 +505,17 @@ VMMR3DECL(void) VMMR3FatalDump(PVM pVM, PVMCPU pVCpu, int rcErr)
                         aInfo[i].pszInfo, aInfo[i].pszArgs);
         DBGFR3Info(pVM, aInfo[i].pszInfo, aInfo[i].pszArgs, pHlp);
     }
+
+    /* All other info items */
+    DBGFR3InfoMulti(pVM,
+                    "*",
+                    "mappings|hma|cpum|cpumguest|cpumguestinstr|cpumhyper|cpumhost|mode|cpuid"
+                    "|pgmpd|pgmcr3|timers|activetimers|handlers|help",
+                    "!!\n"
+                    "!! {%s}\n"
+                    "!!\n",
+                    pHlp);
+
 
     /* done */
     pHlp->pfnPrintf(pHlp,

@@ -1,3 +1,4 @@
+/* $Id: VBoxMediaManagerDlg.cpp $ */
 /** @file
  *
  * VBox frontends: Qt4 GUI ("VirtualBox"):
@@ -5,7 +6,7 @@
  */
 
 /*
- * Copyright (C) 2006-2009 Sun Microsystems, Inc.
+ * Copyright (C) 2006-2010 Oracle Corporation
  *
  * This file is part of VirtualBox Open Source Edition (OSE), as
  * available from http://www.virtualbox.org. This file is free software;
@@ -14,12 +15,11 @@
  * Foundation, in version 2 as it comes in the "COPYING" file of the
  * VirtualBox OSE distribution. VirtualBox OSE is distributed in the
  * hope that it will be useful, but WITHOUT ANY WARRANTY of any kind.
- *
- * Please contact Sun Microsystems, Inc., 4150 Network Circle, Santa
- * Clara, CA 95054 USA or visit http://www.sun.com if you need
- * additional information or have any questions.
  */
 
+#ifdef VBOX_WITH_PRECOMPILED_HEADERS
+# include "precomp.h"
+#else  /* !VBOX_WITH_PRECOMPILED_HEADERS */
 /* Global includes */
 #include <QCloseEvent>
 #include <QDir>
@@ -36,11 +36,12 @@
 /* Local includes */
 #include "VBoxGlobal.h"
 #include "VBoxMediaManagerDlg.h"
-#include "VBoxNewHDWzd.h"
+#include "UINewHDWzd.h"
 #include "VBoxProblemReporter.h"
 #include "VBoxToolBar.h"
 #include "QIFileDialog.h"
 #include "QILabel.h"
+#endif /* !VBOX_WITH_PRECOMPILED_HEADERS */
 
 class AddVDMUrlsEvent: public QEvent
 {
@@ -503,9 +504,12 @@ void VBoxMediaManagerDlg::showModeless (QWidget *aCenterWidget /* = 0 */, bool a
     {
         mModelessDialog = new VBoxMediaManagerDlg (0, Qt::Window);
         mModelessDialog->centerAccording (aCenterWidget);
-        connect (vboxGlobal().mainWindow(), SIGNAL (closing()), mModelessDialog, SLOT (close()));
         mModelessDialog->setAttribute (Qt::WA_DeleteOnClose);
         mModelessDialog->setup (VBoxDefs::MediumType_All, false /* aDoSelect */, aRefresh);
+
+        /* Setup 'closing' connection if main window is VBoxSelectorWnd: */
+        if (vboxGlobal().mainWindow() && vboxGlobal().mainWindow()->inherits("VBoxSelectorWnd"))
+            connect(vboxGlobal().mainWindow(), SIGNAL(closing()), mModelessDialog, SLOT(close()));
 
         /* listen to events that may change the media status and refresh
          * the contents of the modeless dialog */
@@ -608,10 +612,11 @@ void VBoxMediaManagerDlg::retranslateUi()
     mButtonBox->setMinimumHeight (h + 12);
 #endif
 #ifdef QT_MAC_USE_COCOA
-    /* There is a bug in Qt Cocoa which result in showing a "more
-     * arrow" when the necessary size of the toolbar is increased. So
-     * manually adjust the size after changing the text. */
-    mToolBar->adjustSize();
+    /* There is a bug in Qt Cocoa which result in showing a "more arrow" when
+       the necessary size of the toolbar is increased. Also for some languages
+       the with doesn't match if the text increase. So manually adjust the size
+       after changing the text. */
+    mToolBar->updateLayout();
 #endif /* QT_MAC_USE_COCOA */
 
     if (mDoSelect)
@@ -925,7 +930,7 @@ void VBoxMediaManagerDlg::doNewMedium()
 {
     AssertReturnVoid (currentTreeWidgetType() == VBoxDefs::MediumType_HardDisk);
 
-    VBoxNewHDWzd dlg (this);
+    UINewHDWzd dlg (this);
 
     if (dlg.exec() == QDialog::Accepted)
     {

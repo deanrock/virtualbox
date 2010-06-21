@@ -5,7 +5,7 @@
  */
 
 /*
- * Copyright (C) 2006-2009 Sun Microsystems, Inc.
+ * Copyright (C) 2006-2010 Oracle Corporation
  *
  * This file is part of VirtualBox Open Source Edition (OSE), as
  * available from http://www.virtualbox.org. This file is free software;
@@ -14,10 +14,6 @@
  * Foundation, in version 2 as it comes in the "COPYING" file of the
  * VirtualBox OSE distribution. VirtualBox OSE is distributed in the
  * hope that it will be useful, but WITHOUT ANY WARRANTY of any kind.
- *
- * Please contact Sun Microsystems, Inc., 4150 Network Circle, Santa
- * Clara, CA 95054 USA or visit http://www.sun.com if you need
- * additional information or have any questions.
  */
 
 #ifndef __VBoxGlobal_h__
@@ -44,6 +40,7 @@
 class QAction;
 class QLabel;
 class QToolButton;
+class UIMachine;
 
 // VirtualBox callback events
 ////////////////////////////////////////////////////////////////////////////////
@@ -99,7 +96,7 @@ class VBoxSnapshotEvent : public QEvent
 {
 public:
 
-    enum What { Taken, Discarded, Changed };
+    enum What { Taken, Deleted, Changed };
 
     VBoxSnapshotEvent (const QString &aMachineId, const QString &aSnapshotId,
                        What aWhat)
@@ -263,6 +260,12 @@ struct StorageSlot
     StorageSlot& operator= (const StorageSlot &aOther) { bus = aOther.bus; port = aOther.port; device = aOther.device; return *this; }
     bool operator== (const StorageSlot &aOther) const { return bus == aOther.bus && port == aOther.port && device == aOther.device; }
     bool operator!= (const StorageSlot &aOther) const { return bus != aOther.bus || port != aOther.port || device != aOther.device; }
+    bool operator< (const StorageSlot &aOther) const { return (bus < aOther.bus) ||
+                                                              (bus == aOther.bus && port < aOther.port) ||
+                                                              (bus == aOther.bus && port == aOther.port && device < aOther.device); }
+    bool operator> (const StorageSlot &aOther) const { return (bus > aOther.bus) ||
+                                                              (bus == aOther.bus && port > aOther.port) ||
+                                                              (bus == aOther.bus && port == aOther.port && device > aOther.device); }
     bool isNull() { return bus == KStorageBus_Null; }
     KStorageBus bus; LONG port; LONG device;
 };
@@ -272,8 +275,7 @@ Q_DECLARE_METATYPE (StorageSlot);
 ////////////////////////////////////////////////////////////////////////////////
 
 class VBoxSelectorWnd;
-class VBoxConsoleWnd;
-class VBoxRegistrationDlg;
+class UIRegistrationWzd;
 class VBoxUpdateDlg;
 
 class VBoxGlobal : public QObject
@@ -302,7 +304,11 @@ public:
     bool setSettings (const VBoxGlobalSettings &gs);
 
     VBoxSelectorWnd &selectorWnd();
-    VBoxConsoleWnd &consoleWnd();
+
+    QWidget *vmWindow();
+
+    bool createVirtualMachine(const CSession &session);
+    UIMachine* virtualMachine();
 
     /* main window handle storage */
     void setMainWindow (QWidget *aMainWindow) { mMainWindow = aMainWindow; }
@@ -313,6 +319,7 @@ public:
     QString brandingGetKey (QString aKey);
 
     bool isVMConsoleProcess() const { return !vmUuid.isNull(); }
+    bool showStartVMErrors() const { return mShowStartVMErrors; }
 #ifdef VBOX_GUI_WITH_SYSTRAY
     bool isTrayMenu() const;
     void setTrayMenu(bool aIsTrayMenu);
@@ -324,6 +331,8 @@ public:
     VBoxDefs::RenderMode vmRenderMode() const { return vm_render_mode; }
     const char *vmRenderModeStr() const { return vm_render_mode_str; }
     bool isKWinManaged() const { return mIsKWinManaged; }
+
+    const QRect availableGeometry(int iScreen = 0) const;
 
 #ifdef VBOX_WITH_DEBUGGER_GUI
     bool isDebuggerEnabled() const { return mDbgEnabled; }
@@ -675,7 +684,7 @@ public:
     /** Shortcut to openSession (aId, true). */
     CSession openExistingSession (const QString &aId) { return openSession (aId, true); }
 
-    bool startMachine (const QString &id);
+    bool startMachine(const QString &strId);
 
     void startEnumeratingMedia();
 
@@ -729,8 +738,6 @@ public:
 
     static bool isDOSType (const QString &aOSTypeId);
 
-    static void adoptLabelPixmap (QLabel *);
-
     static QString languageId();
     static void loadLanguage (const QString &aLangId = QString::null);
     QString helpFile() const;
@@ -773,12 +780,13 @@ public:
     static QString formatSize (quint64 aSize, uint aDecimal = 2,
                                VBoxDefs::FormatSize aMode = VBoxDefs::FormatSize_Round);
 
-    static quint64 requiredVideoMemory (CMachine *aMachine = 0);
+    static quint64 requiredVideoMemory (CMachine *aMachine = 0, int cMonitors = 1);
 
     static QString locationForHTML (const QString &aFileName);
 
     static QString highlight (const QString &aStr, bool aToolTip = false);
 
+    static QString replaceHtmlEntities(QString strText);
     static QString emphasize (const QString &aStr);
 
     static QString systemLanguageId();
@@ -898,11 +906,11 @@ private:
     VBoxGlobalSettings gset;
 
     VBoxSelectorWnd *mSelectorWnd;
-    VBoxConsoleWnd *mConsoleWnd;
+    UIMachine *m_pVirtualMachine;
     QWidget* mMainWindow;
 
 #ifdef VBOX_WITH_REGISTRATION
-    VBoxRegistrationDlg *mRegDlg;
+    UIRegistrationWzd *mRegDlg;
 #endif
     VBoxUpdateDlg *mUpdDlg;
 
@@ -912,6 +920,9 @@ private:
     bool mIsTrayMenu : 1; /*< Tray icon active/desired? */
     bool mIncreasedWindowCounter : 1;
 #endif
+
+    /** Whether to show error message boxes for VM start errors. */
+    bool mShowStartVMErrors;
 
     QThread *mMediaEnumThread;
     VBoxMediaList mMediaList;
@@ -1079,3 +1090,4 @@ private:
 };
 
 #endif /* __VBoxGlobal_h__ */
+

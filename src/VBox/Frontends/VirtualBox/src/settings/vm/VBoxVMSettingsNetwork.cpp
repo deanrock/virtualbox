@@ -1,3 +1,4 @@
+/* $Id: VBoxVMSettingsNetwork.cpp $ */
 /** @file
  *
  * VBox frontends: Qt4 GUI ("VirtualBox"):
@@ -5,7 +6,7 @@
  */
 
 /*
- * Copyright (C) 2008 Sun Microsystems, Inc.
+ * Copyright (C) 2008-2010 Oracle Corporation
  *
  * This file is part of VirtualBox Open Source Edition (OSE), as
  * available from http://www.virtualbox.org. This file is free software;
@@ -14,17 +15,19 @@
  * Foundation, in version 2 as it comes in the "COPYING" file of the
  * VirtualBox OSE distribution. VirtualBox OSE is distributed in the
  * hope that it will be useful, but WITHOUT ANY WARRANTY of any kind.
- *
- * Please contact Sun Microsystems, Inc., 4150 Network Circle, Santa
- * Clara, CA 95054 USA or visit http://www.sun.com if you need
- * additional information or have any questions.
  */
 
 /* VBox Includes */
+#ifdef VBOX_WITH_VDE
+# include <iprt/ldr.h>
+# include <VBox/VDEPlug.h>
+#endif
+
 #include "QIWidgetValidator.h"
 #include "QIArrowButtonSwitch.h"
 #include "VBoxGlobal.h"
 #include "VBoxVMSettingsNetwork.h"
+#include "QITabWidget.h"
 
 /* Qt Includes */
 #include <QTimer>
@@ -103,6 +106,12 @@ void VBoxVMSettingsNetwork::getFromAdapter (const CNetworkAdapter &aAdapter)
             mHoiName = mAdapter.GetHostInterface();
             if (mHoiName.isEmpty()) mHoiName = QString::null;
             break;
+#ifdef VBOX_WITH_VDE
+        case KNetworkAttachmentType_VDE:
+            mVDEName = mAdapter.GetVDENetwork();
+            if (mVDEName.isEmpty()) mVDEName = QString::null;
+            break;
+#endif
         default:
             break;
     }
@@ -143,6 +152,12 @@ void VBoxVMSettingsNetwork::putBackToAdapter()
             mAdapter.SetHostInterface (alternativeName());
             mAdapter.AttachToHostOnlyInterface();
             break;
+#ifdef VBOX_WITH_VDE
+        case KNetworkAttachmentType_VDE:
+            mAdapter.SetVDENetwork (alternativeName());
+            mAdapter.AttachToVDE();
+            break;
+#endif
         default:
             break;
     }
@@ -255,6 +270,11 @@ QString VBoxVMSettingsNetwork::alternativeName (int aType) const
         case KNetworkAttachmentType_HostOnly:
             result = mHoiName;
             break;
+#ifdef VBOX_WITH_VDE
+        case KNetworkAttachmentType_VDE:
+            result = mVDEName;
+            break;
+#endif
         default:
             break;
     }
@@ -331,6 +351,13 @@ void VBoxVMSettingsNetwork::updateAttachmentAlternative()
             mCbAdapterName->insertItems (0, mParent->hoiList());
             mCbAdapterName->setEditable (false);
             break;
+#ifdef VBOX_WITH_VDE
+        case KNetworkAttachmentType_VDE:
+            mCbAdapterName->insertItem(0, alternativeName());
+            mCbAdapterName->setEditable (true);
+            mCbAdapterName->setCompleter (0);
+            break;
+#endif
         default:
             break;
     }
@@ -430,6 +457,20 @@ void VBoxVMSettingsNetwork::updateAlternativeName()
                 mHoiName = newName;
             break;
         }
+#ifdef VBOX_WITH_VDE
+        case KNetworkAttachmentType_VDE:
+        {
+            QString newName ((mCbAdapterName->itemData (mCbAdapterName->currentIndex()).toString() ==
+                              QString (emptyItemCode) &&
+                              mCbAdapterName->currentText() ==
+                              mCbAdapterName->itemText (mCbAdapterName->currentIndex())) ||
+                              mCbAdapterName->currentText().isEmpty() ?
+                              QString::null : mCbAdapterName->currentText());
+            if (mVDEName != newName)
+                mVDEName = newName;
+            break;
+        }
+#endif
         default:
             break;
     }
@@ -546,6 +587,18 @@ void VBoxVMSettingsNetwork::populateComboboxes()
         KNetworkAttachmentType_HostOnly);
     mCbAttachmentType->setItemData (4,
         mCbAttachmentType->itemText (4), Qt::ToolTipRole);
+#ifdef VBOX_WITH_VDE
+    RTLDRMOD hLdrDummy;
+    if (RT_SUCCESS(RTLdrLoad(VBOX_LIB_VDE_PLUG_NAME, &hLdrDummy)))
+    {
+        mCbAttachmentType->insertItem (5,
+            vboxGlobal().toString (KNetworkAttachmentType_VDE));
+        mCbAttachmentType->setItemData (5,
+            KNetworkAttachmentType_VDE);
+        mCbAttachmentType->setItemData (5,
+            mCbAttachmentType->itemText (5), Qt::ToolTipRole);
+    }
+#endif
 
     /* Set the old value */
     mCbAttachmentType->setCurrentIndex (currentAttachment);
@@ -561,7 +614,7 @@ VBoxVMSettingsNetworkPage::VBoxVMSettingsNetworkPage(bool aDisableStaticControls
     mainLayout->setContentsMargins (0, 5, 0, 5);
 
     /* Creating Tab Widget */
-    mTwAdapters = new QTabWidget (this);
+    mTwAdapters = new QITabWidget (this);
     mainLayout->addWidget (mTwAdapters);
 
     /* If some controls should be disabled or not when the

@@ -5,7 +5,7 @@
  *  A template to generate a MS IDL compatible interface definition file
  *  from the generic interface definition expressed in XML.
 
-     Copyright (C) 2006-2009 Sun Microsystems, Inc.
+     Copyright (C) 2006-2010 Oracle Corporation
 
      This file is part of VirtualBox Open Source Edition (OSE), as
      available from http://www.virtualbox.org. This file is free software;
@@ -14,10 +14,6 @@
      Foundation, in version 2 as it comes in the "COPYING" file of the
      VirtualBox OSE distribution. VirtualBox OSE is distributed in the
      hope that it will be useful, but WITHOUT ANY WARRANTY of any kind.
-
-     Please contact Sun Microsystems, Inc., 4150 Network Circle, Santa
-     Clara, CA 95054 USA or visit http://www.sun.com if you need
-     additional information or have any questions.
 -->
 
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
@@ -633,6 +629,16 @@
       <xsl:text>[default] </xsl:text>
     </xsl:if>
     <xsl:text>interface </xsl:text>
+    <xsl:value-of select="@name"/>
+    <xsl:text>;&#x0A;</xsl:text>
+  </xsl:for-each>
+  <xsl:for-each select="eventsink">
+    <xsl:text>    </xsl:text>
+    <xsl:choose>
+      <xsl:when test="@default='yes'"><xsl:text>[default,source]</xsl:text></xsl:when>
+      <xsl:otherwise><xsl:text>[source]</xsl:text></xsl:otherwise>
+    </xsl:choose>
+    <xsl:text> interface </xsl:text>
     <xsl:value-of select="@name"/>
     <xsl:text>;&#x0A;</xsl:text>
   </xsl:for-each>

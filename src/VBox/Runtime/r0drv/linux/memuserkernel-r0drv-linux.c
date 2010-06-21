@@ -4,7 +4,7 @@
  */
 
 /*
- * Copyright (C) 2009 Sun Microsystems, Inc.
+ * Copyright (C) 2009 Oracle Corporation
  *
  * This file is part of VirtualBox Open Source Edition (OSE), as
  * available from http://www.virtualbox.org. This file is free software;
@@ -22,10 +22,6 @@
  *
  * You may elect to license modified versions of this file under the
  * terms and conditions of either the GPL or the CDDL or both.
- *
- * Please contact Sun Microsystems, Inc., 4150 Network Circle, Santa
- * Clara, CA 95054 USA or visit http://www.sun.com if you need
- * additional information or have any questions.
  */
 
 
@@ -75,9 +71,14 @@ RTR0DECL(bool) RTR0MemKernelIsValidAddr(void *pv)
 # endif
 
 #elif defined(RT_ARCH_AMD64)
-# ifdef KERNEL_IMAGE_START
-    return (uintptr_t)pv >= KERNEL_IMAGE_START;
+# if LINUX_VERSION_CODE >= KERNEL_VERSION(2, 6, 11)
+    /* Linux 2.6.0 ... 2.6.10 set PAGE_OFFSET to 0x0000010000000000.
+     * Linux 2.6.11 sets PAGE_OFFSET to 0xffff810000000000.
+     * Linux 2.6.33 sets PAGE_OFFSET to 0xffff880000000000. */
+    return (uintptr_t)pv >= PAGE_OFFSET;
 # else
+    /* Not correct (KERNEL_TEXT_START=0xffffffff80000000),
+     * VMALLOC_START (0xffffff0000000000) would be better */
     return (uintptr_t)pv >= KERNEL_TEXT_START;
 # endif
 

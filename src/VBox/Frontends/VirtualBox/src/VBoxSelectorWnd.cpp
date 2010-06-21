@@ -5,7 +5,7 @@
  */
 
 /*
- * Copyright (C) 2006-2009 Sun Microsystems, Inc.
+ * Copyright (C) 2006-2010 Oracle Corporation
  *
  * This file is part of VirtualBox Open Source Edition (OSE), as
  * available from http://www.virtualbox.org. This file is free software;
@@ -14,27 +14,28 @@
  * Foundation, in version 2 as it comes in the "COPYING" file of the
  * VirtualBox OSE distribution. VirtualBox OSE is distributed in the
  * hope that it will be useful, but WITHOUT ANY WARRANTY of any kind.
- *
- * Please contact Sun Microsystems, Inc., 4150 Network Circle, Santa
- * Clara, CA 95054 USA or visit http://www.sun.com if you need
- * additional information or have any questions.
  */
 
+#ifdef VBOX_WITH_PRECOMPILED_HEADERS
+# include "precomp.h"
+#else  /* !VBOX_WITH_PRECOMPILED_HEADERS */
 #include "VBoxProblemReporter.h"
 #include "VBoxSelectorWnd.h"
 #include "VBoxVMListView.h"
-#include "VBoxConsoleWnd.h"
 #include "VBoxToolBar.h"
 
 #include "VBoxSnapshotsWgt.h"
-#include "VBoxNewVMWzd.h"
+#include "UINewVMWzd.h"
 #include "VBoxMediaManagerDlg.h"
-#include "VBoxImportApplianceWzd.h"
-#include "VBoxExportApplianceWzd.h"
+#include "UIImportApplianceWzd.h"
+#include "UIExportApplianceWzd.h"
 #include "VBoxSettingsDialogSpecific.h"
 #include "VBoxVMLogViewer.h"
 #include "VBoxGlobal.h"
 #include "VBoxUtils.h"
+#include "QITabWidget.h"
+
+#include "UIDownloaderUserManual.h"
 
 #ifdef Q_WS_X11
 #include <iprt/env.h>
@@ -50,6 +51,8 @@
 #include <QToolButton>
 
 #include <iprt/buildconfig.h>
+#include <VBox/version.h>
+#endif /* !VBOX_WITH_PRECOMPILED_HEADERS */
 
 // VBoxVMDetailsView class
 ////////////////////////////////////////////////////////////////////////////////
@@ -507,7 +510,7 @@ VBoxSelectorWnd (VBoxSelectorWnd **aSelf, QWidget* aParent,
     leftVLayout->addWidget (mVMListView);
 
     /* VM tab widget containing details and snapshots tabs */
-    mVmTabWidget = new QTabWidget();
+    mVmTabWidget = new QITabWidget();
     rightVLayout->addWidget (mVmTabWidget);
 
     /* VM details view */
@@ -583,6 +586,11 @@ VBoxSelectorWnd (VBoxSelectorWnd **aSelf, QWidget* aParent,
     mVMCtxtMenu->addSeparator();
     mVMCtxtMenu->addAction (mVmRefreshAction);
     mVMCtxtMenu->addAction (mVmShowLogsAction);
+
+    /* Make sure every status bar hint from the context menu is cleared when
+     * the menu is closed. */
+    connect (mVMCtxtMenu, SIGNAL(aboutToHide()),
+             statusBar(), SLOT(clearMessage()));
 
     mHelpMenu = menuBar()->addMenu (QString::null);
     mHelpActions.addTo (mHelpMenu);
@@ -708,6 +716,9 @@ VBoxSelectorWnd (VBoxSelectorWnd **aSelf, QWidget* aParent,
              this, SLOT (trayIconChanged (const VBoxChangeTrayIconEvent &)));
 #endif
 
+    /* Listen to potential downloaders signals: */
+    connect(&vboxProblem(), SIGNAL(sigDownloaderUserManualCreated()), this, SLOT(sltDownloaderUserManualEmbed()));
+
     /* bring the VM list to the focus */
     mVMListView->setFocus();
 }
@@ -729,7 +740,11 @@ VBoxSelectorWnd::~VBoxSelectorWnd()
         QString winPos = QString ("%1,%2,%3,%4")
             .arg (mNormalGeo.x()).arg (y)
             .arg (mNormalGeo.width()).arg (mNormalGeo.height());
+#ifdef Q_WS_MAC
+        if (::darwinIsWindowMaximized(this))
+#else /* Q_WS_MAC */
         if (isMaximized())
+#endif /* !Q_WS_MAC */
             winPos += QString (",%1").arg (VBoxDefs::GUI_LastWindowPosition_Max);
 
         vbox.SetExtraData (VBoxDefs::GUI_LastWindowPosition, winPos);
@@ -765,7 +780,7 @@ void VBoxSelectorWnd::fileMediaMgr()
 
 void VBoxSelectorWnd::fileImportAppliance()
 {
-    VBoxImportApplianceWzd wzd (this);
+    UIImportApplianceWzd wzd (this);
 
     wzd.exec();
 }
@@ -778,7 +793,7 @@ void VBoxSelectorWnd::fileExportAppliance()
     if (item)
         name = item->name();
 
-    VBoxExportApplianceWzd wzd (this, name);
+    UIExportApplianceWzd wzd (this, name);
 
     wzd.exec();
 }
@@ -815,7 +830,7 @@ void VBoxSelectorWnd::fileExit()
 
 void VBoxSelectorWnd::vmNew()
 {
-    VBoxNewVMWzd wzd (this);
+    UINewVMWzd wzd (this);
     if (wzd.exec() == QDialog::Accepted)
     {
         CMachine m = wzd.machine();
@@ -969,8 +984,6 @@ void VBoxSelectorWnd::vmStart (const QString &aUuid /*= QUuid_null*/)
             return;
     }
 
-#if defined (VBOX_GUI_SEPARATE_VM_PROCESS)
-
     AssertMsg (!vboxGlobal().isVMConsoleProcess(),
                ("Must NOT be a VM console process"));
 
@@ -1021,22 +1034,14 @@ void VBoxSelectorWnd::vmStart (const QString &aUuid /*= QUuid_null*/)
         return;
     }
 
-    /* show the "VM spawning" progress dialog */
-    vboxProblem().showModalProgressDialog (progress, item->name(), this);
-
+    /* Hide the "VM spawning" progress dialog */
+    /* I hope 1 minute will be enough to spawn any running VM silently, isn't it? */
+    int iSpawningDuration = 60000;
+    vboxProblem().showModalProgressDialog(progress, item->name(), this, iSpawningDuration);
     if (progress.GetResultCode() != 0)
-        vboxProblem().cannotOpenSession (vbox, item->machine(), progress);
+        vboxProblem().cannotOpenSession(vbox, item->machine(), progress);
 
     session.Close();
-
-#else // !VBOX_GUI_SEPARATE_VM_PROCESS
-
-    if (!vboxGlobal().startMachine (id))
-        return;
-
-    hide();
-
-#endif
 }
 
 void VBoxSelectorWnd::vmDiscard (const QString &aUuid /*= QUuid_null*/)
@@ -1113,15 +1118,10 @@ void VBoxSelectorWnd::vmRefresh (const QString &aUuid /*= QUuid_null*/)
 
     AssertMsgReturnVoid (item, ("Item must be always selected here"));
 
-    bool oldAccessible = item->accessible();
-
     refreshVMItem (item->id(),
                    true /* aDetails */,
                    true /* aSnapshot */,
                    true /* aDescription */);
-
-    if (!oldAccessible && item->accessible())
-        fileExit();
 }
 
 void VBoxSelectorWnd::vmShowLogs (const QString &aUuid /*= QUuid_null*/)
@@ -1237,7 +1237,13 @@ bool VBoxSelectorWnd::event (QEvent *e)
                 mNormalGeo.moveTo (geometry().x(), geometry().y());
             break;
         }
-
+        case QEvent::WindowDeactivate:
+        {
+            /* Make sure every status bar hint is cleared when the window lost
+             * focus. */
+            statusBar()->clearMessage();
+            break;
+        }
         default:
             break;
     }
@@ -1293,7 +1299,7 @@ void VBoxSelectorWnd::retranslateUi()
 #ifdef VBOX_OSE
     QString title (tr ("VirtualBox OSE"));
 #else
-    QString title (tr ("Sun VirtualBox"));
+    QString title (VBOX_PRODUCT);
 #endif
 
 #ifdef VBOX_BLEEDING_EDGE
@@ -1390,7 +1396,11 @@ void VBoxSelectorWnd::retranslateUi()
 
     mHelpActions.retranslateUi();
 
-    mFileMenu->setTitle (tr("&File"));
+#ifdef Q_WS_MAC
+    mFileMenu->setTitle (tr("&File", "Mac OS X version"));
+#else /* Q_WS_MAC */
+    mFileMenu->setTitle (tr("&File", "Non Mac OS X version"));
+#endif /* !Q_WS_MAC */
     mVMMenu->setTitle (tr ("&Machine"));
     mHelpMenu->setTitle (tr ("&Help"));
 
@@ -1403,10 +1413,11 @@ void VBoxSelectorWnd::retranslateUi()
 #endif
 
 #ifdef QT_MAC_USE_COCOA
-    /* There is a bug in Qt Cocoa which result in showing a "more
-     * arrow" when the necessary size of the toolbar is increased. So
-     * manually adjust the size after changing the text. */
-    mVMToolBar->adjustSize();
+    /* There is a bug in Qt Cocoa which result in showing a "more arrow" when
+       the necessary size of the toolbar is increased. Also for some languages
+       the with doesn't match if the text increase. So manually adjust the size
+       after changing the text. */
+    mVMToolBar->updateLayout();
 #endif /* QT_MAC_USE_COCOA */
 }
 
@@ -1482,13 +1493,14 @@ void VBoxSelectorWnd::vmListViewCurrentChanged (bool aRefreshDetails,
         {
             mVmStartAction->setText (tr ("S&tart"));
 #ifdef QT_MAC_USE_COCOA
-            /* There is a bug in Qt Cocoa which result in showing a "more
-             * arrow" when the necessary size of the toolbar is increased. So
-             * manually adjust the size after changing the text. */
-            mVMToolBar->adjustSize();
+            /* There is a bug in Qt Cocoa which result in showing a "more arrow" when
+               the necessary size of the toolbar is increased. Also for some languages
+               the with doesn't match if the text increase. So manually adjust the size
+               after changing the text. */
+            mVMToolBar->updateLayout();
 #endif /* QT_MAC_USE_COCOA */
             mVmStartAction->setStatusTip (
-                tr ("Start the selected virtual machine"));
+                                          tr ("Start the selected virtual machine"));
 
             mVmStartAction->setEnabled (!running);
         }
@@ -1496,10 +1508,11 @@ void VBoxSelectorWnd::vmListViewCurrentChanged (bool aRefreshDetails,
         {
             mVmStartAction->setText (tr ("S&how"));
 #ifdef QT_MAC_USE_COCOA
-            /* There is a bug in Qt Cocoa which result in showing a "more
-             * arrow" when the necessary size of the toolbar is increased. So
-             * manually adjust the size after changing the text. */
-            mVMToolBar->adjustSize();
+            /* There is a bug in Qt Cocoa which result in showing a "more arrow" when
+               the necessary size of the toolbar is increased. Also for some languages
+               the with doesn't match if the text increase. So manually adjust the size
+               after changing the text. */
+            mVMToolBar->updateLayout();
 #endif /* QT_MAC_USE_COCOA */
             mVmStartAction->setStatusTip (
                 tr ("Switch to the window of the selected virtual machine"));
@@ -2140,5 +2153,12 @@ void VBoxTrayIcon::vmShowLogs()
 }
 
 #endif // VBOX_GUI_WITH_SYSTRAY
+
+void VBoxSelectorWnd::sltDownloaderUserManualEmbed()
+{
+    /* If there is User Manual downloader created => show the process bar: */
+    if (UIDownloaderUserManual *pDl = UIDownloaderUserManual::current())
+        statusBar()->addWidget(pDl->processWidget(this), 0);
+}
 
 #include "VBoxSelectorWnd.moc"

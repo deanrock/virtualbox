@@ -4,7 +4,7 @@
  */
 
 /*
- * Copyright (C) 2009 Sun Microsystems, Inc.
+ * Copyright (C) 2009 Oracle Corporation
  *
  * This file is part of VirtualBox Open Source Edition (OSE), as
  * available from http://www.virtualbox.org. This file is free software;
@@ -13,10 +13,6 @@
  * Foundation, in version 2 as it comes in the "COPYING" file of the
  * VirtualBox OSE distribution. VirtualBox OSE is distributed in the
  * hope that it will be useful, but WITHOUT ANY WARRANTY of any kind.
- *
- * Please contact Sun Microsystems, Inc., 4150 Network Circle, Santa
- * Clara, CA 95054 USA or visit http://www.sun.com if you need
- * additional information or have any questions.
  */
 
 /*******************************************************************************
@@ -27,6 +23,8 @@
 #include <iprt/assert.h>
 #import <AppKit/NSWindow.h>
 #import <AppKit/NSEvent.h>
+
+#include <Carbon/Carbon.h>
 
 #include <stdio.h>
 
@@ -42,7 +40,7 @@ VBoxCocoaApplication *g_pVBoxCocoaApp = NULL;
 @implementation VBoxCocoaApplication
 
 
--(id) init;
+-(id) init
 {
     self = [super init];
     self->m_cCallbacks = 0;
@@ -50,7 +48,7 @@ VBoxCocoaApplication *g_pVBoxCocoaApp = NULL;
 }
 
 
--(void) sendEvent:(NSEvent *)pEvent;
+-(void) sendEvent:(NSEvent *)pEvent
 {
     /*
      * Check if the type matches any of the registered callbacks.
@@ -130,7 +128,7 @@ VBoxCocoaApplication *g_pVBoxCocoaApp = NULL;
         {
             uint32_t fNewMask;
 
-            if (i + 1 != self->m_cCallbacks)
+            if (i + 1 != (int)self->m_cCallbacks)
                 self->m_aCallbacks[i] = self->m_aCallbacks[self->m_cCallbacks - 1];
             self->m_cCallbacks--;
 
@@ -277,14 +275,16 @@ uint32_t VBoxCocoaApplication_getEventModifierFlagsXlated(const void *pvEvent)
                 fCarbon |= cmdKey;
         }
 
-        //if (fCocoa & NSNumericPadKeyMask)
-        //    fCarbon |= ???;
+        /*
+        if (fCocoa & NSNumericPadKeyMask)
+            fCarbon |= ???;
 
-        //if (fCocoa & NSHelpKeyMask)
-        //    fCarbon |= ???;
+        if (fCocoa & NSHelpKeyMask)
+            fCarbon |= ???;
 
-        //if (fCocoa & NSFunctionKeyMask)
-        //    fCarbon |= ???;
+        if (fCocoa & NSFunctionKeyMask)
+            fCarbon |= ???;
+        */
     }
 
     return fCarbon;
@@ -359,17 +359,17 @@ bool VBoxCocoaApplication_isApplicationCommand(const void *pvEvent)
         {
             NSUInteger fEvtMask = [pEvent modifierFlags];
             unsigned short KeyCode = [pEvent keyCode];
-            if (   ((fEvtMask & (NX_NONCOALSESCEDMASK | NX_COMMANDMASK | NX_DEVICELCMDKEYMASK)) == (NX_NONCOALSESCEDMASK | NX_COMMANDMASK | NX_DEVICELCMDKEYMASK))  // L+CMD
-                || ((fEvtMask & (NX_NONCOALSESCEDMASK | NX_COMMANDMASK | NX_DEVICERCMDKEYMASK)) == (NX_NONCOALSESCEDMASK | NX_COMMANDMASK | NX_DEVICERCMDKEYMASK))) // R+CMD
+            if (   ((fEvtMask & (NX_NONCOALSESCEDMASK | NX_COMMANDMASK | NX_DEVICELCMDKEYMASK)) == (NX_NONCOALSESCEDMASK | NX_COMMANDMASK | NX_DEVICELCMDKEYMASK))  /* L+CMD */
+                || ((fEvtMask & (NX_NONCOALSESCEDMASK | NX_COMMANDMASK | NX_DEVICERCMDKEYMASK)) == (NX_NONCOALSESCEDMASK | NX_COMMANDMASK | NX_DEVICERCMDKEYMASK))) /* R+CMD */
             {
-                if (   KeyCode == 0x0c  // CMD+Q (Quit)
-                    || KeyCode == 0x04) // CMD+H (Hide)
+                if (   KeyCode == 0x0c  /* CMD+Q (Quit) */
+                    || KeyCode == 0x04) /* CMD+H (Hide) */
                     fGlobalHotkey = true;
             } 
-            else if (   ((fEvtMask & (NX_NONCOALSESCEDMASK | NX_ALTERNATEMASK | NX_DEVICELALTKEYMASK | NX_COMMANDMASK | NX_DEVICELCMDKEYMASK)) == (NX_NONCOALSESCEDMASK | NX_ALTERNATEMASK | NX_DEVICELALTKEYMASK | NX_COMMANDMASK | NX_DEVICELCMDKEYMASK)) // L+ALT+CMD
-                     || ((fEvtMask & (NX_NONCOALSESCEDMASK | NX_ALTERNATEMASK | NX_DEVICERCMDKEYMASK | NX_COMMANDMASK | NX_DEVICERCMDKEYMASK)) == (NX_NONCOALSESCEDMASK | NX_ALTERNATEMASK | NX_DEVICERCMDKEYMASK | NX_COMMANDMASK | NX_DEVICERCMDKEYMASK))) // R+ALT+CMD
+            else if (   ((fEvtMask & (NX_NONCOALSESCEDMASK | NX_ALTERNATEMASK | NX_DEVICELALTKEYMASK | NX_COMMANDMASK | NX_DEVICELCMDKEYMASK)) == (NX_NONCOALSESCEDMASK | NX_ALTERNATEMASK | NX_DEVICELALTKEYMASK | NX_COMMANDMASK | NX_DEVICELCMDKEYMASK)) /* L+ALT+CMD */
+                     || ((fEvtMask & (NX_NONCOALSESCEDMASK | NX_ALTERNATEMASK | NX_DEVICERCMDKEYMASK | NX_COMMANDMASK | NX_DEVICERCMDKEYMASK)) == (NX_NONCOALSESCEDMASK | NX_ALTERNATEMASK | NX_DEVICERCMDKEYMASK | NX_COMMANDMASK | NX_DEVICERCMDKEYMASK))) /* R+ALT+CMD */
             {
-                if (KeyCode == 0x04)    // ALT+CMD+H (Hide-Others)
+                if (KeyCode == 0x04)    /* ALT+CMD+H (Hide-Others) */
                     fGlobalHotkey = true;
             }
             break;
@@ -395,8 +395,8 @@ void VBoxCocoaApplication_printEvent(const char *pszPrefix, const void *pvEvent)
     NSGraphicsContext  *pEvtGraphCtx = [pEvent context];
 
     printf("%s%p: Type=%lu Modifiers=%08lx pWindow=%p #Wnd=%ld pGraphCtx=%p %s\n",
-           pszPrefix, pvEvent, (unsigned long)eEvtType, (unsigned long)fEvtMask, pEvtWindow,
-           (long)iEvtWindow, pEvtGraphCtx, VBoxCocoaApplication_eventTypeName(eEvtType));
+           pszPrefix, pvEvent, (unsigned long)eEvtType, (unsigned long)fEvtMask, (void*)pEvtWindow,
+           (long)iEvtWindow, (void*)pEvtGraphCtx, VBoxCocoaApplication_eventTypeName(eEvtType));
 
     /* dump type specific into. */
     switch (eEvtType)

@@ -4,7 +4,7 @@
  */
 
 /*
- * Copyright (C) 2006-2007 Sun Microsystems, Inc.
+ * Copyright (C) 2006-2007 Oracle Corporation
  *
  * This file is part of VirtualBox Open Source Edition (OSE), as
  * available from http://www.virtualbox.org. This file is free software;
@@ -13,10 +13,6 @@
  * Foundation, in version 2 as it comes in the "COPYING" file of the
  * VirtualBox OSE distribution. VirtualBox OSE is distributed in the
  * hope that it will be useful, but WITHOUT ANY WARRANTY of any kind.
- *
- * Please contact Sun Microsystems, Inc., 4150 Network Circle, Santa
- * Clara, CA 95054 USA or visit http://www.sun.com if you need
- * additional information or have any questions.
  */
 
 #ifndef __Additions_client_seamless_host_h
@@ -125,14 +121,14 @@ public:
      */
     int init(VBoxGuestSeamlessObserver *pObserver)
     {
-        LogFlowThisFunc(("\n"));
+        LogRelFlowFunc(("\n"));
         if (mObserver != 0)  /* Assertion */
         {
             LogRel(("VBoxClient: ERROR: attempt to initialise seamless host object twice!\n"));
             return VERR_INTERNAL_ERROR;
         }
         mObserver = pObserver;
-        LogFlowThisFunc(("returning VINF_SUCCESS\n"));
+        LogRelFlowFunc(("returning VINF_SUCCESS\n"));
         return VINF_SUCCESS;
     }
 
@@ -146,7 +142,7 @@ public:
      * Stops the service.
      * @param cMillies how long to wait for the thread to exit
      */
-    void stop(unsigned cMillies = RT_INDEFINITE_WAIT);
+    void stop(RTMSINTERVAL cMillies = RT_INDEFINITE_WAIT);
 
     /** Returns the current state of the host - i.e. requesting seamless or not. */
     meEvent getState(void) { return mState; }
@@ -167,7 +163,7 @@ public:
 
     ~VBoxGuestSeamlessHost()
     {
-        LogFlowThisFunc(("\n"));
+        LogRelFlowFunc(("\n"));
         if (mRunning)  /* Assertion */
         {
             LogRel(("VBoxClient: seamless host object still running!  Stopping...\n"));
@@ -177,7 +173,7 @@ public:
             }
             catch(...) {}
         }
-        LogFlowThisFunc(("returning\n"));
+        LogRelFlowFunc(("returning\n"));
     }
 };
 

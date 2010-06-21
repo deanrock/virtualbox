@@ -74,6 +74,7 @@ struct glxpixmap_info_t
     unsigned int w, h, border, depth;
     GLenum format;
     Window root;
+    GLenum target;
     GC gc;
     Pixmap hShmPixmap; /* Shared memory pixmap object, if it's supported*/
     Damage hDamage;    /* damage xserver handle*/
@@ -90,7 +91,7 @@ struct context_info_t
     unsigned long id;          /* the client-visible handle */
     GLint visBits;
     WindowInfo *currentDrawable;
-    WindowInfo *pOwnWindow; /* window created by first call to MakeCurrent with this context */
+
 #ifdef WINDOWS
     HGLRC hglrc;
 #elif defined(DARWIN)
@@ -135,6 +136,7 @@ struct window_info_t
     unsigned int width, height;
     ContextType type;
     GLint spuWindow;       /* returned by head SPU's WindowCreate() */
+    ContextInfo *pOwner;     /* ctx which created this window */
     GLboolean mapped;
 #ifdef WINDOWS
     HDC drawable;
@@ -206,6 +208,8 @@ typedef struct {
     /* Shared memory, used to transfer XServer pixmaps data into client memory */
     XShmSegmentInfo xshmSI;
     GLboolean       bShmInitFailed;
+
+    CRHashTable     *pGLXPixmapsHash;
 #endif
 
 #ifdef WINDOWS

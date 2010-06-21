@@ -5,7 +5,7 @@
  */
 
 /*
- * Copyright (C) 2006-2007 Sun Microsystems, Inc.
+ * Copyright (C) 2006-2007 Oracle Corporation
  *
  * This file is part of VirtualBox Open Source Edition (OSE), as
  * available from http://www.virtualbox.org. This file is free software;
@@ -14,10 +14,6 @@
  * Foundation, in version 2 as it comes in the "COPYING" file of the
  * VirtualBox OSE distribution. VirtualBox OSE is distributed in the
  * hope that it will be useful, but WITHOUT ANY WARRANTY of any kind.
- *
- * Please contact Sun Microsystems, Inc., 4150 Network Circle, Santa
- * Clara, CA 95054 USA or visit http://www.sun.com if you need
- * additional information or have any questions.
  */
 
 #ifndef __Additions_linux_seamless_x11_h
@@ -145,9 +141,9 @@ public:
     VBoxGuestX11Display(void) { mDisplay = NULL; }
     bool init(char *name = NULL)
     {
-        LogFlowThisFunc(("\n"));
+        LogRelFlowFunc(("\n"));
         mDisplay = XOpenDisplay(name);
-        LogFlowThisFunc(("returning\n"));
+        LogRelFlowFunc(("returning\n"));
         return (mDisplay != NULL);
     }
     operator Display *() { return mDisplay; }
@@ -155,10 +151,10 @@ public:
     bool isValid(void) { return (mDisplay != NULL); }
     int close(void)
     {
-        LogFlowThisFunc(("\n"));
+        LogRelFlowFunc(("\n"));
         int rc = XCloseDisplay(mDisplay);
         mDisplay = NULL;
-        LogFlowThisFunc(("returning\n"));
+        LogRelFlowFunc(("returning\n"));
         return rc;
     }
     ~VBoxGuestX11Display()
@@ -243,23 +239,23 @@ public:
     void addWindow(Window hWin, bool isMapped, int x, int y, int w, int h, int cRects,
                    VBoxGuestX11Pointer<XRectangle> rects)
     {
-        LogFlowThisFunc(("\n"));
+        LogRelFlowFunc(("\n"));
         VBoxGuestWinInfo *pInfo = new VBoxGuestWinInfo(isMapped, x, y, w, h, cRects,
                                                        rects);
         mWindows.insert(std::pair<Window, VBoxGuestWinInfo *>(hWin, pInfo));
-        LogFlowThisFunc(("returning\n"));
+        LogRelFlowFunc(("returning\n"));
     }
 
     void removeWindow(iterator it)
     {
-        LogFlowThisFunc(("called\n"));
+        LogRelFlowFunc(("called\n"));
         delete it->second;
         mWindows.erase(it);
     }
 
     void removeWindow(Window hWin)
     {
-        LogFlowThisFunc(("called\n"));
+        LogRelFlowFunc(("called\n"));
         removeWindow(find(hWin));
     }
 };

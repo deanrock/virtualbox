@@ -4,7 +4,7 @@
  */
 
 /*
- * Copyright (C) 2006-2007 Sun Microsystems, Inc.
+ * Copyright (C) 2006-2007 Oracle Corporation
  *
  * This file is part of VirtualBox Open Source Edition (OSE), as
  * available from http://www.virtualbox.org. This file is free software;
@@ -13,10 +13,6 @@
  * Foundation, in version 2 as it comes in the "COPYING" file of the
  * VirtualBox OSE distribution. VirtualBox OSE is distributed in the
  * hope that it will be useful, but WITHOUT ANY WARRANTY of any kind.
- *
- * Please contact Sun Microsystems, Inc., 4150 Network Circle, Santa
- * Clara, CA 95054 USA or visit http://www.sun.com if you need
- * additional information or have any questions.
  */
 
 /*******************************************************************************
@@ -143,11 +139,10 @@ static char *solaudio_getdevice (void)
      * This is for multiple audio devices where env. var determines current one,
      * otherwise else we fallback to default.
      */
-    const char *pszAudioDev = RTEnvGet("AUDIODEV");
-    if (pszAudioDev)
-        return RTStrDup(pszAudioDev);
-
-    return RTStrDup("/dev/audio");
+    const char *pszAudioDev = RTEnvDupEx(RTENV_DEFAULT, "AUDIODEV");
+    if (!pszAudioDev)
+        pszAudioDev = RTStrDup("/dev/audio");
+    return pszAudioDev;
 }
 
 

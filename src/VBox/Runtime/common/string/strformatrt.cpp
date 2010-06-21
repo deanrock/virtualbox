@@ -4,7 +4,7 @@
  */
 
 /*
- * Copyright (C) 2006-2007 Sun Microsystems, Inc.
+ * Copyright (C) 2006-2007 Oracle Corporation
  *
  * This file is part of VirtualBox Open Source Edition (OSE), as
  * available from http://www.virtualbox.org. This file is free software;
@@ -22,10 +22,6 @@
  *
  * You may elect to license modified versions of this file under the
  * terms and conditions of either the GPL or the CDDL or both.
- *
- * Please contact Sun Microsystems, Inc., 4150 Network Circle, Santa
- * Clara, CA 95054 USA or visit http://www.sun.com if you need
- * additional information or have any questions.
  */
 
 /** @page pg_rt_str_format_rt   The IPRT String Format Extensions
@@ -51,6 +47,7 @@
  *      - \%RTiop           - Takes a #RTIOPORT value.
  *      - \%RTldrm          - Takes a #RTLDRMOD value.
  *      - \%RTmac           - Takes a #PCRTMAC pointer.
+ *      - \%RTnaddr         - Takes a #PCRTNETADDR value.
  *      - \%RTnaipv4        - Takes a #RTNETADDRIPV4 value.
  *      - \%RTnaipv6        - Takes a #PCRTNETADDRIPV6 value.
  *      - \%RTnthrd         - Takes a #RTNATIVETHREAD value.
@@ -81,7 +78,7 @@
  *      - \%RHv             - Takes a #RTHCPTR, #RTHCINTPTR or #RTHCUINTPTR value.
  *      - \%RHx             - Takes a #RTHCUINT or #RTHCINT value, formatting it as hex.
  *      - \%RRv             - Takes a #RTRCPTR, #RTRCINTPTR or #RTRCUINTPTR value.
- *      - \%RCi             - Takes a #RTCCINT value.
+ *      - \%RCi             - Takes a #RTINT value.
  *      - \%RCp             - Takes a #RTCCPHYS value.
  *      - \%RCr             - Takes a #RTCCUINTREG value.
  *      - \%RCu             - Takes a #RTUINT value.
@@ -99,11 +96,12 @@
  *
  * Group 3, hex dumpers and other complex stuff which requires more than simple formatting.
  *      - \%Rhxd            - Takes a pointer to the memory which is to be dumped in typical
- *                            hex format. Use the width to specify the length, and the precision to
+ *                            hex format. Use the precision to specify the length, and the width to
  *                            set the number of bytes per line. Default width and precision is 16.
  *      - \%Rhxs            - Takes a pointer to the memory to be displayed as a hex string,
  *                            i.e. a series of space separated bytes formatted as two digit hex value.
- *                            Use the width to specify the length. Default length is 16 bytes.
+ *                            Use the precision to specify the length. Default length is 16 bytes.
+ *                            The width, if specified, is ignored.
  *      - \%Rrc             - Takes an integer iprt status code as argument. Will insert the
  *                            status code define corresponding to the iprt status code.
  *      - \%Rrs             - Takes an integer iprt status code as argument. Will insert the
@@ -112,8 +110,6 @@
  *                            full description of the specified status code.
  *      - \%Rra             - Takes an integer iprt status code as argument. Will insert the
  *                            status code define + full description.
- *      - \%Rt              - Current thread (RTThreadSelf()), no arguments.
- *
  *      - \%Rwc             - Takes a long Windows error code as argument. Will insert the status
  *                            code define corresponding to the Windows error code.
  *      - \%Rwf             - Takes a long Windows error code as argument. Will insert the
@@ -130,6 +126,8 @@
  *
  *      - \%Rfn             - Pretty printing of a function or method. It drops the
  *                            return code and parameter list.
+ *      - \%Rbn             - Prints the base name.  For dropping the path in
+ *                            order to save space when printing a path name.
  *
  * On other platforms, \%Rw? simply prints the argument in a form of 0xXXXXXXXX.
  *
@@ -137,6 +135,15 @@
  * Group 4, structure dumpers.
  *
  *      - \%RDtimespec      - Takes a PCRTTIMESPEC.
+ *
+ *
+ * Group 5, XML / HTML escapers.
+ *      - \%RMas            - Takes a string pointer (const char *) and outputs
+ *                            it as an attribute value with the proper escaping.
+ *                            This typically ends up in double quotes.
+ *
+ *      - \%RMes            - Takes a string pointer (const char *) and outputs
+ *                            it as an element with the necessary escaping.
  *
  *
  */
@@ -159,6 +166,7 @@
 #include <iprt/ctype.h>
 #include <iprt/time.h>
 #include <iprt/net.h>
+#include <iprt/path.h>
 #include "internal/string.h"
 
 
@@ -213,6 +221,7 @@ size_t rtstrFormatRt(PFNRTSTROUTPUT pfnOutput, void *pvArgOutput, const char **p
                     RTSF_IPV4,
                     RTSF_IPV6,
                     RTSF_MAC,
+                    RTSF_NETADDR,
                     RTSF_UUID
                 } RTSF;
                 static const struct
@@ -229,7 +238,7 @@ size_t rtstrFormatRt(PFNRTSTROUTPUT pfnOutput, void *pvArgOutput, const char **p
                 {
 #define STRMEM(str) sizeof(str) - 1, str
                     { STRMEM("Ci"),      sizeof(RTINT),          10, RTSF_INT,   RTSTR_F_VALSIGNED },
-                    { STRMEM("Cp"),      sizeof(RTGCPHYS),       16, RTSF_INTW,  0 },
+                    { STRMEM("Cp"),      sizeof(RTCCPHYS),       16, RTSF_INTW,  0 },
                     { STRMEM("Cr"),      sizeof(RTCCUINTREG),    16, RTSF_INTW,  0 },
                     { STRMEM("Cu"),      sizeof(RTUINT),         10, RTSF_INT,   0 },
                     { STRMEM("Cv"),      sizeof(void *),         16, RTSF_INTW,  0 },
@@ -264,6 +273,7 @@ size_t rtstrFormatRt(PFNRTSTROUTPUT pfnOutput, void *pvArgOutput, const char **p
                     { STRMEM("Tiop"),    sizeof(RTIOPORT),       16, RTSF_INTW,  0 },
                     { STRMEM("Tldrm"),   sizeof(RTLDRMOD),       16, RTSF_INTW,  0 },
                     { STRMEM("Tmac"),    sizeof(PCRTMAC),        16, RTSF_MAC,   0 },
+                    { STRMEM("Tnaddr"),  sizeof(PCRTNETADDR),    10, RTSF_NETADDR,0 },
                     { STRMEM("Tnaipv4"), sizeof(RTNETADDRIPV4),  10, RTSF_IPV4,  0 },
                     { STRMEM("Tnaipv6"), sizeof(PCRTNETADDRIPV6),16, RTSF_IPV6,  0 },
                     { STRMEM("Tnthrd"),  sizeof(RTNATIVETHREAD), 16, RTSF_INTW,  0 },
@@ -314,6 +324,7 @@ size_t rtstrFormatRt(PFNRTSTROUTPUT pfnOutput, void *pvArgOutput, const char **p
                     PCRTMAC             pMac;
                     RTNETADDRIPV4       Ipv4Addr;
                     PCRTNETADDRIPV6     pIpv6Addr;
+                    PCRTNETADDR         pNetAddr;
                     PCRTUUID            pUuid;
                 } u;
                 char        szBuf[80];
@@ -356,7 +367,7 @@ size_t rtstrFormatRt(PFNRTSTROUTPUT pfnOutput, void *pvArgOutput, const char **p
                  * Fetch the argument.
                  * It's important that a signed value gets sign-extended up to 64-bit.
                  */
-                u.u64 = 0;
+                RT_ZERO(u);
                 if (fFlags & RTSTR_F_VALSIGNED)
                 {
                     switch (s_aTypes[i].cb)
@@ -530,6 +541,87 @@ size_t rtstrFormatRt(PFNRTSTROUTPUT pfnOutput, void *pvArgOutput, const char **p
                         return pfnOutput(pvArgOutput, s_szNull, sizeof(s_szNull) - 1);
                     }
 
+                    case RTSF_NETADDR:
+                    {
+                        if (VALID_PTR(u.pNetAddr))
+                        {
+                            switch (u.pNetAddr->enmType)
+                            {
+                                case RTNETADDRTYPE_IPV4:
+                                    if (u.pNetAddr->uPort == RTNETADDR_PORT_NA)
+                                        return RTStrFormat(pfnOutput, pvArgOutput, NULL, 0,
+                                                           "%u.%u.%u.%u",
+                                                           u.pNetAddr->uAddr.IPv4.au8[0],
+                                                           u.pNetAddr->uAddr.IPv4.au8[1],
+                                                           u.pNetAddr->uAddr.IPv4.au8[2],
+                                                           u.pNetAddr->uAddr.IPv4.au8[3]);
+                                    return RTStrFormat(pfnOutput, pvArgOutput, NULL, 0,
+                                                       "%u.%u.%u.%u:%u",
+                                                       u.pNetAddr->uAddr.IPv4.au8[0],
+                                                       u.pNetAddr->uAddr.IPv4.au8[1],
+                                                       u.pNetAddr->uAddr.IPv4.au8[2],
+                                                       u.pNetAddr->uAddr.IPv4.au8[3],
+                                                       u.pNetAddr->uPort);
+
+                                case RTNETADDRTYPE_IPV6:
+                                    if (u.pNetAddr->uPort == RTNETADDR_PORT_NA)
+                                        return RTStrFormat(pfnOutput, pvArgOutput, NULL, 0,
+                                                           "%02x%02x:%02x%02x:%02x%02x:%02x%02x:%02x%02x:%02x%02x:%02x%02x:%02x%02x",
+                                                           u.pNetAddr->uAddr.IPv6.au8[0],
+                                                           u.pNetAddr->uAddr.IPv6.au8[1],
+                                                           u.pNetAddr->uAddr.IPv6.au8[2],
+                                                           u.pNetAddr->uAddr.IPv6.au8[3],
+                                                           u.pNetAddr->uAddr.IPv6.au8[4],
+                                                           u.pNetAddr->uAddr.IPv6.au8[5],
+                                                           u.pNetAddr->uAddr.IPv6.au8[6],
+                                                           u.pNetAddr->uAddr.IPv6.au8[7],
+                                                           u.pNetAddr->uAddr.IPv6.au8[8],
+                                                           u.pNetAddr->uAddr.IPv6.au8[9],
+                                                           u.pNetAddr->uAddr.IPv6.au8[10],
+                                                           u.pNetAddr->uAddr.IPv6.au8[11],
+                                                           u.pNetAddr->uAddr.IPv6.au8[12],
+                                                           u.pNetAddr->uAddr.IPv6.au8[13],
+                                                           u.pNetAddr->uAddr.IPv6.au8[14],
+                                                           u.pNetAddr->uAddr.IPv6.au8[15]);
+                                    return RTStrFormat(pfnOutput, pvArgOutput, NULL, 0,
+                                                       "%02x%02x:%02x%02x:%02x%02x:%02x%02x:%02x%02x:%02x%02x:%02x%02x:%02x%02x %u",
+                                                       u.pNetAddr->uAddr.IPv6.au8[0],
+                                                       u.pNetAddr->uAddr.IPv6.au8[1],
+                                                       u.pNetAddr->uAddr.IPv6.au8[2],
+                                                       u.pNetAddr->uAddr.IPv6.au8[3],
+                                                       u.pNetAddr->uAddr.IPv6.au8[4],
+                                                       u.pNetAddr->uAddr.IPv6.au8[5],
+                                                       u.pNetAddr->uAddr.IPv6.au8[6],
+                                                       u.pNetAddr->uAddr.IPv6.au8[7],
+                                                       u.pNetAddr->uAddr.IPv6.au8[8],
+                                                       u.pNetAddr->uAddr.IPv6.au8[9],
+                                                       u.pNetAddr->uAddr.IPv6.au8[10],
+                                                       u.pNetAddr->uAddr.IPv6.au8[11],
+                                                       u.pNetAddr->uAddr.IPv6.au8[12],
+                                                       u.pNetAddr->uAddr.IPv6.au8[13],
+                                                       u.pNetAddr->uAddr.IPv6.au8[14],
+                                                       u.pNetAddr->uAddr.IPv6.au8[15],
+                                                       u.pNetAddr->uPort);
+
+                                case RTNETADDRTYPE_MAC:
+                                    return RTStrFormat(pfnOutput, pvArgOutput, NULL, 0,
+                                                       "%02x:%02x:%02x:%02x:%02x:%02x",
+                                                       u.pNetAddr->uAddr.Mac.au8[0],
+                                                       u.pNetAddr->uAddr.Mac.au8[1],
+                                                       u.pNetAddr->uAddr.Mac.au8[2],
+                                                       u.pNetAddr->uAddr.Mac.au8[3],
+                                                       u.pNetAddr->uAddr.Mac.au8[4],
+                                                       u.pNetAddr->uAddr.Mac.au8[5]);
+
+                                default:
+                                    return RTStrFormat(pfnOutput, pvArgOutput, NULL, 0,
+                                                       "unsupported-netaddr-type=%u", u.pNetAddr->enmType);
+
+                            }
+                        }
+                        return pfnOutput(pvArgOutput, s_szNull, sizeof(s_szNull) - 1);
+                    }
+
                     case RTSF_UUID:
                     {
                         if (VALID_PTR(u.pUuid))
@@ -565,6 +657,45 @@ size_t rtstrFormatRt(PFNRTSTROUTPUT pfnOutput, void *pvArgOutput, const char **p
 
 
             /* Group 3 */
+
+            /*
+             * Base name printing.
+             */
+            case 'b':
+            {
+                switch (*(*ppszFormat)++)
+                {
+                    case 'n':
+                    {
+                        const char *pszLastSep;
+                        const char *psz = pszLastSep = va_arg(*pArgs, const char *);
+                        if (!VALID_PTR(psz))
+                            return pfnOutput(pvArgOutput, "<null>", sizeof("<null>") - 1);
+
+                        while ((ch = *psz) != '\0')
+                        {
+                            if (RTPATH_IS_SEP(ch))
+                            {
+                                do
+                                    psz++;
+                                while ((ch = *psz) != '\0' && RTPATH_IS_SEP(ch));
+                                if (!ch)
+                                    break;
+                                pszLastSep = psz;
+                            }
+                            psz++;
+                        }
+
+                        return pfnOutput(pvArgOutput, pszLastSep, psz - pszLastSep);
+                    }
+
+                    default:
+                        AssertMsgFailed(("Invalid status code format type '%.10s'!\n", pszFormatOrg));
+                        break;
+                }
+                break;
+            }
+
 
             /*
              * Pretty function / method name printing.
@@ -625,8 +756,8 @@ size_t rtstrFormatRt(PFNRTSTROUTPUT pfnOutput, void *pvArgOutput, const char **p
                     case 'x':
                     {
                         uint8_t *pu8 = va_arg(*pArgs, uint8_t *);
-                        if (cchWidth <= 0)
-                            cchWidth = 16;
+                        if (cchPrecision <= 0)
+                            cchPrecision = 16;
                         if (pu8)
                         {
                             switch (*(*ppszFormat)++)
@@ -639,30 +770,30 @@ size_t rtstrFormatRt(PFNRTSTROUTPUT pfnOutput, void *pvArgOutput, const char **p
                                     size_t cch = 0;
                                     int off = 0;
 
-                                    if (cchPrecision <= 0)
-                                        cchPrecision = 16;
+                                    if (cchWidth <= 0)
+                                        cchWidth = 16;
 
-                                    while (off < cchWidth)
+                                    while (off < cchPrecision)
                                     {
                                         int i;
                                         cch += RTStrFormat(pfnOutput, pvArgOutput, NULL, 0, "%s%0*x %04x:", off ? "\n" : "", sizeof(pu8) * 2, (uintptr_t)pu8, off);
-                                        for (i = 0; i < cchPrecision && off + i < cchWidth ; i++)
+                                        for (i = 0; i < cchWidth && off + i < cchPrecision ; i++)
                                             cch += RTStrFormat(pfnOutput, pvArgOutput, NULL, 0,
-                                                               off + i < cchWidth ? !(i & 7) && i ? "-%02x" : " %02x" : "   ", pu8[i]);
-                                        while (i++ < cchPrecision)
+                                                               off + i < cchPrecision ? !(i & 7) && i ? "-%02x" : " %02x" : "   ", pu8[i]);
+                                        while (i++ < cchWidth)
                                             cch += pfnOutput(pvArgOutput, "   ", 3);
 
                                         cch += pfnOutput(pvArgOutput, " ", 1);
 
-                                        for (i = 0; i < cchPrecision && off + i < cchWidth; i++)
+                                        for (i = 0; i < cchWidth && off + i < cchPrecision; i++)
                                         {
                                             uint8_t u8 = pu8[i];
                                             cch += pfnOutput(pvArgOutput, u8 < 127 && u8 >= 32 ? (const char *)&u8 : ".", 1);
                                         }
 
                                         /* next */
-                                        pu8 += cchPrecision;
-                                        off += cchPrecision;
+                                        pu8 += cchWidth;
+                                        off += cchWidth;
                                     }
                                     return cch;
                                 }
@@ -672,10 +803,10 @@ size_t rtstrFormatRt(PFNRTSTROUTPUT pfnOutput, void *pvArgOutput, const char **p
                                  */
                                 case 's':
                                 {
-                                    if (cchWidth-- > 0)
+                                    if (cchPrecision-- > 0)
                                     {
                                         size_t cch = RTStrFormat(pfnOutput, pvArgOutput, NULL, 0, "%02x", *pu8++);
-                                        for (; cchWidth > 0; cchWidth--, pu8++)
+                                        for (; cchPrecision > 0; cchPrecision--, pu8++)
                                             cch += RTStrFormat(pfnOutput, pvArgOutput, NULL, 0, " %02x", *pu8);
                                         return cch;
                                     }
@@ -901,19 +1032,93 @@ size_t rtstrFormatRt(PFNRTSTROUTPUT pfnOutput, void *pvArgOutput, const char **p
                 break;
             }
 
+#ifdef IN_RING3
+            /*
+             * Group 5, XML / HTML escapers.
+             */
+            case 'M':
+            {
+                char chWhat = (*ppszFormat)[0];
+                bool fAttr  = chWhat == 'a';
+                char chType = (*ppszFormat)[1];
+                AssertMsgBreak(chWhat == 'a' || chWhat == 'e', ("Invalid IPRT format type '%.10s'!\n", pszFormatOrg));
+                *ppszFormat += 2;
+                switch (chType)
+                {
+                    case 's':
+                    {
+                        static const char   s_szElemEscape[] = "<>&\"'";
+                        static const char   s_szAttrEscape[] = "<>&\"\n\r"; /* more? */
+                        const char * const  pszEscape =  fAttr ?             s_szAttrEscape  :             s_szElemEscape;
+                        size_t       const  cchEscape = (fAttr ? RT_ELEMENTS(s_szAttrEscape) : RT_ELEMENTS(s_szElemEscape)) - 1;
+                        size_t      cchOutput = 0;
+                        const char *pszStr    = va_arg(*pArgs, char *);
+                        ssize_t     cchStr;
+                        ssize_t     offCur;
+                        ssize_t     offLast;
+
+                        if (!VALID_PTR(pszStr))
+                            pszStr = "<NULL>";
+                        cchStr = RTStrNLen(pszStr, (unsigned)cchPrecision);
+
+                        if (fAttr)
+                            cchOutput += pfnOutput(pvArgOutput, "\"", 1);
+                        if (!(fFlags & RTSTR_F_LEFT))
+                            while (--cchWidth >= cchStr)
+                                cchOutput += pfnOutput(pvArgOutput, " ", 1);
+
+                        offLast = offCur = 0;
+                        while (offCur < cchStr)
+                        {
+                            if (memchr(pszEscape, pszStr[offCur], cchEscape))
+                            {
+                                if (offLast < offCur)
+                                    cchOutput += pfnOutput(pvArgOutput, &pszStr[offLast], offCur - offLast);
+                                switch (pszStr[offCur])
+                                {
+                                    case '<':   cchOutput += pfnOutput(pvArgOutput, "&lt;", 4); break;
+                                    case '>':   cchOutput += pfnOutput(pvArgOutput, "&gt;", 4); break;
+                                    case '&':   cchOutput += pfnOutput(pvArgOutput, "&amp;", 5); break;
+                                    case '\'':  cchOutput += pfnOutput(pvArgOutput, "&apos;", 6); break;
+                                    case '"':   cchOutput += pfnOutput(pvArgOutput, "&qout;", 6); break;
+                                    case '\n':  cchOutput += pfnOutput(pvArgOutput, "&#xA;", 5); break;
+                                    case '\r':  cchOutput += pfnOutput(pvArgOutput, "&#xD;", 5); break;
+                                    default:
+                                        AssertFailed();
+                                }
+                                offLast = offCur + 1;
+                            }
+                            offCur++;
+                        }
+                        if (offLast < offCur)
+                            cchOutput += pfnOutput(pvArgOutput, &pszStr[offLast], offCur - offLast);
+
+                        while (--cchWidth >= cchStr)
+                            cchOutput += pfnOutput(pvArgOutput, " ", 1);
+                        if (fAttr)
+                            cchOutput += pfnOutput(pvArgOutput, "\"", 1);
+                        return cchOutput;
+                    }
+
+                    default:
+                        AssertMsgFailed(("Invalid IPRT format type '%.10s'!\n", pszFormatOrg));
+                }
+                break;
+            }
+#endif /* IN_RING3 */
+
             /*
              * Invalid/Unknown. Bitch about it.
              */
             default:
-                AssertMsgFailed(("Invalid VBox format type '%.10s'!\n", pszFormatOrg));
+                AssertMsgFailed(("Invalid IPRT format type '%.10s'!\n", pszFormatOrg));
                 break;
         }
     }
     else
-        AssertMsgFailed(("Invalid VBox format type '%.10s'!\n", pszFormatOrg));
+        AssertMsgFailed(("Invalid IPRT format type '%.10s'!\n", pszFormatOrg));
 
     NOREF(pszFormatOrg);
     return 0;
 }
-
 

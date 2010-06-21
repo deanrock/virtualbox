@@ -4,7 +4,7 @@
  */
 
 /*
- * Copyright (C) 2006-2007 Sun Microsystems, Inc.
+ * Copyright (C) 2006-2007 Oracle Corporation
  *
  * This file is part of VirtualBox Open Source Edition (OSE), as
  * available from http://www.virtualbox.org. This file is free software;
@@ -13,10 +13,6 @@
  * Foundation, in version 2 as it comes in the "COPYING" file of the
  * VirtualBox OSE distribution. VirtualBox OSE is distributed in the
  * hope that it will be useful, but WITHOUT ANY WARRANTY of any kind.
- *
- * Please contact Sun Microsystems, Inc., 4150 Network Circle, Santa
- * Clara, CA 95054 USA or visit http://www.sun.com if you need
- * additional information or have any questions.
  */
 
 /*****************************************************************************
@@ -37,7 +33,7 @@ int VBoxGuestSeamlessHost::start(void)
 {
     int rc = VERR_NOT_SUPPORTED;
 
-    LogFlowThisFunc(("\n"));
+    LogRelFlowFunc(("\n"));
     if (mRunning)  /* Assertion */
     {
         LogRel(("VBoxClient: seamless service started twice!\n"));
@@ -51,7 +47,7 @@ int VBoxGuestSeamlessHost::start(void)
     rc = VbglR3SeamlessSetCap(true);
     if (RT_SUCCESS(rc))
     {
-        Log(("VBoxClient: enabled seamless capability on host.\n"));
+        LogRel(("VBoxClient: enabled seamless capability on host.\n"));
         rc = mThread.start();
         if (RT_SUCCESS(rc))
         {
@@ -65,16 +61,16 @@ int VBoxGuestSeamlessHost::start(void)
     }
     if (RT_FAILURE(rc))
     {
-        Log(("VBoxClient (seamless): failed to enable seamless capability on host, rc=%Rrc\n", rc));
+        LogRel(("VBoxClient (seamless): failed to enable seamless capability on host, rc=%Rrc\n", rc));
     }
-    LogFlowThisFunc(("returning %Rrc\n", rc));
+    LogRelFlowFunc(("returning %Rrc\n", rc));
     return rc;
 }
 
 /** Stops the service. */
-void VBoxGuestSeamlessHost::stop(unsigned cMillies /* = RT_INDEFINITE_WAIT */)
+void VBoxGuestSeamlessHost::stop(RTMSINTERVAL cMillies /* = RT_INDEFINITE_WAIT */)
 {
-    LogFlowThisFunc(("returning\n"));
+    LogRelFlowFunc(("returning\n"));
     if (!mRunning)  /* Assertion */
     {
         LogRel(("VBoxClient: tried to stop seamless service which is not running!\n"));
@@ -84,7 +80,7 @@ void VBoxGuestSeamlessHost::stop(unsigned cMillies /* = RT_INDEFINITE_WAIT */)
     VbglR3CtlFilterMask(0, VMMDEV_EVENT_SEAMLESS_MODE_CHANGE_REQUEST);
     VbglR3SeamlessSetCap(false);
     mRunning = false;
-    LogFlowThisFunc(("returning\n"));
+    LogRelFlowFunc(("returning\n"));
 }
 
 /**
@@ -96,7 +92,7 @@ int VBoxGuestSeamlessHost::nextEvent(void)
 {
     VMMDevSeamlessMode newMode = VMMDev_Seamless_Disabled;
 
-    LogFlowThisFunc(("\n"));
+    LogRelFlowFunc(("\n"));
     int rc = VbglR3SeamlessWaitEvent(&newMode);
     if (RT_SUCCESS(rc))
     {
@@ -128,9 +124,9 @@ int VBoxGuestSeamlessHost::nextEvent(void)
     }
     else
     {
-        LogFunc(("VbglR3SeamlessWaitEvent returned %Rrc (VBoxClient)\n", rc));
+        LogRelFunc(("VbglR3SeamlessWaitEvent returned %Rrc (VBoxClient)\n", rc));
     }
-    LogFlowThisFunc(("returning %Rrc\n", rc));
+    LogRelFlowFunc(("returning %Rrc\n", rc));
     return rc;
 }
 
@@ -139,14 +135,14 @@ int VBoxGuestSeamlessHost::nextEvent(void)
  */
 void VBoxGuestSeamlessHost::updateRects(std::auto_ptr<std::vector<RTRECT> > pRects)
 {
-    LogFlowThisFunc(("\n"));
+    LogRelFlowFunc(("\n"));
     if (0 == pRects.get())  /* Assertion */
     {
         LogRelThisFunc(("ERROR: called with null pointer!\n"));
         return;
     }
     VbglR3SeamlessSendRects(pRects.get()->size(), pRects.get()->empty() ? NULL : &pRects.get()->front());
-    LogFlowThisFunc(("returning\n"));
+    LogRelFlowFunc(("returning\n"));
 }
 
 /**
@@ -157,7 +153,7 @@ void VBoxGuestSeamlessHost::updateRects(std::auto_ptr<std::vector<RTRECT> > pRec
  */
 int VBoxGuestSeamlessHostThread::threadFunction(VBoxGuestThread *pThread)
 {
-    LogFlowThisFunc(("\n"));
+    LogRelFlowFunc(("\n"));
     if (0 != mHost)
     {
         mThread = pThread;
@@ -171,7 +167,7 @@ int VBoxGuestSeamlessHostThread::threadFunction(VBoxGuestThread *pThread)
             }
         }
     }
-    LogFlowThisFunc(("returning VINF_SUCCESS\n"));
+    LogRelFlowFunc(("returning VINF_SUCCESS\n"));
     return VINF_SUCCESS;
 }
 
@@ -180,7 +176,7 @@ int VBoxGuestSeamlessHostThread::threadFunction(VBoxGuestThread *pThread)
  */
 void VBoxGuestSeamlessHostThread::stop(void)
 {
-    LogFlowThisFunc(("\n"));
+    LogRelFlowFunc(("\n"));
     if (0 != mHost)
     {
         /**
@@ -195,5 +191,5 @@ void VBoxGuestSeamlessHostThread::stop(void)
             mThread->yield();
         }
     }
-    LogFlowThisFunc(("returning\n"));
+    LogRelFlowFunc(("returning\n"));
 }

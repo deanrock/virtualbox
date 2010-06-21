@@ -8,7 +8,7 @@
  */
 
 /*
- * Copyright (C) 2006-2009 Sun Microsystems, Inc.
+ * Copyright (C) 2006-2010 Oracle Corporation
  *
  * This file is part of VirtualBox Open Source Edition (OSE), as
  * available from http://www.virtualbox.org. This file is free software;
@@ -17,10 +17,6 @@
  * Foundation, in version 2 as it comes in the "COPYING" file of the
  * VirtualBox OSE distribution. VirtualBox OSE is distributed in the
  * hope that it will be useful, but WITHOUT ANY WARRANTY of any kind.
- *
- * Please contact Sun Microsystems, Inc., 4150 Network Circle, Santa
- * Clara, CA 95054 USA or visit http://www.sun.com if you need
- * additional information or have any questions.
  */
 
 
@@ -54,7 +50,8 @@
 #ifdef RT_OS_WINDOWS
 # include <windows.h>
 # include <winioctl.h>
-#elif defined(RT_OS_LINUX) || defined(RT_OS_DARWIN) || defined(RT_OS_SOLARIS)
+#elif defined(RT_OS_LINUX) || defined(RT_OS_DARWIN) \
+    || defined(RT_OS_SOLARIS) || defined(RT_OS_FREEBSD)
 # include <errno.h>
 # include <sys/ioctl.h>
 # include <sys/types.h>
@@ -76,6 +73,9 @@
 # include <sys/dkio.h>
 # include <sys/vtoc.h>
 #endif /* RT_OS_SOLARIS */
+#ifdef RT_OS_FREEBSD
+# include <sys/disk.h>
+#endif /* RT_OS_FREEBSD */
 
 using namespace com;
 
@@ -495,6 +495,16 @@ static DECLCALLBACK(void) handleVDError(void *pvUser, int rc, RT_SRC_POS_DECL, c
     RTPrintf("Error code %Rrc at %s(%u) in function %s\n", rc, RT_SRC_POS_ARGS);
 }
 
+static int handleVDMessage(void *pvUser, const char *pszFormat, ...)
+{
+    NOREF(pvUser);
+    va_list args;
+    va_start(args, pszFormat);
+    int rc = RTPrintfV(pszFormat, args);
+    va_end(args);
+    return rc;
+}
+
 static int CmdSetHDUUID(int argc, char **argv, ComPtr<IVirtualBox> aVirtualBox, ComPtr<ISession> aSession)
 {
     /* we need exactly one parameter: the image file */
@@ -524,7 +534,7 @@ static int CmdSetHDUUID(int argc, char **argv, ComPtr<IVirtualBox> aVirtualBox, 
     vdInterfaceErrorCallbacks.cbSize       = sizeof(VDINTERFACEERROR);
     vdInterfaceErrorCallbacks.enmInterface = VDINTERFACETYPE_ERROR;
     vdInterfaceErrorCallbacks.pfnError     = handleVDError;
-    vdInterfaceErrorCallbacks.pfnMessage   = NULL;
+    vdInterfaceErrorCallbacks.pfnMessage   = handleVDMessage;
 
     rc = VDInterfaceAdd(&vdInterfaceError, "VBoxManage_IError", VDINTERFACETYPE_ERROR,
                         &vdInterfaceErrorCallbacks, NULL, &pVDIfs);
@@ -556,16 +566,6 @@ static int CmdSetHDUUID(int argc, char **argv, ComPtr<IVirtualBox> aVirtualBox, 
     return RT_FAILURE(rc);
 }
 
-
-static int handleVDMessage(void *pvUser, const char *pszFormat, ...)
-{
-    NOREF(pvUser);
-    va_list args;
-    va_start(args, pszFormat);
-    int rc = RTPrintfV(pszFormat, args);
-    va_end(args);
-    return rc;
-}
 
 static int CmdDumpHDInfo(int argc, char **argv, ComPtr<IVirtualBox> aVirtualBox, ComPtr<ISession> aSession)
 {
@@ -606,7 +606,7 @@ static int CmdDumpHDInfo(int argc, char **argv, ComPtr<IVirtualBox> aVirtualBox,
     }
 
     /* Open the image */
-    rc = VDOpen(pDisk, pszFormat, argv[0], VD_OPEN_FLAGS_NORMAL, NULL);
+    rc = VDOpen(pDisk, pszFormat, argv[0], VD_OPEN_FLAGS_INFO, NULL);
     if (RT_FAILURE(rc))
     {
         RTPrintf("Error while opening the image: %Rrc\n", rc);
@@ -768,19 +768,17 @@ static int partRead(RTFILE File, PHOSTPARTITIONS pPart)
         }
     }
 
-    /* Now do a lot of consistency checking. */
+    /* Fill out partitioning location info for MBR. */
+    pPart->aPartitions[0].uPartDataStart = 0;
+    pPart->aPartitions[0].cPartDataSectors = pPart->aPartitions[0].uStart;
+
+    /* Now do a some partition table consistency checking, to reject the most
+     * obvious garbage which can lead to trouble later. */
     uint64_t uPrevEnd = 0;
     for (unsigned i = 0; i < pPart->cPartitions-1; i++)
     {
         if (pPart->aPartitions[i].cPartDataSectors)
-        {
-            if (pPart->aPartitions[i].uPartDataStart < uPrevEnd)
-            {
-                RTPrintf("Overlapping partition description areas. Aborting\n");
-                return VERR_INVALID_PARAMETER;
-            }
             uPrevEnd = pPart->aPartitions[i].uPartDataStart + pPart->aPartitions[i].cPartDataSectors;
-        }
         if (pPart->aPartitions[i].uStart < uPrevEnd)
         {
             RTPrintf("Overlapping partitions. Aborting\n");
@@ -789,10 +787,6 @@ static int partRead(RTFILE File, PHOSTPARTITIONS pPart)
         if (!PARTTYPE_IS_EXTENDED(pPart->aPartitions[i].uType))
             uPrevEnd = pPart->aPartitions[i].uStart + pPart->aPartitions[i].uSize;
     }
-
-    /* Fill out partitioning location info for MBR. */
-    pPart->aPartitions[0].uPartDataStart = 0;
-    pPart->aPartitions[0].cPartDataSectors = pPart->aPartitions[0].uStart;
 
     return VINF_SUCCESS;
 }
@@ -832,15 +826,13 @@ static int CmdListPartitions(int argc, char **argv, ComPtr<IVirtualBox> aVirtual
 
     HOSTPARTITIONS partitions;
     vrc = partRead(RawFile, &partitions);
-    if (RT_FAILURE(vrc))
-        return vrc;
+    /* Don't bail out on errors, print the table and return the result code. */
 
     RTPrintf("Number  Type   StartCHS       EndCHS      Size (MiB)  Start (Sect)\n");
     for (unsigned i = 0; i < partitions.cPartitions; i++)
     {
-        /* Suppress printing the extended partition. Otherwise people
-         * might add it to the list of partitions for raw partition
-         * access (which is not good). */
+        /* Don't show the extended partition, otherwise users might think they
+         * can add it to the list of partitions for raw partition access. */
         if (PARTTYPE_IS_EXTENDED(partitions.aPartitions[i].uType))
             continue;
 
@@ -857,7 +849,23 @@ static int CmdListPartitions(int argc, char **argv, ComPtr<IVirtualBox> aVirtual
                  partitions.aPartitions[i].uStart);
     }
 
-    return 0;
+    return vrc;
+}
+
+static PVBOXHDDRAWPARTDESC appendPartDesc(uint32_t *pcPartDescs, PVBOXHDDRAWPARTDESC *ppPartDescs)
+{
+    (*pcPartDescs)++;
+    PVBOXHDDRAWPARTDESC p;
+    p = (PVBOXHDDRAWPARTDESC)RTMemRealloc(*ppPartDescs,
+                                          *pcPartDescs * sizeof(VBOXHDDRAWPARTDESC));
+    *ppPartDescs = p;
+    if (p)
+    {
+        p = p + *pcPartDescs - 1;
+        memset(p, '\0', sizeof(VBOXHDDRAWPARTDESC));
+    }
+
+    return p;
 }
 
 static int CmdCreateRawVMDK(int argc, char **argv, ComPtr<IVirtualBox> aVirtualBox, ComPtr<ISession> aSession)
@@ -873,8 +881,6 @@ static int CmdCreateRawVMDK(int argc, char **argv, ComPtr<IVirtualBox> aVirtualB
     uint64_t cbSize = 0;
     PVBOXHDD pDisk = NULL;
     VBOXHDDRAW RawDescriptor;
-    HOSTPARTITIONS partitions;
-    uint32_t uPartitions = 0;
     PVDINTERFACE pVDIfs = NULL;
 
     /* let's have a closer look at the arguments */
@@ -1083,6 +1089,28 @@ static int CmdCreateRawVMDK(int argc, char **argv, ComPtr<IVirtualBox> aVirtualB
         vrc = VERR_INVALID_PARAMETER;
         goto out;
     }
+#elif defined(RT_OS_FREEBSD)
+    struct stat DevStat;
+    if (!fstat(RawFile, &DevStat) && S_ISCHR(DevStat.st_mode))
+    {
+        off_t cbMedia = 0;
+        if (!ioctl(RawFile, DIOCGMEDIASIZE, &cbMedia))
+        {
+            cbSize = cbMedia;
+        }
+        else
+        {
+            vrc = RTErrConvertFromErrno(errno);
+            RTPrintf("Cannot get the block count for file '%s': %Rrc", rawdisk.raw(), vrc);
+            goto out;
+        }
+    }
+    else
+    {
+        RTPrintf("File '%s' is no character device\n", rawdisk.raw());
+        vrc = VERR_INVALID_PARAMETER;
+        goto out;
+    }
 #else /* all unrecognized OSes */
     /* Hopefully this works on all other hosts. If it doesn't, it'll just fail
      * creating the VMDK, so no real harm done. */
@@ -1115,7 +1143,10 @@ static int CmdCreateRawVMDK(int argc, char **argv, ComPtr<IVirtualBox> aVirtualB
     {
         RawDescriptor.fRawDisk = false;
         RawDescriptor.pszRawDisk = NULL;
-        RawDescriptor.cPartitions = 0;
+        RawDescriptor.cPartDescs = 0;
+        RawDescriptor.pPartDescs = NULL;
+
+        uint32_t uPartitions = 0;
 
         const char *p = pszPartitions;
         char *pszNext;
@@ -1140,6 +1171,7 @@ static int CmdCreateRawVMDK(int argc, char **argv, ComPtr<IVirtualBox> aVirtualB
             }
         }
 
+        HOSTPARTITIONS partitions;
         vrc = partRead(RawFile, &partitions);
         if (RT_FAILURE(vrc))
         {
@@ -1163,103 +1195,39 @@ static int CmdCreateRawVMDK(int argc, char **argv, ComPtr<IVirtualBox> aVirtualB
             }
         }
 
-        RawDescriptor.cPartitions = partitions.cPartitions;
-        RawDescriptor.pPartitions = (PVBOXHDDRAWPART)RTMemAllocZ(partitions.cPartitions * sizeof(VBOXHDDRAWPART));
-        if (!RawDescriptor.pPartitions)
-        {
-            RTPrintf("Out of memory allocating the partition list for '%s'\n", rawdisk.raw());
-            vrc = VERR_NO_MEMORY;
-            goto out;
-        }
         for (unsigned i = 0; i < partitions.cPartitions; i++)
         {
-            if (uPartitions & RT_BIT(partitions.aPartitions[i].uIndex))
+            PVBOXHDDRAWPARTDESC pPartDesc = NULL;
+
+            /* first dump the MBR/EPT data area */
+            if (partitions.aPartitions[i].cPartDataSectors)
             {
-                if (fRelative)
+                pPartDesc = appendPartDesc(&RawDescriptor.cPartDescs,
+                                           &RawDescriptor.pPartDescs);
+                if (!pPartDesc)
                 {
-#ifdef RT_OS_LINUX
-                    /* Refer to the correct partition and use offset 0. */
-                    char *pszRawName;
-                    vrc = RTStrAPrintf(&pszRawName, "%s%u", rawdisk.raw(),
-                                       partitions.aPartitions[i].uIndex);
-                    if (RT_FAILURE(vrc))
-                    {
-                        RTPrintf("Error creating reference to individual partition %u, rc=%Rrc\n",
-                                 partitions.aPartitions[i].uIndex, vrc);
-                        goto out;
-                    }
-                    RawDescriptor.pPartitions[i].pszRawDevice = pszRawName;
-                    RawDescriptor.pPartitions[i].uPartitionStartOffset = 0;
-                    RawDescriptor.pPartitions[i].uPartitionStart = partitions.aPartitions[i].uStart * 512;
-#elif defined(RT_OS_DARWIN)
-                    /* Refer to the correct partition and use offset 0. */
-                    char *pszRawName;
-                    vrc = RTStrAPrintf(&pszRawName, "%ss%u", rawdisk.raw(),
-                                       partitions.aPartitions[i].uIndex);
-                    if (RT_FAILURE(vrc))
-                    {
-                        RTPrintf("Error creating reference to individual partition %u, rc=%Rrc\n",
-                                 partitions.aPartitions[i].uIndex, vrc);
-                        goto out;
-                    }
-                    RawDescriptor.pPartitions[i].pszRawDevice = pszRawName;
-                    RawDescriptor.pPartitions[i].uPartitionStartOffset = 0;
-                    RawDescriptor.pPartitions[i].uPartitionStart = partitions.aPartitions[i].uStart * 512;
-#else
-                    /** @todo not implemented yet for Windows host. Treat just
-                     * like not specified (this code is actually never reached). */
-                    RawDescriptor.pPartitions[i].pszRawDevice = rawdisk.raw();
-                    RawDescriptor.pPartitions[i].uPartitionStartOffset = partitions.aPartitions[i].uStart * 512;
-                    RawDescriptor.pPartitions[i].uPartitionStart = partitions.aPartitions[i].uStart * 512;
-#endif
+                    RTPrintf("Out of memory allocating the partition list for '%s'\n", rawdisk.raw());
+                    vrc = VERR_NO_MEMORY;
+                    goto out;
                 }
-                else
-                {
-                    /* This is the "everything refers to the base raw device"
-                     * variant. This requires opening the base device in RW
-                     * mode even for creation. */
-                    RawDescriptor.pPartitions[i].pszRawDevice = rawdisk.raw();
-                    RawDescriptor.pPartitions[i].uPartitionStartOffset = partitions.aPartitions[i].uStart * 512;
-                    RawDescriptor.pPartitions[i].uPartitionStart = partitions.aPartitions[i].uStart * 512;
-                }
-            }
-            else
-            {
-                /* Suppress access to this partition. */
-                RawDescriptor.pPartitions[i].pszRawDevice = NULL;
-                RawDescriptor.pPartitions[i].uPartitionStartOffset = 0;
-                /* This is used in the plausibility check in the creation
-                 * code. In theory it's a dummy, but I don't want to make
-                 * the VMDK creatiion any more complicated than what it needs
-                 * to be. */
-                RawDescriptor.pPartitions[i].uPartitionStart = partitions.aPartitions[i].uStart * 512;
-            }
-            if (PARTTYPE_IS_EXTENDED(partitions.aPartitions[i].uType))
-            {
-                /* Suppress exporting the actual extended partition. Only
-                 * logical partitions should be processed. However completely
-                 * ignoring it leads to leaving out the MBR data. */
-                RawDescriptor.pPartitions[i].cbPartition = 0;
-            }
-            else
-                RawDescriptor.pPartitions[i].cbPartition =  partitions.aPartitions[i].uSize * 512;
-            RawDescriptor.pPartitions[i].uPartitionDataStart = partitions.aPartitions[i].uPartDataStart * 512;
-            /** @todo the clipping below isn't 100% accurate, as it should
-             * actually clip to the track size. However that's easier said
-             * than done as figuring out the track size is heuristics. */
-            RawDescriptor.pPartitions[i].cbPartitionData = RT_MIN(partitions.aPartitions[i].cPartDataSectors, 63) * 512;
-            if (RawDescriptor.pPartitions[i].cbPartitionData)
-            {
-                Assert (RawDescriptor.pPartitions[i].cbPartitionData -
-                        (size_t)RawDescriptor.pPartitions[i].cbPartitionData == 0);
-                void *pPartData = RTMemAlloc((size_t)RawDescriptor.pPartitions[i].cbPartitionData);
+
+                /** @todo the clipping below isn't 100% accurate, as it should
+                 * actually clip to the track size. However that's easier said
+                 * than done as figuring out the track size is heuristics. In
+                 * any case the clipping is adjusted later after sorting, to
+                 * prevent overlapping data areas on the resulting image. */
+                pPartDesc->cbData = RT_MIN(partitions.aPartitions[i].cPartDataSectors, 63) * 512;
+                pPartDesc->uStart = partitions.aPartitions[i].uPartDataStart * 512;
+                Assert(pPartDesc->cbData - (size_t)pPartDesc->cbData == 0);
+                void *pPartData = RTMemAlloc((size_t)pPartDesc->cbData);
                 if (!pPartData)
                 {
                     RTPrintf("Out of memory allocating the partition descriptor for '%s'\n", rawdisk.raw());
                     vrc = VERR_NO_MEMORY;
                     goto out;
                 }
-                vrc = RTFileReadAt(RawFile, partitions.aPartitions[i].uPartDataStart * 512, pPartData, (size_t)RawDescriptor.pPartitions[i].cbPartitionData, NULL);
+                vrc = RTFileReadAt(RawFile, partitions.aPartitions[i].uPartDataStart * 512,
+                                   pPartData, (size_t)pPartDesc->cbData, NULL);
                 if (RT_FAILURE(vrc))
                 {
                     RTPrintf("Cannot read partition data from raw device '%s': %Rrc\n", rawdisk.raw(), vrc);
@@ -1284,19 +1252,140 @@ static int CmdCreateRawVMDK(int argc, char **argv, ComPtr<IVirtualBox> aVirtualB
                         goto out;
                     }
                 }
-                RawDescriptor.pPartitions[i].pvPartitionData = pPartData;
+                pPartDesc->pvPartitionData = pPartData;
+            }
+
+            if (PARTTYPE_IS_EXTENDED(partitions.aPartitions[i].uType))
+            {
+                /* Suppress exporting the actual extended partition. Only
+                 * logical partitions should be processed. However completely
+                 * ignoring it leads to leaving out the EBR data. */
+                continue;
+            }
+
+            /* set up values for non-relative device names */
+            const char *pszRawName = rawdisk.raw();
+            uint64_t uStartOffset = partitions.aPartitions[i].uStart * 512;
+
+            pPartDesc = appendPartDesc(&RawDescriptor.cPartDescs,
+                                       &RawDescriptor.pPartDescs);
+            if (!pPartDesc)
+            {
+                RTPrintf("Out of memory allocating the partition list for '%s'\n", rawdisk.raw());
+                vrc = VERR_NO_MEMORY;
+                goto out;
+            }
+
+            if (uPartitions & RT_BIT(partitions.aPartitions[i].uIndex))
+            {
+                if (fRelative)
+                {
+#ifdef RT_OS_LINUX
+                    /* Refer to the correct partition and use offset 0. */
+                    char *psz;
+                    vrc = RTStrAPrintf(&psz, "%s%u", rawdisk.raw(),
+                                       partitions.aPartitions[i].uIndex);
+                    if (RT_FAILURE(vrc))
+                    {
+                        RTPrintf("Error creating reference to individual partition %u, rc=%Rrc\n",
+                                 partitions.aPartitions[i].uIndex, vrc);
+                        goto out;
+                    }
+                    pszRawName = psz;
+                    uStartOffset = 0;
+#elif defined(RT_OS_DARWIN)
+                    /* Refer to the correct partition and use offset 0. */
+                    char *psz;
+                    vrc = RTStrAPrintf(&psz, "%ss%u", rawdisk.raw(),
+                                       partitions.aPartitions[i].uIndex);
+                    if (RT_FAILURE(vrc))
+                    {
+                        RTPrintf("Error creating reference to individual partition %u, rc=%Rrc\n",
+                                 partitions.aPartitions[i].uIndex, vrc);
+                        goto out;
+                    }
+                    pszRawName = psz;
+                    uStartOffset = 0;
+#else
+                    /** @todo not implemented for other hosts. Treat just like
+                     * not specified (this code is actually never reached). */
+#endif
+                }
+
+                pPartDesc->pszRawDevice = pszRawName;
+                pPartDesc->uStartOffset = uStartOffset;
+            }
+            else
+            {
+                pPartDesc->pszRawDevice = NULL;
+                pPartDesc->uStartOffset = 0;
+            }
+
+            pPartDesc->uStart = partitions.aPartitions[i].uStart * 512;
+            pPartDesc->cbData = partitions.aPartitions[i].uSize * 512;
+        }
+
+        /* Sort data areas in ascending order of start. */
+        for (unsigned i = 0; i < RawDescriptor.cPartDescs-1; i++)
+        {
+            unsigned uMinIdx = i;
+            uint64_t uMinVal = RawDescriptor.pPartDescs[i].uStart;
+            for (unsigned j = i + 1; j < RawDescriptor.cPartDescs; j++)
+            {
+                if (RawDescriptor.pPartDescs[j].uStart < uMinVal)
+                {
+                    uMinIdx = j;
+                    uMinVal = RawDescriptor.pPartDescs[j].uStart;
+                }
+            }
+            if (uMinIdx != i)
+            {
+                /* Swap entries at index i and uMinIdx. */
+                VBOXHDDRAWPARTDESC tmp;
+                memcpy(&tmp, &RawDescriptor.pPartDescs[i], sizeof(tmp));
+                memcpy(&RawDescriptor.pPartDescs[i], &RawDescriptor.pPartDescs[uMinIdx], sizeof(tmp));
+                memcpy(&RawDescriptor.pPartDescs[uMinIdx], &tmp, sizeof(tmp));
+            }
+        }
+
+        /* Have a second go at MBR/EPT area clipping. Now that the data areas
+         * are sorted this is much easier to get 100% right. */
+        for (unsigned i = 0; i < RawDescriptor.cPartDescs-1; i++)
+        {
+            if (RawDescriptor.pPartDescs[i].pvPartitionData)
+            {
+                RawDescriptor.pPartDescs[i].cbData = RT_MIN(RawDescriptor.pPartDescs[i+1].uStart - RawDescriptor.pPartDescs[i].uStart, RawDescriptor.pPartDescs[i].cbData);
+                if (!RawDescriptor.pPartDescs[i].cbData)
+                {
+                    RTPrintf("MBR/EPT overlaps with data area\n");
+                    vrc = VERR_INVALID_PARAMETER;
+                    goto out;
+                }
             }
         }
     }
 
     RTFileClose(RawFile);
 
+#ifdef DEBUG_klaus
+    RTPrintf("#            start         length    startoffset  partdataptr  device\n");
+    for (unsigned i = 0; i < RawDescriptor.cPartDescs; i++)
+    {
+        RTPrintf("%2u  %14RU64 %14RU64 %14RU64 %#18p %s\n", i,
+                 RawDescriptor.pPartDescs[i].uStart,
+                 RawDescriptor.pPartDescs[i].cbData,
+                 RawDescriptor.pPartDescs[i].uStartOffset,
+                 RawDescriptor.pPartDescs[i].pvPartitionData,
+                 RawDescriptor.pPartDescs[i].pszRawDevice);
+    }
+#endif
+
     VDINTERFACE      vdInterfaceError;
     VDINTERFACEERROR vdInterfaceErrorCallbacks;
     vdInterfaceErrorCallbacks.cbSize       = sizeof(VDINTERFACEERROR);
     vdInterfaceErrorCallbacks.enmInterface = VDINTERFACETYPE_ERROR;
     vdInterfaceErrorCallbacks.pfnError     = handleVDError;
-    vdInterfaceErrorCallbacks.pfnMessage   = NULL;
+    vdInterfaceErrorCallbacks.pfnMessage   = handleVDMessage;
 
     vrc = VDInterfaceAdd(&vdInterfaceError, "VBoxManage_IError", VDINTERFACETYPE_ERROR,
                          &vdInterfaceErrorCallbacks, NULL, &pVDIfs);
@@ -1334,19 +1423,16 @@ static int CmdCreateRawVMDK(int argc, char **argv, ComPtr<IVirtualBox> aVirtualB
     /* Clean up allocated memory etc. */
     if (pszPartitions)
     {
-        for (unsigned i = 0; i < partitions.cPartitions; i++)
+        for (unsigned i = 0; i < RawDescriptor.cPartDescs; i++)
         {
-            if (uPartitions & RT_BIT(partitions.aPartitions[i].uIndex))
-            {
-                if (fRelative)
-                {
-#ifdef RT_OS_LINUX
-                    /* Free memory allocated above. */
-                    RTStrFree((char *)(void *)RawDescriptor.pPartitions[i].pszRawDevice);
-#endif /* RT_OS_LINUX */
-                }
-            }
+            /* Free memory allocated for relative device name. */
+            if (fRelative && RawDescriptor.pPartDescs[i].pszRawDevice)
+                RTStrFree((char *)(void *)RawDescriptor.pPartDescs[i].pszRawDevice);
+            if (RawDescriptor.pPartDescs[i].pvPartitionData)
+                RTMemFree((void *)RawDescriptor.pPartDescs[i].pvPartitionData);
         }
+        if (RawDescriptor.pPartDescs)
+            RTMemFree(RawDescriptor.pPartDescs);
     }
 
     if (fRegister)
@@ -1406,7 +1492,7 @@ static int CmdRenameVMDK(int argc, char **argv, ComPtr<IVirtualBox> aVirtualBox,
     vdInterfaceErrorCallbacks.cbSize       = sizeof(VDINTERFACEERROR);
     vdInterfaceErrorCallbacks.enmInterface = VDINTERFACETYPE_ERROR;
     vdInterfaceErrorCallbacks.pfnError     = handleVDError;
-    vdInterfaceErrorCallbacks.pfnMessage   = NULL;
+    vdInterfaceErrorCallbacks.pfnMessage   = handleVDMessage;
 
     int vrc = VDInterfaceAdd(&vdInterfaceError, "VBoxManage_IError", VDINTERFACETYPE_ERROR,
                              &vdInterfaceErrorCallbacks, NULL, &pVDIfs);
@@ -1488,7 +1574,7 @@ static int CmdConvertToRaw(int argc, char **argv, ComPtr<IVirtualBox> aVirtualBo
     vdInterfaceErrorCallbacks.cbSize       = sizeof(VDINTERFACEERROR);
     vdInterfaceErrorCallbacks.enmInterface = VDINTERFACETYPE_ERROR;
     vdInterfaceErrorCallbacks.pfnError     = handleVDError;
-    vdInterfaceErrorCallbacks.pfnMessage   = NULL;
+    vdInterfaceErrorCallbacks.pfnMessage   = handleVDMessage;
 
     int vrc = VDInterfaceAdd(&vdInterfaceError, "VBoxManage_IError", VDINTERFACETYPE_ERROR,
                              &vdInterfaceErrorCallbacks, NULL, &pVDIfs);
@@ -1549,14 +1635,14 @@ static int CmdConvertToRaw(int argc, char **argv, ComPtr<IVirtualBox> aVirtualBo
     uint64_t cbSize = VDGetSize(pDisk, VD_LAST_IMAGE);
     uint64_t offFile = 0;
 #define RAW_BUFFER_SIZE _128K
-    uint64_t cbBuf = RAW_BUFFER_SIZE;
+    size_t cbBuf = RAW_BUFFER_SIZE;
     void *pvBuf = RTMemAlloc(cbBuf);
     if (pvBuf)
     {
         RTPrintf("Converting image \"%s\" with size %RU64 bytes (%RU64MB) to raw...\n", Utf8Str(src).raw(), cbSize, (cbSize + _1M - 1) / _1M);
         while (offFile < cbSize)
         {
-            size_t cb = cbSize - offFile >= (uint64_t)cbBuf ? cbBuf : (size_t)(cbSize - offFile);
+            size_t cb = (size_t)RT_MIN(cbSize - offFile, cbBuf);
             vrc = VDRead(pDisk, offFile, pvBuf, cb);
             if (RT_FAILURE(vrc))
                 break;
@@ -1653,7 +1739,7 @@ static int CmdConvertHardDisk(int argc, char **argv, ComPtr<IVirtualBox> aVirtua
     vdInterfaceErrorCallbacks.cbSize       = sizeof(VDINTERFACEERROR);
     vdInterfaceErrorCallbacks.enmInterface = VDINTERFACETYPE_ERROR;
     vdInterfaceErrorCallbacks.pfnError     = handleVDError;
-    vdInterfaceErrorCallbacks.pfnMessage   = NULL;
+    vdInterfaceErrorCallbacks.pfnMessage   = handleVDMessage;
 
     vrc = VDInterfaceAdd(&vdInterfaceError, "VBoxManage_IError", VDINTERFACETYPE_ERROR,
                          &vdInterfaceErrorCallbacks, NULL, &pVDIfs);

@@ -4,7 +4,7 @@
 #
 
 #
-# Copyright (C) 2006-2007 Sun Microsystems, Inc.
+# Copyright (C) 2006-2007 Oracle Corporation
 #
 # This file is part of VirtualBox Open Source Edition (OSE), as
 # available from http://www.virtualbox.org. This file is free software;
@@ -13,10 +13,6 @@
 # Foundation, in version 2 as it comes in the "COPYING" file of the
 # VirtualBox OSE distribution. VirtualBox OSE is distributed in the
 # hope that it will be useful, but WITHOUT ANY WARRANTY of any kind.
-#
-# Please contact Sun Microsystems, Inc., 4150 Network Circle, Santa
-# Clara, CA 95054 USA or visit http://www.sun.com if you need
-# additional information or have any questions.
 #
 
 SUB_DEPTH = ../../..
@@ -49,17 +45,19 @@ DisasmCoreR3_SOURCES    = \
 	DisasmTables.cpp \
 	DisasmTablesX64.cpp
 
-LIBRARIES              += DisasmGC
-DisasmGC_TEMPLATE       = VBOXGC
-DisasmGC_DEFS           = IN_DIS IN_RT_GC IN_RT_RC DIS_CORE_ONLY
-DisasmGC_SOURCES        = \
-	DisasmCore.cpp \
-	DisasmReg.cpp \
-	DisasmTables.cpp \
-	DisasmTablesX64.cpp
+ifdef VBOX_WITH_RAW_MODE
+ LIBRARIES              += DisasmRC
+ DisasmRC_TEMPLATE       = VBoxRc
+ DisasmRC_DEFS           = IN_DIS IN_RT_RC DIS_CORE_ONLY
+ DisasmRC_SOURCES        = \
+ 	DisasmCore.cpp \
+ 	DisasmReg.cpp \
+ 	DisasmTables.cpp \
+ 	DisasmTablesX64.cpp
+endif # VBOX_WITH_RAW_MODE
 
 LIBRARIES              += DisasmR0
-DisasmR0_TEMPLATE       = VBOXR0
+DisasmR0_TEMPLATE       = VBoxR0
 DisasmR0_DEFS           = IN_DIS IN_RT_R0 DIS_CORE_ONLY
 DisasmR0_SOURCES        = \
 	DisasmCore.cpp \

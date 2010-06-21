@@ -4,7 +4,7 @@
  */
 
 /*
- * Copyright (C) 2006-2007 Sun Microsystems, Inc.
+ * Copyright (C) 2006-2007 Oracle Corporation
  *
  * This file is part of VirtualBox Open Source Edition (OSE), as
  * available from http://www.virtualbox.org. This file is free software;
@@ -13,10 +13,6 @@
  * Foundation, in version 2 as it comes in the "COPYING" file of the
  * VirtualBox OSE distribution. VirtualBox OSE is distributed in the
  * hope that it will be useful, but WITHOUT ANY WARRANTY of any kind.
- *
- * Please contact Sun Microsystems, Inc., 4150 Network Circle, Santa
- * Clara, CA 95054 USA or visit http://www.sun.com if you need
- * additional information or have any questions.
  */
 
 
@@ -25,19 +21,17 @@
 *******************************************************************************/
 #define LOG_GROUP LOG_GROUP_HWACCM
 #include <VBox/hwaccm.h>
+#include <VBox/pgm.h>
 #include "HWACCMInternal.h"
 #include <VBox/vm.h>
 #include <VBox/x86.h>
 #include <VBox/hwacc_vmx.h>
 #include <VBox/hwacc_svm.h>
-#include <VBox/pgm.h>
-#include <VBox/pdm.h>
 #include <VBox/err.h>
 #include <VBox/log.h>
-#include <VBox/selm.h>
-#include <VBox/iom.h>
 #include <iprt/assert.h>
 #include <iprt/asm.h>
+#include <iprt/asm-amd64-x86.h>
 #include <iprt/cpuset.h>
 #include <iprt/memobj.h>
 #include <iprt/param.h>
@@ -1098,6 +1092,10 @@ VMMR0DECL(int) HWACCMR0Enter(PVM pVM, PVMCPU pVCpu)
         AssertRCReturn(rc, rc);
     }
 
+#ifdef VBOX_WITH_2X_4GB_ADDR_SPACE
+    bool fStartedSet = PGMDynMapStartOrMigrateAutoSet(pVCpu);
+#endif
+
     rc  = HWACCMR0Globals.pfnEnterSession(pVM, pVCpu, pCpu);
     AssertRC(rc);
     /* We must save the host context here (VT-x) as we might be rescheduled on a different cpu after a long jump back to ring 3. */
@@ -1106,14 +1104,13 @@ VMMR0DECL(int) HWACCMR0Enter(PVM pVM, PVMCPU pVCpu)
     rc |= HWACCMR0Globals.pfnLoadGuestState(pVM, pVCpu, pCtx);
     AssertRC(rc);
 
-    /* keep track of the CPU owning the VMCS for debugging scheduling weirdness and ring-3 calls. */
-    if (RT_SUCCESS(rc))
-    {
 #ifdef VBOX_WITH_2X_4GB_ADDR_SPACE
-        PGMDynMapMigrateAutoSet(pVCpu);
+    if (fStartedSet)
+        PGMDynMapReleaseAutoSet(pVCpu);
 #endif
-    }
-    else
+
+    /* keep track of the CPU owning the VMCS for debugging scheduling weirdness and ring-3 calls. */
+    if (RT_FAILURE(rc))
         pVCpu->hwaccm.s.idEnteredCpu = NIL_RTCPUID;
     return rc;
 }
@@ -1152,6 +1149,15 @@ VMMR0DECL(int) HWACCMR0Leave(PVM pVM, PVMCPU pVCpu)
     }
 
     rc = HWACCMR0Globals.pfnLeaveSession(pVM, pVCpu, pCtx);
+
+    /* We don't pass on invlpg information to the recompiler for nested paging guests, so we must make sure the recompiler flushes its TLB
+     * the next time it executes code.
+     */
+    if (    pVM->hwaccm.s.fNestedPaging
+        &&  CPUMIsGuestInPagedProtectedModeEx(pCtx))
+    {
+        CPUMSetChangedFlags(pVCpu, CPUM_CHANGED_GLOBAL_TLB_FLUSH);
+    }
 
     /* keep track of the CPU owning the VMCS for debugging scheduling weirdness and ring-3 calls. */
 #ifdef RT_STRICT

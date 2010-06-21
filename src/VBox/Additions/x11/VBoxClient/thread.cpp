@@ -4,7 +4,7 @@
  */
 
 /*
- * Copyright (C) 2006-2007 Sun Microsystems, Inc.
+ * Copyright (C) 2006-2007 Oracle Corporation
  *
  * This file is part of VirtualBox Open Source Edition (OSE), as
  * available from http://www.virtualbox.org. This file is free software;
@@ -13,10 +13,6 @@
  * Foundation, in version 2 as it comes in the "COPYING" file of the
  * VirtualBox OSE distribution. VirtualBox OSE is distributed in the
  * hope that it will be useful, but WITHOUT ANY WARRANTY of any kind.
- *
- * Please contact Sun Microsystems, Inc., 4150 Network Circle, Santa
- * Clara, CA 95054 USA or visit http://www.sun.com if you need
- * additional information or have any questions.
  */
 
 #include <VBox/log.h>
@@ -25,11 +21,11 @@
 #include "thread.h"
 
 /** Stop the thread using its stop method and get the exit value. */
-int VBoxGuestThread::stop(unsigned cMillies, int *prc)
+int VBoxGuestThread::stop(RTMSINTERVAL cMillies, int *prc)
 {
     int rc = VINF_SUCCESS;
 
-    LogFlowThisFunc(("\n"));
+    LogRelFlowFunc(("\n"));
     if (NIL_RTTHREAD == mSelf)  /* Assertion */
     {
         LogRelThisFunc(("Attempted to stop thread %s which is not running!\n", mName));
@@ -49,14 +45,14 @@ int VBoxGuestThread::stop(unsigned cMillies, int *prc)
             LogRelThisFunc(("Failed to stop thread %s!\n", mName));
         }
     }
-    LogFlowThisFunc(("returning %Rrc\n", rc));
+    LogRelFlowFunc(("returning %Rrc\n", rc));
     return rc;
 }
 
 /** Destroy the class, stopping the thread if necessary. */
 VBoxGuestThread::~VBoxGuestThread(void)
 {
-    LogFlowThisFunc(("\n"));
+    LogRelFlowFunc(("\n"));
     if (NIL_RTTHREAD != mSelf)
     {
         LogRelThisFunc(("Warning!  Stopping thread %s, as it is still running!\n", mName));
@@ -66,7 +62,7 @@ VBoxGuestThread::~VBoxGuestThread(void)
         }
         catch(...) {}
     }
-    LogFlowThisFunc(("returning\n"));
+    LogRelFlowFunc(("returning\n"));
 }
 
 /** Start the thread. */
@@ -74,7 +70,7 @@ int VBoxGuestThread::start(void)
 {
     int rc = VINF_SUCCESS;
 
-    LogFlowThisFunc(("returning\n"));
+    LogRelFlowFunc(("returning\n"));
     if (NIL_RTTHREAD != mSelf)  /* Assertion */
     {
         LogRelThisFunc(("Attempted to start thead %s twice!\n", mName));
@@ -83,7 +79,7 @@ int VBoxGuestThread::start(void)
     mExit = false;
     rc = RTThreadCreate(&mSelf, threadFunction, reinterpret_cast<void *>(this),
                           mStack, mType, mFlags, mName);
-    LogFlowThisFunc(("returning %Rrc\n", rc));
+    LogRelFlowFunc(("returning %Rrc\n", rc));
     return rc;
 }
 
@@ -98,7 +94,7 @@ int VBoxGuestThread::threadFunction(RTTHREAD self, void *pvUser)
 {
     int rc = VINF_SUCCESS;
 
-    LogFlowFunc(("\n"));
+    LogRelFlowFunc(("\n"));
     PSELF pSelf = reinterpret_cast<PSELF>(pvUser);
     pSelf->mRunning = true;
     try
@@ -116,6 +112,6 @@ int VBoxGuestThread::threadFunction(RTTHREAD self, void *pvUser)
         rc = VERR_UNRESOLVED_ERROR;
     }
     pSelf->mRunning = false;
-    LogFlowFunc(("returning %Rrc\n", rc));
+    LogRelFlowFunc(("returning %Rrc\n", rc));
     return rc;
 }

@@ -1,12 +1,12 @@
 /* $Id: tstDeviceStructSize.cpp $ */
 /** @file
  * tstDeviceStructSize - testcase for check structure sizes/alignment
- *                       and to verify that HC and GC uses the same
+ *                       and to verify that HC and RC uses the same
  *                       representation of the structures.
  */
 
 /*
- * Copyright (C) 2006-2007 Sun Microsystems, Inc.
+ * Copyright (C) 2006-2010 Oracle Corporation
  *
  * This file is part of VirtualBox Open Source Edition (OSE), as
  * available from http://www.virtualbox.org. This file is free software;
@@ -15,10 +15,6 @@
  * Foundation, in version 2 as it comes in the "COPYING" file of the
  * VirtualBox OSE distribution. VirtualBox OSE is distributed in the
  * hope that it will be useful, but WITHOUT ANY WARRANTY of any kind.
- *
- * Please contact Sun Microsystems, Inc., 4150 Network Circle, Santa
- * Clara, CA 95054 USA or visit http://www.sun.com if you need
- * additional information or have any questions.
  */
 
 /*******************************************************************************
@@ -108,7 +104,7 @@
     do { \
         if (off != RT_OFFSETOF(type, m)) \
         { \
-            printf("%#010x %s  Off by %d!! (off=%#x)\n", RT_OFFSETOF(type, m), #type "." #m, off - RT_OFFSETOF(type, m), off); \
+            printf("tstDeviceStructSize: error! %#010x %s  Off by %d!! (off=%#x)\n", RT_OFFSETOF(type, m), #type "." #m, off - RT_OFFSETOF(type, m), off); \
             rc++; \
         } \
         /*else */ \
@@ -124,11 +120,11 @@
     do { \
         if (size != sizeof(type)) \
         { \
-            printf("sizeof(%s): %#x (%d)  Off by %d!!\n", #type, (int)sizeof(type), (int)sizeof(type), (int)(sizeof(type) - size)); \
+            printf("tstDeviceStructSize: error! sizeof(%s): %#x (%d)  Off by %d!!\n", #type, (int)sizeof(type), (int)sizeof(type), (int)(sizeof(type) - size)); \
             rc++; \
         } \
         else \
-            printf("sizeof(%s): %#x (%d)\n", #type, (int)sizeof(type), (int)sizeof(type)); \
+            printf("tstDeviceStructSize: info: sizeof(%s): %#x (%d)\n", #type, (int)sizeof(type), (int)sizeof(type)); \
     } while (0)
 
 /**
@@ -139,7 +135,7 @@
     { \
         if (RT_OFFSETOF(strct, member) & ((align) - 1) ) \
         { \
-            printf("%s::%s offset=%#x (%u) expected alignment %x, meaning %#x (%u) off\n", \
+            printf("tstDeviceStructSize: error! %s::%s offset=%#x (%u) expected alignment %x, meaning %#x (%u) off\n", \
                    #strct, #member, \
                    (unsigned)RT_OFFSETOF(strct, member), \
                    (unsigned)RT_OFFSETOF(strct, member), \
@@ -157,7 +153,7 @@
     do { \
         if (RT_ALIGN_Z(sizeof(type), (align)) != sizeof(type)) \
         { \
-            printf("%s size=%#x (%u), align=%#x %#x (%u) bytes off\n", \
+            printf("tstDeviceStructSize: error! %s size=%#x (%u), align=%#x %#x (%u) bytes off\n", \
                    #type, \
                    (unsigned)sizeof(type), \
                    (unsigned)sizeof(type), \
@@ -177,13 +173,13 @@
         strct *p; \
         if (sizeof(p->member.s) > sizeof(p->member.padding)) \
         { \
-            printf("padding of %s::%s is too small, padding=%d struct=%d correct=%d\n", #strct, #member, \
+            printf("tstDeviceStructSize: error! padding of %s::%s is too small, padding=%d struct=%d correct=%d\n", #strct, #member, \
                    (int)sizeof(p->member.padding), (int)sizeof(p->member.s), (int)RT_ALIGN_Z(sizeof(p->member.s), (align))); \
             rc++; \
         } \
         else if (RT_ALIGN_Z(sizeof(p->member.padding), (align)) != sizeof(p->member.padding)) \
         { \
-            printf("padding of %s::%s is misaligned, padding=%d correct=%d\n", #strct, #member, \
+            printf("tstDeviceStructSize: error! padding of %s::%s is misaligned, padding=%d correct=%d\n", #strct, #member, \
                    (int)sizeof(p->member.padding), (int)RT_ALIGN_Z(sizeof(p->member.s), (align))); \
             rc++; \
         } \
@@ -198,7 +194,7 @@
         strct *p; \
         if (sizeof(p->s) > sizeof(p->padding)) \
         { \
-            printf("padding of %s is too small, padding=%d struct=%d correct=%d\n", #strct, \
+            printf("tstDeviceStructSize: error! padding of %s is too small, padding=%d struct=%d correct=%d\n", #strct, \
                    (int)sizeof(p->padding), (int)sizeof(p->s), (int)RT_ALIGN_Z(sizeof(p->s), 32)); \
             rc++; \
         } \
@@ -213,7 +209,7 @@
         strct *p; \
         if (sizeof(p->member) > sizeof(p->pad_member)) \
         { \
-            printf("padding of %s::%s is too small, padding=%d struct=%d\n", #strct, #member, \
+            printf("tstDeviceStructSize: error! padding of %s::%s is too small, padding=%d struct=%d\n", #strct, #member, \
                    (int)sizeof(p->pad_member), (int)sizeof(p->member)); \
             rc++; \
         } \
@@ -225,7 +221,7 @@
 #define PRINT_OFFSET(strct, member) \
     do \
     { \
-        printf("%s::%s offset %d sizeof %d\n",  #strct, #member, (int)RT_OFFSETOF(strct, member), (int)RT_SIZEOFMEMB(strct, member)); \
+        printf("tstDeviceStructSize: info: %s::%s offset %d sizeof %d\n",  #strct, #member, (int)RT_OFFSETOF(strct, member), (int)RT_SIZEOFMEMB(strct, member)); \
     } while (0)
 
 
@@ -255,6 +251,7 @@ int main()
      * Misc alignment checks (keep this somewhat alphabetical).
      */
     CHECK_MEMBER_ALIGNMENT(AHCI, lock, 8);
+    CHECK_MEMBER_ALIGNMENT(AHCIPort, StatDMA, 8);
     CHECK_MEMBER_ALIGNMENT(AHCIATACONTROLLER, lock, 8);
     CHECK_MEMBER_ALIGNMENT(AHCIATACONTROLLER, StatAsyncOps, 8);
 #ifdef VBOX_WITH_STATISTICS
@@ -269,8 +266,14 @@ int main()
 #ifdef VBOX_WITH_STATISTICS
     CHECK_MEMBER_ALIGNMENT(DEVPIC, StatSetIrqGC, 8);
 #endif
+#ifdef VBOX_WITH_E1000
     CHECK_MEMBER_ALIGNMENT(E1KSTATE, cs, 8);
     CHECK_MEMBER_ALIGNMENT(E1KSTATE, csRx, 8);
+    CHECK_MEMBER_ALIGNMENT(E1KSTATE, StatReceiveBytes, 8);
+#endif
+#ifdef VBOX_WITH_VIRTIO
+    CHECK_MEMBER_ALIGNMENT(VNETSTATE, StatReceiveBytes, 8);
+#endif
     //CHECK_MEMBER_ALIGNMENT(E1KSTATE, csTx, 8);
 #ifdef VBOX_WITH_USB
     CHECK_MEMBER_ALIGNMENT(EHCI, RootHub, 8);
@@ -278,6 +281,7 @@ int main()
     CHECK_MEMBER_ALIGNMENT(EHCI, StatCanceledIsocUrbs, 8);
 # endif
 #endif
+    CHECK_MEMBER_ALIGNMENT(E1KSTATE, StatReceiveBytes, 8);
 #ifdef VBOX_WITH_STATISTICS
     CHECK_MEMBER_ALIGNMENT(IOAPICState, StatMMIOReadGC, 8);
     CHECK_MEMBER_ALIGNMENT(IOAPICState, StatMMIOReadGC, 8);
@@ -296,8 +300,9 @@ int main()
     CHECK_MEMBER_ALIGNMENT(PCIGLOBALS, pci_irq_levels, 16);
     CHECK_MEMBER_ALIGNMENT(PCNetState, u64LastPoll, 8);
     CHECK_MEMBER_ALIGNMENT(PCNetState, CritSect, 8);
+    CHECK_MEMBER_ALIGNMENT(PCNetState, StatReceiveBytes, 8);
 #ifdef VBOX_WITH_STATISTICS
-    CHECK_MEMBER_ALIGNMENT(PCNetState, StatMMIOReadGC, 8);
+    CHECK_MEMBER_ALIGNMENT(PCNetState, StatMMIOReadRZ, 8);
 #endif
     CHECK_MEMBER_ALIGNMENT(PITState, StatPITIrq, 8);
     CHECK_MEMBER_ALIGNMENT(SerialState, CritSect, 8);
@@ -311,11 +316,13 @@ int main()
     CHECK_MEMBER_ALIGNMENT(VPCISTATE, Queues, 8);
 #endif
 
+#ifdef VBOX_WITH_RAW_MODE
     /*
-     * Compare HC and GC.
+     * Compare HC and RC.
      */
-    printf("tstDeviceStructSize: Comparing HC and GC...\n");
-#include "tstDeviceStructSizeGC.h"
+    printf("tstDeviceStructSize: Comparing HC and RC...\n");
+# include "tstDeviceStructSizeRC.h"
+#endif
 
     /*
      * Report result.
@@ -326,3 +333,4 @@ int main()
         printf("tstDeviceStructSize: SUCCESS\n");
     return rc;
 }
+

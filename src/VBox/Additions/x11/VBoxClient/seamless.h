@@ -4,7 +4,7 @@
  */
 
 /*
- * Copyright (C) 2006-2007 Sun Microsystems, Inc.
+ * Copyright (C) 2006-2007 Oracle Corporation
  *
  * This file is part of VirtualBox Open Source Edition (OSE), as
  * available from http://www.virtualbox.org. This file is free software;
@@ -13,10 +13,6 @@
  * Foundation, in version 2 as it comes in the "COPYING" file of the
  * VirtualBox OSE distribution. VirtualBox OSE is distributed in the
  * hope that it will be useful, but WITHOUT ANY WARRANTY of any kind.
- *
- * Please contact Sun Microsystems, Inc., 4150 Network Circle, Santa
- * Clara, CA 95054 USA or visit http://www.sun.com if you need
- * additional information or have any questions.
  */
 
 #ifndef __Additions_xclient_seamless_h
@@ -58,7 +54,7 @@ public:
     {
         int rc = VINF_SUCCESS;
 
-        LogFlowThisFunc(("\n"));
+        LogRelFlowFunc(("\n"));
         rc = mGuest->start();
         if (RT_SUCCESS(rc))
         {
@@ -68,7 +64,7 @@ public:
             }
             mGuest->stop();
         }
-        LogFlowThisFunc(("returning %Rrc\n", rc));
+        LogRelFlowFunc(("returning %Rrc\n", rc));
         return rc;
     }
     /**
@@ -147,7 +143,7 @@ public:
     {
         int rc = VINF_SUCCESS;
 
-        LogFlowThisFunc(("\n"));
+        LogRelFlowFunc(("\n"));
         if (isInitialised)  /* Assertion */
         {
             LogRelFunc(("error: called a second time! (VBoxClient)\n"));
@@ -171,15 +167,15 @@ public:
         }
         if (RT_FAILURE(rc))
         {
-            LogFunc(("returning %Rrc (VBoxClient)\n", rc));
+            LogRelFunc(("returning %Rrc (VBoxClient)\n", rc));
         }
-        LogFlowThisFunc(("returning %Rrc\n", rc));
+        LogRelFlowFunc(("returning %Rrc\n", rc));
         return rc;
     }
 
-    void uninit(unsigned cMillies = RT_INDEFINITE_WAIT)
+    void uninit(RTMSINTERVAL cMillies = RT_INDEFINITE_WAIT)
     {
-        LogFlowThisFunc(("\n"));
+        LogRelFlowFunc(("\n"));
         if (isInitialised)
         {
             mHost.stop(cMillies);
@@ -187,7 +183,7 @@ public:
             mGuest.uninit();
             isInitialised = false;
         }
-        LogFlowThisFunc(("returning\n"));
+        LogRelFlowFunc(("returning\n"));
     }
 
     VBoxGuestSeamless() : mGuestFunction(&mGuest, &mGuestObs),

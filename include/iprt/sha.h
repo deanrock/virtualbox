@@ -3,7 +3,7 @@
  */
 
 /*
- * Copyright (C) 2009 Sun Microsystems, Inc.
+ * Copyright (C) 2009 Oracle Corporation
  *
  * This file is part of VirtualBox Open Source Edition (OSE), as
  * available from http://www.virtualbox.org. This file is free software;
@@ -21,10 +21,6 @@
  *
  * You may elect to license modified versions of this file under the
  * terms and conditions of either the GPL or the CDDL or both.
- *
- * Please contact Sun Microsystems, Inc., 4150 Network Circle, Santa
- * Clara, CA 95054 USA or visit http://www.sun.com if you need
- * additional information or have any questions.
  */
 
 #ifndef ___iprt_sha_h
@@ -39,10 +35,22 @@ RT_C_DECLS_BEGIN
  * @{
  */
 
+/**
+ * SHA progress callback.
+ *
+ * @returns IPRT status code.
+ *
+ * @param   uPercent    The progress completion percentage.
+ * @param   pvUser      The user defined parameter.
+ */
+typedef DECLCALLBACK(int) FNRTSHAPROGRESS(unsigned uPercent, void *pvUser);
+/** Pointer to a SHA progress callback. */
+typedef FNRTSHAPROGRESS *PFNRTSHAPROGRESS;
+
 /** The size of a SHA-1 hash. */
 #define RTSHA1_HASH_SIZE    20
 /** The length of a SHA-1 digest string. The terminator is not included. */
-#define RTSHA1_DIGEST_LEN  (40+1)
+#define RTSHA1_DIGEST_LEN  (40)
 
 /**
  * SHA-1 context.
@@ -93,7 +101,7 @@ RTDECL(void) RTSha1Update(PRTSHA1CONTEXT pCtx, const void *pvBuf, size_t cbBuf);
 RTDECL(void) RTSha1Final(PRTSHA1CONTEXT pCtx, uint8_t pabDigest[RTSHA1_HASH_SIZE]);
 
 /**
- * Converts a SHA-512 hash to a digest string.
+ * Converts a SHA-1 hash to a digest string.
  *
  * @returns IPRT status code.
  *
@@ -121,10 +129,12 @@ RTDECL(int) RTSha1FromString(char const *pszDigest, uint8_t pabDigest[RTSHA1_HAS
  *
  * @returns iprt status code.
  *
- * @param   pszFile      Filename to create a SHA1 digest for.
- * @param   ppszDigest   On success the SHA1 digest.
+ * @param   pszFile               Filename to create a SHA1 digest for.
+ * @param   ppszDigest            On success the SHA1 digest.
+ * @param   pfnProgressCallback   optional callback for the progress indication
+ * @param   pvUser                user defined pointer for the callback
  */
-RTR3DECL(int) RTSha1Digest(const char *pszFile, char **ppszDigest);
+RTR3DECL(int) RTSha1Digest(const char *pszFile, char **ppszDigest, PFNRTSHAPROGRESS pfnProgressCallback, void *pvUser);
 
 
 

@@ -4,7 +4,7 @@
  */
 
 /*
- * Copyright (C) 2006-2008 Sun Microsystems, Inc.
+ * Copyright (C) 2006-2010 Oracle Corporation
  *
  * This file is part of VirtualBox Open Source Edition (OSE), as
  * available from http://www.virtualbox.org. This file is free software;
@@ -13,10 +13,6 @@
  * Foundation, in version 2 as it comes in the "COPYING" file of the
  * VirtualBox OSE distribution. VirtualBox OSE is distributed in the
  * hope that it will be useful, but WITHOUT ANY WARRANTY of any kind.
- *
- * Please contact Sun Microsystems, Inc., 4150 Network Circle, Santa
- * Clara, CA 95054 USA or visit http://www.sun.com if you need
- * additional information or have any questions.
  */
 
 
@@ -86,16 +82,6 @@ extern "C" DECLEXPORT(int) VBoxDevicesRegister(PPDMDEVREGCB pCallbacks, uint32_t
     if (RT_FAILURE(rc))
         return rc;
 #endif
-#ifdef VBOX_WITH_SMC
-    rc = pCallbacks->pfnRegister(pCallbacks, &g_DeviceSMC);
-    if (RT_FAILURE(rc))
-        return rc;
-#endif
-#ifdef VBOX_WITH_LPC
-    rc = pCallbacks->pfnRegister(pCallbacks, &g_DeviceLPC);
-    if (RT_FAILURE(rc))
-        return rc;
-#endif
 #ifdef VBOX_WITH_EFI
     rc = pCallbacks->pfnRegister(pCallbacks, &g_DeviceEFI);
     if (RT_FAILURE(rc))
@@ -137,7 +123,7 @@ extern "C" DECLEXPORT(int) VBoxDevicesRegister(PPDMDEVREGCB pCallbacks, uint32_t
     rc = pCallbacks->pfnRegister(pCallbacks, &g_DeviceAudioSniffer);
     if (RT_FAILURE(rc))
         return rc;
-#ifdef VBOX_WITH_USB
+#ifdef VBOX_WITH_VUSB
     rc = pCallbacks->pfnRegister(pCallbacks, &g_DeviceOHCI);
     if (RT_FAILURE(rc))
         return rc;
@@ -179,7 +165,10 @@ extern "C" DECLEXPORT(int) VBoxDevicesRegister(PPDMDEVREGCB pCallbacks, uint32_t
         return rc;
 #ifdef VBOX_WITH_LSILOGIC
     rc = pCallbacks->pfnRegister(pCallbacks, &g_DeviceLsiLogicSCSI);
-    if (VBOX_FAILURE(rc))
+    if (RT_FAILURE(rc))
+        return rc;
+    rc = pCallbacks->pfnRegister(pCallbacks, &g_DeviceLsiLogicSAS);
+    if (RT_FAILURE(rc))
         return rc;
 #endif
 
@@ -237,7 +226,15 @@ extern "C" DECLEXPORT(int) VBoxDriversRegister(PCPDMDRVREGCB pCallbacks, uint32_
     if (RT_FAILURE(rc))
         return rc;
 #endif
+#ifdef VBOX_WITH_VDE
+    rc = pCallbacks->pfnRegister(pCallbacks, &g_DrvVDE);
+    if (RT_FAILURE(rc))
+        return rc;
+#endif
     rc = pCallbacks->pfnRegister(pCallbacks, &g_DrvIntNet);
+    if (RT_FAILURE(rc))
+        return rc;
+    rc = pCallbacks->pfnRegister(pCallbacks, &g_DrvDedicatedNic);
     if (RT_FAILURE(rc))
         return rc;
     rc = pCallbacks->pfnRegister(pCallbacks, &g_DrvNetSniffer);
@@ -249,8 +246,11 @@ extern "C" DECLEXPORT(int) VBoxDriversRegister(PCPDMDRVREGCB pCallbacks, uint32_
     rc = pCallbacks->pfnRegister(pCallbacks, &g_DrvACPI);
     if (RT_FAILURE(rc))
         return rc;
+    rc = pCallbacks->pfnRegister(pCallbacks, &g_DrvAcpiCpu);
+    if (RT_FAILURE(rc))
+        return rc;
 
-#ifdef VBOX_WITH_USB
+#ifdef VBOX_WITH_VUSB
     rc = pCallbacks->pfnRegister(pCallbacks, &g_DrvVUSBRootHub);
     if (RT_FAILURE(rc))
         return rc;
@@ -285,18 +285,24 @@ extern "C" DECLEXPORT(int) VBoxDriversRegister(PCPDMDRVREGCB pCallbacks, uint32_
     if (RT_FAILURE(rc))
         return rc;
 
-#if defined(RT_OS_LINUX)
+# if defined(RT_OS_LINUX)
     rc = pCallbacks->pfnRegister(pCallbacks, &g_DrvSCSIHost);
     if (RT_FAILURE(rc))
         return rc;
+# endif
+
 #endif
+
+#ifdef VBOX_WITH_DRV_DISK_INTEGRITY
+    rc = pCallbacks->pfnRegister(pCallbacks, &g_DrvDiskIntegrity);
+    if (RT_FAILURE(rc))
+        return rc;
 #endif
 
     return VINF_SUCCESS;
 }
 
 
-#ifdef VBOX_WITH_USB
 /**
  * Register builtin USB device.
  *
@@ -306,10 +312,30 @@ extern "C" DECLEXPORT(int) VBoxDriversRegister(PCPDMDRVREGCB pCallbacks, uint32_
  */
 extern "C" DECLEXPORT(int) VBoxUsbRegister(PCPDMUSBREGCB pCallbacks, uint32_t u32Version)
 {
-    int rc = pCallbacks->pfnRegister(pCallbacks, &g_UsbDevProxy);
+    int rc = VINF_SUCCESS;
+
+#ifdef VBOX_WITH_USB
+    rc = pCallbacks->pfnRegister(pCallbacks, &g_UsbDevProxy);
     if (RT_FAILURE(rc))
         return rc;
 
-    return VINF_SUCCESS;
-}
+# ifdef VBOX_WITH_SCSI
+    rc = pCallbacks->pfnRegister(pCallbacks, &g_UsbMsd);
+    if (RT_FAILURE(rc))
+        return rc;
+# endif
 #endif
+
+#ifdef VBOX_WITH_VUSB
+    rc = pCallbacks->pfnRegister(pCallbacks, &g_UsbHidKbd);
+    if (RT_FAILURE(rc))
+        return rc;
+
+    rc = pCallbacks->pfnRegister(pCallbacks, &g_UsbHidMou);
+    if (RT_FAILURE(rc))
+        return rc;
+#endif
+
+    return rc;
+}
+

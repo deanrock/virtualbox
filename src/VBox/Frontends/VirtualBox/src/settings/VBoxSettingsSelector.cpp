@@ -1,3 +1,4 @@
+/* $Id: VBoxSettingsSelector.cpp $ */
 /** @file
  *
  * VBox frontends: Qt GUI ("VirtualBox"):
@@ -5,7 +6,7 @@
  */
 
 /*
- * Copyright (C) 2008 Sun Microsystems, Inc.
+ * Copyright (C) 2008 Oracle Corporation
  *
  * This file is part of VirtualBox Open Source Edition (OSE), as
  * available from http://www.virtualbox.org. This file is free software;
@@ -14,10 +15,6 @@
  * Foundation, in version 2 as it comes in the "COPYING" file of the
  * VirtualBox OSE distribution. VirtualBox OSE is distributed in the
  * hope that it will be useful, but WITHOUT ANY WARRANTY of any kind.
- *
- * Please contact Sun Microsystems, Inc., 4150 Network Circle, Santa
- * Clara, CA 95054 USA or visit http://www.sun.com if you need
- * additional information or have any questions.
  */
 
 /* Global includes */
@@ -30,6 +27,7 @@
 #include "VBoxGlobal.h"
 #include "VBoxToolBar.h"
 #include "QITreeWidget.h"
+#include "QITabWidget.h"
 
 enum
 {
@@ -426,7 +424,7 @@ QWidget *VBoxSettingsToolBarSelector::addItem (const QString &aBigIcon,
     {
         mActionGroup->addAction (item->action());
         mTbSelector->addAction (item->action());
-        QTabWidget *tabWidget= new QTabWidget ();
+        QITabWidget *tabWidget= new QITabWidget();
         tabWidget->setContentsMargins (0, 0, 0, 0);
 //        connect (tabWidget, SIGNAL (currentChanged (int)),
 //                 this, SLOT (settingsGroupChanged (int)));

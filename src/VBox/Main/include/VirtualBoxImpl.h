@@ -6,7 +6,7 @@
  */
 
 /*
- * Copyright (C) 2006-2009 Sun Microsystems, Inc.
+ * Copyright (C) 2006-2010 Oracle Corporation
  *
  * This file is part of VirtualBox Open Source Edition (OSE), as
  * available from http://www.virtualbox.org. This file is free software;
@@ -15,10 +15,6 @@
  * Foundation, in version 2 as it comes in the "COPYING" file of the
  * VirtualBox OSE distribution. VirtualBox OSE is distributed in the
  * hope that it will be useful, but WITHOUT ANY WARRANTY of any kind.
- *
- * Please contact Sun Microsystems, Inc., 4150 Network Circle, Santa
- * Clara, CA 95054 USA or visit http://www.sun.com if you need
- * additional information or have any questions.
  */
 
 #ifndef ____H_VIRTUALBOXIMPL
@@ -36,9 +32,7 @@ namespace com
     class EventQueue;
 }
 
-class Machine;
 class SessionMachine;
-class Medium;
 class GuestOSType;
 class SharedFolder;
 class Progress;
@@ -46,6 +40,9 @@ class Host;
 class SystemProperties;
 class DHCPServer;
 class PerformanceCollector;
+class VirtualBoxCallbackRegistration; /* see VirtualBoxImpl.cpp */
+
+typedef std::list< ComObjPtr<SessionMachine> > SessionMachinesList;
 
 #ifdef RT_OS_WINDOWS
 class SVCHlpClient;
@@ -59,19 +56,20 @@ namespace settings
 }
 
 class ATL_NO_VTABLE VirtualBox :
-    public VirtualBoxBaseWithChildrenNEXT,
+    public VirtualBoxBase,
     public VirtualBoxSupportErrorInfoImpl<VirtualBox, IVirtualBox>,
     public VirtualBoxSupportTranslation<VirtualBox>,
     VBOX_SCRIPTABLE_IMPL(IVirtualBox)
 #ifdef RT_OS_WINDOWS
     , public CComCoClass<VirtualBox, &CLSID_VirtualBox>
+    , public IConnectionPointContainerImpl<VirtualBox>
+    , public IConnectionPointImpl<VirtualBox, &IID_IVirtualBoxCallback, CComDynamicUnkArray>
 #endif
 {
 
 public:
 
-    typedef std::list< ComPtr<IVirtualBoxCallback> > CallbackList;
-    typedef std::list< ComObjPtr<SessionMachine> > SessionMachineList;
+    typedef std::list< VirtualBoxCallbackRegistration > CallbackList;
     typedef std::list< ComPtr<IInternalSessionControl> > InternalControlList;
 
     class CallbackEvent;
@@ -87,10 +85,17 @@ public:
     DECLARE_PROTECT_FINAL_CONSTRUCT()
 
     BEGIN_COM_MAP(VirtualBox)
-        COM_INTERFACE_ENTRY(IDispatch)
+        COM_INTERFACE_ENTRY2(IDispatch, IVirtualBox)
         COM_INTERFACE_ENTRY(ISupportErrorInfo)
         COM_INTERFACE_ENTRY(IVirtualBox)
+        COM_INTERFACE_ENTRY(IConnectionPointContainer)
     END_COM_MAP()
+
+#ifdef RT_OS_WINDOWS
+    BEGIN_CONNECTION_POINT_MAP(VirtualBox)
+         CONNECTION_POINT_ENTRY(IID_IVirtualBoxCallback)
+    END_CONNECTION_POINT_MAP()
+#endif
 
     // to postpone generation of the default ctor/dtor
     VirtualBox();
@@ -126,7 +131,7 @@ public:
     /* IVirtualBox methods */
 
     STDMETHOD(CreateMachine) (IN_BSTR aName, IN_BSTR aOsTypeId, IN_BSTR aBaseFolder,
-                              IN_BSTR aId, IMachine **aMachine);
+                              IN_BSTR aId, BOOL aOverride, IMachine **aMachine);
     STDMETHOD(CreateLegacyMachine) (IN_BSTR aName, IN_BSTR aOsTypeId, IN_BSTR aSettingsFile,
                                     IN_BSTR aId, IMachine **aMachine);
     STDMETHOD(OpenMachine) (IN_BSTR aSettingsFile, IMachine **aMachine);
@@ -180,6 +185,26 @@ public:
                                     BSTR * aUrl, BSTR * aFile, BOOL * aResult);
 
     /* public methods only for internal purposes */
+
+    /**
+     * Simple run-time type identification without having to enable C++ RTTI.
+     * The class IDs are defined in VirtualBoxBase.h.
+     * @return
+     */
+    virtual VBoxClsID getClassID() const
+    {
+        return clsidVirtualBox;
+    }
+
+    /**
+     * Override of the default locking class to be used for validating lock
+     * order with the standard member lock handle.
+     */
+    virtual VBoxLockingClass getLockingClass() const
+    {
+        return LOCKCLASS_VIRTUALBOXOBJECT;
+    }
+
 #ifdef DEBUG
     void dumpAllBackRefs();
 #endif
@@ -200,6 +225,8 @@ public:
     void addProcessToReap (RTPROCESS pid);
     void updateClientWatcher();
 
+    void removeDeadCallback(const ComPtr<IVirtualBoxCallback> &aCallback);
+
     void onMachineStateChange(const Guid &aId, MachineState_T aState);
     void onMachineDataChange(const Guid &aId);
     BOOL onExtraDataCanChange(const Guid &aId, IN_BSTR aKey, IN_BSTR aValue,
@@ -216,7 +243,7 @@ public:
 
     ComObjPtr<GuestOSType> getUnknownOSType();
 
-    void getOpenedMachines(SessionMachineList &aMachines,
+    void getOpenedMachines(SessionMachinesList &aMachines,
                            InternalControlList *aControls = NULL);
 
     bool isMachineIdValid(const Guid &aId)
@@ -234,7 +261,7 @@ public:
     HRESULT findFloppyImage(const Guid *aId, CBSTR aLocation,
                             bool aSetError, ComObjPtr<Medium> *aImage = NULL);
 
-    HRESULT findGuestOSType(CBSTR bstrOSType,
+    HRESULT findGuestOSType(const Bstr &bstrOSType,
                             GuestOSType*& pGuestOSType);
 
     const ComObjPtr<Host>& host() const;
@@ -253,19 +280,16 @@ public:
     int calculateFullPath(const Utf8Str &strPath, Utf8Str &aResult);
     void calculateRelativePath(const Utf8Str &strPath, Utf8Str &aResult);
 
-    HRESULT registerHardDisk(Medium *aHardDisk, bool aSaveRegistry = true);
-    HRESULT unregisterHardDisk(Medium *aHardDisk, bool aSaveRegistry = true);
+    HRESULT registerHardDisk(Medium *aHardDisk, bool *pfNeedsSaveSettings);
+    HRESULT unregisterHardDisk(Medium *aHardDisk, bool *pfNeedsSaveSettings);
 
-    HRESULT registerDVDImage(Medium *aImage, bool aSaveRegistry = true);
-    HRESULT unregisterDVDImage(Medium *aImage, bool aSaveRegistry = true);
+    HRESULT registerImage(Medium *aImage, DeviceType_T argType, bool *pfNeedsSaveSettings);
+    HRESULT unregisterImage(Medium *aImage, DeviceType_T argType, bool *pfNeedsSaveSettings);
 
-    HRESULT registerFloppyImage (Medium *aImage, bool aSaveRegistry = true);
-    HRESULT unregisterFloppyImage (Medium *aImage, bool aSaveRegistry = true);
-
-    HRESULT cast (IMedium *aFrom, ComObjPtr<Medium> &aTo);
+    void rememberMachineNameChangeForMedia(const Utf8Str &strOldConfigDir,
+                                           const Utf8Str &strNewConfigDir);
 
     HRESULT saveSettings();
-    HRESULT updateSettings(const char *aOldPath, const char *aNewPath);
 
     static HRESULT ensureFilePathExists(const Utf8Str &strFileName);
 
@@ -273,8 +297,7 @@ public:
 
     const Utf8Str& settingsFilePath();
 
-    RWLockHandle& hardDiskTreeLockHandle();
-    RWLockHandle* childrenLock();
+    RWLockHandle& getMediaTreeLockHandle();
 
     /* for VirtualBoxSupportErrorInfoImpl */
     static const wchar_t *getComponentName() { return L"VirtualBox"; }
@@ -309,4 +332,4 @@ private:
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // ____H_VIRTUALBOXIMPL
+#endif // !____H_VIRTUALBOXIMPL

@@ -5,7 +5,7 @@
  */
 
 /*
- * Copyright (C) 2006-2009 Sun Microsystems, Inc.
+ * Copyright (C) 2006-2009 Oracle Corporation
  *
  * This file is part of VirtualBox Open Source Edition (OSE), as
  * available from http://www.virtualbox.org. This file is free software;
@@ -14,16 +14,19 @@
  * Foundation, in version 2 as it comes in the "COPYING" file of the
  * VirtualBox OSE distribution. VirtualBox OSE is distributed in the
  * hope that it will be useful, but WITHOUT ANY WARRANTY of any kind.
- *
- * Please contact Sun Microsystems, Inc., 4150 Network Circle, Santa
- * Clara, CA 95054 USA or visit http://www.sun.com if you need
- * additional information or have any questions.
  */
 
 #ifndef __VBoxVMSettingsHD_h__
 #define __VBoxVMSettingsHD_h__
 
 /* Global includes */
+#include <qglobal.h> /* for Q_WS_MAC */
+#ifdef Q_WS_MAC
+/* Somewhere Carbon.h includes AssertMacros.h which defines the macro "check".
+ * In QItemDelegate a class method is called "check" also. As we not used the
+ * macro undefine it here. */
+# undef check
+#endif /* Q_WS_MAC */
 #include <QItemDelegate>
 #include <QPointer>
 
@@ -206,6 +209,19 @@ private:
     uint size() const;
 };
 
+/* SAS Controller Type */
+class SASControllerType : public AbstractControllerType
+{
+public:
+
+    SASControllerType (KStorageControllerType aSubType);
+
+private:
+
+    KStorageControllerType first() const;
+    uint size() const;
+};
+
 /* Abstract Item */
 class AbstractItem
 {
@@ -287,15 +303,19 @@ public:
     QString ctrName() const;
     KStorageControllerType ctrType() const;
     ControllerTypeList ctrTypes() const;
+    bool ctrUseIoCache() const;
 
     void setCtrName (const QString &aCtrName);
     void setCtrType (KStorageControllerType aCtrType);
+    void setCtrUseIoCache (bool aUseIoCache);
 
     SlotsList ctrAllSlots() const;
     SlotsList ctrUsedSlots() const;
     DeviceTypeList ctrDeviceTypeList() const;
     QStringList ctrAllMediumIds (bool aShowDiffs) const;
     QStringList ctrUsedMediumIds() const;
+
+    void setAttachments(const QList<AbstractItem*> &attachments) { mAttachments = attachments; }
 
 private:
 
@@ -312,6 +332,7 @@ private:
 
     QString mCtrName;
     AbstractControllerType *mCtrType;
+    bool mUseIoCache;
     QList <AbstractItem*> mAttachments;
 };
 
@@ -320,7 +341,7 @@ class AttachmentItem : public AbstractItem
 {
 public:
 
-    AttachmentItem (AbstractItem *aParent, KDeviceType aDeviceType, bool aVerbose);
+    AttachmentItem (AbstractItem *aParent, KDeviceType aDeviceType);
 
     StorageSlot attSlot() const;
     SlotsList attSlots() const;
@@ -401,6 +422,7 @@ public:
         R_IsMoreSATAControllersPossible,
         R_IsMoreSCSIControllersPossible,
         R_IsMoreFloppyControllersPossible,
+        R_IsMoreSASControllersPossible,
         R_IsMoreAttachmentsPossible,
 
         R_CtrName,
@@ -408,6 +430,7 @@ public:
         R_CtrTypes,
         R_CtrDevices,
         R_CtrBusType,
+        R_CtrIoCache,
 
         R_AttSlot,
         R_AttSlots,
@@ -466,10 +489,13 @@ public:
     QModelIndex addController (const QString &aCtrName, KStorageBus aBusType, KStorageControllerType aCtrType);
     void delController (const QUuid &aCtrId);
 
-    QModelIndex addAttachment (const QUuid &aCtrId, KDeviceType aDeviceType, bool aVerbose);
+    QModelIndex addAttachment (const QUuid &aCtrId, KDeviceType aDeviceType);
     void delAttachment (const QUuid &aCtrId, const QUuid &aAttId);
 
     void setMachineId (const QString &aMachineId);
+
+    void sort(int iColumn = 0, Qt::SortOrder order = Qt::AscendingOrder);
+    QModelIndex attachmentBySlot(QModelIndex controllerIndex, StorageSlot attachmentStorageSlot);
 
 private:
 
@@ -542,6 +568,7 @@ private slots:
     void addSATAController();
     void addSCSIController();
     void addFloppyController();
+    void addSASController();
     void delController();
 
     void addAttachment();
@@ -592,6 +619,7 @@ private:
     QAction *mAddIDECtrAction;
     QAction *mAddSATACtrAction;
     QAction *mAddSCSICtrAction;
+    QAction *mAddSASCtrAction;
     QAction *mAddFloppyCtrAction;
     QAction *mDelCtrAction;
     QAction *mAddAttAction;

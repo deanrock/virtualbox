@@ -4,7 +4,7 @@
  */
 
 /*
- * Copyright (C) 2008 Sun Microsystems, Inc.
+ * Copyright (C) 2008 Oracle Corporation
  *
  * This file is part of VirtualBox Open Source Edition (OSE), as
  * available from http://www.virtualbox.org. This file is free software;
@@ -13,10 +13,6 @@
  * Foundation, in version 2 as it comes in the "COPYING" file of the
  * VirtualBox OSE distribution. VirtualBox OSE is distributed in the
  * hope that it will be useful, but WITHOUT ANY WARRANTY of any kind.
- *
- * Please contact Sun Microsystems, Inc., 4150 Network Circle, Santa
- * Clara, CA 95054 USA or visit http://www.sun.com if you need
- * additional information or have any questions.
  */
 
 /*******************************************************************************
@@ -26,9 +22,11 @@
 #include <VBox/pgm.h>
 #include "../PGMInternal.h"
 #include <VBox/vm.h>
+#include "../PGMInline.h"
 #include <VBox/sup.h>
 #include <VBox/err.h>
 #include <iprt/asm.h>
+#include <iprt/asm-amd64-x86.h>
 #include <iprt/alloc.h>
 #include <iprt/assert.h>
 #include <iprt/cpuset.h>
@@ -723,7 +721,7 @@ static int pgmR0DynMapPagingArrayMapPte(PPGMR0DYNMAP pThis, PPGMR0DYNMAPPGLVL pP
                 pPgLvl->a[i].hMemObj = pPgLvl->a[i].hMapObj = NIL_RTR0MEMOBJ;
             }
 
-            int rc = RTR0MemObjEnterPhys(&pPgLvl->a[i].hMemObj, HCPhys, PAGE_SIZE);
+            int rc = RTR0MemObjEnterPhys(&pPgLvl->a[i].hMemObj, HCPhys, PAGE_SIZE, RTMEM_CACHE_POLICY_DONT_CARE);
             if (RT_SUCCESS(rc))
             {
                 rc = RTR0MemObjMapKernel(&pPgLvl->a[i].hMapObj, pPgLvl->a[i].hMemObj,
@@ -1299,8 +1297,8 @@ DECLINLINE(uint32_t) pgmR0DynMapPage(PPGMR0DYNMAP pThis, RTHCPHYS HCPhys, int32_
      * down to a page index, collisions are handled by linear searching.
      * Optimized for a hit in the first 3 pages.
      *
-     * To the cheap hits here and defer the tedious searching and inserting
-     * to a helper function.
+     * Field easy hits here and defer the tedious searching and inserting
+     * to pgmR0DynMapPageSlow().
      */
     uint32_t const      cPages  = pThis->cPages;
     uint32_t            iPage   = (HCPhys >> PAGE_SHIFT) % cPages;
@@ -1407,8 +1405,8 @@ VMMR0DECL(int) PGMR0DynMapAssertIntegrity(void)
         if (RT_UNLIKELY(!(expr))) \
         { \
             RTSpinlockRelease(pThis->hSpinlock, &Tmp); \
-            AssertMsg1(#expr, __LINE__, __FILE__, __PRETTY_FUNCTION__); \
-            AssertMsg2 a; \
+            RTAssertMsg1Weak(#expr, __LINE__, __FILE__, __PRETTY_FUNCTION__); \
+            RTAssertMsg2Weak a; \
             return VERR_INTERNAL_ERROR; \
         } \
     } while (0)
@@ -1512,6 +1510,29 @@ VMMDECL(void) PGMDynMapStartAutoSet(PVMCPU pVCpu)
     Assert(pVCpu->pgm.s.AutoSet.iSubset == UINT32_MAX);
     pVCpu->pgm.s.AutoSet.cEntries = 0;
     pVCpu->pgm.s.AutoSet.iCpu = RTMpCpuIdToSetIndex(RTMpCpuId());
+}
+
+
+/**
+ * Starts or migrates the autoset of a virtual CPU.
+ *
+ * This is used by HWACCMR0Enter.  When we've longjumped out of the HWACCM
+ * execution loop with the set open, we'll migrate it when re-entering.  While
+ * under normal circumstances, we'll start it so VMXR0LoadGuestState can access
+ * guest memory.
+ *
+ * @returns @c true if started, @c false if migrated.
+ * @param   pVCpu       The shared data for the current virtual CPU.
+ * @thread  EMT
+ */
+VMMDECL(bool) PGMDynMapStartOrMigrateAutoSet(PVMCPU pVCpu)
+{
+    bool fStartIt = pVCpu->pgm.s.AutoSet.cEntries == PGMMAPSET_CLOSED;
+    if (fStartIt)
+        PGMDynMapStartAutoSet(pVCpu);
+    else
+        PGMDynMapMigrateAutoSet(pVCpu);
+    return fStartIt;
 }
 
 
@@ -1724,6 +1745,8 @@ VMMDECL(uint32_t) PGMDynMapPushAutoSubset(PVMCPU pVCpu)
     PPGMMAPSET      pSet = &pVCpu->pgm.s.AutoSet;
     AssertReturn(pSet->cEntries != PGMMAPSET_CLOSED, UINT32_MAX);
     uint32_t        iPrevSubset = pSet->iSubset;
+    LogFlow(("PGMDynMapPushAutoSubset: pVCpu=%p iPrevSubset=%u\n", pVCpu, iPrevSubset));
+
     pSet->iSubset = pSet->cEntries;
     STAM_COUNTER_INC(&pVCpu->pgm.s.StatR0DynMapSubsets);
     return iPrevSubset;
@@ -1740,8 +1763,9 @@ VMMDECL(void) PGMDynMapPopAutoSubset(PVMCPU pVCpu, uint32_t iPrevSubset)
 {
     PPGMMAPSET      pSet = &pVCpu->pgm.s.AutoSet;
     uint32_t        cEntries = pSet->cEntries;
+    LogFlow(("PGMDynMapPopAutoSubset: pVCpu=%p iPrevSubset=%u iSubset=%u cEntries=%u\n", pVCpu, iPrevSubset, pSet->iSubset, cEntries));
     AssertReturnVoid(cEntries != PGMMAPSET_CLOSED);
-    AssertReturnVoid(pSet->iSubset <= iPrevSubset || iPrevSubset == UINT32_MAX);
+    AssertReturnVoid(pSet->iSubset >= iPrevSubset || iPrevSubset == UINT32_MAX);
     STAM_COUNTER_INC(&pVCpu->pgm.s.aStatR0DynMapSetSize[(cEntries * 10 / RT_ELEMENTS(pSet->aEntries)) % 11]);
     if (    cEntries >= RT_ELEMENTS(pSet->aEntries) * 40 / 100
         &&  cEntries != pSet->iSubset)
@@ -1813,6 +1837,8 @@ static void pgmDynMapOptimizeAutoSet(PPGMMAPSET pSet)
  */
 int pgmR0DynMapHCPageCommon(PVM pVM, PPGMMAPSET pSet, RTHCPHYS HCPhys, void **ppv)
 {
+    LogFlow(("pgmR0DynMapHCPageCommon: pVM=%p pSet=%p HCPhys=%RHp ppv=%p\n",
+             pVM, pSet, HCPhys, ppv));
 #ifdef VBOX_WITH_STATISTICS
     PVMCPU pVCpu = VMMGetCpu(pVM);
 #endif
@@ -1825,8 +1851,8 @@ int pgmR0DynMapHCPageCommon(PVM pVM, PPGMMAPSET pSet, RTHCPHYS HCPhys, void **pp
     uint32_t const  iPage = pgmR0DynMapPage(g_pPGMR0DynMap, HCPhys, pSet->iCpu, pVM, &pvPage);
     if (RT_UNLIKELY(iPage == UINT32_MAX))
     {
-        AssertMsg2("PGMDynMapHCPage: cLoad=%u/%u cPages=%u cGuardPages=%u\n",
-                   g_pPGMR0DynMap->cLoad, g_pPGMR0DynMap->cMaxLoad, g_pPGMR0DynMap->cPages, g_pPGMR0DynMap->cGuardPages);
+        RTAssertMsg2Weak("PGMDynMapHCPage: cLoad=%u/%u cPages=%u cGuardPages=%u\n",
+                         g_pPGMR0DynMap->cLoad, g_pPGMR0DynMap->cMaxLoad, g_pPGMR0DynMap->cPages, g_pPGMR0DynMap->cGuardPages);
         if (!g_fPGMR0DynMapTestRunning)
             VMMRZCallRing3NoCpu(pVM, VMMCALLRING3_VM_R0_ASSERTION, 0);
         *ppv = NULL;
@@ -1922,7 +1948,7 @@ int pgmR0DynMapHCPageCommon(PVM pVM, PPGMMAPSET pSet, RTHCPHYS HCPhys, void **pp
                 /* We're screwed. */
                 pgmR0DynMapReleasePage(g_pPGMR0DynMap, iPage, 1);
 
-                AssertMsg2("PGMDynMapHCPage: set is full!\n");
+                RTAssertMsg2Weak("PGMDynMapHCPage: set is full!\n");
                 if (!g_fPGMR0DynMapTestRunning)
                     VMMRZCallRing3NoCpu(pVM, VMMCALLRING3_VM_R0_ASSERTION, 0);
                 *ppv = NULL;

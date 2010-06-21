@@ -76,3 +76,7 @@
 [PcdsFeatureFlag.common]
         gVBoxVgaPkgTokenSpaceGuid.PcdSupportGop|TRUE|BOOLEAN|0x00010004
         gVBoxVgaPkgTokenSpaceGuid.PcdSupportUga|FALSE|BOOLEAN|0x00010005
+
+[LibraryClasses]
+  ##  @libraryclass  Generic BDS library definition, include the data structure and function.
+  GenericBdsLib|Include/Library/GenericBdsLib.h

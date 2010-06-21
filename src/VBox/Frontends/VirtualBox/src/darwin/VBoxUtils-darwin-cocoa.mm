@@ -1,3 +1,4 @@
+/* $Id: VBoxUtils-darwin-cocoa.mm $ */
 /** @file
  *
  * VBox frontends: Qt GUI ("VirtualBox"):
@@ -6,7 +7,7 @@
  */
 
 /*
- * Copyright (C) 2009 Sun Microsystems, Inc.
+ * Copyright (C) 2009-2010 Oracle Corporation
  *
  * This file is part of VirtualBox Open Source Edition (OSE), as
  * available from http://www.virtualbox.org. This file is free software;
@@ -15,13 +16,12 @@
  * Foundation, in version 2 as it comes in the "COPYING" file of the
  * VirtualBox OSE distribution. VirtualBox OSE is distributed in the
  * hope that it will be useful, but WITHOUT ANY WARRANTY of any kind.
- *
- * Please contact Sun Microsystems, Inc., 4150 Network Circle, Santa
- * Clara, CA 95054 USA or visit http://www.sun.com if you need
- * additional information or have any questions.
  */
 
 #include "VBoxUtils-darwin.h"
+#include "VBoxCocoaHelper.h"
+
+#include <QMenu>
 
 #include <iprt/assert.h>
 
@@ -31,49 +31,43 @@
 
 NativeWindowRef darwinToNativeWindowImpl (NativeViewRef aView)
 {
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    CocoaAutoreleasePool pool;
 
     NativeWindowRef window = NULL;
     if (aView)
         window = [aView window];
-    
-    [pool release];
+
     return window;
 }
 
 NativeViewRef darwinToNativeViewImpl (NativeWindowRef aWindow)
 {
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    CocoaAutoreleasePool pool;
 
     NativeViewRef view = NULL;
     if (aWindow)
-        view = [aWindow contentView];   
+        view = [aWindow contentView];
 
-    [pool release];
     return view;
 }
 
 void darwinSetShowsToolbarButtonImpl (NativeWindowRef aWindow, bool aEnabled)
 {
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    CocoaAutoreleasePool pool;
 
     [aWindow setShowsToolbarButton:aEnabled];
-
-    [pool release];
 }
 
 void darwinSetShowsResizeIndicatorImpl (NativeWindowRef aWindow, bool aEnabled)
 {
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    CocoaAutoreleasePool pool;
 
     [aWindow setShowsResizeIndicator:aEnabled];
-
-    [pool release];
 }
 
 void darwinSetHidesAllTitleButtonsImpl (NativeWindowRef aWindow)
 {
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    CocoaAutoreleasePool pool;
 
     /* Remove all title buttons by changing the style mask. This method is
        available from 10.6 on only. */
@@ -97,13 +91,11 @@ void darwinSetHidesAllTitleButtonsImpl (NativeWindowRef aWindow)
         if (pButton != Nil)
             [pButton setEnabled: NO];
     }
-
-    [pool release];
 }
 
 void darwinSetShowsWindowTransparentImpl (NativeWindowRef aWindow, bool aEnabled)
 {
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    CocoaAutoreleasePool pool;
 
     if (aEnabled)
     {
@@ -117,8 +109,14 @@ void darwinSetShowsWindowTransparentImpl (NativeWindowRef aWindow, bool aEnabled
         [aWindow setBackgroundColor:[NSColor windowBackgroundColor]];
         [aWindow setHasShadow:YES];
     }
+}
 
-    [pool release];
+void darwinSetDockIconMenu(QMenu* pMenu)
+{
+    CocoaAutoreleasePool pool;
+
+    extern void qt_mac_set_dock_menu(QMenu *);
+    qt_mac_set_dock_menu(pMenu);
 }
 
 /**
@@ -128,16 +126,14 @@ void darwinSetShowsWindowTransparentImpl (NativeWindowRef aWindow, bool aEnabled
  */
 void darwinSetMouseCoalescingEnabled (bool aEnabled)
 {
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    CocoaAutoreleasePool pool;
 
     [NSEvent setMouseCoalescingEnabled:aEnabled];
-
-    [pool release];
 }
 
 void darwinWindowAnimateResizeImpl (NativeWindowRef aWindow, int x, int y, int width, int height)
 {
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    CocoaAutoreleasePool pool;
 
     /* It seems that Qt doesn't return the height of the window with the
      * toolbar height included. So add this size manually. Could easily be that
@@ -153,22 +149,18 @@ void darwinWindowAnimateResizeImpl (NativeWindowRef aWindow, int x, int y, int w
     windowFrame.origin.y -= h1;
 
     [aWindow setFrame:windowFrame display:YES animate:YES];
-
-    [pool release];
 }
 
 void darwinWindowInvalidateShadowImpl (NativeWindowRef aWindow)
 {
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    CocoaAutoreleasePool pool;
 
     [aWindow invalidateShadow];
-
-    [pool release];
 }
 
 int darwinWindowToolBarHeight (NativeWindowRef aWindow)
 {
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    CocoaAutoreleasePool pool;
 
     NSToolbar *toolbar = [aWindow toolbar];
     NSRect windowFrame = [aWindow frame];
@@ -179,12 +171,24 @@ int darwinWindowToolBarHeight (NativeWindowRef aWindow)
         /* title bar height: */
         toolbarHeight = NSHeight (windowFrame) - NSHeight ([[aWindow contentView] frame]) - theight;
 
-    [pool release];
     return toolbarHeight;
+}
+
+bool darwinIsWindowMaximized(NativeWindowRef aWindow)
+{
+    CocoaAutoreleasePool pool;
+
+    bool fResult = [aWindow isZoomed];
+
+    return fResult;
 }
 
 float darwinSmallFontSize()
 {
-    return [NSFont systemFontSizeForControlSize: NSSmallControlSize];
+    CocoaAutoreleasePool pool;
+
+    float size = [NSFont systemFontSizeForControlSize: NSSmallControlSize];
+
+    return size;
 }
 

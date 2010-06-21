@@ -3,7 +3,7 @@
  *      demo webservice client in C++. This mimics some of the
  *      functionality of VBoxManage for testing purposes.
  *
- * Copyright (C) 2006-2009 Sun Microsystems, Inc.
+ * Copyright (C) 2006-2010 Oracle Corporation
  *
  * This file is part of VirtualBox Open Source Edition (OSE), as
  * available from http://www.virtualbox.org. This file is free software;
@@ -12,10 +12,6 @@
  * Foundation, in version 2 as it comes in the "COPYING" file of the
  * VirtualBox OSE distribution. VirtualBox OSE is distributed in the
  * hope that it will be useful, but WITHOUT ANY WARRANTY of any kind.
- *
- * Please contact Sun Microsystems, Inc., 4150 Network Circle, Santa
- * Clara, CA 95054 USA or visit http://www.sun.com if you need
- * additional information or have any questions.
  */
 
 // gSOAP headers (must come after vbox includes because it checks for conflicting defs)
@@ -52,6 +48,7 @@ int main(int argc, char* argv[])
                " - IVirtualBox:\n"
                "   - webtest version <vboxref>: IVirtualBox::getVersion().\n"
                "   - webtest gethost <vboxref>: IVirtualBox::getHost().\n"
+               "   - webtest getpc <vboxref>: IVirtualBox::getPerformanceCollector().\n"
                "   - webtest getmachines <vboxref>: IVirtualBox::getMachines().\n"
                "   - webtest createmachine <vboxref> <baseFolder> <name>: IVirtualBox::createMachine().\n"
                "   - webtest registermachine <vboxref> <machineref>: IVirtualBox::registerMachine().\n"
@@ -64,6 +61,9 @@ int main(int argc, char* argv[])
                "   - webtest getid <machineref>: IMachine::getId().\n"
                "   - webtest getostype <machineref>: IMachine::getGuestOSType().\n"
                "   - webtest savesettings <machineref>: IMachine::saveSettings().\n"
+               " - IPerformanceCollector:\n"
+               "   - webtest setupmetrics <pcref>: IPerformanceCollector::setupMetrics()\n"
+               "   - webtest querymetricsdata <pcref>: IPerformanceCollector::QueryMetricsData()\n"
                " - All managed object references:\n"
                "   - webtest getif <ref>: report interface of object.\n"
                "   - webtest release <ref>: IUnknown::Release().\n";
@@ -127,7 +127,9 @@ int main(int argc, char* argv[])
                                                             NULL,
                                                             &req,
                                                             &resp)))
+            {
                 ;
+            }
         }
     }
     else if (!strcmp(pcszMode, "version"))
@@ -165,6 +167,26 @@ int main(int argc, char* argv[])
                                                             &resp)))
             {
                 std::cout << "Host objref " << resp.returnval << "\n";
+            }
+        }
+    }
+    else if (!strcmp(pcszMode, "getpc"))
+    {
+        if (argc < 3)
+            std::cout << "Not enough arguments for \"" << pcszMode << "\" mode.\n";
+        else
+        {
+            _vbox__IVirtualBox_USCOREgetPerformanceCollector req;
+            req._USCOREthis = argv[2];
+            _vbox__IVirtualBox_USCOREgetPerformanceCollectorResponse resp;
+
+            if (!(soaprc = soap_call___vbox__IVirtualBox_USCOREgetPerformanceCollector(&soap,
+                                                            pcszArgEndpoint,
+                                                            NULL,
+                                                            &req,
+                                                            &resp)))
+            {
+                std::cout << "Performance collector objref " << resp.returnval << "\n";
             }
         }
     }
@@ -324,6 +346,62 @@ int main(int argc, char* argv[])
                                                               &req,
                                                               &resp)))
                 std::cout << "Settings saved\n";
+        }
+    }
+    else if (!strcmp(pcszMode, "setupmetrics"))
+    {
+        if (argc < 3)
+            std::cout << "Not enough arguments for \"" << pcszMode << "\" mode.\n";
+        else
+        {
+            _vbox__IPerformanceCollector_USCOREsetupMetrics req;
+            req._USCOREthis = argv[2];
+//             req.metricNames[0] = "*";
+//             req.objects
+            req.period = 1;     // seconds
+            req.count = 100;
+            _vbox__IPerformanceCollector_USCOREsetupMetricsResponse resp;
+            if (!(soaprc = soap_call___vbox__IPerformanceCollector_USCOREsetupMetrics(&soap,
+                                                              pcszArgEndpoint,
+                                                              NULL,
+                                                              &req,
+                                                              &resp)))
+            {
+                size_t c = resp.returnval.size();
+                for (size_t i = 0;
+                     i < c;
+                     ++i)
+                {
+                    std::cout << "Metric " << i << ": objref " << resp.returnval[i] << "\n";
+                }
+            }
+        }
+    }
+    else if (!strcmp(pcszMode, "querymetricsdata"))
+    {
+        if (argc < 3)
+            std::cout << "Not enough arguments for \"" << pcszMode << "\" mode.\n";
+        else
+        {
+            _vbox__IPerformanceCollector_USCOREqueryMetricsData req;
+            req._USCOREthis = argv[2];
+//             req.metricNames[0] = "*";
+//             req.objects
+            _vbox__IPerformanceCollector_USCOREqueryMetricsDataResponse resp;
+            if (!(soaprc = soap_call___vbox__IPerformanceCollector_USCOREqueryMetricsData(&soap,
+                                                              pcszArgEndpoint,
+                                                              NULL,
+                                                              &req,
+                                                              &resp)))
+            {
+                size_t c = resp.returnval.size();
+                for (size_t i = 0;
+                     i < c;
+                     ++i)
+                {
+                    std::cout << "long " << i << ": " << resp.returnval[i] << "\n";
+                }
+            }
         }
     }
     else if (!strcmp(pcszMode, "release"))

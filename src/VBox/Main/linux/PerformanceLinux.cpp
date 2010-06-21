@@ -6,7 +6,7 @@
  */
 
 /*
- * Copyright (C) 2008 Sun Microsystems, Inc.
+ * Copyright (C) 2008 Oracle Corporation
  *
  * This file is part of VirtualBox Open Source Edition (OSE), as
  * available from http://www.virtualbox.org. This file is free software;
@@ -15,10 +15,6 @@
  * Foundation, in version 2 as it comes in the "COPYING" file of the
  * VirtualBox OSE distribution. VirtualBox OSE is distributed in the
  * hope that it will be useful, but WITHOUT ANY WARRANTY of any kind.
- *
- * Please contact Sun Microsystems, Inc., 4150 Network Circle, Santa
- * Clara, CA 95054 USA or visit http://www.sun.com if you need
- * additional information or have any questions.
  */
 
 #include <stdio.h>
@@ -38,7 +34,7 @@ namespace pm {
 class CollectorLinux : public CollectorHAL
 {
 public:
-    virtual int preCollect(const CollectorHints& hints);
+    virtual int preCollect(const CollectorHints& hints, uint64_t /* iTick */);
     virtual int getHostMemoryUsage(ULONG *total, ULONG *used, ULONG *available);
     virtual int getProcessMemoryUsage(RTPROCESS process, ULONG *used);
 
@@ -68,13 +64,13 @@ CollectorHAL *createHAL()
 
 // Collector HAL for Linux
 
-int CollectorLinux::preCollect(const CollectorHints& hints)
+int CollectorLinux::preCollect(const CollectorHints& hints, uint64_t /* iTick */)
 {
     std::vector<RTPROCESS> processes;
     hints.getProcesses(processes);
 
     std::vector<RTPROCESS>::iterator it;
-    for(it = processes.begin(); it != processes.end(); it++)
+    for (it = processes.begin(); it != processes.end(); it++)
     {
         VMProcessStats vmStats;
         int rc = getRawProcessStats(*it, &vmStats.cpuUser, &vmStats.cpuKernel, &vmStats.pagesUsed);
@@ -186,6 +182,7 @@ int CollectorLinux::getRawProcessStats(RTPROCESS process, uint64_t *cpuUser, uin
     long long unsigned int u64Tmp;
     unsigned uTmp;
     unsigned long ulTmp;
+    signed long ilTmp;
     ULONG u32user, u32kernel;
     char buf[80]; /* @todo: this should be tied to max allowed proc name. */
 
@@ -200,7 +197,7 @@ int CollectorLinux::getRawProcessStats(RTPROCESS process, uint64_t *cpuUser, uin
                       "%ld %ld %ld %ld %ld %ld %llu %lu %u",
                    &pid2, buf, &c, &iTmp, &iTmp, &iTmp, &iTmp, &iTmp, &uTmp,
                    &ulTmp, &ulTmp, &ulTmp, &ulTmp, &u32user, &u32kernel,
-                   &ulTmp, &ulTmp, &ulTmp, &ulTmp, &ulTmp, &ulTmp, &u64Tmp,
+                   &ilTmp, &ilTmp, &ilTmp, &ilTmp, &ilTmp, &ilTmp, &u64Tmp,
                    &ulTmp, memPagesUsed) == 24)
         {
             Assert((pid_t)process == pid2);

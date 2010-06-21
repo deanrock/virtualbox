@@ -3,7 +3,7 @@
  */
 
 /*
- * Copyright (C) 2006-2007 Sun Microsystems, Inc.
+ * Copyright (C) 2006-2007 Oracle Corporation
  *
  * This file is part of VirtualBox Open Source Edition (OSE), as
  * available from http://www.virtualbox.org. This file is free software;
@@ -21,10 +21,6 @@
  *
  * You may elect to license modified versions of this file under the
  * terms and conditions of either the GPL or the CDDL or both.
- *
- * Please contact Sun Microsystems, Inc., 4150 Network Circle, Santa
- * Clara, CA 95054 USA or visit http://www.sun.com if you need
- * additional information or have any questions.
  */
 
 #ifndef ___VBox_pdmqueue_h
@@ -75,6 +71,18 @@ typedef DECLCALLBACK(bool) FNPDMQUEUEDEV(PPDMDEVINS pDevIns, PPDMQUEUEITEMCORE p
 typedef FNPDMQUEUEDEV *PFNPDMQUEUEDEV;
 
 /**
+ * Queue consumer callback for USB devices.
+ *
+ * @returns Success indicator.
+ *          If false the item will not be removed and the flushing will stop.
+ * @param   pDevIns     The USB device instance.
+ * @param   pItem       The item to consume. Upon return this item will be freed.
+ */
+typedef DECLCALLBACK(bool) FNPDMQUEUEUSB(PPDMUSBINS pUsbIns, PPDMQUEUEITEMCORE pItem);
+/** Pointer to a FNPDMQUEUEUSB(). */
+typedef FNPDMQUEUEUSB *PFNPDMQUEUEUSB;
+
+/**
  * Queue consumer callback for drivers.
  *
  * @returns Success indicator.
@@ -122,9 +130,7 @@ VMMR3DECL(int)  PDMR3QueueDestroy(PPDMQUEUE pQueue);
 VMMR3DECL(int)  PDMR3QueueDestroyDevice(PVM pVM, PPDMDEVINS pDevIns);
 VMMR3DECL(int)  PDMR3QueueDestroyDriver(PVM pVM, PPDMDRVINS pDrvIns);
 VMMR3DECL(void) PDMR3QueueFlushAll(PVM pVM);
-VMMR3DECL(void) PDMR3QueueFlushWorker(PVM pVM, PPDMQUEUE pQueue);
 
-VMMDECL(void)                 PDMQueueFlush(PPDMQUEUE pQueue);
 VMMDECL(PPDMQUEUEITEMCORE)    PDMQueueAlloc(PPDMQUEUE pQueue);
 VMMDECL(void)                 PDMQueueInsert(PPDMQUEUE pQueue, PPDMQUEUEITEMCORE pItem);
 VMMDECL(void)                 PDMQueueInsertEx(PPDMQUEUE pQueue, PPDMQUEUEITEMCORE pItem, uint64_t NanoMaxDelay);
@@ -136,5 +142,4 @@ VMMDECL(R0PTRTYPE(PPDMQUEUE)) PDMQueueR0Ptr(PPDMQUEUE pQueue);
 RT_C_DECLS_END
 
 #endif
-
 

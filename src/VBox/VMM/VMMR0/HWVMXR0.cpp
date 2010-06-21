@@ -4,7 +4,7 @@
  */
 
 /*
- * Copyright (C) 2006-2007 Sun Microsystems, Inc.
+ * Copyright (C) 2006-2007 Oracle Corporation
  *
  * This file is part of VirtualBox Open Source Edition (OSE), as
  * available from http://www.virtualbox.org. This file is free software;
@@ -13,10 +13,6 @@
  * Foundation, in version 2 as it comes in the "COPYING" file of the
  * VirtualBox OSE distribution. VirtualBox OSE is distributed in the
  * hope that it will be useful, but WITHOUT ANY WARRANTY of any kind.
- *
- * Please contact Sun Microsystems, Inc., 4150 Network Circle, Santa
- * Clara, CA 95054 USA or visit http://www.sun.com if you need
- * additional information or have any questions.
  */
 
 
@@ -25,17 +21,19 @@
 *******************************************************************************/
 #define LOG_GROUP LOG_GROUP_HWACCM
 #include <VBox/hwaccm.h>
-#include "HWACCMInternal.h"
-#include <VBox/vm.h>
-#include <VBox/x86.h>
 #include <VBox/pgm.h>
-#include <VBox/pdm.h>
-#include <VBox/err.h>
-#include <VBox/log.h>
+#include <VBox/dbgf.h>
 #include <VBox/selm.h>
 #include <VBox/iom.h>
 #include <VBox/rem.h>
-#include <iprt/asm.h>
+#include <VBox/tm.h>
+#include "HWACCMInternal.h"
+#include <VBox/vm.h>
+#include <VBox/x86.h>
+#include <VBox/pdmapi.h>
+#include <VBox/err.h>
+#include <VBox/log.h>
+#include <iprt/asm-amd64-x86.h>
 #include <iprt/assert.h>
 #include <iprt/param.h>
 #include <iprt/string.h>
@@ -410,6 +408,7 @@ VMMR0DECL(int) VMXR0SetupVM(PVM pVM)
                   | VMX_VMCS_CTRL_PROC_EXEC_CONTROLS_MOV_DR_EXIT
                   | VMX_VMCS_CTRL_PROC_EXEC_CONTROLS_UNCOND_IO_EXIT
                   | VMX_VMCS_CTRL_PROC_EXEC_CONTROLS_RDPMC_EXIT
+                  | VMX_VMCS_CTRL_PROC_EXEC_CONTROLS_MONITOR_EXIT
                   | VMX_VMCS_CTRL_PROC_EXEC_CONTROLS_MWAIT_EXIT;    /* don't execute mwait or else we'll idle inside the guest (host thinks the cpu load is high) */
 
         /* Without nested paging we should intercept invlpg and cr3 mov instructions. */
@@ -466,6 +465,9 @@ VMMR0DECL(int) VMXR0SetupVM(PVM pVM)
 
             if (pVM->hwaccm.s.fHasIoApic)
                 val |= VMX_VMCS_CTRL_PROC_EXEC2_VIRT_APIC;
+
+            if (pVM->hwaccm.s.vmx.fUnrestrictedGuest)
+                val |= VMX_VMCS_CTRL_PROC_EXEC2_REAL_MODE;
 
             /* Mask away the bits that the CPU doesn't support */
             /** @todo make sure they don't conflict with the above requirements. */
@@ -752,8 +754,8 @@ static int VMXR0InjectEvent(PVM pVM, PVMCPU pVCpu, PCPUMCTX pCtx, uint32_t intIn
     }
 #endif
 
-#ifdef HWACCM_VMX_EMULATE_REALMODE
-    if (CPUMIsGuestInRealModeEx(pCtx))
+    if (    CPUMIsGuestInRealModeEx(pCtx)
+        &&  pVM->hwaccm.s.vmx.pRealModeTSS)
     {
         RTGCPHYS GCPhysHandler;
         uint16_t offset, ip;
@@ -773,14 +775,14 @@ static int VMXR0InjectEvent(PVM pVM, PVMCPU pVCpu, PCPUMCTX pCtx, uint32_t intIn
             Log(("IDT cbIdt violation\n"));
             if (iGate != X86_XCPT_DF)
             {
-                RTGCUINTPTR intInfo;
+                uint32_t intInfo2;
 
-                intInfo  = (iGate == X86_XCPT_GP) ? (uint32_t)X86_XCPT_DF : iGate;
-                intInfo |= (1 << VMX_EXIT_INTERRUPTION_INFO_VALID_SHIFT);
-                intInfo |= VMX_EXIT_INTERRUPTION_INFO_ERROR_CODE_VALID;
-                intInfo |= (VMX_EXIT_INTERRUPTION_INFO_TYPE_HWEXCPT << VMX_EXIT_INTERRUPTION_INFO_TYPE_SHIFT);
+                intInfo2  = (iGate == X86_XCPT_GP) ? (uint32_t)X86_XCPT_DF : iGate;
+                intInfo2 |= (1 << VMX_EXIT_INTERRUPTION_INFO_VALID_SHIFT);
+                intInfo2 |= VMX_EXIT_INTERRUPTION_INFO_ERROR_CODE_VALID;
+                intInfo2 |= (VMX_EXIT_INTERRUPTION_INFO_TYPE_HWEXCPT << VMX_EXIT_INTERRUPTION_INFO_TYPE_SHIFT);
 
-                return VMXR0InjectEvent(pVM, pVCpu, pCtx, intInfo, 0, 0 /* no error code according to the Intel docs */);
+                return VMXR0InjectEvent(pVM, pVCpu, pCtx, intInfo2, 0, 0 /* no error code according to the Intel docs */);
             }
             Log(("Triple fault -> reset the VM!\n"));
             return VINF_EM_RESET;
@@ -822,7 +824,6 @@ static int VMXR0InjectEvent(PVM pVM, PVMCPU pVCpu, PCPUMCTX pCtx, uint32_t intIn
         pVCpu->hwaccm.s.fContextUseFlags |= HWACCM_CHANGED_GUEST_SEGMENT_REGS;
         return VINF_SUCCESS;
     }
-#endif /* HWACCM_VMX_EMULATE_REALMODE */
 
     /* Set event injection state. */
     rc  = VMXWriteVMCS(VMX_VMCS_CTRL_ENTRY_IRQ_INFO, intInfo | (1 << VMX_EXIT_INTERRUPTION_INFO_VALID_SHIFT));
@@ -934,7 +935,6 @@ static int VMXR0CheckPendingInterrupt(PVM pVM, PVMCPU pVCpu, CPUMCTX *pCtx)
        )
     {
         uint8_t     u8Vector;
-        int         rc;
         TRPMEVENT   enmType;
         RTGCUINTPTR intInfo;
         RTGCUINT    errCode;
@@ -1275,24 +1275,14 @@ static void vmxR0UpdateExceptionBitmap(PVM pVM, PVMCPU pVCpu, PCPUMCTX pCtx)
         pVCpu->hwaccm.s.fFPUOldStyleOverride = true;
     }
 
-#ifdef DEBUG /* till after branching, enable it by default then. */
-    /* Intercept X86_XCPT_DB if stepping is enabled */
-    if (    DBGFIsStepping(pVCpu)
-        ||  CPUMIsHyperDebugStateActive(pVCpu))
-        u32TrapMask |= RT_BIT(X86_XCPT_DB);
-    /** @todo Don't trap it unless the debugger has armed breakpoints.  */
-    u32TrapMask |= RT_BIT(X86_XCPT_BP);
-#endif
-
 #ifdef VBOX_STRICT
     Assert(u32TrapMask & RT_BIT(X86_XCPT_GP));
 #endif
 
-# ifdef HWACCM_VMX_EMULATE_REALMODE
     /* Intercept all exceptions in real mode as none of them can be injected directly (#GP otherwise). */
-    if (CPUMIsGuestInRealModeEx(pCtx) && pVM->hwaccm.s.vmx.pRealModeTSS)
+    if (    CPUMIsGuestInRealModeEx(pCtx)
+        &&  pVM->hwaccm.s.vmx.pRealModeTSS)
         u32TrapMask |= HWACCM_VMX_TRAP_MASK_REALMODE;
-# endif /* HWACCM_VMX_EMULATE_REALMODE */
 
     int rc = VMXWriteVMCS(VMX_VMCS_CTRL_EXCEPTION_BITMAP, u32TrapMask);
     AssertRC(rc);
@@ -1356,7 +1346,6 @@ VMMR0DECL(int) VMXR0LoadGuestState(PVM pVM, PVMCPU pVCpu, PCPUMCTX pCtx)
     /* Guest CPU context: ES, CS, SS, DS, FS, GS. */
     if (pVCpu->hwaccm.s.fContextUseFlags & HWACCM_CHANGED_GUEST_SEGMENT_REGS)
     {
-#ifdef HWACCM_VMX_EMULATE_REALMODE
         if (pVM->hwaccm.s.vmx.pRealModeTSS)
         {
             PGMMODE enmGuestMode = PGMGetGuestMode(pVCpu);
@@ -1426,7 +1415,6 @@ VMMR0DECL(int) VMXR0LoadGuestState(PVM pVM, PVMCPU pVCpu, PCPUMCTX pCtx)
                 pCtx->cs = 0xf000;
             }
         }
-#endif /* HWACCM_VMX_EMULATE_REALMODE */
 
         VMX_WRITE_SELREG(ES, es);
         AssertRC(rc);
@@ -1470,9 +1458,9 @@ VMMR0DECL(int) VMXR0LoadGuestState(PVM pVM, PVMCPU pVCpu, PCPUMCTX pCtx)
     /* Guest CPU context: TR. */
     if (pVCpu->hwaccm.s.fContextUseFlags & HWACCM_CHANGED_GUEST_TR)
     {
-#ifdef HWACCM_VMX_EMULATE_REALMODE
         /* Real mode emulation using v86 mode with CR4.VME (interrupt redirection using the int bitmap in the TSS) */
-        if (CPUMIsGuestInRealModeEx(pCtx))
+        if (    CPUMIsGuestInRealModeEx(pCtx)
+            &&  pVM->hwaccm.s.vmx.pRealModeTSS)
         {
             RTGCPHYS GCPhys;
 
@@ -1492,7 +1480,6 @@ VMMR0DECL(int) VMXR0LoadGuestState(PVM pVM, PVMCPU pVCpu, PCPUMCTX pCtx)
             val                 = attr.u;
         }
         else
-#endif /* HWACCM_VMX_EMULATE_REALMODE */
         {
             rc =  VMXWriteVMCS(VMX_VMCS16_GUEST_FIELD_TR,         pCtx->tr);
             rc |= VMXWriteVMCS(VMX_VMCS32_GUEST_TR_LIMIT,         pCtx->trHid.u32Limit);
@@ -1554,7 +1541,9 @@ VMMR0DECL(int) VMXR0LoadGuestState(PVM pVM, PVMCPU pVCpu, PCPUMCTX pCtx)
             val |= X86_CR0_NE;  /* always turn on the native mechanism to report FPU errors (old style uses interrupts) */
         }
         /* Note: protected mode & paging are always enabled; we use them for emulating real and protected mode without paging too. */
-        val |= X86_CR0_PE | X86_CR0_PG;
+        if (!pVM->hwaccm.s.vmx.fUnrestrictedGuest)
+            val |= X86_CR0_PE | X86_CR0_PG;
+
         if (pVM->hwaccm.s.fNestedPaging)
         {
             if (CPUMIsGuestInPagedProtectedModeEx(pCtx))
@@ -1639,7 +1628,8 @@ VMMR0DECL(int) VMXR0LoadGuestState(PVM pVM, PVMCPU pVCpu, PCPUMCTX pCtx)
             }
         }
         else
-        if (!CPUMIsGuestInPagedProtectedModeEx(pCtx))
+        if (    !CPUMIsGuestInPagedProtectedModeEx(pCtx)
+            &&  !pVM->hwaccm.s.vmx.fUnrestrictedGuest)
         {
             /* We use 4 MB pages in our identity mapping page table for real and protected mode without paging. */
             val |= X86_CR4_PSE;
@@ -1648,7 +1638,8 @@ VMMR0DECL(int) VMXR0LoadGuestState(PVM pVM, PVMCPU pVCpu, PCPUMCTX pCtx)
         }
 
         /* Turn off VME if we're in emulated real mode. */
-        if (CPUMIsGuestInRealModeEx(pCtx))
+        if (    CPUMIsGuestInRealModeEx(pCtx)
+            &&  pVM->hwaccm.s.vmx.pRealModeTSS)
             val &= ~X86_CR4_VME;
 
         rc |= VMXWriteVMCS64(VMX_VMCS64_GUEST_CR4,            val);
@@ -1684,13 +1675,14 @@ VMMR0DECL(int) VMXR0LoadGuestState(PVM pVM, PVMCPU pVCpu, PCPUMCTX pCtx)
             rc = VMXWriteVMCS64(VMX_VMCS_CTRL_EPTP_FULL, pVCpu->hwaccm.s.vmx.GCPhysEPTP);
             AssertRC(rc);
 
-            if (!CPUMIsGuestInPagedProtectedModeEx(pCtx))
+            if (    !CPUMIsGuestInPagedProtectedModeEx(pCtx)
+                &&  !pVM->hwaccm.s.vmx.fUnrestrictedGuest)
             {
                 RTGCPHYS GCPhys;
 
                 /* We convert it here every time as pci regions could be reconfigured. */
                 rc = PDMVMMDevHeapR3ToGCPhys(pVM, pVM->hwaccm.s.vmx.pNonPagingModeEPTPageTable, &GCPhys);
-                AssertRC(rc);
+                AssertMsgRC(rc, ("pNonPagingModeEPTPageTable = %RGv\n", pVM->hwaccm.s.vmx.pNonPagingModeEPTPageTable));
 
                 /* We use our identity mapping page table here as we need to map guest virtual to guest physical addresses; EPT will
                  * take care of the translation to host physical addresses.
@@ -1784,16 +1776,15 @@ VMMR0DECL(int) VMXR0LoadGuestState(PVM pVM, PVMCPU pVCpu, PCPUMCTX pCtx)
     eflags.u32 &= VMX_EFLAGS_RESERVED_0;
     eflags.u32 |= VMX_EFLAGS_RESERVED_1;
 
-#ifdef HWACCM_VMX_EMULATE_REALMODE
     /* Real mode emulation using v86 mode. */
-    if (CPUMIsGuestInRealModeEx(pCtx))
+    if (    CPUMIsGuestInRealModeEx(pCtx)
+        &&  pVM->hwaccm.s.vmx.pRealModeTSS)
     {
         pVCpu->hwaccm.s.vmx.RealMode.eflags = eflags;
 
         eflags.Bits.u1VM   = 1;
         eflags.Bits.u2IOPL = 0; /* must always be 0 or else certain instructions won't cause faults. */
     }
-#endif /* HWACCM_VMX_EMULATE_REALMODE */
     rc   = VMXWriteVMCS(VMX_VMCS_GUEST_RFLAGS,           eflags.u32);
     AssertRC(rc);
 
@@ -2014,9 +2005,9 @@ DECLINLINE(int) VMXR0SaveGuestState(PVM pVM, PVMCPU pVCpu, PCPUMCTX pCtx)
     VMXReadCachedVMCS(VMX_VMCS64_GUEST_IDTR_BASE,        &val);
     pCtx->idtr.pIdt         = val;
 
-#ifdef HWACCM_VMX_EMULATE_REALMODE
     /* Real mode emulation using v86 mode. */
-    if (CPUMIsGuestInRealModeEx(pCtx))
+    if (    CPUMIsGuestInRealModeEx(pCtx)
+        &&  pVM->hwaccm.s.vmx.pRealModeTSS)
     {
         /* Hide our emulation flags */
         pCtx->eflags.Bits.u1VM   = 0;
@@ -2028,7 +2019,6 @@ DECLINLINE(int) VMXR0SaveGuestState(PVM pVM, PVMCPU pVCpu, PCPUMCTX pCtx)
         pVCpu->hwaccm.s.fContextUseFlags |= HWACCM_CHANGED_GUEST_TR;
     }
     else
-#endif /* HWACCM_VMX_EMULATE_REALMODE */
     {
         /* In real mode we have a fake TSS, so only sync it back when it's supposed to be valid. */
         VMX_READ_SELREG(TR, tr);
@@ -2245,7 +2235,7 @@ VMMR0DECL(int) VMXR0RunGuestCode(PVM pVM, PVMCPU pVCpu, PCPUMCTX pCtx)
 {
     int         rc = VINF_SUCCESS;
     RTGCUINTREG val;
-    RTGCUINTREG exitReason = VMX_EXIT_INVALID;
+    RTGCUINTREG exitReason = (RTGCUINTREG)VMX_EXIT_INVALID;
     RTGCUINTREG instrError, cbInstr;
     RTGCUINTPTR exitQualification = 0;
     RTGCUINTPTR intInfo = 0; /* shut up buggy gcc 4 */
@@ -2284,64 +2274,64 @@ VMMR0DECL(int) VMXR0RunGuestCode(PVM pVM, PVMCPU pVCpu, PCPUMCTX pCtx)
 
 #ifdef VBOX_STRICT
     {
-        RTCCUINTREG val;
+        RTCCUINTREG val2;
 
-        rc = VMXReadVMCS(VMX_VMCS_CTRL_PIN_EXEC_CONTROLS, &val);
+        rc = VMXReadVMCS(VMX_VMCS_CTRL_PIN_EXEC_CONTROLS, &val2);
         AssertRC(rc);
-        Log2(("VMX_VMCS_CTRL_PIN_EXEC_CONTROLS = %08x\n", val));
+        Log2(("VMX_VMCS_CTRL_PIN_EXEC_CONTROLS = %08x\n", val2));
 
         /* allowed zero */
-        if ((val & pVM->hwaccm.s.vmx.msr.vmx_pin_ctls.n.disallowed0) != pVM->hwaccm.s.vmx.msr.vmx_pin_ctls.n.disallowed0)
+        if ((val2 & pVM->hwaccm.s.vmx.msr.vmx_pin_ctls.n.disallowed0) != pVM->hwaccm.s.vmx.msr.vmx_pin_ctls.n.disallowed0)
             Log(("Invalid VMX_VMCS_CTRL_PIN_EXEC_CONTROLS: zero\n"));
 
         /* allowed one */
-        if ((val & ~pVM->hwaccm.s.vmx.msr.vmx_pin_ctls.n.allowed1) != 0)
+        if ((val2 & ~pVM->hwaccm.s.vmx.msr.vmx_pin_ctls.n.allowed1) != 0)
             Log(("Invalid VMX_VMCS_CTRL_PIN_EXEC_CONTROLS: one\n"));
 
-        rc = VMXReadVMCS(VMX_VMCS_CTRL_PROC_EXEC_CONTROLS, &val);
+        rc = VMXReadVMCS(VMX_VMCS_CTRL_PROC_EXEC_CONTROLS, &val2);
         AssertRC(rc);
-        Log2(("VMX_VMCS_CTRL_PROC_EXEC_CONTROLS = %08x\n", val));
+        Log2(("VMX_VMCS_CTRL_PROC_EXEC_CONTROLS = %08x\n", val2));
 
         /* Must be set according to the MSR, but can be cleared in case of EPT. */
         if (pVM->hwaccm.s.fNestedPaging)
-            val |=   VMX_VMCS_CTRL_PROC_EXEC_CONTROLS_INVLPG_EXIT
-                   | VMX_VMCS_CTRL_PROC_EXEC_CONTROLS_CR3_LOAD_EXIT
-                   | VMX_VMCS_CTRL_PROC_EXEC_CONTROLS_CR3_STORE_EXIT;
+            val2 |=   VMX_VMCS_CTRL_PROC_EXEC_CONTROLS_INVLPG_EXIT
+                    | VMX_VMCS_CTRL_PROC_EXEC_CONTROLS_CR3_LOAD_EXIT
+                    | VMX_VMCS_CTRL_PROC_EXEC_CONTROLS_CR3_STORE_EXIT;
 
         /* allowed zero */
-        if ((val & pVM->hwaccm.s.vmx.msr.vmx_proc_ctls.n.disallowed0) != pVM->hwaccm.s.vmx.msr.vmx_proc_ctls.n.disallowed0)
+        if ((val2 & pVM->hwaccm.s.vmx.msr.vmx_proc_ctls.n.disallowed0) != pVM->hwaccm.s.vmx.msr.vmx_proc_ctls.n.disallowed0)
             Log(("Invalid VMX_VMCS_CTRL_PROC_EXEC_CONTROLS: zero\n"));
 
         /* allowed one */
-        if ((val & ~pVM->hwaccm.s.vmx.msr.vmx_proc_ctls.n.allowed1) != 0)
+        if ((val2 & ~pVM->hwaccm.s.vmx.msr.vmx_proc_ctls.n.allowed1) != 0)
             Log(("Invalid VMX_VMCS_CTRL_PROC_EXEC_CONTROLS: one\n"));
 
-        rc = VMXReadVMCS(VMX_VMCS_CTRL_ENTRY_CONTROLS, &val);
+        rc = VMXReadVMCS(VMX_VMCS_CTRL_ENTRY_CONTROLS, &val2);
         AssertRC(rc);
-        Log2(("VMX_VMCS_CTRL_ENTRY_CONTROLS = %08x\n", val));
+        Log2(("VMX_VMCS_CTRL_ENTRY_CONTROLS = %08x\n", val2));
 
         /* allowed zero */
-        if ((val & pVM->hwaccm.s.vmx.msr.vmx_entry.n.disallowed0) != pVM->hwaccm.s.vmx.msr.vmx_entry.n.disallowed0)
+        if ((val2 & pVM->hwaccm.s.vmx.msr.vmx_entry.n.disallowed0) != pVM->hwaccm.s.vmx.msr.vmx_entry.n.disallowed0)
             Log(("Invalid VMX_VMCS_CTRL_ENTRY_CONTROLS: zero\n"));
 
         /* allowed one */
-        if ((val & ~pVM->hwaccm.s.vmx.msr.vmx_entry.n.allowed1) != 0)
+        if ((val2 & ~pVM->hwaccm.s.vmx.msr.vmx_entry.n.allowed1) != 0)
             Log(("Invalid VMX_VMCS_CTRL_ENTRY_CONTROLS: one\n"));
 
-        rc = VMXReadVMCS(VMX_VMCS_CTRL_EXIT_CONTROLS, &val);
+        rc = VMXReadVMCS(VMX_VMCS_CTRL_EXIT_CONTROLS, &val2);
         AssertRC(rc);
-        Log2(("VMX_VMCS_CTRL_EXIT_CONTROLS = %08x\n", val));
+        Log2(("VMX_VMCS_CTRL_EXIT_CONTROLS = %08x\n", val2));
 
         /* allowed zero */
-        if ((val & pVM->hwaccm.s.vmx.msr.vmx_exit.n.disallowed0) != pVM->hwaccm.s.vmx.msr.vmx_exit.n.disallowed0)
+        if ((val2 & pVM->hwaccm.s.vmx.msr.vmx_exit.n.disallowed0) != pVM->hwaccm.s.vmx.msr.vmx_exit.n.disallowed0)
             Log(("Invalid VMX_VMCS_CTRL_EXIT_CONTROLS: zero\n"));
 
         /* allowed one */
-        if ((val & ~pVM->hwaccm.s.vmx.msr.vmx_exit.n.allowed1) != 0)
+        if ((val2 & ~pVM->hwaccm.s.vmx.msr.vmx_exit.n.allowed1) != 0)
             Log(("Invalid VMX_VMCS_CTRL_EXIT_CONTROLS: one\n"));
     }
-    fWasInLongMode = CPUMIsGuestInLongMode(pVCpu);
-#endif
+    fWasInLongMode = CPUMIsGuestInLongModeEx(pCtx);
+#endif /* VBOX_STRICT */
 
 #ifdef VBOX_WITH_CRASHDUMP_MAGIC
     pVCpu->hwaccm.s.vmx.VMCSCache.u64TimeEntry = RTTimeNanoTS();
@@ -2359,7 +2349,7 @@ ResumeExecution:
                (int)pVCpu->hwaccm.s.idEnteredCpu, (int)RTMpCpuId(), cResume, exitReason, exitQualification));
     Assert(!HWACCMR0SuspendPending());
     /* Not allowed to switch modes without reloading the host state (32->64 switcher)!! */
-    Assert(fWasInLongMode == CPUMIsGuestInLongMode(pVCpu));
+    Assert(fWasInLongMode == CPUMIsGuestInLongModeEx(pCtx));
 
     /* Safety precaution; looping for too long here can have a very bad effect on the host */
     if (RT_UNLIKELY(++cResume > pVM->hwaccm.s.cMaxResumeLoops))
@@ -2496,8 +2486,8 @@ ResumeExecution:
         /* TPR caching in CR8 */
         bool    fPending;
 
-        int rc = PDMApicGetTPR(pVCpu, &u8LastTPR, &fPending);
-        AssertRC(rc);
+        int rc2 = PDMApicGetTPR(pVCpu, &u8LastTPR, &fPending);
+        AssertRC(rc2);
         /* The TPR can be found at offset 0x80 in the APIC mmio page. */
         pVCpu->hwaccm.s.vmx.pVAPIC[0x80] = u8LastTPR;
 
@@ -2909,6 +2899,7 @@ ResumeExecution:
                 /* Forward it to our trap handler first, in case our shadow pages are out of sync. */
                 rc = PGMTrap0eHandler(pVCpu, errCode, CPUMCTX2CORE(pCtx), (RTGCPTR)exitQualification);
                 Log2(("PGMTrap0eHandler %RGv returned %Rrc\n", (RTGCPTR)pCtx->rip, rc));
+
                 if (rc == VINF_SUCCESS)
                 {   /* We've successfully synced our shadow pages, so let's just continue execution. */
                     Log2(("Shadow page fault at %RGv cr2=%RGv error code %x\n", (RTGCPTR)pCtx->rip, exitQualification ,errCode));
@@ -2982,17 +2973,18 @@ ResumeExecution:
                 STAM_COUNTER_INC(&pVCpu->hwaccm.s.StatExitGuestDB);
 
                 /* Note that we don't support guest and host-initiated debugging at the same time. */
-                Assert(DBGFIsStepping(pVCpu) || CPUMIsGuestInRealModeEx(pCtx) || CPUMIsHyperDebugStateActive(pVCpu));
 
                 uDR6  = X86_DR6_INIT_VAL;
                 uDR6 |= (exitQualification & (X86_DR6_B0|X86_DR6_B1|X86_DR6_B2|X86_DR6_B3|X86_DR6_BD|X86_DR6_BS));
                 rc = DBGFRZTrap01Handler(pVM, pVCpu, CPUMCTX2CORE(pCtx), uDR6);
                 if (rc == VINF_EM_RAW_GUEST_TRAP)
                 {
-                    /** @todo this isn't working, but we'll never get here normally. */
-
                     /* Update DR6 here. */
                     pCtx->dr[6]  = uDR6;
+
+                    /* Resync DR6 if the debug state is active. */
+                    if (CPUMIsGuestDebugStateActive(pVCpu))
+                        ASMSetDR6(pCtx->dr[6]);
 
                     /* X86_DR7_GD will be cleared if drx accesses should be trapped inside the guest. */
                     pCtx->dr[7] &= ~X86_DR7_GD;
@@ -3006,7 +2998,7 @@ ResumeExecution:
                     rc = VMXWriteVMCS64(VMX_VMCS64_GUEST_DR7, pCtx->dr[7]);
                     AssertRC(rc);
 
-                    Log(("Trap %x (debug) at %RGv exit qualification %RX64\n", vector, (RTGCPTR)pCtx->rip, exitQualification));
+                    Log(("Trap %x (debug) at %RGv exit qualification %RX64 dr6=%x dr7=%x\n", vector, (RTGCPTR)pCtx->rip, exitQualification, (uint32_t)pCtx->dr[6], (uint32_t)pCtx->dr[7]));
                     rc = VMXR0InjectEvent(pVM, pVCpu, pCtx, VMX_VMCS_CTRL_ENTRY_IRQ_INFO_FROM_EXIT_INT_INFO(intInfo), cbInstr, errCode);
                     AssertRC(rc);
 
@@ -3042,7 +3034,8 @@ ResumeExecution:
 
                 STAM_COUNTER_INC(&pVCpu->hwaccm.s.StatExitGuestGP);
 #ifdef VBOX_STRICT
-                if (!CPUMIsGuestInRealModeEx(pCtx))
+                if (    !CPUMIsGuestInRealModeEx(pCtx)
+                    ||  !pVM->hwaccm.s.vmx.pRealModeTSS)
                 {
                     Log(("Trap %x at %04X:%RGv errorCode=%x\n", vector, pCtx->cs, (RTGCPTR)pCtx->rip, errCode));
                     rc = VMXR0InjectEvent(pVM, pVCpu, pCtx, VMX_VMCS_CTRL_ENTRY_IRQ_INFO_FROM_EXIT_INT_INFO(intInfo), cbInstr, errCode);
@@ -3206,14 +3199,14 @@ ResumeExecution:
 
                     case OP_INT:
                     {
-                        RTGCUINTPTR intInfo;
+                        uint32_t intInfo2;
 
                         LogFlow(("Realmode: INT %x\n", pDis->param1.parval & 0xff));
-                        intInfo  = pDis->param1.parval & 0xff;
-                        intInfo |= (1 << VMX_EXIT_INTERRUPTION_INFO_VALID_SHIFT);
-                        intInfo |= (VMX_EXIT_INTERRUPTION_INFO_TYPE_SW << VMX_EXIT_INTERRUPTION_INFO_TYPE_SHIFT);
+                        intInfo2  = pDis->param1.parval & 0xff;
+                        intInfo2 |= (1 << VMX_EXIT_INTERRUPTION_INFO_VALID_SHIFT);
+                        intInfo2 |= (VMX_EXIT_INTERRUPTION_INFO_TYPE_SW << VMX_EXIT_INTERRUPTION_INFO_TYPE_SHIFT);
 
-                        rc = VMXR0InjectEvent(pVM, pVCpu, pCtx, intInfo, cbOp, 0);
+                        rc = VMXR0InjectEvent(pVM, pVCpu, pCtx, intInfo2, cbOp, 0);
                         AssertRC(rc);
                         fUpdateRIP = false;
                         STAM_COUNTER_INC(&pVCpu->hwaccm.s.StatExitInt);
@@ -3224,14 +3217,14 @@ ResumeExecution:
                     {
                         if (pCtx->eflags.Bits.u1OF)
                         {
-                            RTGCUINTPTR intInfo;
+                            uint32_t intInfo2;
 
                             LogFlow(("Realmode: INTO\n"));
-                            intInfo  = X86_XCPT_OF;
-                            intInfo |= (1 << VMX_EXIT_INTERRUPTION_INFO_VALID_SHIFT);
-                            intInfo |= (VMX_EXIT_INTERRUPTION_INFO_TYPE_SW << VMX_EXIT_INTERRUPTION_INFO_TYPE_SHIFT);
+                            intInfo2  = X86_XCPT_OF;
+                            intInfo2 |= (1 << VMX_EXIT_INTERRUPTION_INFO_VALID_SHIFT);
+                            intInfo2 |= (VMX_EXIT_INTERRUPTION_INFO_TYPE_SW << VMX_EXIT_INTERRUPTION_INFO_TYPE_SHIFT);
 
-                            rc = VMXR0InjectEvent(pVM, pVCpu, pCtx, intInfo, cbOp, 0);
+                            rc = VMXR0InjectEvent(pVM, pVCpu, pCtx, intInfo2, cbOp, 0);
                             AssertRC(rc);
                             fUpdateRIP = false;
                             STAM_COUNTER_INC(&pVCpu->hwaccm.s.StatExitInt);
@@ -3241,14 +3234,14 @@ ResumeExecution:
 
                     case OP_INT3:
                     {
-                        RTGCUINTPTR intInfo;
+                        uint32_t intInfo2;
 
                         LogFlow(("Realmode: INT 3\n"));
-                        intInfo  = 3;
-                        intInfo |= (1 << VMX_EXIT_INTERRUPTION_INFO_VALID_SHIFT);
-                        intInfo |= (VMX_EXIT_INTERRUPTION_INFO_TYPE_SW << VMX_EXIT_INTERRUPTION_INFO_TYPE_SHIFT);
+                        intInfo2  = 3;
+                        intInfo2 |= (1 << VMX_EXIT_INTERRUPTION_INFO_VALID_SHIFT);
+                        intInfo2 |= (VMX_EXIT_INTERRUPTION_INFO_TYPE_SW << VMX_EXIT_INTERRUPTION_INFO_TYPE_SHIFT);
 
-                        rc = VMXR0InjectEvent(pVM, pVCpu, pCtx, intInfo, cbOp, 0);
+                        rc = VMXR0InjectEvent(pVM, pVCpu, pCtx, intInfo2, cbOp, 0);
                         AssertRC(rc);
                         fUpdateRIP = false;
                         STAM_COUNTER_INC(&pVCpu->hwaccm.s.StatExitInt);
@@ -3312,8 +3305,8 @@ ResumeExecution:
             }
 #endif
             default:
-#ifdef HWACCM_VMX_EMULATE_REALMODE
-                if (CPUMIsGuestInRealModeEx(pCtx))
+                if (    CPUMIsGuestInRealModeEx(pCtx)
+                    &&  pVM->hwaccm.s.vmx.pRealModeTSS)
                 {
                     Log(("Real Mode Trap %x at %04x:%04X error code %x\n", vector, pCtx->cs, pCtx->eip, errCode));
                     rc = VMXR0InjectEvent(pVM, pVCpu, pCtx, VMX_VMCS_CTRL_ENTRY_IRQ_INFO_FROM_EXIT_INT_INFO(intInfo), cbInstr, errCode);
@@ -3327,7 +3320,6 @@ ResumeExecution:
                     STAM_PROFILE_ADV_STOP(&pVCpu->hwaccm.s.StatExit2Sub3, y3);
                     goto ResumeExecution;
                 }
-#endif
                 AssertMsgFailed(("Unexpected vm-exit caused by exception %x\n", vector));
                 rc = VERR_VMX_UNEXPECTED_EXCEPTION;
                 break;
@@ -3368,7 +3360,8 @@ ResumeExecution:
         {
             errCode |= X86_TRAP_PF_P;
         }
-        else {
+        else
+        {
             /* Shortcut for APIC TPR reads and writes. */
             if (    (GCPhys & 0xfff) == 0x080
                 &&  GCPhys > 0x1000000   /* to skip VGA frame buffer accesses */
@@ -3423,7 +3416,7 @@ ResumeExecution:
         rc = VMXReadVMCS64(VMX_VMCS_EXIT_PHYS_ADDR_FULL, &GCPhys);
         AssertRC(rc);
 
-        Log(("VMX_EXIT_EPT_MISCONFIG for %VGp\n", GCPhys));
+        Log(("VMX_EXIT_EPT_MISCONFIG for %RGp\n", GCPhys));
         break;
     }
 
@@ -3507,6 +3500,22 @@ ResumeExecution:
             goto ResumeExecution;
         }
         AssertMsg(rc == VERR_EM_INTERPRETER, ("EMU: invlpg %RGv failed with %Rrc\n", exitQualification, rc));
+        break;
+    }
+
+    case VMX_EXIT_MONITOR:              /* 39 Guest software attempted to execute MONITOR. */
+    {
+        Log2(("VMX: monitor\n"));
+
+        STAM_COUNTER_INC(&pVCpu->hwaccm.s.StatExitMonitor);
+        rc = EMInterpretMonitor(pVM, pVCpu, CPUMCTX2CORE(pCtx));
+        if (rc == VINF_SUCCESS)
+        {
+            /* Update EIP and continue execution. */
+            pCtx->rip += cbInstr;
+            goto ResumeExecution;
+        }
+        AssertMsg(rc == VERR_EM_INTERPRETER, ("EMU: monitor failed with %Rrc\n", rc));
         break;
     }
 
@@ -3648,6 +3657,13 @@ ResumeExecution:
             /* Save the host and load the guest debug state. */
             rc = CPUMR0LoadGuestDebugState(pVM, pVCpu, pCtx, true /* include DR6 */);
             AssertRC(rc);
+
+#ifdef LOG_ENABLED
+            if (VMX_EXIT_QUALIFICATION_DRX_DIRECTION(exitQualification) == VMX_EXIT_QUALIFICATION_DRX_DIRECTION_WRITE)
+                Log(("VMX_EXIT_DRX_MOVE: write DR%d genreg %d\n", VMX_EXIT_QUALIFICATION_DRX_REGISTER(exitQualification), VMX_EXIT_QUALIFICATION_DRX_GENREG(exitQualification)));
+            else
+                Log(("VMX_EXIT_DRX_MOVE: read DR%d\n", VMX_EXIT_QUALIFICATION_DRX_REGISTER(exitQualification)));
+#endif
 
 #ifdef VBOX_WITH_STATISTICS
             STAM_COUNTER_INC(&pVCpu->hwaccm.s.StatDRxContextSwitch);
@@ -3955,8 +3971,7 @@ ResumeExecution:
         /** Check if external interrupts are pending; if so, don't switch back. */
         STAM_COUNTER_INC(&pVCpu->hwaccm.s.StatExitHlt);
         pCtx->rip++;    /* skip hlt */
-        if (    pCtx->eflags.Bits.u1IF
-            &&  VMCPU_FF_ISPENDING(pVCpu, (VMCPU_FF_INTERRUPT_APIC|VMCPU_FF_INTERRUPT_PIC)))
+        if (EMShouldContinueAfterHalt(pVCpu, pCtx))
             goto ResumeExecution;
 
         rc = VINF_EM_HALT;
@@ -3975,8 +3990,7 @@ ResumeExecution:
             /** Check if external interrupts are pending; if so, don't switch back. */
             if (    rc == VINF_SUCCESS
                 ||  (   rc == VINF_EM_HALT
-                     && pCtx->eflags.Bits.u1IF
-                     && VMCPU_FF_ISPENDING(pVCpu, (VMCPU_FF_INTERRUPT_APIC|VMCPU_FF_INTERRUPT_PIC)))
+                     && EMShouldContinueAfterHalt(pVCpu, pCtx))
                )
                 goto ResumeExecution;
         }
@@ -4027,8 +4041,8 @@ ResumeExecution:
     case VMX_EXIT_APIC_ACCESS:          /* 44 APIC access. Guest software attempted to access memory at a physical address on the APIC-access page. */
     case VMX_EXIT_RDMSR:                /* 31 RDMSR. Guest software attempted to execute RDMSR. */
     case VMX_EXIT_WRMSR:                /* 32 WRMSR. Guest software attempted to execute WRMSR. */
-    case VMX_EXIT_MONITOR:              /* 39 Guest software attempted to execute MONITOR. */
     case VMX_EXIT_PAUSE:                /* 40 Guest software attempted to execute PAUSE. */
+    case VMX_EXIT_MONITOR:              /* 39 Guest software attempted to execute MONITOR. */
         /* Note: If we decide to emulate them here, then we must sync the MSRs that could have been changed (sysenter, fs/gs base)!!! */
         rc = VERR_EM_INTERPRETER;
         break;
@@ -4040,38 +4054,38 @@ ResumeExecution:
     case VMX_EXIT_ERR_INVALID_GUEST_STATE:  /* 33 VM-entry failure due to invalid guest state. */
     {
 #ifdef VBOX_STRICT
-        RTCCUINTREG val = 0;
+        RTCCUINTREG val2 = 0;
 
         Log(("VMX_EXIT_ERR_INVALID_GUEST_STATE\n"));
 
-        VMXReadVMCS(VMX_VMCS64_GUEST_RIP, &val);
-        Log(("Old eip %RGv new %RGv\n", (RTGCPTR)pCtx->rip, (RTGCPTR)val));
+        VMXReadVMCS(VMX_VMCS64_GUEST_RIP, &val2);
+        Log(("Old eip %RGv new %RGv\n", (RTGCPTR)pCtx->rip, (RTGCPTR)val2));
 
-        VMXReadVMCS(VMX_VMCS64_GUEST_CR0, &val);
-        Log(("VMX_VMCS_GUEST_CR0        %RX64\n", (uint64_t)val));
+        VMXReadVMCS(VMX_VMCS64_GUEST_CR0, &val2);
+        Log(("VMX_VMCS_GUEST_CR0        %RX64\n", (uint64_t)val2));
 
-        VMXReadVMCS(VMX_VMCS64_GUEST_CR3, &val);
-        Log(("VMX_VMCS_GUEST_CR3        %RX64\n", (uint64_t)val));
+        VMXReadVMCS(VMX_VMCS64_GUEST_CR3, &val2);
+        Log(("VMX_VMCS_GUEST_CR3        %RX64\n", (uint64_t)val2));
 
-        VMXReadVMCS(VMX_VMCS64_GUEST_CR4, &val);
-        Log(("VMX_VMCS_GUEST_CR4        %RX64\n", (uint64_t)val));
+        VMXReadVMCS(VMX_VMCS64_GUEST_CR4, &val2);
+        Log(("VMX_VMCS_GUEST_CR4        %RX64\n", (uint64_t)val2));
 
-        VMXReadVMCS(VMX_VMCS_GUEST_RFLAGS, &val);
-        Log(("VMX_VMCS_GUEST_RFLAGS     %08x\n", val));
+        VMXReadVMCS(VMX_VMCS_GUEST_RFLAGS, &val2);
+        Log(("VMX_VMCS_GUEST_RFLAGS     %08x\n", val2));
 
-        VMX_LOG_SELREG(CS, "CS");
-        VMX_LOG_SELREG(DS, "DS");
-        VMX_LOG_SELREG(ES, "ES");
-        VMX_LOG_SELREG(FS, "FS");
-        VMX_LOG_SELREG(GS, "GS");
-        VMX_LOG_SELREG(SS, "SS");
-        VMX_LOG_SELREG(TR, "TR");
-        VMX_LOG_SELREG(LDTR, "LDTR");
+        VMX_LOG_SELREG(CS, "CS", val2);
+        VMX_LOG_SELREG(DS, "DS", val2);
+        VMX_LOG_SELREG(ES, "ES", val2);
+        VMX_LOG_SELREG(FS, "FS", val2);
+        VMX_LOG_SELREG(GS, "GS", val2);
+        VMX_LOG_SELREG(SS, "SS", val2);
+        VMX_LOG_SELREG(TR, "TR", val2);
+        VMX_LOG_SELREG(LDTR, "LDTR", val2);
 
-        VMXReadVMCS(VMX_VMCS64_GUEST_GDTR_BASE, &val);
-        Log(("VMX_VMCS_GUEST_GDTR_BASE    %RX64\n", (uint64_t)val));
-        VMXReadVMCS(VMX_VMCS64_GUEST_IDTR_BASE, &val);
-        Log(("VMX_VMCS_GUEST_IDTR_BASE    %RX64\n", (uint64_t)val));
+        VMXReadVMCS(VMX_VMCS64_GUEST_GDTR_BASE, &val2);
+        Log(("VMX_VMCS_GUEST_GDTR_BASE    %RX64\n", (uint64_t)val2));
+        VMXReadVMCS(VMX_VMCS64_GUEST_IDTR_BASE, &val2);
+        Log(("VMX_VMCS_GUEST_IDTR_BASE    %RX64\n", (uint64_t)val2));
 #endif /* VBOX_STRICT */
         rc = VERR_VMX_INVALID_GUEST_STATE;
         break;
@@ -4182,6 +4196,7 @@ VMMR0DECL(int) VMXR0Leave(PVM pVM, PVMCPU pVCpu, PCPUMCTX pCtx)
     if (CPUMIsHyperDebugStateActive(pVCpu))
     {
         CPUMR0LoadHostDebugState(pVM, pVCpu);
+        Assert(pVCpu->hwaccm.s.vmx.proc_ctls & VMX_VMCS_CTRL_PROC_EXEC_CONTROLS_MOV_DR_EXIT);
     }
     else
 #endif
@@ -4334,16 +4349,16 @@ static void VMXR0ReportWorldSwitchError(PVM pVM, PVMCPU pVCpu, int rc, PCPUMCTX 
     case VERR_VMX_UNABLE_TO_START_VM:
     case VERR_VMX_UNABLE_TO_RESUME_VM:
     {
-        int         rc;
+        int         rc2;
         RTCCUINTREG exitReason, instrError;
 
-        rc  = VMXReadVMCS(VMX_VMCS32_RO_EXIT_REASON, &exitReason);
-        rc |= VMXReadVMCS(VMX_VMCS32_RO_VM_INSTR_ERROR, &instrError);
-        AssertRC(rc);
-        if (rc == VINF_SUCCESS)
+        rc2  = VMXReadVMCS(VMX_VMCS32_RO_EXIT_REASON, &exitReason);
+        rc2 |= VMXReadVMCS(VMX_VMCS32_RO_VM_INSTR_ERROR, &instrError);
+        AssertRC(rc2);
+        if (rc2 == VINF_SUCCESS)
         {
             Log(("Unable to start/resume VM for reason: %x. Instruction error %x\n", (uint32_t)exitReason, (uint32_t)instrError));
-            Log(("Current stack %08x\n", &rc));
+            Log(("Current stack %08x\n", &rc2));
 
             pVCpu->hwaccm.s.vmx.lasterror.ulInstrError = instrError;
             pVCpu->hwaccm.s.vmx.lasterror.ulExitReason = exitReason;

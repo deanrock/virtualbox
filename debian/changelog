@@ -1,3 +1,133 @@
+virtualbox-ose (3.2.4-dfsg-1~bpo50+1) lenny-backports; urgency=low
+
+  * Rebuild for lenny-backports.
+
+ -- Michael Meskes <meskes@debian.org>  Mon, 21 Jun 2010 14:38:25 +0200
+
+virtualbox-ose (3.2.4-dfsg-1) unstable; urgency=low
+
+  * New upstream release.
+
+ -- Felix Geyer <debfx-pkg@fobos.de>  Wed, 09 Jun 2010 15:31:05 +0200
+
+virtualbox-ose (3.2.2-dfsg-1) unstable; urgency=low
+
+  * Imported Upstream version 3.2.2-dfsg (Closes: #584488, #585003)
+  * Fixed dh_install usage in rules file for backports. - thanks to
+    Corey Wright <undefined@pobox.com>
+
+ -- Michael Meskes <meskes@debian.org>  Tue, 08 Jun 2010 11:50:51 +0200
+
+virtualbox-ose (3.2.0-dfsg-1) unstable; urgency=low
+
+  [ Felix Geyer ]
+  * New upstream release.
+  * Add 23-remove-invalid-chars-check.patch to remove a check for invalid
+    characters in the build path since kBuild is now able to handle those.
+  * Fix FTBFS when building without arch-all packages.
+
+  [ Michael Meskes ]
+  * Changed order of some commands to make sure links are created inside
+    the source tarball not outside.
+
+ -- Michael Meskes <meskes@debian.org>  Sun, 23 May 2010 11:39:11 +0200
+
+virtualbox-ose (3.1.53-dfsg-1) experimental; urgency=low
+
+  * New upstream release 3.2.0 Beta 3.
+  * Add build-dependencies required by new upstream version.
+  * Adapt 18-system-xorg.dpatch to new upstream version.
+  * Update to new upstream release of vdfuse.
+  * Build vdfuse with -Wl,--as-needed.
+  * Install vbox PAM module.
+  * Drop 17-disable-help-contents.dpatch and 20-hide-help-buttons.dpatch
+    as VirtualBox can download the manual.
+  * Enable VDE networking.
+  * Enable VNC server in VBoxHeadless.
+  * Don't build VBoxBFE as it's not installed anyway.
+  * Hide the update menu item and settings page instead of disabling them.
+  * Make both dkms packages conflict with each other as the kernel modules
+    export the same symbol. (LP: #571574)
+  * Switch from dpatch to quilt patching system.
+  * Convert debian/rules to dh7.
+  * Use dkms debhelper script.
+
+ -- Felix Geyer <debfx-pkg@fobos.de>  Thu, 13 May 2010 18:20:43 +0200
+
+virtualbox-ose (3.1.8-dfsg-1) unstable; urgency=low
+
+  * New upstream version (LP: #578723).
+    - Fixes vboxsf file systems not being mounted while booting on Ubuntu.
+      (LP: #530179)
+  * Adapt 18-system-xorg.dpatch and 06-xsession.dpatch to new upstream version.
+  * Use upstream 50-vboxmouse.conf instead of our own.
+  * Add libxrandr-dev to build-dependencies.
+  * Don't load the kernel modules in the guest utils init script as they are
+    loaded automatically.
+  * Drop 15-wined3d-guest-addition.dpatch as the Windows guest additions
+    provide Direct3D acceleration.
+
+ -- Felix Geyer <debfx-pkg@fobos.de>  Tue, 11 May 2010 18:06:04 +0200
+
+virtualbox-ose (3.1.6-dfsg-3) unstable; urgency=low
+
+  * Move 10-vboxmouse.conf to 50-vboxmouse.conf and install it in
+    /usr/share/X11/xorg.conf.d.
+  * Use substvar from new xsfbs.mk.
+
+ -- Felix Geyer <debfx-pkg@fobos.de>  Sun, 18 Apr 2010 18:56:10 +0200
+
+virtualbox-ose (3.1.6-dfsg-2) unstable; urgency=low
+
+  * Improve 20-hide-help-buttons.dpatch so all help buttons are hidden.
+  * Set source format version explicitly to "1.0".
+  * Adapt to xserver 1.8 input driver detection. (LP: #546933)
+    - Add 10-vboxmouse.conf
+    - Update virtualbox-ose-guest-x11.udev
+
+ -- Felix Geyer <debfx-pkg@fobos.de>  Wed, 31 Mar 2010 15:15:44 +0200
+
+virtualbox-ose (3.1.6-dfsg-1) unstable; urgency=low
+
+  * New upstream version.
+  * Drop 02-r27248.dpatch as it's applied upstream.
+  * Use dh_lintian to install overrides.
+
+ -- Felix Geyer <debfx-pkg@fobos.de>  Fri, 26 Mar 2010 11:25:46 +0100
+
+virtualbox-ose (3.1.4-dfsg-3) unstable; urgency=low
+
+  [ Felix Geyer ]
+  * Move virtualbox-ose-guest-x11 to section x11.
+  * Replace 18-xorg-1.6.dpatch with a new patch that allows to easily
+    switch to a different X Server version.
+  * Remove /usr/share/virtualbox/x11config15.pl as we are at X Server 1.7.
+
+  [ Michael Meskes ]
+  * Apply upstream changeset 27248 to make virtualbox guest additions
+    work with drm code in kernels 2.6.33+. (Closes: #574662)
+  * Applied patch by nutzteil <nutzteil@web.de> to make init script
+    consistent in (Closes: #574831)
+
+ -- Michael Meskes <meskes@debian.org>  Tue, 23 Mar 2010 15:54:49 +0100
+
+virtualbox-ose (3.1.4-dfsg-2) unstable; urgency=low
+
+  [ Felix Geyer ]
+  * Add INSTALL_PATH variable
+  * Downgrade library dependencies of VBoxTestOGL to Recommends.
+    (Closes: #567800)
+  * Provide an udev instead of hal rule for the mouse driver
+    autodetection. (LP: #525558)
+  * Update device names in guest udev rules.
+
+  [ Michael Meskes ]
+  * Document QT4 usage for virtualbox-ose.
+  * Changed build-dependency from libcap2-dev to libcap-dev. (Closes:
+    #569769)
+
+ -- Michael Meskes <meskes@debian.org>  Tue, 16 Feb 2010 15:03:46 +0100
+
 virtualbox-ose (3.1.4-dfsg-1~bpo50+1) lenny-backports; urgency=low
 
   * Rebuild for lenny-backports.

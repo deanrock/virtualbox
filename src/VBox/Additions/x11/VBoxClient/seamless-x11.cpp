@@ -3,7 +3,7 @@
  */
 
 /*
- * Copyright (C) 2008 Sun Microsystems, Inc.
+ * Copyright (C) 2008 Oracle Corporation
  *
  * This file is part of VirtualBox Open Source Edition (OSE), as
  * available from http://www.virtualbox.org. This file is free software;
@@ -12,10 +12,6 @@
  * Foundation, in version 2 as it comes in the "COPYING" file of the
  * VirtualBox OSE distribution. VirtualBox OSE is distributed in the
  * hope that it will be useful, but WITHOUT ANY WARRANTY of any kind.
- *
- * Please contact Sun Microsystems, Inc., 4150 Network Circle, Santa
- * Clara, CA 95054 USA or visit http://www.sun.com if you need
- * additional information or have any questions.
  */
 
 /*****************************************************************************
@@ -45,7 +41,7 @@
 static unsigned char *XXGetProperty (Display *aDpy, Window aWnd, Atom aPropType,
                                     const char *aPropName, unsigned long *nItems)
 {
-    LogFlowFunc(("\n"));
+    LogRelFlowFunc(("\n"));
     Atom propNameAtom = XInternAtom (aDpy, aPropName,
                                      True /* only_if_exists */);
     if (propNameAtom == None)
@@ -64,7 +60,7 @@ static unsigned char *XXGetProperty (Display *aDpy, Window aWnd, Atom aPropType,
     if (rc != Success)
         return NULL;
 
-    LogFlowFunc(("returning\n"));
+    LogRelFlowFunc(("returning\n"));
     return propVal;
 }
 
@@ -77,7 +73,7 @@ int VBoxGuestSeamlessX11::init(VBoxGuestSeamlessObserver *pObserver)
 {
     int rc = VINF_SUCCESS;
 
-    LogFlowThisFunc(("\n"));
+    LogRelFlowFunc(("\n"));
     if (0 != mObserver)  /* Assertion */
     {
         LogRel(("VBoxClient: ERROR: attempt to initialise seamless guest object twice!\n"));
@@ -89,7 +85,7 @@ int VBoxGuestSeamlessX11::init(VBoxGuestSeamlessObserver *pObserver)
         return VERR_ACCESS_DENIED;
     }
     mObserver = pObserver;
-    LogFlowThisFunc(("returning %Rrc\n", rc));
+    LogRelFlowFunc(("returning %Rrc\n", rc));
     return rc;
 }
 
@@ -107,12 +103,12 @@ int VBoxGuestSeamlessX11::start(void)
     /** Dummy values for XShapeQueryExtension */
     int error, event;
 
-    LogFlowThisFunc(("\n"));
+    LogRelFlowFunc(("\n"));
     mSupportsShape = XShapeQueryExtension(mDisplay, &event, &error);
     mEnabled = true;
     monitorClientList();
     rebuildWindowTree();
-    LogFlowThisFunc(("returning %Rrc\n", rc));
+    LogRelFlowFunc(("returning %Rrc\n", rc));
     return rc;
 }
 
@@ -120,22 +116,22 @@ int VBoxGuestSeamlessX11::start(void)
     and stop requesting updates. */
 void VBoxGuestSeamlessX11::stop(void)
 {
-    LogFlowThisFunc(("\n"));
+    LogRelFlowFunc(("\n"));
     mEnabled = false;
     unmonitorClientList();
     freeWindowTree();
-    LogFlowThisFunc(("returning\n"));
+    LogRelFlowFunc(("returning\n"));
 }
 
 void VBoxGuestSeamlessX11::monitorClientList(void)
 {
-    LogFlowThisFunc(("called\n"));
+    LogRelFlowFunc(("called\n"));
     XSelectInput(mDisplay, DefaultRootWindow(mDisplay.get()), SubstructureNotifyMask);
 }
 
 void VBoxGuestSeamlessX11::unmonitorClientList(void)
 {
-    LogFlowThisFunc(("called\n"));
+    LogRelFlowFunc(("called\n"));
     XSelectInput(mDisplay, DefaultRootWindow(mDisplay.get()), 0);
 }
 
@@ -145,7 +141,7 @@ void VBoxGuestSeamlessX11::unmonitorClientList(void)
  */
 void VBoxGuestSeamlessX11::rebuildWindowTree(void)
 {
-    LogFlowThisFunc(("called\n"));
+    LogRelFlowFunc(("called\n"));
     freeWindowTree();
     addClients(DefaultRootWindow(mDisplay.get()));
     mChanged = true;
@@ -169,19 +165,19 @@ void VBoxGuestSeamlessX11::addClients(const Window hRoot)
     /** The number of children of the root supplied */
     unsigned cChildren;
 
-    LogFlowThisFunc(("\n"));
+    LogRelFlowFunc(("\n"));
     if (!XQueryTree(mDisplay.get(), hRoot, &hRealRoot, &hParent, &phChildrenRaw, &cChildren))
         return;
     phChildren = phChildrenRaw;
     for (unsigned i = 0; i < cChildren; ++i)
         addClientWindow(phChildren.get()[i]);
-    LogFlowThisFunc(("returning\n"));
+    LogRelFlowFunc(("returning\n"));
 }
 
 
 void VBoxGuestSeamlessX11::addClientWindow(const Window hWin)
 {
-    LogFlowThisFunc(("\n"));
+    LogRelFlowFunc(("\n"));
     XWindowAttributes winAttrib;
     bool fAddWin = true;
     char *pszWinName = NULL;
@@ -201,7 +197,7 @@ void VBoxGuestSeamlessX11::addClientWindow(const Window hWin)
     if (fAddWin && (!XGetWMNormalHints(mDisplay, hClient, &dummyHints,
                                        &dummyLong)))
     {
-        LogFlowFunc(("window %lu, client window %lu has no size hints\n",
+        LogRelFlowFunc(("window %lu, client window %lu has no size hints\n",
                      hWin, hClient));
         fAddWin = false;
     }
@@ -211,7 +207,7 @@ void VBoxGuestSeamlessX11::addClientWindow(const Window hWin)
         int cRects = 0, iOrdering;
         bool hasShape = false;
 
-        LogFlowFunc(("adding window %lu, client window %lu\n", hWin,
+        LogRelFlowFunc(("adding window %lu, client window %lu\n", hWin,
                      hClient));
         if (mSupportsShape)
         {
@@ -233,7 +229,7 @@ void VBoxGuestSeamlessX11::addClientWindow(const Window hWin)
         mGuestWindows.addWindow(hWin, hasShape, winAttrib.x, winAttrib.y,
                                 winAttrib.width, winAttrib.height, cRects, rects);
     }
-    LogFlowThisFunc(("returning\n"));
+    LogRelFlowFunc(("returning\n"));
 }
 
 
@@ -249,7 +245,7 @@ bool VBoxGuestSeamlessX11::isVirtualRoot(Window hWin)
     unsigned long ulCount;
     bool rc = false;
 
-    LogFlowThisFunc(("\n"));
+    LogRelFlowFunc(("\n"));
     windowTypeRaw = XXGetProperty(mDisplay, hWin, XA_ATOM, WM_TYPE_PROP, &ulCount);
     if (windowTypeRaw != NULL)
     {
@@ -258,7 +254,7 @@ bool VBoxGuestSeamlessX11::isVirtualRoot(Window hWin)
             && (*windowType == XInternAtom(mDisplay, WM_TYPE_DESKTOP_PROP, True)))
             rc = true;
     }
-    LogFlowThisFunc(("returning %s\n", rc ? "true" : "false"));
+    LogRelFlowFunc(("returning %s\n", rc ? "true" : "false"));
     return rc;
 }
 
@@ -269,13 +265,13 @@ bool VBoxGuestSeamlessX11::isVirtualRoot(Window hWin)
 void VBoxGuestSeamlessX11::freeWindowTree(void)
 {
     /* We use post-increment in the operation to prevent the iterator from being invalidated. */
-    LogFlowThisFunc(("\n"));
+    LogRelFlowFunc(("\n"));
     for (VBoxGuestWindowList::iterator it = mGuestWindows.begin(); it != mGuestWindows.end();
                  mGuestWindows.removeWindow(it++))
     {
         XShapeSelectInput(mDisplay, it->first, 0);
     }
-    LogFlowThisFunc(("returning\n"));
+    LogRelFlowFunc(("returning\n"));
 }
 
 
@@ -288,7 +284,7 @@ void VBoxGuestSeamlessX11::nextEvent(void)
 {
     XEvent event;
 
-    LogFlowThisFunc(("\n"));
+    LogRelFlowFunc(("\n"));
     /* Start by sending information about the current window setup to the host.  We do this
        here because we want to send all such information from a single thread. */
     if (mChanged)
@@ -313,7 +309,7 @@ void VBoxGuestSeamlessX11::nextEvent(void)
     default:
         break;
     }
-    LogFlowThisFunc(("returning\n"));
+    LogRelFlowFunc(("returning\n"));
 }
 
 /**
@@ -323,7 +319,7 @@ void VBoxGuestSeamlessX11::nextEvent(void)
  */
 void VBoxGuestSeamlessX11::doConfigureEvent(Window hWin)
 {
-    LogFlowThisFunc(("\n"));
+    LogRelFlowFunc(("\n"));
     VBoxGuestWindowList::iterator iter;
 
     iter = mGuestWindows.find(hWin);
@@ -351,7 +347,7 @@ void VBoxGuestSeamlessX11::doConfigureEvent(Window hWin)
         }
         mChanged = true;
     }
-    LogFlowThisFunc(("returning\n"));
+    LogRelFlowFunc(("returning\n"));
 }
 
 /**
@@ -361,7 +357,7 @@ void VBoxGuestSeamlessX11::doConfigureEvent(Window hWin)
  */
 void VBoxGuestSeamlessX11::doMapEvent(Window hWin)
 {
-    LogFlowThisFunc(("\n"));
+    LogRelFlowFunc(("\n"));
     VBoxGuestWindowList::iterator iter;
 
     iter = mGuestWindows.find(hWin);
@@ -370,7 +366,7 @@ void VBoxGuestSeamlessX11::doMapEvent(Window hWin)
         addClientWindow(hWin);
         mChanged = true;
     }
-    LogFlowThisFunc(("returning\n"));
+    LogRelFlowFunc(("returning\n"));
 }
 
 
@@ -381,7 +377,7 @@ void VBoxGuestSeamlessX11::doMapEvent(Window hWin)
  */
 void VBoxGuestSeamlessX11::doShapeEvent(Window hWin)
 {
-    LogFlowThisFunc(("\n"));
+    LogRelFlowFunc(("\n"));
     VBoxGuestWindowList::iterator iter;
 
     iter = mGuestWindows.find(hWin);
@@ -399,7 +395,7 @@ void VBoxGuestSeamlessX11::doShapeEvent(Window hWin)
         iter->second->mapRects = rects;
         mChanged = true;
     }
-    LogFlowThisFunc(("returning\n"));
+    LogRelFlowFunc(("returning\n"));
 }
 
 /**
@@ -409,7 +405,7 @@ void VBoxGuestSeamlessX11::doShapeEvent(Window hWin)
  */
 void VBoxGuestSeamlessX11::doUnmapEvent(Window hWin)
 {
-    LogFlowThisFunc(("\n"));
+    LogRelFlowFunc(("\n"));
     VBoxGuestWindowList::iterator iter;
 
     iter = mGuestWindows.find(hWin);
@@ -418,7 +414,7 @@ void VBoxGuestSeamlessX11::doUnmapEvent(Window hWin)
         mGuestWindows.removeWindow(iter);
         mChanged = true;
     }
-    LogFlowThisFunc(("returning\n"));
+    LogRelFlowFunc(("returning\n"));
 }
 
 /**
@@ -426,7 +422,7 @@ void VBoxGuestSeamlessX11::doUnmapEvent(Window hWin)
  */
 std::auto_ptr<std::vector<RTRECT> > VBoxGuestSeamlessX11::getRects(void)
 {
-    LogFlowThisFunc(("\n"));
+    LogRelFlowFunc(("\n"));
     unsigned cRects = 0;
     std::auto_ptr<std::vector<RTRECT> > apRects(new std::vector<RTRECT>);
 
@@ -470,7 +466,7 @@ std::auto_ptr<std::vector<RTRECT> > VBoxGuestSeamlessX11::getRects(void)
         }
     }
     mcRects = cRects;
-    LogFlowThisFunc(("returning\n"));
+    LogRelFlowFunc(("returning\n"));
     return apRects;
 }
 
@@ -483,7 +479,7 @@ bool VBoxGuestSeamlessX11::interruptEvent(void)
 {
     bool rc = false;
 
-    LogFlowThisFunc(("\n"));
+    LogRelFlowFunc(("\n"));
     /* Message contents set to zero. */
     XClientMessageEvent clientMessage = { ClientMessage, 0, 0, 0, 0, 0, 8 };
 
@@ -493,6 +489,6 @@ bool VBoxGuestSeamlessX11::interruptEvent(void)
         XFlush(mDisplay);
         rc = true;
     }
-    LogFlowThisFunc(("returning %s\n", rc ? "true" : "false"));
+    LogRelFlowFunc(("returning %s\n", rc ? "true" : "false"));
     return rc;
 }

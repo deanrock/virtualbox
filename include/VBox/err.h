@@ -3,7 +3,7 @@
  */
 
 /*
- * Copyright (C) 2006-2009 Sun Microsystems, Inc.
+ * Copyright (C) 2006-2010 Oracle Corporation
  *
  * This file is part of VirtualBox Open Source Edition (OSE), as
  * available from http://www.virtualbox.org. This file is free software;
@@ -21,10 +21,6 @@
  *
  * You may elect to license modified versions of this file under the
  * terms and conditions of either the GPL or the CDDL or both.
- *
- * Please contact Sun Microsystems, Inc., 4150 Network Circle, Santa
- * Clara, CA 95054 USA or visit http://www.sun.com if you need
- * additional information or have any questions.
  */
 
 #ifndef ___VBox_err_h
@@ -57,7 +53,7 @@
 #define VERR_CFG_INVALID_FORMAT             (-1005)
 /** No configuration value exists. */
 #define VERR_CFG_NO_VALUE                   (-1006)
-/** Not selector not present. */
+/** Selector not present. */
 #define VERR_SELECTOR_NOT_PRESENT           (-1007)
 /** Not code selector. */
 #define VERR_NOT_CODE_SELECTOR              (-1008)
@@ -83,6 +79,10 @@
 #define VERR_INVALID_CPU_ID                 (-1018)
 /** Too many VCPUs. */
 #define VERR_TOO_MANY_CPUS                  (-1019)
+/** The service was disabled on the host.
+ * Returned by pfnInit in VBoxService to indicated a non-fatal error that
+ * should results in the particular service being disabled. */
+#define VERR_SERVICE_DISABLED               (-1020)
 /** @} */
 
 
@@ -466,6 +466,18 @@
 #define VINF_PGM_HANDLER_ALREADY_ALIASED        (1643)
 /** PGM pool flush pending - return to ring 3. */
 #define VINF_PGM_POOL_FLUSH_PENDING             (1644)
+/** Unable to use the range for a large page. */
+#define VERR_PGM_INVALID_LARGE_PAGE_RANGE       (-1645)
+/** Don't mess around with ballooned pages. */
+#define VERR_PGM_PHYS_PAGE_BALLOONED            (-1646)
+/** Shared module already registered. */
+#define VINF_PGM_SHARED_MODULE_ALREADY_REGISTERED   (1647)
+/** Shared module not found. */
+#define VERR_PGM_SHARED_MODULE_NOT_FOUND        (-1648)
+/** Shared module different from previously registered module. */
+#define VINF_PGM_SHARED_MODULE_COLLISION        (1649)
+/** Inconsistent local and global registration records. */
+#define VERR_PGM_SHARED_MODULE_REGISTRATION_INCONSISTENCY (-1650)
 /** @} */
 
 
@@ -615,6 +627,9 @@
 #define VERR_SSM_FIELD_INVALID_PADDING_SIZE     (-1869)
 /** The field contains a value that is out of range. */
 #define VERR_SSM_FIELD_INVALID_VALUE            (-1870)
+/** Generic stream error. */
+#define VERR_SSM_STREAM_ERROR                   (-1871)
+
 /** @} */
 
 
@@ -736,6 +751,10 @@
 #define VERR_CFGM_NODE_EXISTS               (-2161)
 /** A new leaf couldn't be inserted because one with the same name exists. */
 #define VERR_CFGM_LEAF_EXISTS               (-2162)
+/** An unknown config value was encountered. */
+#define VERR_CFGM_CONFIG_UNKNOWN_VALUE      (-2163)
+/** An unknown config node (key) was encountered. */
+#define VERR_CFGM_CONFIG_UNKNOWN_NODE       (-2164)
 /** @} */
 
 
@@ -1212,6 +1231,8 @@
 #define VERR_VD_RAW_INVALID_HEADER                  (-3270)
 /** Raw: Invalid image file type. */
 #define VERR_VD_RAW_INVALID_TYPE                    (-3271)
+/** The backend needs more metadata before it can continue. */
+#define VERR_VD_NOT_ENOUGH_METADATA                 (-3272)
 /** @} */
 
 
@@ -1279,6 +1300,8 @@
 #define VERR_INTNET_INCOMPATIBLE_TRUNK              (-3603)
 /** The network already exists with a different security profile (restricted / public). */
 #define VERR_INTNET_INCOMPATIBLE_FLAGS              (-3604)
+/** Failed to create a virtual network interface instance. */
+#define VERR_INTNET_FLT_VNIC_CREATE_FAILED          (-3605)
 /** @} */
 
 
@@ -1464,33 +1487,44 @@
 /** @} */
 
 
-/** @name VBox Webservice Status Codes
- * @{
- */
-/** Object not found. */
-#define VERR_COM_OBJECT_NOT_FOUND                  (-4601)
-/** Invalid machine state. */
-#define VERR_COM_INVALID_VM_STATE                  (-4602)
-/** VM error. */
-#define VERR_COM_VM_ERROR                          (-4603)
-/** File error. */
-#define VERR_COM_FILE_ERROR                        (-4604)
+/** @name VBox COM error codes
+ *
+ * @remarks Global::vboxStatusCodeToCOM and Global::vboxStatusCodeFromCOM uses
+ *          these for conversion that is lossless with respect to important COM
+ *          status codes.  These methods should be moved to the glue library.
+ * @{  */
+/** Unexpected turn of events. */
+#define VERR_COM_UNEXPECTED                         (-4600)
+/** The base of the VirtualBox COM status codes (the lower value)
+ * corresponding 1:1 to VBOX_E_XXX.  This is the lowest value. */
+#define VERR_COM_VBOX_LOWEST                        (-4699)
+/** Object corresponding to the supplied arguments does not exist. */
+#define VERR_COM_OBJECT_NOT_FOUND                   (VERR_COM_VBOX_LOWEST + 1)
+/** Current virtual machine state prevents the operation. */
+#define VERR_COM_INVALID_VM_STATE                   (VERR_COM_VBOX_LOWEST + 2)
+/** Virtual machine error occurred attempting the operation. */
+#define VERR_COM_VM_ERROR                           (VERR_COM_VBOX_LOWEST + 3)
+/** File not accessible or erroneous file contents. */
+#define VERR_COM_FILE_ERROR                         (VERR_COM_VBOX_LOWEST + 4)
 /** IPRT error. */
-#define VERR_COM_IPRT_ERROR                        (-4605)
-/** PDM error. */
-#define VERR_COM_PDM_ERROR                         (-4606)
-/** Invalid object state. */
-#define VERR_COM_INVALID_OBJECT_STATE              (-4607)
-/** Host error. */
-#define VERR_COM_HOST_ERROR                        (-4608)
-/** Not supported. */
-#define VERR_COM_NOT_SUPPORTED                     (-4609)
-/** XML error. */
-#define VERR_COM_XML_ERROR                         (-4610)
-/** Invalid session state. */
-#define VERR_COM_INVALID_SESSION_STATE             (-4611)
-/** Invalid session state. */
-#define VERR_COM_OBJECT_IN_USE                     (-4612)
+#define VERR_COM_IPRT_ERROR                         (VERR_COM_VBOX_LOWEST + 5)
+/** Pluggable Device Manager error. */
+#define VERR_COM_PDM_ERROR                          (VERR_COM_VBOX_LOWEST + 6)
+/** Current object state prohibits operation. */
+#define VERR_COM_INVALID_OBJECT_STATE               (VERR_COM_VBOX_LOWEST + 7)
+/** Host operating system related error. */
+#define VERR_COM_HOST_ERROR                         (VERR_COM_VBOX_LOWEST + 8)
+/** Requested operation is not supported. */
+#define VERR_COM_NOT_SUPPORTED                      (VERR_COM_VBOX_LOWEST + 9)
+/** Invalid XML found. */
+#define VERR_COM_XML_ERROR                          (VERR_COM_VBOX_LOWEST + 10)
+/** Current session state prohibits operation. */
+#define VERR_COM_INVALID_SESSION_STATE              (VERR_COM_VBOX_LOWEST + 11)
+/** Object being in use prohibits operation. */
+#define VERR_COM_OBJECT_IN_USE                      (VERR_COM_VBOX_LOWEST + 12)
+/** Returned by callback methods which does not need to be called
+ * again because the client does not actually make use of them. */
+#define VERR_COM_DONT_CALL_AGAIN                    (VERR_COM_VBOX_LOWEST + 13)
 /** @} */
 
 /** @name VBox CPU hotplug Status codes
@@ -1500,28 +1534,42 @@
 #define VERR_CPU_HOTPLUG_NOT_MONITORED_BY_GUEST    (-4700)
 /** @} */
 
+/** @name VBox async I/O manager Status Codes
+ * @{
+ */
+/** Async I/O task is pending, a completion handler will be called. */
+#define VINF_AIO_TASK_PENDING                       4800
+/** @} */
+
+/** @name VBox Virtual SCSI Status Codes
+ * @{
+ */
+/** LUN type is not supported */
+#define VERR_VSCSI_LUN_TYPE_NOT_SUPPORTED           (-4900)
+/** LUN is already/still attached to a device */
+#define VERR_VSCSI_LUN_ATTACHED_TO_DEVICE           (-4901)
+/** The specified LUN is invalid */
+#define VERR_VSCSI_LUN_INVALID                      (-4902)
+/** The LUN is not attached to the device */
+#define VERR_VSCSI_LUN_NOT_ATTACHED                 (-4903)
+/** The LUN is still busy. */
+#define VERR_VSCSI_LUN_BUSY                         (-4904)
+/** @} */
+
+/** @name VBox FAM error codes
+ * @{
+ */
+/** FAM failed to open a connection */
+#define VERR_FAM_OPEN_FAILED                        (-5000)
+/** FAM failed to add a file to the list to be monitored */
+#define VERR_FAM_MONITOR_FILE_FAILED                (-5001)
+/** FAM failed to add a directory to the list to be monitored */
+#define VERR_FAM_MONITOR_DIRECTORY_FAILED           (-5002)
+/** The connection to the FAM daemon was lost */
+#define VERR_FAM_CONNECTION_LOST                    (-5003)
+/** @} */
+
 /* SED-END */
-
-
-/** @def VBOX_SUCCESS
- * Check for success.
- *
- * @returns true if rc indicates success.
- * @returns false if rc indicates failure.
- *
- * @param   rc  The iprt status code to test.
- */
-#define VBOX_SUCCESS(rc)    RT_SUCCESS(rc)
-
-/** @def VBOX_FAILURE
- * Check for failure.
- *
- * @returns true if rc indicates failure.
- * @returns false if rc indicates success.
- *
- * @param   rc  The iprt status code to test.
- */
-#define VBOX_FAILURE(rc)    RT_FAILURE(rc)
 
 /** @} */
 

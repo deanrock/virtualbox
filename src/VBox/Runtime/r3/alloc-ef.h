@@ -4,7 +4,7 @@
  */
 
 /*
- * Copyright (C) 2006-2007 Sun Microsystems, Inc.
+ * Copyright (C) 2006-2010 Oracle Corporation
  *
  * This file is part of VirtualBox Open Source Edition (OSE), as
  * available from http://www.virtualbox.org. This file is free software;
@@ -22,10 +22,6 @@
  *
  * You may elect to license modified versions of this file under the
  * terms and conditions of either the GPL or the CDDL or both.
- *
- * Please contact Sun Microsystems, Inc., 4150 Network Circle, Santa
- * Clara, CA 95054 USA or visit http://www.sun.com if you need
- * additional information or have any questions.
  */
 
 #ifndef ___alloc_ef_h
@@ -34,7 +30,7 @@
 /*******************************************************************************
 *   Defined Constants And Macros                                               *
 *******************************************************************************/
-#if defined(__DOXYGEN__)
+#if defined(DOXYGEN_RUNNING)
 # define RTALLOC_USE_EFENCE
 # define RTALLOC_EFENCE_IN_FRONT
 # define RTALLOC_EFENCE_FREE_FILL 'f'
@@ -44,7 +40,7 @@
  * If defined the electric fence put up for ALL allocations by RTMemAlloc(),
  * RTMemAllocZ(), RTMemRealloc(), RTMemTmpAlloc() and RTMemTmpAllocZ().
  */
-#if 0// defined(DEBUG_bird)
+#if 0
 # define RTALLOC_USE_EFENCE
 #endif
 
@@ -52,6 +48,19 @@
  * The size of the fence. This must be page aligned.
  */
 #define RTALLOC_EFENCE_SIZE             PAGE_SIZE
+
+/** @def RTALLOC_EFENCE_ALIGNMENT
+ * The allocation alignment, power of two of course.
+ *
+ * Use this for working around misaligned sizes, usually stemming from
+ * allocating a string or something after the main structure.  When you
+ * encounter this, please fix the allocation to RTMemAllocVar or RTMemAllocZVar.
+ */
+#if 0
+# define RTALLOC_EFENCE_ALIGNMENT       (ARCH_BITS / 8)
+#else
+# define RTALLOC_EFENCE_ALIGNMENT       1
+#endif
 
 /** @def RTALLOC_EFENCE_IN_FRONT
  * Define this to put the fence up in front of the block.
@@ -80,7 +89,7 @@
  * decommitted.
  * Requires RTALLOC_EFENCE_TRACE.
  */
-#if defined(RT_OS_LINUX)
+#if defined(RT_OS_LINUX) || defined(RT_OS_SOLARIS)
 # define RTALLOC_EFENCE_FREE_FILL       'f'
 #endif
 
@@ -90,7 +99,19 @@
  */
 #define RTALLOC_EFENCE_FILLER           0xef
 
-#if defined(__DOXYGEN__)
+/** @def RTALLOC_EFENCE_NOMAN_FILLER
+ * This define will enable memset(,RTALLOC_EFENCE_NOMAN_FILLER,)'ing the
+ * unprotected but not allocated area of memory, the so called no man's land.
+ */
+#define RTALLOC_EFENCE_NOMAN_FILLER     0xaa
+
+/** @def RTALLOC_EFENCE_FENCE_FILLER
+ * This define will enable memset(,RTALLOC_EFENCE_FENCE_FILLER,)'ing the
+ * fence itself, as debuggers can usually read them.
+ */
+#define RTALLOC_EFENCE_FENCE_FILLER     0xcc
+
+#if defined(DOXYGEN_RUNNING)
 /** @def RTALLOC_EFENCE_CPP
  * This define will enable the new and delete wrappers.
  */
@@ -140,8 +161,10 @@ typedef struct RTMEMBLOCK
     AVLPVNODECORE   Core;
     /** Allocation type. */
     RTMEMTYPE       enmType;
-    /** The size of the block. */
-    size_t          cb;
+    /** The unaligned size of the block. */
+    size_t          cbUnaligned;
+    /** The aligned size of the block. */
+    size_t          cbAligned;
     /** The return address of the allocator function. */
     void           *pvCaller;
     /** Line number of the alloc call. */
@@ -159,9 +182,10 @@ typedef struct RTMEMBLOCK
 *   Internal Functions                                                         *
 ******************************************************************************/
 RT_C_DECLS_BEGIN
-void *  rtMemAlloc(const char *pszOp, RTMEMTYPE enmType, size_t cb, void *pvCaller, unsigned iLine, const char *pszFile, const char *pszFunction);
-void *  rtMemRealloc(const char *pszOp, RTMEMTYPE enmType, void *pvOld, size_t cbNew, void *pvCaller, unsigned iLine, const char *pszFile, const char *pszFunction);
-void    rtMemFree(const char *pszOp, RTMEMTYPE enmType, void *pv, void *pvCaller, unsigned iLine, const char *pszFile, const char *pszFunction);
+RTDECL(void *)  rtR3MemAlloc(const char *pszOp, RTMEMTYPE enmType, size_t cbUnaligned, size_t cbAligned,
+                             void *pvCaller, RT_SRC_POS_DECL);
+RTDECL(void *)  rtR3MemRealloc(const char *pszOp, RTMEMTYPE enmType, void *pvOld, size_t cbNew, void *pvCaller, RT_SRC_POS_DECL);
+RTDECL(void)    rtR3MemFree(const char *pszOp, RTMEMTYPE enmType, void *pv, void *pvCaller, RT_SRC_POS_DECL);
 RT_C_DECLS_END
 
 #endif

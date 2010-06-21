@@ -4,7 +4,7 @@
  */
 
 /*
- * Copyright (C) 2006-2007 Sun Microsystems, Inc.
+ * Copyright (C) 2006-2007 Oracle Corporation
  *
  * This file is part of VirtualBox Open Source Edition (OSE), as
  * available from http://www.virtualbox.org. This file is free software;
@@ -22,10 +22,6 @@
  *
  * You may elect to license modified versions of this file under the
  * terms and conditions of either the GPL or the CDDL or both.
- *
- * Please contact Sun Microsystems, Inc., 4150 Network Circle, Santa
- * Clara, CA 95054 USA or visit http://www.sun.com if you need
- * additional information or have any questions.
  */
 
 
@@ -71,6 +67,11 @@
 
 /** Invalid entry in the waiting array. */
 #define RTFILEAIOCTX_WAIT_ENTRY_INVALID (~0U)
+
+/** No-op replacement for rtFileAioCtxDump for non debug builds */
+#ifndef LOG_ENABLED
+# define rtFileAioCtxDump(pCtxInt) do {} while (0)
+#endif
 
 /*******************************************************************************
 *   Structures and Typedefs                                                    *
@@ -202,6 +203,7 @@ static int rtFileAioCtxProcessEvents(PRTFILEAIOCTXINTERNAL pCtxInt)
             while (  (pCtxInt->iFirstFree < pCtxInt->cReqsWaitMax)
                    && pReqHead)
             {
+                RTFIELAIOREQ_ASSERT_STATE(pReqHead, SUBMITTED);
                 pCtxInt->apReqs[pCtxInt->iFirstFree] = pReqHead;
                 pReqHead->iWaitingList = pCtxInt->iFirstFree;
                 pReqHead = pReqHead->pNext;
@@ -218,6 +220,7 @@ static int rtFileAioCtxProcessEvents(PRTFILEAIOCTXINTERNAL pCtxInt)
             /* Append the rest to the wait list. */
             if (pReqHead)
             {
+                RTFIELAIOREQ_ASSERT_STATE(pReqHead, SUBMITTED);
                 if (!pCtxInt->pReqsWaitHead)
                 {
                     Assert(!pCtxInt->pReqsWaitTail);
@@ -234,7 +237,10 @@ static int rtFileAioCtxProcessEvents(PRTFILEAIOCTXINTERNAL pCtxInt)
 
                 /* Update tail. */
                 while (pReqHead->pNext)
+                {
+                    RTFIELAIOREQ_ASSERT_STATE(pReqHead->pNext, SUBMITTED);
                     pReqHead = pReqHead->pNext;
+                }
 
                 pCtxInt->pReqsWaitTail = pReqHead;
                 pCtxInt->pReqsWaitTail->pNext = NULL;
@@ -399,6 +405,7 @@ DECLINLINE(int) rtFileAioReqPrepareTransfer(RTFILEAIOREQ hReq, RTFILE hFile,
     Assert(cbTransfer > 0);
 
     memset(&pReqInt->AioCB, 0, sizeof(struct aiocb));
+    pReqInt->fFlush               = false;
     pReqInt->AioCB.aio_lio_opcode = uTransferDirection;
     pReqInt->AioCB.aio_fildes     = (int)hFile;
     pReqInt->AioCB.aio_offset     = off;
@@ -422,10 +429,10 @@ RTDECL(int) RTFileAioReqPrepareRead(RTFILEAIOREQ hReq, RTFILE hFile, RTFOFF off,
 
 
 RTDECL(int) RTFileAioReqPrepareWrite(RTFILEAIOREQ hReq, RTFILE hFile, RTFOFF off,
-                                     void *pvBuf, size_t cbWrite, void *pvUser)
+                                     void const *pvBuf, size_t cbWrite, void *pvUser)
 {
     return rtFileAioReqPrepareTransfer(hReq, hFile, LIO_WRITE,
-                                       off, pvBuf, cbWrite, pvUser);
+                                       off, (void *)pvBuf, cbWrite, pvUser);
 }
 
 
@@ -439,7 +446,11 @@ RTDECL(int) RTFileAioReqPrepareFlush(RTFILEAIOREQ hReq, RTFILE hFile, void *pvUs
 
     pReqInt->fFlush           = true;
     pReqInt->AioCB.aio_fildes = (int)hFile;
+    pReqInt->AioCB.aio_offset = 0;
+    pReqInt->AioCB.aio_nbytes = 0;
+    pReqInt->AioCB.aio_buf    = NULL;
     pReqInt->pvUser           = pvUser;
+    pReqInt->Rc               = VERR_FILE_AIO_IN_PROGRESS;
     RTFILEAIOREQ_SET_STATE(pReqInt, PREPARED);
 
     return VINF_SUCCESS;
@@ -577,6 +588,30 @@ RTDECL(int) RTFileAioCtxAssociateWithFile(RTFILEAIOCTX hAioCtx, RTFILE hFile)
     return VINF_SUCCESS;
 }
 
+#ifdef LOG_ENABLED
+/**
+ * Dumps the state of a async I/O context.
+ */
+static void rtFileAioCtxDump(PRTFILEAIOCTXINTERNAL pCtxInt)
+{
+    LogFlow(("cRequests=%d\n", pCtxInt->cRequests));
+    LogFlow(("cMaxRequests=%u\n", pCtxInt->cMaxRequests));
+    LogFlow(("hThreadWait=%#p\n", pCtxInt->hThreadWait));
+    LogFlow(("fWokenUp=%RTbool\n", pCtxInt->fWokenUp));
+    LogFlow(("fWaiting=%RTbool\n", pCtxInt->fWaiting));
+    LogFlow(("fWokenUpInternal=%RTbool\n", pCtxInt->fWokenUpInternal));
+    for (unsigned i = 0; i < RT_ELEMENTS(pCtxInt->apReqsNewHead); i++)
+        LogFlow(("apReqsNewHead[%u]=%#p\n", i, pCtxInt->apReqsNewHead[i]));
+    LogFlow(("pReqToCancel=%#p\n", pCtxInt->pReqToCancel));
+    LogFlow(("pReqsWaitHead=%#p\n", pCtxInt->pReqsWaitHead));
+    LogFlow(("pReqsWaitTail=%#p\n", pCtxInt->pReqsWaitTail));
+    LogFlow(("cReqsWaitMax=%u\n", pCtxInt->cReqsWaitMax));
+    LogFlow(("iFirstFree=%u\n", pCtxInt->iFirstFree));
+    for (unsigned i = 0; i < pCtxInt->cReqsWaitMax; i++)
+        LogFlow(("apReqs[%u]=%#p\n", i, pCtxInt->apReqs[i]));
+}
+#endif
+
 RTDECL(int) RTFileAioCtxSubmit(RTFILEAIOCTX hAioCtx, PRTFILEAIOREQ pahReqs, size_t cReqs)
 {
     int rc = VINF_SUCCESS;
@@ -586,6 +621,8 @@ RTDECL(int) RTFileAioCtxSubmit(RTFILEAIOCTX hAioCtx, PRTFILEAIOREQ pahReqs, size
     AssertPtrReturn(pCtxInt, VERR_INVALID_HANDLE);
     AssertReturn(cReqs != 0, VERR_INVALID_POINTER);
     AssertPtrReturn(pahReqs,  VERR_INVALID_PARAMETER);
+
+    rtFileAioCtxDump(pCtxInt);
 
     /* Check that we don't exceed the limit */
     if (ASMAtomicUoReadS32(&pCtxInt->cRequests) + cReqs > pCtxInt->cMaxRequests)
@@ -630,6 +667,9 @@ RTDECL(int) RTFileAioCtxSubmit(RTFILEAIOCTX hAioCtx, PRTFILEAIOREQ pahReqs, size
 
             pReqInt->pCtxInt = pCtxInt;
 
+            if (pReqInt->fFlush)
+                break;
+
             /* Link them together. */
             pReqInt->pNext = pHead;
             if (pHead)
@@ -637,9 +677,6 @@ RTDECL(int) RTFileAioCtxSubmit(RTFILEAIOCTX hAioCtx, PRTFILEAIOREQ pahReqs, size
             pReqInt->pPrev = NULL;
             pHead = pReqInt;
             RTFILEAIOREQ_SET_STATE(pReqInt, SUBMITTED);
-
-            if (pReqInt->fFlush)
-                break;
 
             cReqsSubmit++;
             i++;
@@ -711,12 +748,12 @@ RTDECL(int) RTFileAioCtxSubmit(RTFILEAIOCTX hAioCtx, PRTFILEAIOREQ pahReqs, size
                     }
                 }
                 ASMAtomicAddS32(&pCtxInt->cRequests, cReqsSubmitted);
-                AssertMsg(pCtxInt->cRequests > 0, ("Adding requests resulted in overflow\n"));
+                AssertMsg(pCtxInt->cRequests >= 0, ("Adding requests resulted in overflow\n"));
                 break;
             }
 
             ASMAtomicAddS32(&pCtxInt->cRequests, cReqsSubmit);
-            AssertMsg(pCtxInt->cRequests > 0, ("Adding requests resulted in overflow\n"));
+            AssertMsg(pCtxInt->cRequests >= 0, ("Adding requests resulted in overflow\n"));
             cReqs   -= cReqsSubmit;
             pahReqs += cReqsSubmit;
         }
@@ -730,7 +767,6 @@ RTDECL(int) RTFileAioCtxSubmit(RTFILEAIOCTX hAioCtx, PRTFILEAIOREQ pahReqs, size
         if (cReqs && RT_SUCCESS_NP(rc))
         {
             pReqInt = pahReqs[0];
-            RTFILEAIOREQ_VALID_RETURN(pReqInt);
 
             if (pReqInt->fFlush)
             {
@@ -741,26 +777,31 @@ RTDECL(int) RTFileAioCtxSubmit(RTFILEAIOCTX hAioCtx, PRTFILEAIOREQ pahReqs, size
                 rcPosix = aio_fsync(O_SYNC, &pReqInt->AioCB);
                 if (RT_UNLIKELY(rcPosix < 0))
                 {
-                    rc = RTErrConvertFromErrno(errno);
-                    RTFILEAIOREQ_SET_STATE(pReqInt, COMPLETED);
-                    pReqInt->Rc = rc;
-                    pReqInt->cbTransfered = 0;
-
-                    /* Unlink from the list. */
-                    PRTFILEAIOREQINTERNAL pNext, pPrev;
-                    pNext = pReqInt->pNext;
-                    pPrev = pReqInt->pPrev;
-                    if (pNext)
-                        pNext->pPrev = pPrev;
-                    if (pPrev)
-                        pPrev->pNext = pNext;
+                    if (errno == EAGAIN)
+                    {
+                        rc = VERR_FILE_AIO_INSUFFICIENT_RESSOURCES;
+                        RTFILEAIOREQ_SET_STATE(pReqInt, PREPARED);
+                    }
                     else
-                        pHead = pNext;
+                    {
+                        rc = RTErrConvertFromErrno(errno);
+                        RTFILEAIOREQ_SET_STATE(pReqInt, COMPLETED);
+                        pReqInt->Rc = rc;
+                    }
+                    pReqInt->cbTransfered = 0;
                     break;
                 }
 
+                /* Link them together. */
+                pReqInt->pNext = pHead;
+                if (pHead)
+                    pHead->pPrev = pReqInt;
+                pReqInt->pPrev = NULL;
+                pHead = pReqInt;
+                RTFILEAIOREQ_SET_STATE(pReqInt, SUBMITTED);
+
                 ASMAtomicIncS32(&pCtxInt->cRequests);
-                AssertMsg(pCtxInt->cRequests > 0, ("Adding requests resulted in overflow\n"));
+                AssertMsg(pCtxInt->cRequests >= 0, ("Adding requests resulted in overflow\n"));
                 cReqs--;
                 pahReqs++;
             }
@@ -802,11 +843,13 @@ RTDECL(int) RTFileAioCtxSubmit(RTFILEAIOCTX hAioCtx, PRTFILEAIOREQ pahReqs, size
             rtFileAioCtxWakeup(pCtxInt);
     }
 
+    rtFileAioCtxDump(pCtxInt);
+
     return rc;
 }
 
 
-RTDECL(int) RTFileAioCtxWait(RTFILEAIOCTX hAioCtx, size_t cMinReqs, unsigned cMillisTimeout,
+RTDECL(int) RTFileAioCtxWait(RTFILEAIOCTX hAioCtx, size_t cMinReqs, RTMSINTERVAL cMillies,
                              PRTFILEAIOREQ pahReqs, size_t cReqs, uint32_t *pcReqs)
 {
     int rc = VINF_SUCCESS;
@@ -816,12 +859,17 @@ RTDECL(int) RTFileAioCtxWait(RTFILEAIOCTX hAioCtx, size_t cMinReqs, unsigned cMi
     struct timespec *pTimeout = NULL;
     uint64_t         StartNanoTS = 0;
 
+    LogFlowFunc(("hAioCtx=%#p cMinReqs=%zu cMillies=%u pahReqs=%#p cReqs=%zu pcbReqs=%#p\n",
+                 hAioCtx, cMinReqs, cMillies, pahReqs, cReqs, pcReqs));
+
     /* Check parameters. */
     AssertPtrReturn(pCtxInt, VERR_INVALID_HANDLE);
     AssertPtrReturn(pcReqs, VERR_INVALID_POINTER);
     AssertPtrReturn(pahReqs, VERR_INVALID_POINTER);
     AssertReturn(cReqs != 0, VERR_INVALID_PARAMETER);
     AssertReturn(cReqs >= cMinReqs, VERR_OUT_OF_RANGE);
+
+    rtFileAioCtxDump(pCtxInt);
 
     int32_t cRequestsWaiting = ASMAtomicReadS32(&pCtxInt->cRequests);
 
@@ -831,10 +879,10 @@ RTDECL(int) RTFileAioCtxWait(RTFILEAIOCTX hAioCtx, size_t cMinReqs, unsigned cMi
     if (RT_UNLIKELY(cMinReqs > (uint32_t)cRequestsWaiting))
         return VERR_INVALID_PARAMETER;
 
-    if (cMillisTimeout != RT_INDEFINITE_WAIT)
+    if (cMillies != RT_INDEFINITE_WAIT)
     {
-        Timeout.tv_sec  = cMillisTimeout / 1000;
-        Timeout.tv_nsec = (cMillisTimeout % 1000) * 1000000;
+        Timeout.tv_sec  = cMillies / 1000;
+        Timeout.tv_nsec = (cMillies % 1000) * 1000000;
         pTimeout = &Timeout;
         StartNanoTS = RTTimeNanoTS();
     }
@@ -857,12 +905,15 @@ RTDECL(int) RTFileAioCtxWait(RTFILEAIOCTX hAioCtx, size_t cMinReqs, unsigned cMi
         if (RT_UNLIKELY(!pCtxInt->iFirstFree))
         {
             for (unsigned i = 0; i < pCtxInt->cReqsWaitMax; i++)
-                AssertMsg2("wait[%d] = %#p\n", i, pCtxInt->apReqs[i]);
+                RTAssertMsg2Weak("wait[%d] = %#p\n", i, pCtxInt->apReqs[i]);
 
             AssertMsgFailed(("No request to wait for. pReqsWaitHead=%#p pReqsWaitTail=%#p\n",
                             pCtxInt->pReqsWaitHead, pCtxInt->pReqsWaitTail));
         }
 #endif
+
+        LogFlow(("Waiting for %d requests to complete\n", pCtxInt->iFirstFree));
+        rtFileAioCtxDump(pCtxInt);
 
         ASMAtomicXchgBool(&pCtxInt->fWaiting, true);
         int rcPosix = aio_suspend((const struct aiocb * const *)pCtxInt->apReqs,
@@ -870,6 +921,7 @@ RTDECL(int) RTFileAioCtxWait(RTFILEAIOCTX hAioCtx, size_t cMinReqs, unsigned cMi
         ASMAtomicXchgBool(&pCtxInt->fWaiting, false);
         if (rcPosix < 0)
         {
+            LogFlow(("aio_suspend failed %d nent=%u\n", errno, pCtxInt->iFirstFree));
             /* Check that this is an external wakeup event. */
             if (errno == EINTR)
                 rc = rtFileAioCtxProcessEvents(pCtxInt);
@@ -963,13 +1015,13 @@ RTDECL(int) RTFileAioCtxWait(RTFILEAIOCTX hAioCtx, size_t cMinReqs, unsigned cMi
             if (!cMinReqs)
                 break;
 
-            if (cMillisTimeout != RT_INDEFINITE_WAIT)
+            if (cMillies != RT_INDEFINITE_WAIT)
             {
                 uint64_t TimeDiff;
 
                 /* Recalculate the timeout. */
                 TimeDiff = RTTimeSystemNanoTS() - StartNanoTS;
-                Timeout.tv_sec = Timeout.tv_sec - (TimeDiff / 1000000);
+                Timeout.tv_sec  = Timeout.tv_sec  - (TimeDiff / 1000000);
                 Timeout.tv_nsec = Timeout.tv_nsec - (TimeDiff % 1000000);
             }
 
@@ -981,6 +1033,8 @@ RTDECL(int) RTFileAioCtxWait(RTFILEAIOCTX hAioCtx, size_t cMinReqs, unsigned cMi
     *pcReqs = cRequestsCompleted;
     Assert(pCtxInt->hThreadWait == RTThreadSelf());
     ASMAtomicWriteHandle(&pCtxInt->hThreadWait, NIL_RTTHREAD);
+
+    rtFileAioCtxDump(pCtxInt);
 
     return rc;
 }

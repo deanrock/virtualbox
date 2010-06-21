@@ -4,7 +4,7 @@
  */
 
 /*
- * Copyright (C) 2006-2007 Sun Microsystems, Inc.
+ * Copyright (C) 2006-2007 Oracle Corporation
  *
  * This file is part of VirtualBox Open Source Edition (OSE), as
  * available from http://www.virtualbox.org. This file is free software;
@@ -13,10 +13,6 @@
  * Foundation, in version 2 as it comes in the "COPYING" file of the
  * VirtualBox OSE distribution. VirtualBox OSE is distributed in the
  * hope that it will be useful, but WITHOUT ANY WARRANTY of any kind.
- *
- * Please contact Sun Microsystems, Inc., 4150 Network Circle, Santa
- * Clara, CA 95054 USA or visit http://www.sun.com if you need
- * additional information or have any questions.
  * --------------------------------------------------------------------
  *
  * This code is based on:
@@ -58,6 +54,7 @@
 #endif
 #include <linux/version.h>
 #include <linux/module.h>
+#include "version-generated.h"
 
 #if LINUX_VERSION_CODE >= KERNEL_VERSION(2, 6, 27)
 
@@ -87,7 +84,13 @@ static struct drm_driver driver = {
 		 .owner = THIS_MODULE,
 		 .open = drm_open,
 		 .release = drm_release,
+                 /* This was changed with Linux 2.6.33 but Fedora backported this
+                  * change to their 2.6.32 kernel. */
+#if defined(DRM_UNLOCKED) || LINUX_VERSION_CODE >= KERNEL_VERSION (2, 6, 33)
+		 .unlocked_ioctl = drm_ioctl,
+#else
 		 .ioctl = drm_ioctl,
+#endif
 		 .mmap = drm_mmap,
 		 .poll = drm_poll,
 		 .fasync = drm_fasync,
@@ -123,4 +126,7 @@ MODULE_DESCRIPTION(DRIVER_DESC);
 
 #endif /* LINUX_VERSION_CODE >= KERNEL_VERSION(2, 6, 27) */
 
+#ifdef MODULE_VERSION
+MODULE_VERSION(VBOX_VERSION_STRING);
+#endif
 MODULE_LICENSE("GPL and additional rights");

@@ -17,9 +17,6 @@
 #include "state/cr_statefuncs.h"
 #include "state_internals.h"
 
-#define GLCLIENT_BIT_ALLOC 1024
-
-
 const CRPixelPackState crStateNativePixelPacking = {
    0, /* rowLength */
    0, /* skipRows */
@@ -50,6 +47,28 @@ void crStateClientInitBits (CRClientBits *c)
 #ifdef CR_NV_vertex_program
     for ( i = 0; i < CR_MAX_VERTEX_ATTRIBS; i++ )
         c->a[i] = (CRbitvalue *) crCalloc(GLCLIENT_BIT_ALLOC*sizeof(CRbitvalue));
+#endif
+}
+
+void crStateClientDestroyBits (CRClientBits *c) 
+{
+    int i;
+
+    crFree(c->v);
+    crFree(c->n);
+    crFree(c->c);
+    crFree(c->s);
+    crFree(c->i);
+
+    for ( i = 0; i < CR_MAX_TEXTURE_UNITS; i++ )
+        crFree(c->t[i]);
+
+    crFree(c->e);
+    crFree(c->f);
+
+#ifdef CR_NV_vertex_program
+    for ( i = 0; i < CR_MAX_VERTEX_ATTRIBS; i++ )
+        crFree(c->a[i]);
 #endif
 }
 
@@ -252,8 +271,8 @@ void crStateClientInit(CRClientState *c)
 #ifdef CR_NV_vertex_program
     for (i = 0; i < CR_MAX_VERTEX_ATTRIBS; i++) {
         c->array.a[i].enabled = GL_FALSE;
-        c->array.a[i].type = 0;
-        c->array.a[i].size = 0;
+        c->array.a[i].type = GL_FLOAT;
+        c->array.a[i].size = 4;
         c->array.a[i].stride = 0;
 #ifdef CR_ARB_vertex_buffer_object
         c->array.a[i].buffer = g ? g->bufferobject.arrayBuffer : NULL;
@@ -1800,7 +1819,10 @@ crStateClientDiff(CRClientBits *cb, CRbitvalue *bitID,
         }
         for (i = 0; (unsigned int)i < toCtx->limits.maxVertexProgramAttribs; i++) {
             if (from->array.a[i].enabled != to->array.a[i].enabled) {
-                able[to->array.a[i].enabled](GL_VERTEX_ATTRIB_ARRAY0_NV + i);
+                if (to->array.a[i].enabled)
+                    diff_api.EnableVertexAttribArrayARB(i);
+                else 
+                    diff_api.DisableVertexAttribArrayARB(i);
                 from->array.a[i].enabled = to->array.a[i].enabled;
             }
         }
@@ -1984,7 +2006,10 @@ crStateClientSwitch(CRClientBits *cb, CRbitvalue *bitID,
         }
         for (i = 0; (unsigned int)i < toCtx->limits.maxVertexProgramAttribs; i++) {
             if (from->array.a[i].enabled != to->array.a[i].enabled) {
-                able[to->array.a[i].enabled](GL_VERTEX_ATTRIB_ARRAY0_NV + i);
+                if (to->array.a[i].enabled)
+                    diff_api.EnableVertexAttribArrayARB(i);
+                else 
+                    diff_api.DisableVertexAttribArrayARB(i);
                 FILLDIRTY(cb->enableClientState);
             }
         }

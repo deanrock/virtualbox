@@ -1,3 +1,24 @@
+virtualbox-ose (3.2.6-dfsg-2) unstable; urgency=low
+
+  * Added patch taken from FreeBSD to make DSDT files compile with
+    latest versions of iasl. (Closes: #587609)
+  * Bump Standards-Version to 3.9.0, no changes needed.
+
+ -- Michael Meskes <meskes@debian.org>  Fri, 02 Jul 2010 15:24:21 +0200
+
+virtualbox-ose (3.2.6-dfsg-1) unstable; urgency=low
+
+  [ Michael Meskes ]
+  * Do not use standard compiler optimization for vdfuse. (Closes:
+    #586265)
+
+  [ Felix Geyer ]
+  * New upstream release.
+  * virtualbox-ose-dkms and virtualbox-ose-guest-dkms break each other
+    instead of conflicting.
+
+ -- Felix Geyer <debfx-pkg@fobos.de>  Sat, 26 Jun 2010 01:26:22 +0200
+
 virtualbox-ose (3.2.4-dfsg-1ubuntu1) maverick; urgency=low
 
   * Merge from Debian unstable, remaining changes:

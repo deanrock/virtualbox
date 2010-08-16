@@ -1,3 +1,19 @@
+virtualbox-ose (3.2.8-dfsg-1) unstable; urgency=low
+
+  * New upstream release. (LP: #614697)
+  * Replace the reference to /usr/share/common-licenses/BSD with the full text
+    of the license.
+  * Bump Standards-Version to 3.9.1, no changes needed.
+  * Revert: virtualbox-ose-dkms and virtualbox-ose-guest-dkms break each other
+    instead of conflicting.
+  * Drop 24-dsdt.patch, applied upstream.
+  * Move "$@" to the first parameter of dh to be compatible with debhelper
+    compat level 8.
+  * Add 24-xserver-19-support.patch to make the guest additions compatible
+    with XServer 1.9. (LP: #616217)
+
+ -- Felix Geyer <debfx-pkg@fobos.de>  Tue, 10 Aug 2010 21:06:46 +0200
+
 virtualbox-ose (3.2.6-dfsg-2ubuntu1) maverick; urgency=low
 
   * Merge from Debian unstable (LP: #610398), remaining changes:

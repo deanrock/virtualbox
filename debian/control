@@ -55,7 +55,7 @@ Build-Depends: bcc,
                yasm (>= 0.7.0),
                zlib1g-dev
 XS-Python-Version: >= 2.4
-Standards-Version: 3.9.0
+Standards-Version: 3.9.1
 Homepage: http://www.virtualbox.org/
 Vcs-Git: git://git.debian.org/git/pkg-virtualbox/virtualbox-ose.git
 Vcs-Browser: http://git.debian.org/?p=pkg-virtualbox/virtualbox-ose.git
@@ -114,7 +114,7 @@ Description: x86 virtualization solution - debugging symbols
 
 Package: virtualbox-ose-dkms
 Replaces: virtualbox-ose-source (<< 3.1.0-dfsg-1)
-Breaks: virtualbox-ose-guest-dkms
+Conflicts: virtualbox-ose-guest-dkms
 Section: kernel
 Architecture: all
 Depends: ${misc:Depends}
@@ -130,7 +130,7 @@ Description: x86 virtualization solution - kernel module sources for dkms
 
 Package: virtualbox-ose-guest-dkms
 Replaces: virtualbox-ose-guest-source (<< 3.1.0-dfsg-1)
-Breaks: virtualbox-ose-dkms
+Conflicts: virtualbox-ose-dkms
 Section: kernel
 Architecture: all
 Depends: ${misc:Depends}

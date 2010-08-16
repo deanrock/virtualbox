@@ -1,3 +1,15 @@
+virtualbox-ose (3.2.8-dfsg-1ubuntu1) maverick; urgency=low
+
+  * Merge from Debian unstable (LP: #618934), remaining changes:
+    - VirtualBox should go in Accessories, not in System tools. (LP: #288590)
+      - debian/virtualbox-ose-qt.files/virtualbox-ose.desktop
+    - Add Apport hook.
+      - debian/virtualbox-ose.files/source_virtualbox-ose.py
+      - debian/virtualbox-ose.install
+    - Drop *-source packages.
+
+ -- Felix Geyer <debfx-pkg@fobos.de>  Mon, 16 Aug 2010 23:03:36 +0200
+
 virtualbox-ose (3.2.8-dfsg-1) unstable; urgency=low
 
   * New upstream release. (LP: #614697)

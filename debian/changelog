@@ -1,3 +1,18 @@
+virtualbox-ose (3.2.8-dfsg-2) unstable; urgency=high
+
+  * Fix FTBFS with recent libdrm-dev versions. (Closes: #594599)
+  * Make the kernel modules buildable with kernel 2.6.36.
+    (Closes: #594602; LP: #619497)
+    - Add 25-vboxnetadp_kernel_2.6.36.patch
+    - Add 26-vboxsf_kernel_2.6.36.patch
+  * Silently enable the host I/O cache when the image is on an ext4/XFS
+    partition. No need to warn users about it. (Closes: #595050)
+    - Add 27-hide-host-cache-warning.patch
+  * Recompiled to fix incorrectly generated dependencies. (Closes: #595715)
+  * Add man pages for all commands. (Closes: #440609; LP: #610895)
+
+ -- Felix Geyer <debfx-pkg@fobos.de>  Mon, 13 Sep 2010 11:29:12 +0200
+
 virtualbox-ose (3.2.8-dfsg-1ubuntu1) maverick; urgency=low
 
   * Merge from Debian unstable (LP: #618934), remaining changes:

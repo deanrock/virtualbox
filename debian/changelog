@@ -1,14 +1,16 @@
 virtualbox-ose (3.2.10-dfsg-1ubuntu1) natty; urgency=low
 
   * Merge from Debian unstable, remaining changes:
-    - VirtualBox should go in Accessories, not in System tools. (LP: #288590)
+    - VirtualBox should go in Accessories, not in System tools.
       - debian/virtualbox-ose-qt.files/virtualbox-ose.desktop
     - Add Apport hook.
       - debian/virtualbox-ose.files/source_virtualbox-ose.py
       - debian/virtualbox-ose.install
     - Drop *-source packages.
+  * Add ubuntu-01-fix-build-gcc45.patch to fix FTBFS due to uninitalized
+    variables. Thanks to Lubomir Rintel <lkundrak@v3.sk> for the patch.
 
- -- Felix Geyer <debfx-pkg@fobos.de>  Wed, 13 Oct 2010 15:24:06 +0200
+ -- Felix Geyer <debfx-pkg@fobos.de>  Fri, 15 Oct 2010 02:12:28 +0200
 
 virtualbox-ose (3.2.10-dfsg-1) unstable; urgency=low
 

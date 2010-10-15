@@ -10,3 +10,4 @@
 23-remove-invalid-chars-check.patch
 24-xserver-19-support.patch
 27-hide-host-cache-warning.patch
+ubuntu-01-fix-build-gcc45.patch

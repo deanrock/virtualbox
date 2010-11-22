@@ -80,7 +80,7 @@ Depends: ${shlibs:Depends},
          ${misc:Depends},
          ${python:Depends},
          adduser
-Recommends: virtualbox-ose-dkms (= ${source:Version}), 
+Recommends: virtualbox-ose-dkms (= ${source:Version}),
             virtualbox-ose-qt (= ${binary:Version}),
             ${shlibs:Recommends}
 Suggests: virtualbox-guest-additions,

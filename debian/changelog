@@ -8,8 +8,10 @@ virtualbox-ose (3.2.10-dfsg-2ubuntu1) natty; urgency=low
     - Add ubuntu-01-fix-build-gcc45.patch to fix FTBFS due to uninitalized
       variables.
   * Fixes: vboxvideo module fails to build with kernel 2.6.37. (LP: #671883)
+  * Fix FTBFS with --as-needed.
+     - Add ubuntu-02-as-needed.patch from Gentoo.
 
- -- Felix Geyer <debfx-pkg@fobos.de>  Mon, 22 Nov 2010 17:04:18 +0100
+ -- Felix Geyer <debfx-pkg@fobos.de>  Mon, 22 Nov 2010 17:56:12 +0100
 
 virtualbox-ose (3.2.10-dfsg-2) unstable; urgency=low
 

@@ -1,3 +1,16 @@
+virtualbox-ose (3.2.12-dfsg-1ubuntu1) natty; urgency=low
+
+  * Merge from Debian unstable, remaining changes:
+    - Add Apport hook.
+      - debian/virtualbox-ose.files/source_virtualbox-ose.py
+      - debian/virtualbox-ose.install
+    - Drop *-source packages.
+    - Add ubuntu-01-fix-build-gcc45.patch to fix FTBFS due to uninitalized
+      variables.
+    - Add ubuntu-02-as-needed.patch to fix FTBFS with --as-needed.
+
+ -- Felix Geyer <debfx-pkg@fobos.de>  Sun, 05 Dec 2010 11:27:36 +0100
+
 virtualbox-ose (3.2.12-dfsg-1) unstable; urgency=low
 
   * New upstream release.

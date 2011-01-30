@@ -1,4 +1,4 @@
-/* $Id: DrvHostSerial.cpp $ */
+/* $Id: DrvHostSerial.cpp 35353 2010-12-27 17:25:52Z vboxsync $ */
 /** @file
  * VBox stream I/O devices: Host serial driver
  */
@@ -21,7 +21,7 @@
 *   Header Files                                                               *
 *******************************************************************************/
 #define LOG_GROUP LOG_GROUP_DRV_HOST_SERIAL
-#include <VBox/pdm.h>
+#include <VBox/vmm/pdm.h>
 #include <VBox/err.h>
 
 #include <VBox/log.h>
@@ -68,7 +68,7 @@
 # include <Windows.h>
 #endif
 
-#include "../Builtins.h"
+#include "VBoxDD.h"
 
 
 /** Size of the send fifo queue (in bytes) */
@@ -106,7 +106,7 @@ typedef struct DRVHOSTSERIAL
     PPDMTHREAD                  pSendThread;
     /** Status lines monitor thread. */
     PPDMTHREAD                  pMonitorThread;
-    /** Send event semephore */
+    /** Send event semaphore */
     RTSEMEVENT                  SendSem;
 
     /** the device path */
@@ -594,7 +594,7 @@ static DECLCALLBACK(int) drvHostSerialSendThread(PPDMDRVINS pDrvIns, PPDMTHREAD 
                     dwRet = WaitForMultipleObjects(2, haWait, FALSE, INFINITE);
                     if (dwRet != WAIT_OBJECT_0)
                     {
-                        AssertMsg(pThread->enmState != PDMTHREADSTATE_RUNNING, ("The halt event sempahore is set but the thread is still in running state\n"));
+                        AssertMsg(pThread->enmState != PDMTHREADSTATE_RUNNING, ("The halt event semaphore is set but the thread is still in running state\n"));
                         break;
                     }
                 }
@@ -790,7 +790,7 @@ static DECLCALLBACK(int) drvHostSerialRecvThread(PPDMDRVINS pDrvIns, PPDMTHREAD 
                     if (dwRet != WAIT_OBJECT_0)
                     {
                         /* notification to terminate */
-                        AssertMsg(pThread->enmState != PDMTHREADSTATE_RUNNING, ("The halt event sempahore is set but the thread is still in running state\n"));
+                        AssertMsg(pThread->enmState != PDMTHREADSTATE_RUNNING, ("The halt event semaphore is set but the thread is still in running state\n"));
                         break;
                     }
                 }
@@ -932,7 +932,7 @@ static DECLCALLBACK(int) drvHostSerialMonitorThread(PPDMDRVINS pDrvIns, PPDMTHRE
     do
     {
         unsigned int statusLines;
-       
+
         /*
          * Get the status line state.
          */
@@ -1046,6 +1046,7 @@ static DECLCALLBACK(int) drvHostSerialSetModemLines(PPDMICHARCONNECTOR pInterfac
 
     if (modemStateClear)
         ioctl(pThis->DeviceFile, TIOCMBIC, &modemStateClear);
+
 #elif defined(RT_OS_WINDOWS)
     if (RequestToSend)
         EscapeCommFunction(pThis->hDeviceFile, SETRTS);
@@ -1056,6 +1057,7 @@ static DECLCALLBACK(int) drvHostSerialSetModemLines(PPDMICHARCONNECTOR pInterfac
         EscapeCommFunction(pThis->hDeviceFile, SETDTR);
     else
         EscapeCommFunction(pThis->hDeviceFile, CLRDTR);
+
 #endif
 
     return VINF_SUCCESS;

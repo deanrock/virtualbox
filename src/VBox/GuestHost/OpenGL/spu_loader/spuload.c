@@ -19,8 +19,13 @@
 #include <stdio.h>
 
 #ifdef WINDOWS
+#ifdef VBOX_WDDM_WOW64
+#define DLL_SUFFIX "-x86.dll"
+#else
 #define DLL_SUFFIX ".dll"
+#endif
 #define DLL_PREFIX "VBoxOGL"
+#define snprintf _snprintf
 #elif defined(DARWIN)
 #define DLL_SUFFIX ".dylib"
 #define DLL_PREFIX "VBoxOGL"
@@ -53,11 +58,19 @@ static char *__findDLL( char *name, char *dir )
                 sprintf ( path, "%s/%s%sspu%s", szSharedLibPath, DLL_PREFIX, name, DLL_SUFFIX );
             else
 #endif /* DARWIN */
+#ifdef VBOX
+                snprintf ( path, sizeof(path), "%s%sspu%s", DLL_PREFIX, name, DLL_SUFFIX );
+#else
                 sprintf ( path, "%s%sspu%s", DLL_PREFIX, name, DLL_SUFFIX );
+#endif
         }
         else
         {
+#ifdef VBOX
+                snprintf ( path, sizeof(path), "%s/%s%sspu%s", dir, DLL_PREFIX, name, DLL_SUFFIX );
+#else
                 sprintf ( path, "%s/%s%sspu%s", dir, DLL_PREFIX, name, DLL_SUFFIX );
+#endif
         }
         return path;
 }
@@ -88,7 +101,7 @@ SPU * crSPULoad( SPU *child, int id, char *name, char *dir, void *server )
                 return NULL;
         }
 
-        /* This basicall calls the SPU's SPULoad() function */
+        /* This basically calls the SPU's SPULoad() function */
         if (!the_spu->entry_point( &(the_spu->name), &(the_spu->super_name),
                                    &(the_spu->init), &(the_spu->self),
                                    &(the_spu->cleanup),

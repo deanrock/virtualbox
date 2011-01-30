@@ -1,4 +1,4 @@
-/* $Id: DrvDedicatedNic.cpp $ */
+/* $Id: DrvDedicatedNic.cpp 35353 2010-12-27 17:25:52Z vboxsync $ */
 /** @file
  * DrvDedicatedNic - Experimental network driver for using a dedicated (V)NIC.
  */
@@ -20,10 +20,10 @@
 *******************************************************************************/
 #define LOG_GROUP LOG_GROUP_DEFAULT
 #include <VBox/log.h>
-#include <VBox/pdmcritsect.h>
-#include <VBox/pdmdrv.h>
-#include <VBox/pdmnetifs.h>
-#include <VBox/pdmnetinline.h>
+#include <VBox/vmm/pdmcritsect.h>
+#include <VBox/vmm/pdmdrv.h>
+#include <VBox/vmm/pdmnetifs.h>
+#include <VBox/vmm/pdmnetinline.h>
 #include <VBox/intnet.h>
 #include <VBox/intnetinline.h>
 
@@ -35,7 +35,7 @@
 #include <iprt/thread.h>
 #include <iprt/uuid.h>
 
-#include "../Builtins.h"
+#include "VBoxDD.h"
 
 
 /*******************************************************************************
@@ -210,7 +210,7 @@ PDMBOTHCBDECL(int) drvDedicatedNicUp_AllocBuf(PPDMINETWORKUP pInterface, size_t 
     /*
      * Are we busy or is the request too big?
      */
-    if (RT_UNLIKELY(pThis->XmitSg.fFlags & PDMSCATTERGATHER_FLAGS_MAGIC_MASK) == PDMSCATTERGATHER_FLAGS_MAGIC)
+    if (RT_UNLIKELY((pThis->XmitSg.fFlags & PDMSCATTERGATHER_FLAGS_MAGIC_MASK) == PDMSCATTERGATHER_FLAGS_MAGIC))
         return VERR_TRY_AGAIN;
     if (cbMin > sizeof(pThis->abXmitBuf))
         return VERR_NO_MEMORY;

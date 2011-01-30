@@ -1,4 +1,4 @@
-/* $Id: MMAllHyper.cpp $ */
+/* $Id: MMAllHyper.cpp 35346 2010-12-27 16:13:13Z vboxsync $ */
 /** @file
  * MM - Memory Manager - Hypervisor Memory Area, All Contexts.
  */
@@ -20,10 +20,10 @@
 *   Header Files                                                               *
 *******************************************************************************/
 #define LOG_GROUP LOG_GROUP_MM_HYPER_HEAP
-#include <VBox/mm.h>
-#include <VBox/stam.h>
+#include <VBox/vmm/mm.h>
+#include <VBox/vmm/stam.h>
 #include "MMInternal.h"
-#include <VBox/vm.h>
+#include <VBox/vmm/vm.h>
 
 #include <VBox/err.h>
 #include <VBox/param.h>
@@ -404,7 +404,7 @@ static PMMHYPERCHUNK mmHyperAllocChunk(PMMHYPERHEAP pHeap, uint32_t cb, unsigned
                     }
                     else
                     {
-                        /* make new head node, mark it USED for simplisity. */
+                        /* make new head node, mark it USED for simplicity. */
                         PMMHYPERCHUNK pPrev = (PMMHYPERCHUNK)pHeap->CTX_SUFF(pbHeap);
                         Assert(pPrev == &pFree->core);
                         pPrev->offPrev = 0;
@@ -617,7 +617,7 @@ static void *mmHyperAllocPages(PMMHYPERHEAP pHeap, uint32_t cb)
      * be freed either.
      *
      * So, for this to work, the last FREE chunk needs to end on a page aligned
-     * boundrary.
+     * boundary.
      */
     PMMHYPERCHUNKFREE pFree = (PMMHYPERCHUNKFREE)((char *)pHeap->CTX_SUFF(pbHeap) + pHeap->offFreeTail);
     ASSERT_CHUNK_FREE(pHeap, pFree);
@@ -1129,7 +1129,7 @@ static void mmHyperHeapDumpOne(PMMHYPERHEAP pHeap, PMMHYPERCHUNKFREE pCur)
 
 #ifdef MMHYPER_HEAP_STRICT
 /**
- * Internal consitency check.
+ * Internal consistency check.
  */
 static void mmHyperHeapCheck(PMMHYPERHEAP pHeap)
 {

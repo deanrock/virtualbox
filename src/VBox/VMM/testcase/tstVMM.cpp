@@ -1,4 +1,4 @@
-/* $Id: tstVMM.cpp $ */
+/* $Id: tstVMM.cpp 35346 2010-12-27 16:13:13Z vboxsync $ */
 /** @file
  * VMM Testcase.
  */
@@ -19,11 +19,11 @@
 /*******************************************************************************
 *   Header Files                                                               *
 *******************************************************************************/
-#include <VBox/vm.h>
-#include <VBox/vmm.h>
-#include <VBox/cpum.h>
-#include <VBox/tm.h>
-#include <VBox/pdmapi.h>
+#include <VBox/vmm/vm.h>
+#include <VBox/vmm/vmm.h>
+#include <VBox/vmm/cpum.h>
+#include <VBox/vmm/tm.h>
+#include <VBox/vmm/pdmapi.h>
 #include <VBox/err.h>
 #include <VBox/log.h>
 #include <iprt/assert.h>
@@ -249,7 +249,7 @@ int main(int argc, char **argv)
      */
     RTPrintf(TESTCASE ": Initializing...\n");
     PVM pVM;
-    rc = VMR3Create(g_cCpus, NULL, NULL, tstVMMConfigConstructor, NULL, &pVM);
+    rc = VMR3Create(g_cCpus, NULL, NULL, NULL, tstVMMConfigConstructor, NULL, &pVM);
     if (RT_SUCCESS(rc))
     {
         PDMR3LdrEnumModules(pVM, tstVMMLdrEnum, NULL);

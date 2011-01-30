@@ -27,7 +27,6 @@
 
 #include <VBox/dis.h>
 #include <VBox/disopcode.h>
-#include <VBox/cpum.h>
 #include <VBox/err.h>
 #include <VBox/log.h>
 #include <iprt/assert.h>
@@ -2660,7 +2659,7 @@ void disasmAddChar(char *psz, char ch)
  *      XCHG
  *      XOR
  *
- * @param   pCpu    Fully dissassembled instruction.
+ * @param   pCpu    Fully disassembled instruction.
  */
 void disValidateLockSequence(PDISCPUSTATE pCpu)
 {

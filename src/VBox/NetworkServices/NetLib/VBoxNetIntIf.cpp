@@ -1,4 +1,4 @@
-/* $Id: VBoxNetIntIf.cpp $ */
+/* $Id: VBoxNetIntIf.cpp 35346 2010-12-27 16:13:13Z vboxsync $ */
 /** @file
  * VBoxNetIntIf - IntNet Interface Client Routines.
  */
@@ -23,7 +23,7 @@
 #include <VBox/intnet.h>
 #include <VBox/intnetinline.h>
 #include <VBox/sup.h>
-#include <VBox/vmm.h>
+#include <VBox/vmm/vmm.h>
 #include <VBox/err.h>
 #include <VBox/log.h>
 
@@ -97,8 +97,8 @@ int VBoxNetIntIfRingWriteFrame(PINTNETBUF pBuf, PINTNETRINGBUF pRingBuf, size_t 
     /*
      * Allocate a frame, copy the data and commit it.
      */
-    PINTNETHDR pHdr;
-    void *pvFrame;
+    PINTNETHDR pHdr = NULL;
+    void *pvFrame = NULL;
     int rc = IntNetRingAllocateFrame(pRingBuf, cbFrame, &pHdr, &pvFrame);
     if (RT_SUCCESS(rc))
     {

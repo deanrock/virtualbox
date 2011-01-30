@@ -1,4 +1,4 @@
-/* $Id: tstHelp.h $ */
+/* $Id: tstHelp.h 35346 2010-12-27 16:13:13Z vboxsync $ */
 /** @file
  * VMM testcase - Helper stuff.
  */
@@ -19,7 +19,7 @@
 #define ___tstHelp_h
 
 #include <VBox/cdefs.h>
-#include <VBox/cpum.h>
+#include <VBox/vmm/cpum.h>
 
 RT_C_DECLS_BEGIN
 void tstDumpCtx(PCPUMCTX pCtx, const char *pszComment);
@@ -102,7 +102,7 @@ RT_C_DECLS_END
 #define CHECK_PADDING(strct, member, align) \
     do \
     { \
-        strct *p; \
+        strct *p = NULL; NOREF(p); \
         if (sizeof(p->member.s) > sizeof(p->member.padding)) \
         { \
             printf("error! padding of %s::%s is too small, padding=%d struct=%d correct=%d\n", #strct, #member, \
@@ -123,7 +123,7 @@ RT_C_DECLS_END
 #define CHECK_PADDING2(strct) \
     do \
     { \
-        strct *p; \
+        strct *p = NULL; NOREF(p); \
         if (sizeof(p->s) > sizeof(p->padding)) \
         { \
             printf("error! padding of %s is too small, padding=%d struct=%d correct=%d\n", #strct, \
@@ -138,7 +138,7 @@ RT_C_DECLS_END
 #define CHECK_PADDING3(strct, member, pad_member) \
     do \
     { \
-        strct *p; \
+        strct *p = NULL; NOREF(p); \
         if (sizeof(p->member) > sizeof(p->pad_member)) \
         { \
             printf("error! padding of %s::%s is too small, padding=%d struct=%d\n", #strct, #member, \

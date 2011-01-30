@@ -1,4 +1,4 @@
-/* $Id: tstMicro.cpp $ */
+/* $Id: tstMicro.cpp 35346 2010-12-27 16:13:13Z vboxsync $ */
 /** @file
  * Micro Testcase, profiling special CPU operations.
  */
@@ -18,13 +18,13 @@
 /*******************************************************************************
 *   Header Files                                                               *
 *******************************************************************************/
-#include <VBox/vm.h>
-#include <VBox/vmm.h>
-#include <VBox/mm.h>
-#include <VBox/cpum.h>
-#include <VBox/pdmapi.h>
-#include <VBox/dbgf.h>
-#include <VBox/pgm.h>
+#include <VBox/vmm/vm.h>
+#include <VBox/vmm/vmm.h>
+#include <VBox/vmm/mm.h>
+#include <VBox/vmm/cpum.h>
+#include <VBox/vmm/pdmapi.h>
+#include <VBox/vmm/dbgf.h>
+#include <VBox/vmm/pgm.h>
 #include <VBox/err.h>
 #include <VBox/param.h>
 
@@ -254,7 +254,9 @@ static DECLCALLBACK(int) doit(PVM pVM)
         RTPrintf(TESTCASE ": PGMMapModifyPage -> rc=%Rra\n", rc);
         return rc;
     }
-    PGMR3DumpHierarchyHC(pVM, PGMGetHyperCR3(VMMGetCpu0(pVM)), X86_CR4_PSE, false, 4, NULL);
+    DBGFR3PagingDumpEx(pVM, 0 /*idCpu*/, DBGFPGDMP_FLAGS_CURRENT_CR3 | DBGFPGDMP_FLAGS_CURRENT_MODE
+                       | DBGFPGDMP_FLAGS_SHADOW | DBGFPGDMP_FLAGS_HEADER | DBGFPGDMP_FLAGS_PRINT_CR3,
+                       0 /*cr3*/, 0 /*u64FirstAddr*/, UINT64_MAX /*u64LastAddr*/, 99 /*cMaxDepth*/, NULL);
 
 #if 0
     /*
@@ -342,7 +344,7 @@ int main(int argc, char **argv)
      * Create empty VM.
      */
     PVM pVM;
-    int rc = VMR3Create(1, NULL, NULL, NULL, NULL, &pVM);
+    int rc = VMR3Create(1, NULL, NULL, NULL, NULL, NULL, &pVM);
     if (RT_SUCCESS(rc))
     {
         /*

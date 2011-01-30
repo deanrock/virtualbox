@@ -1,4 +1,4 @@
-/* $Id: DrvMouseQueue.cpp $ */
+/* $Id: DrvMouseQueue.cpp 35353 2010-12-27 17:25:52Z vboxsync $ */
 /** @file
  * VBox input devices: Mouse queue driver
  */
@@ -20,11 +20,11 @@
 *   Header Files                                                               *
 *******************************************************************************/
 #define LOG_GROUP LOG_GROUP_DRV_MOUSE_QUEUE
-#include <VBox/pdmdrv.h>
+#include <VBox/vmm/pdmdrv.h>
 #include <iprt/assert.h>
 #include <iprt/uuid.h>
 
-#include "Builtins.h"
+#include "VBoxDD.h"
 
 
 

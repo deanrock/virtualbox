@@ -1,4 +1,4 @@
-/* $Id: DrvACPI.cpp $ */
+/* $Id: DrvACPI.cpp 35353 2010-12-27 17:25:52Z vboxsync $ */
 /** @file
  * DrvACPI - ACPI Host Driver.
  */
@@ -24,7 +24,7 @@
 # include <windows.h>
 #endif
 
-#include <VBox/pdmdrv.h>
+#include <VBox/vmm/pdmdrv.h>
 #include <VBox/log.h>
 #include <iprt/asm.h>
 #include <iprt/assert.h>
@@ -55,7 +55,7 @@
 # include <unistd.h>
 #endif
 
-#include "Builtins.h"
+#include "VBoxDD.h"
 
 
 /*******************************************************************************
@@ -91,7 +91,7 @@ typedef struct DRVACPI
     /** The poller thread. */
     PPDMTHREAD          pPollerThread;
     /** Synchronize access to the above fields.
-     * XXX A spinlock is probaly cheaper ... */
+     * XXX A spinlock is probably cheaper ... */
     RTCRITSECT          CritSect;
     /** Event semaphore the poller thread is sleeping on. */
     RTSEMEVENT          hPollerSleepEvent;

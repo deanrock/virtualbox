@@ -1,4 +1,4 @@
-/* $Id: lockvalidator.h $ */
+/* $Id: lockvalidator.h 35499 2011-01-12 08:33:45Z vboxsync $ */
 /** @file
  * IPRT - Internal RTLockValidator header.
  */
@@ -29,7 +29,6 @@
 
 #include <iprt/types.h>
 #include <iprt/lockvalidator.h>
-#include "internal/lockvalidator.h"
 
 RT_C_DECLS_BEGIN
 

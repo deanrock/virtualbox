@@ -1,4 +1,4 @@
-/* $Id: UIFrameBufferQImage.cpp $ */
+/* $Id: UIFrameBufferQImage.cpp 35613 2011-01-18 14:41:37Z vboxsync $ */
 /** @file
  *
  * VBox frontends: Qt GUI ("VirtualBox"):
@@ -6,7 +6,7 @@
  */
 
 /*
- * Copyright (C) 2010 Oracle Corporation
+ * Copyright (C) 2010-2011 Oracle Corporation
  *
  * This file is part of VirtualBox Open Source Edition (OSE), as
  * available from http://www.virtualbox.org. This file is free software;
@@ -63,7 +63,24 @@ STDMETHODIMP UIFrameBufferQImage::NotifyUpdate(ULONG uX, ULONG uY, ULONG uW, ULO
 
 void UIFrameBufferQImage::paintEvent(QPaintEvent *pEvent)
 {
-    const QRect &r = pEvent->rect().intersected(QRect(0, 0, m_width, m_height));
+    /* Scaled image by default is empty: */
+    QImage scaledImage;
+
+    /* If scaled-factor is set and current image is NOT null: */
+    if (m_scaledSize.isValid() && !m_img.isNull())
+    {
+        /* We are doing a deep copy of image to make sure it will not be
+         * detached during scale process, otherwise we can get a frozen frame-buffer. */
+        scaledImage = m_img.copy();
+        /* Scale image to scaled-factor: */
+        scaledImage = scaledImage.scaled(m_scaledSize, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+    }
+
+    /* Choose required image: */
+    QImage *pSourceImage = scaledImage.isNull() ? &m_img : &scaledImage;
+
+    /* Apply image-size restriction: */
+    const QRect &r = pEvent->rect().intersected(pSourceImage->rect());
 
     /* Some outdated rectangle during processing UIResizeEvent */
     if (r.isEmpty())
@@ -75,20 +92,20 @@ void UIFrameBufferQImage::paintEvent(QPaintEvent *pEvent)
 
     QPainter painter(m_pMachineView->viewport());
 
-    if (r.width() < m_width * 2 / 3)
+    if ((ulong)r.width() < m_width * 2 / 3)
     {
         /* This method is faster for narrow updates */
-        m_PM = QPixmap::fromImage(m_img.copy(r.x() + m_pMachineView->contentsX(),
-                                             r.y() + m_pMachineView->contentsY(),
-                                             r.width(), r.height()));
+        m_PM = QPixmap::fromImage(pSourceImage->copy(r.x() + m_pMachineView->contentsX(),
+                                                     r.y() + m_pMachineView->contentsY(),
+                                                     r.width(), r.height()));
         painter.drawPixmap(r.x(), r.y(), m_PM);
     }
     else
     {
         /* This method is faster for wide updates */
-        m_PM = QPixmap::fromImage(QImage(m_img.scanLine (r.y() + m_pMachineView->contentsY()),
-                                  m_img.width(), r.height(), m_img.bytesPerLine(),
-                                  QImage::Format_RGB32));
+        m_PM = QPixmap::fromImage(QImage(pSourceImage->scanLine(r.y() + m_pMachineView->contentsY()),
+                                         pSourceImage->width(), r.height(), pSourceImage->bytesPerLine(),
+                                         QImage::Format_RGB32));
         painter.drawPixmap(r.x(), r.y(), m_PM, r.x() + m_pMachineView->contentsX(), 0, 0, 0);
     }
 }
@@ -148,8 +165,12 @@ void UIFrameBufferQImage::resizeEvent(UIResizeEvent *pEvent)
         }
         if (!bFallback)
         {
-            ulong virtWdt = bitsPerLine / pEvent->bitsPerPixel();
-            m_img = QImage ((uchar *) pEvent->VRAM(), virtWdt, m_height, format);
+            Assert (bitsPerLine / pEvent->bitsPerPixel() >= m_width);
+            bFallback = RT_BOOL (bitsPerLine / pEvent->bitsPerPixel() < m_width);
+        }
+        if (!bFallback)
+        {
+            m_img = QImage ((uchar *) pEvent->VRAM(), m_width, m_height, bitsPerLine / 8, format);
             m_uPixelFormat = FramebufferPixelFormat_FOURCC_RGB;
             m_bUsesGuestVRAM = true;
         }
@@ -164,25 +185,13 @@ void UIFrameBufferQImage::resizeEvent(UIResizeEvent *pEvent)
         /* we don't support either the pixel format or the color depth,
          * bFallback to a self-provided 32bpp RGB buffer */
         m_img = QImage (m_width, m_height, QImage::Format_RGB32);
+        m_img.fill(0);
         m_uPixelFormat = FramebufferPixelFormat_FOURCC_RGB;
         m_bUsesGuestVRAM = false;
     }
 
     if (bRemind)
-    {
-        class RemindEvent : public VBoxAsyncEvent
-        {
-            ulong mRealBPP;
-        public:
-            RemindEvent (ulong aRealBPP)
-                : mRealBPP (aRealBPP) {}
-            void handle()
-            {
-                vboxProblem().remindAboutWrongColorDepth (mRealBPP, 32);
-            }
-        };
-        (new RemindEvent (pEvent->bitsPerPixel()))->post();
-    }
+        vboxProblem().remindAboutWrongColorDepth(pEvent->bitsPerPixel(), 32);
 }
 
 #endif /* VBOX_GUI_USE_QIMAGE */

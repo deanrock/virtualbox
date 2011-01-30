@@ -1,4 +1,4 @@
-/* $Id: DrvBlock.cpp $ */
+/* $Id: DrvBlock.cpp 35560 2011-01-14 13:37:32Z vboxsync $ */
 /** @file
  * VBox storage devices: Generic block driver
  */
@@ -20,12 +20,12 @@
 *   Header Files                                                               *
 *******************************************************************************/
 #define LOG_GROUP LOG_GROUP_DRV_BLOCK
-#include <VBox/pdmdrv.h>
+#include <VBox/vmm/pdmdrv.h>
 #include <iprt/assert.h>
 #include <iprt/string.h>
 #include <iprt/uuid.h>
 
-#include "Builtins.h"
+#include "VBoxDD.h"
 
 
 /** @def VBOX_PERIODIC_FLUSH
@@ -100,6 +100,8 @@ typedef struct DRVBLOCK
     PDMIBLOCKBIOS           IBlockBios;
     /** Our mountable interface. */
     PDMIMOUNT               IMount;
+    /** Our media port interface. */
+    PDMIMEDIAPORT           IMediaPort;
 
     /** Pointer to the async media driver below us.
      * This is NULL if the media is not mounted. */
@@ -158,6 +160,9 @@ static DECLCALLBACK(int) drvblockWrite(PPDMIBLOCK pInterface, uint64_t off, cons
         AssertMsgFailed(("Invalid state! Not mounted!\n"));
         return VERR_PDM_MEDIA_NOT_MOUNTED;
     }
+
+    /* Set an FTM checkpoint as this operation changes the state permanently. */
+    PDMDrvHlpFTSetCheckpoint(pThis->pDrvIns, FTMCHECKPOINTTYPE_STORAGE);
 
     int rc = pThis->pDrvMedia->pfnWrite(pThis->pDrvMedia, off, pvBuf, cbWrite);
 #ifdef VBOX_PERIODIC_FLUSH
@@ -619,7 +624,7 @@ static DECLCALLBACK(int) drvblockMount(PPDMIMOUNT pInterface, const char *pszFil
 
 
 /** @copydoc PDMIMOUNT::pfnUnmount */
-static DECLCALLBACK(int) drvblockUnmount(PPDMIMOUNT pInterface, bool fForce)
+static DECLCALLBACK(int) drvblockUnmount(PPDMIMOUNT pInterface, bool fForce, bool fEject)
 {
     PDRVBLOCK pThis = PDMIMOUNT_2_DRVBLOCK(pInterface);
 
@@ -694,6 +699,24 @@ static DECLCALLBACK(bool) drvblockIsLocked(PPDMIMOUNT pInterface)
 }
 
 
+
+/* -=-=-=-=- IMediaPort -=-=-=-=- */
+
+/** Makes a PDRVBLOCK out of a PPDMIMEDIAPORT. */
+#define PDMIMEDIAPORT_2_DRVBLOCK(pInterface)    ( (PDRVBLOCK((uintptr_t)pInterface - RT_OFFSETOF(DRVBLOCK, IMediaPort))) )
+
+/**
+ * @interface_method_impl{PDMIMEDIAPORT,pfnQueryDeviceLocation}
+ */
+static DECLCALLBACK(int) drvblockQueryDeviceLocation(PPDMIMEDIAPORT pInterface, const char **ppcszController,
+                                                     uint32_t *piInstance, uint32_t *piLUN)
+{
+    PDRVBLOCK pThis = PDMIMEDIAPORT_2_DRVBLOCK(pInterface);
+
+    return pThis->pDrvBlockPort->pfnQueryDeviceLocation(pThis->pDrvBlockPort, ppcszController,
+                                                        piInstance, piLUN);
+}
+
 /* -=-=-=-=- IBase -=-=-=-=- */
 
 /**
@@ -710,6 +733,7 @@ static DECLCALLBACK(void *)  drvblockQueryInterface(PPDMIBASE pInterface, const 
     PDMIBASE_RETURN_INTERFACE(pszIID, PDMIMOUNT, pThis->fMountable ? &pThis->IMount : NULL);
     PDMIBASE_RETURN_INTERFACE(pszIID, PDMIBLOCKASYNC, pThis->pDrvMediaAsync ? &pThis->IBlockAsync : NULL);
     PDMIBASE_RETURN_INTERFACE(pszIID, PDMIMEDIAASYNCPORT, pThis->pDrvBlockAsyncPort ? &pThis->IMediaAsyncPort : NULL);
+    PDMIBASE_RETURN_INTERFACE(pszIID, PDMIMEDIAPORT, &pThis->IMediaPort);
     return NULL;
 }
 
@@ -800,6 +824,9 @@ static DECLCALLBACK(int) drvblockConstruct(PPDMDRVINS pDrvIns, PCFGMNODE pCfg, u
 
     /* IMediaAsyncPort. */
     pThis->IMediaAsyncPort.pfnTransferCompleteNotify  = drvblockAsyncTransferCompleteNotify;
+
+    /* IMediaPort */
+    pThis->IMediaPort.pfnQueryDeviceLocation = drvblockQueryDeviceLocation;
 
     /*
      * Get the IBlockPort & IMountNotify interfaces of the above driver/device.

@@ -1,3 +1,27 @@
+virtualbox-ose (4.0.2-dfsg-1) unstable; urgency=low
+
+  * New upstream release. (LP: #709027)
+    - Ships with a manual and upstream changelog.
+      (Closes: #483702, #541127; LP: #243782)
+  * Adapt patches for new upstream version.
+  * Add new required build-dependencies:
+    default-jdk, genisoimage, makeself, texlive-fonts-extra,
+    texlive-fonts-recommended, texlive-latex-extra, texlive-latex-recommended.
+  * Set VBOX_JAVA_HOME to /usr/lib/jvm/default-java.
+  * Add 28-no-selinux-fedora.patch so VirtualBox doesn't try to install
+    selinux-fedora/vbox_x11.pp which is stripped by the dfsg-free target.
+  * Update install files.
+  * Add 29-fix-ftbfs-as-needed.patch to fix FTBFS with ld --as-needed.
+  * Automatically generate the pixmap icon from png.
+  * Fix the watch file.
+  * Update man pages.
+  * Support passing through USB 1.1 devices to virtual machines.
+  * Update vdfuse for VirtualBox 4.
+  * Make the kernel modules buildable with kernel 2.6.38-rc2. (LP: #705593)
+    - Add 30-kernel-2.6.38.diff
+
+ -- Felix Geyer <debfx-pkg@fobos.de>  Sat, 29 Jan 2011 20:13:14 +0100
+
 virtualbox-ose (3.2.12-dfsg-1ubuntu2) natty; urgency=low
 
   * Rebuild with python 2.7 as the python default.

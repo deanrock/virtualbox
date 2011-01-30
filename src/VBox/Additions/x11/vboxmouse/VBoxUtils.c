@@ -23,12 +23,7 @@
 
 #include "xf86.h"
 #define NEED_XF86_TYPES
-#ifdef NO_ANSIC
-# include <errno.h>
-# include <string.h>
-#else
-# include "xf86_ansic.h"
-#endif
+#include <iprt/string.h>
 #include "compiler.h"
 
 /**
@@ -89,7 +84,7 @@ int VBoxMouseQueryPosition(unsigned int *pcx, unsigned int *pcy)
     if (RT_SUCCESS(rc))
         rc = VbglR3GetMouseStatus(&fFeatures, &cx, &cy);
     if (   RT_SUCCESS(rc)
-        && !(fFeatures & VMMDEV_MOUSE_HOST_CAN_ABSOLUTE))
+        && !(fFeatures & VMMDEV_MOUSE_HOST_WANTS_ABSOLUTE))
         rc = VERR_NOT_SUPPORTED;
     if (RT_SUCCESS(rc))
     {

@@ -1,4 +1,4 @@
-/* $Id: VMMAll.cpp $ */
+/* $Id: VMMAll.cpp 35346 2010-12-27 16:13:13Z vboxsync $ */
 /** @file
  * VMM All Contexts.
  */
@@ -20,10 +20,10 @@
 *   Header Files                                                               *
 *******************************************************************************/
 #define LOG_GROUP LOG_GROUP_VMM
-#include <VBox/vmm.h>
+#include <VBox/vmm/vmm.h>
 #include "VMMInternal.h"
-#include <VBox/vm.h>
-#include <VBox/vmm.h>
+#include <VBox/vmm/vm.h>
+#include <VBox/vmm/vmm.h>
 #include <VBox/param.h>
 #include <iprt/thread.h>
 #include <iprt/mp.h>
@@ -45,7 +45,7 @@ VMMDECL(RTRCPTR) VMMGetStackRC(PVMCPU pVCpu)
 
 
 /**
- * Gets the ID virtual of the virtual CPU assoicated with the calling thread.
+ * Gets the ID virtual of the virtual CPU associated with the calling thread.
  *
  * @returns The CPU ID. NIL_VMCPUID if the thread isn't an EMT.
  *
@@ -63,8 +63,8 @@ VMMDECL(VMCPUID) VMMGetCpuId(PVM pVM)
     /* Search first by host cpu id (most common case)
      * and then by native thread id (page fusion case).
      */
-    /* RTMpCpuId had better be cheap. */ 
-    RTCPUID idHostCpu = RTMpCpuId(); 
+    /* RTMpCpuId had better be cheap. */
+    RTCPUID idHostCpu = RTMpCpuId();
 
     /** @todo optimize for large number of VCPUs when that becomes more common. */
     for (VMCPUID idCpu = 0; idCpu < pVM->cCpus; idCpu++)
@@ -118,8 +118,8 @@ VMMDECL(PVMCPU) VMMGetCpu(PVM pVM)
      * and then by native thread id (page fusion case).
      */
 
-    /* RTMpCpuId had better be cheap. */ 
-    RTCPUID idHostCpu = RTMpCpuId(); 
+    /* RTMpCpuId had better be cheap. */
+    RTCPUID idHostCpu = RTMpCpuId();
 
     /** @todo optimize for large number of VCPUs when that becomes more common. */
     for (VMCPUID idCpu = 0; idCpu < pVM->cCpus; idCpu++)

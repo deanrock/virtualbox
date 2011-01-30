@@ -1,4 +1,4 @@
-/* $Id: tstIntNet-1.cpp $ */
+/* $Id: tstIntNet-1.cpp 35346 2010-12-27 16:13:13Z vboxsync $ */
 /** @file
  * VBox - Testcase for internal networking, simple NetFlt trunk creation.
  */
@@ -20,9 +20,9 @@
 *******************************************************************************/
 #include <VBox/intnet.h>
 #include <VBox/intnetinline.h>
-#include <VBox/pdmnetinline.h>
+#include <VBox/vmm/pdmnetinline.h>
 #include <VBox/sup.h>
-#include <VBox/vmm.h>
+#include <VBox/vmm/vmm.h>
 #include <VBox/err.h>
 #include <iprt/initterm.h>
 #include <iprt/alloc.h>
@@ -34,7 +34,7 @@
 #include <iprt/getopt.h>
 #include <iprt/rand.h>
 #include <iprt/log.h>
-#include <iprt/crc32.h>
+#include <iprt/crc.h>
 #include <iprt/net.h>
 
 #include "../Pcap.h"
@@ -749,7 +749,7 @@ int main(int argc, char **argv)
                 return 1;
 
             case 'V':
-                RTPrintf("$Revision: 60692 $\n");
+                RTPrintf("$Revision: 35346 $\n");
                 return 0;
 
             default:

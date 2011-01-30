@@ -1,4 +1,4 @@
-/* $Id: PDMAllQueue.cpp $ */
+/* $Id: PDMAllQueue.cpp 35346 2010-12-27 16:13:13Z vboxsync $ */
 /** @file
  * PDM Queue - Transport data and tasks to EMT and R3.
  */
@@ -21,12 +21,12 @@
 *******************************************************************************/
 #define LOG_GROUP LOG_GROUP_PDM_QUEUE
 #include "PDMInternal.h"
-#include <VBox/pdm.h>
+#include <VBox/vmm/pdm.h>
 #ifndef IN_RC
-# include <VBox/rem.h>
-# include <VBox/mm.h>
+# include <VBox/vmm/rem.h>
+# include <VBox/vmm/mm.h>
 #endif
-#include <VBox/vm.h>
+#include <VBox/vmm/vm.h>
 #include <VBox/err.h>
 #include <VBox/log.h>
 #include <iprt/asm.h>
@@ -84,14 +84,14 @@ VMMDECL(void) PDMQueueInsert(PPDMQUEUE pQueue, PPDMQUEUEITEMCORE pItem)
     {
         pvNext = ASMAtomicUoReadPtr((void * volatile *)&pQueue->CTX_SUFF(pPending));
         ASMAtomicUoWritePtr((void * volatile *)&pItem->CTX_SUFF(pNext), pvNext);
-    } while (!ASMAtomicCmpXchgPtr((void * volatile *)&pQueue->CTX_SUFF(pPending), pItem, pvNext));
+    } while (!ASMAtomicCmpXchgPtr(&pQueue->CTX_SUFF(pPending), pItem, pvNext));
 #else
     PPDMQUEUEITEMCORE pNext;
     do
     {
         pNext = pQueue->CTX_SUFF(pPending);
         pItem->CTX_SUFF(pNext) = pNext;
-    } while (!ASMAtomicCmpXchgPtr((void * volatile *)&pQueue->CTX_SUFF(pPending), pItem, pNext));
+    } while (!ASMAtomicCmpXchgPtr(&pQueue->CTX_SUFF(pPending), pItem, pNext));
 #endif
 
     if (!pQueue->pTimer)

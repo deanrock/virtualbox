@@ -1,4 +1,4 @@
-/* $Id: TMAllCpu.cpp $ */
+/* $Id: TMAllCpu.cpp 35346 2010-12-27 16:13:13Z vboxsync $ */
 /** @file
  * TM - Timeout Manager, CPU Time, All Contexts.
  */
@@ -20,10 +20,10 @@
 *   Header Files                                                               *
 *******************************************************************************/
 #define LOG_GROUP LOG_GROUP_TM
-#include <VBox/tm.h>
+#include <VBox/vmm/tm.h>
 #include <iprt/asm-amd64-x86.h> /* for SUPGetCpuHzFromGIP */
-#include "../TMInternal.h"
-#include <VBox/vm.h>
+#include "TMInternal.h"
+#include <VBox/vmm/vm.h>
 #include <VBox/sup.h>
 
 #include <VBox/param.h>
@@ -298,7 +298,7 @@ VMM_INT_DECL(uint64_t) TMCpuTickGetDeadlineAndTscOffset(PVMCPU pVCpu, bool *pfOf
 
 
 /**
- * Read the current CPU timstamp counter.
+ * Read the current CPU timestamp counter.
  *
  * @returns Gets the CPU tsc.
  * @param   pVCpu       The VMCPU to operate on.
@@ -336,7 +336,7 @@ DECLINLINE(uint64_t) tmCpuTickGetInternal(PVMCPU pVCpu, bool fCheckTimers)
 
 
 /**
- * Read the current CPU timstamp counter.
+ * Read the current CPU timestamp counter.
  *
  * @returns Gets the CPU tsc.
  * @param   pVCpu       The VMCPU to operate on.
@@ -348,7 +348,7 @@ VMMDECL(uint64_t) TMCpuTickGet(PVMCPU pVCpu)
 
 
 /**
- * Read the current CPU timstamp counter, don't check for expired timers.
+ * Read the current CPU timestamp counter, don't check for expired timers.
  *
  * @returns Gets the CPU tsc.
  * @param   pVCpu       The VMCPU to operate on.
@@ -376,7 +376,7 @@ VMM_INT_DECL(int) TMCpuTickSet(PVM pVM, PVMCPU pVCpu, uint64_t u64Tick)
 
     /*
      * This is easier to do when the TSC is paused since resume will
-     * do all the calcuations for us. Actually, we don't need to
+     * do all the calculations for us. Actually, we don't need to
      * call tmCpuTickPause here since we overwrite u64TSC anyway.
      */
     bool        fTSCTicking    = pVCpu->tm.s.fTSCTicking;

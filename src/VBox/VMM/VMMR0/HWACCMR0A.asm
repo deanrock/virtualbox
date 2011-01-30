@@ -1,4 +1,4 @@
-; $Id: HWACCMR0A.asm $
+; $Id: HWACCMR0A.asm 35346 2010-12-27 16:13:13Z vboxsync $
 ;; @file
 ; VMXM - R0 vmx helpers
 ;
@@ -20,10 +20,10 @@
 ;*******************************************************************************
 %include "VBox/asmdefs.mac"
 %include "VBox/err.mac"
-%include "VBox/hwacc_vmx.mac"
-%include "VBox/cpum.mac"
+%include "VBox/vmm/hwacc_vmx.mac"
+%include "VBox/vmm/cpum.mac"
 %include "VBox/x86.mac"
-%include "../HWACCMInternal.mac"
+%include "HWACCMInternal.mac"
 
 %ifdef RT_OS_OS2 ;; @todo fix OMF support in yasm and kick nasm out completely.
  %macro vmwrite 2,
@@ -77,12 +77,12 @@
 ;; @def MYPUSHSEGS
 ; Macro saving all segment registers on the stack.
 ; @param 1  full width register name
-; @param 2  16-bit regsiter name for \a 1.
+; @param 2  16-bit register name for \a 1.
 
 ;; @def MYPOPSEGS
 ; Macro restoring all segment registers on the stack
 ; @param 1  full width register name
-; @param 2  16-bit regsiter name for \a 1.
+; @param 2  16-bit register name for \a 1.
 
 %ifdef MAYBE_64_BIT
   ; Save a host and load the corresponding guest MSR (trashes rdx & rcx)

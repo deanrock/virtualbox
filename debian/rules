@@ -169,6 +169,18 @@ else ifeq ($(INSTALL_XORGCONFD),old)
 	    /usr/lib/X11/xorg.conf.d
 endif
 
+	cp src/VBox/Frontends/VirtualBox/images/OSE/VirtualBox_16px.png \
+	    debian/$(sxname)/usr/share/icons/hicolor/16x16/apps/virtualbox-ose.png
+	cp src/VBox/Frontends/VirtualBox/images/OSE/VirtualBox_32px.png \
+	    debian/$(sxname)/usr/share/icons/hicolor/32x32/apps/virtualbox-ose.png
+	cp src/VBox/Frontends/VirtualBox/images/OSE/VirtualBox_48px.png \
+	    debian/$(sxname)/usr/share/icons/hicolor/48x48/apps/virtualbox-ose.png
+	cp src/VBox/Frontends/VirtualBox/images/OSE/VirtualBox_64px.png \
+	    debian/$(sxname)/usr/share/icons/hicolor/64x64/apps/virtualbox-ose.png
+
+	convert debian/$(sxname)/usr/share/icons/hicolor/32x32/apps/virtualbox-ose.png \
+	    debian/$(sxname)/usr/share/pixmaps/virtualbox-ose.xpm
+
 override_dh_fixperms:
 	dh_fixperms
 
@@ -181,6 +193,7 @@ override_dh_fixperms:
 	chmod 644 debian/$(sname)$(INSTALL_PATH)/sdk/bindings/xpcom/python/xpcom/*.py
 	chmod 644 debian/$(sname)$(INSTALL_PATH)/sdk/bindings/xpcom/python/xpcom/server/*.py
 	chmod 644 debian/$(sname)$(INSTALL_PATH)/sdk/bindings/xpcom/python/xpcom/client/*.py
+	chmod 644 debian/$(sname)$(INSTALL_PATH)/sdk/bindings/xpcom/java/vboxjxpcom.jar
 
 	chmod 755 debian/$(uxname)/usr/share/virtualbox/x11config.pl
 	chmod 755 debian/$(sname)/usr/share/virtualbox/VBox.sh
@@ -206,6 +219,9 @@ override_dh_shlibdeps:
 	dh_shlibdeps -p$(sname) -X debian/$(sname)$(INSTALL_PATH)/VBoxTestOGL -- \
 	    -dRecommends debian/$(sname)$(INSTALL_PATH)/VBoxTestOGL -dDepends
 	dh_shlibdeps --remaining-packages
+
+override_dh_compress:
+	dh_compress -X.pdf
 
 override_dh_auto_clean:
 	dh_auto_clean

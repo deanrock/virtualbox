@@ -3,7 +3,7 @@
  */
 
 /*
- * Copyright (C) 2006-2007 Oracle Corporation
+ * Copyright (C) 2006-2010 Oracle Corporation
  *
  * This file is part of VirtualBox Open Source Edition (OSE), as
  * available from http://www.virtualbox.org. This file is free software;
@@ -34,7 +34,15 @@
  */
 #ifndef IPRT_NO_CRT
 
-# if defined(RT_OS_DARWIN) && defined(KERNEL)
+# if defined(IN_XF86_MODULE) && !defined(NO_ANSIC)
+    /*
+     * Kludge for xfree86 modules: size_t and other types are redefined.
+     */
+RT_C_DECLS_BEGIN
+#  include "xf86_ansic.h"
+RT_C_DECLS_END
+
+# elif defined(RT_OS_DARWIN) && defined(KERNEL)
     /*
      * Kludge for the darwin kernel:
      *  stddef.h is missing IIRC.
@@ -99,6 +107,18 @@
 #  include <linux/types.h>
 #  include <linux/stddef.h>
 #  undef uintptr_t
+#  ifdef __GNUC__
+#   if (__GNUC__ * 100 + __GNUC_MINOR__) <= 400
+     /*
+      * <linux/compiler-gcc{3,4}.h> does
+      *   #define __inline__  __inline__ __attribute__((always_inline))
+      * in some older Linux kernels. Forcing inlining will fail for some RTStrA*
+      * functions with gcc <= 4.0 due to passing variable argument lists.
+      */
+#    undef __inline__
+#    define __inline__ __inline__
+#   endif
+#  endif
 #  undef false
 #  undef true
 #  undef bool
@@ -414,6 +434,221 @@ typedef RTUINT128U *PRTUINT128U;
 typedef const RTUINT128U *PCRTUINT128U;
 
 
+/**
+ * Double precision floating point format (64-bit).
+ */
+typedef union RTFLOAT64U
+{
+#if defined(RT_ARCH_AMD64) || defined(RT_ARCH_X86)
+    /** Double view. */
+    double      rd;
+#endif
+    /** Format using regular bitfields.  */
+    struct
+    {
+# ifdef RT_BIG_ENDIAN
+        /** The sign indicator. */
+        uint32_t    fSign : 1;
+        /** The exponent (offseted by 1023). */
+        uint32_t    uExponent : 11;
+        /** The fraction, bits 32 thru 51. */
+        uint32_t    u20FractionHigh : 20;
+        /** The fraction, bits 0 thru 31. */
+        uint32_t    u32FractionLow;
+# else
+        /** The fraction, bits 0 thru 31. */
+        uint32_t    u32FractionLow;
+        /** The fraction, bits 32 thru 51. */
+        uint32_t    u20FractionHigh : 20;
+        /** The exponent (offseted by 1023). */
+        uint32_t    uExponent : 11;
+        /** The sign indicator. */
+        uint32_t    fSign : 1;
+# endif
+    } s;
+
+#ifdef RT_COMPILER_GROKS_64BIT_BITFIELDS
+    /** Format using 64-bit bitfields.  */
+    RT_GCC_EXTENSION struct
+    {
+# ifdef RT_BIG_ENDIAN
+        /** The sign indicator. */
+        RT_GCC_EXTENSION uint64_t    fSign : 1;
+        /** The exponent (offseted by 1023). */
+        RT_GCC_EXTENSION uint64_t    uExponent : 11;
+        /** The fraction. */
+        RT_GCC_EXTENSION uint64_t    uFraction : 52;
+# else
+        /** The fraction. */
+        RT_GCC_EXTENSION uint64_t    uFraction : 52;
+        /** The exponent (offseted by 1023). */
+        RT_GCC_EXTENSION uint64_t    uExponent : 11;
+        /** The sign indicator. */
+        RT_GCC_EXTENSION uint64_t    fSign : 1;
+# endif
+    } s64;
+#endif
+
+    /** 64-bit view. */
+    uint64_t    au64[1];
+    /** 32-bit view. */
+    uint32_t    au32[2];
+    /** 16-bit view. */
+    uint16_t    au16[4];
+    /** 8-bit view. */
+    uint8_t     au8[8];
+} RTFLOAT64U;
+/** Pointer to a double precision floating point format union. */
+typedef RTFLOAT64U *PRTFLOAT64U;
+/** Pointer to a const double precision floating point format union. */
+typedef const RTFLOAT64U *PCRTFLOAT64U;
+
+
+/**
+ * Extended Double precision floating point format (80-bit).
+ */
+#pragma pack(1)
+typedef union RTFLOAT80U
+{
+    /** Format using bitfields.  */
+    RT_GCC_EXTENSION struct
+    {
+# ifdef RT_BIG_ENDIAN
+        /** The sign indicator. */
+        RT_GCC_EXTENSION uint16_t   fSign : 1;
+        /** The exponent (offseted by 16383). */
+        RT_GCC_EXTENSION uint16_t   uExponent : 15;
+        /** The mantissa. */
+        uint64_t                    u64Mantissa;
+# else
+        /** The mantissa. */
+        uint64_t                    u64Mantissa;
+        /** The exponent (offseted by 16383). */
+        RT_GCC_EXTENSION uint16_t   uExponent : 15;
+        /** The sign indicator. */
+        RT_GCC_EXTENSION uint16_t   fSign : 1;
+# endif
+    } s;
+
+    /** 64-bit view. */
+    uint64_t    au64[1];
+    /** 32-bit view. */
+    uint32_t    au32[2];
+    /** 16-bit view. */
+    uint16_t    au16[5];
+    /** 8-bit view. */
+    uint8_t     au8[10];
+} RTFLOAT80U;
+#pragma pack()
+/** Pointer to a extended precision floating point format union. */
+typedef RTFLOAT80U *PRTFLOAT80U;
+/** Pointer to a const extended precision floating point format union. */
+typedef const RTFLOAT80U *PCRTFLOAT80U;
+
+
+/**
+ * A variant of RTFLOAT80U that may be larger than 80-bits depending on how the
+ * compiler implements long double.
+ */
+#pragma pack(1)
+typedef union RTFLOAT80U2
+{
+#ifdef RT_COMPILER_WITH_80BIT_LONG_DOUBLE
+    /** Long double view. */
+    long double     lrd;
+#endif
+    /** Format using bitfields.  */
+    RT_GCC_EXTENSION struct
+    {
+#ifdef RT_BIG_ENDIAN
+        /** The sign indicator. */
+        RT_GCC_EXTENSION uint16_t   fSign : 1;
+        /** The exponent (offseted by 16383). */
+        RT_GCC_EXTENSION uint16_t   uExponent : 15;
+        /** The mantissa. */
+        uint64_t                    u64Mantissa;
+#else
+        /** The mantissa. */
+        uint64_t                    u64Mantissa;
+        /** The exponent (offseted by 16383). */
+        RT_GCC_EXTENSION uint16_t   uExponent : 15;
+        /** The sign indicator. */
+        RT_GCC_EXTENSION uint16_t   fSign : 1;
+#endif
+    } s;
+
+    /** Bitfield exposing the J bit and the fraction.  */
+    RT_GCC_EXTENSION struct
+    {
+#ifdef RT_BIG_ENDIAN
+        /** The sign indicator. */
+        RT_GCC_EXTENSION uint16_t   fSign : 1;
+        /** The exponent (offseted by 16383). */
+        RT_GCC_EXTENSION uint16_t   uExponent : 15;
+        /** The J bit, aka the integer bit. */
+        uint32_t                    fInteger;
+        /** The fraction, bits 32 thru 62. */
+        uint32_t                    u31FractionHigh : 31;
+        /** The fraction, bits 0 thru 31. */
+        uint32_t                    u32FractionLow : 32;
+#else
+        /** The fraction, bits 0 thru 31. */
+        uint32_t                    u32FractionLow : 32;
+        /** The fraction, bits 32 thru 62. */
+        uint32_t                    u31FractionHigh : 31;
+        /** The J bit, aka the integer bit. */
+        uint32_t                    fInteger;
+        /** The exponent (offseted by 16383). */
+        RT_GCC_EXTENSION uint16_t   uExponent : 15;
+        /** The sign indicator. */
+        RT_GCC_EXTENSION uint16_t   fSign : 1;
+#endif
+    } sj;
+
+#ifdef RT_COMPILER_GROKS_64BIT_BITFIELDS
+    /** 64-bit bitfields exposing the J bit and the fraction.  */
+    RT_GCC_EXTENSION struct
+    {
+# ifdef RT_BIG_ENDIAN
+        /** The sign indicator. */
+        RT_GCC_EXTENSION uint16_t   fSign : 1;
+        /** The exponent (offseted by 16383). */
+        RT_GCC_EXTENSION uint16_t   uExponent : 15;
+        /** The J bit, aka the integer bit. */
+        RT_GCC_EXTENSION uint64_t   fInteger : 1;
+        /** The fraction. */
+        RT_GCC_EXTENSION uint64_t   u63Fraction : 63;
+# else
+        /** The fraction. */
+        RT_GCC_EXTENSION uint64_t   u63Fraction : 63;
+        /** The J bit, aka the integer bit. */
+        RT_GCC_EXTENSION uint64_t   fInteger : 1;
+        /** The exponent (offseted by 16383). */
+        RT_GCC_EXTENSION uint16_t   uExponent : 15;
+        /** The sign indicator. */
+        RT_GCC_EXTENSION uint16_t   fSign : 1;
+# endif
+    } sj64;
+#endif
+
+    /** 64-bit view. */
+    uint64_t    au64[1];
+    /** 32-bit view. */
+    uint32_t    au32[2];
+    /** 16-bit view. */
+    uint16_t    au16[5];
+    /** 8-bit view. */
+    uint8_t     au8[10];
+} RTFLOAT80U2;
+#pragma pack()
+/** Pointer to a extended precision floating point format union, 2nd
+ * variant. */
+typedef RTFLOAT80U2 *PRTFLOAT80U2;
+/** Pointer to a const extended precision floating point format union, 2nd
+ * variant. */
+typedef const RTFLOAT80U2 *PCRTFLOAT80U2;
+
+
 /** Generic function type.
  * @see PFNRT
  */
@@ -534,6 +769,29 @@ typedef uint32_t        RTDEV;
 /** Pointer to a device unix number. */
 typedef RTDEV          *PRTDEV;
 
+/** @name RTDEV Macros
+ * @{  */
+/**
+ * Our makedev macro.
+ * @returns RTDEV
+ * @param   uMajor          The major device number.
+ * @param   uMinor          The minor device number.
+ */
+#define RTDEV_MAKE(uMajor, uMinor)      ((RTDEV)( ((RTDEV)(uMajor) << 24) | (uMinor & UINT32_C(0x00ffffff)) ))
+/**
+ * Get the major device node number from an RTDEV type.
+ * @returns The major device number of @a uDev
+ * @param   uDev            The device number.
+ */
+#define RTDEV_MAJOR(uDev)               ((uDev) >> 24)
+/**
+ * Get the minor device node number from an RTDEV type.
+ * @returns The minor device number of @a uDev
+ * @param   uDev            The device number.
+ */
+#define RTDEV_MINOR(uDev)               ((uDev) & UINT32_C(0x00ffffff))
+/** @}  */
+
 /** i-node number. */
 typedef uint64_t        RTINODE;
 /** Pointer to a i-node number. */
@@ -545,7 +803,7 @@ typedef uint32_t        RTUID;
 typedef RTUID          *PRTUID;
 /** NIL user id.
  * @todo check this for portability! */
-#define NIL_RTUID       (~(RTUID)0);
+#define NIL_RTUID       (~(RTUID)0)
 
 /** Group id. */
 typedef uint32_t        RTGID;
@@ -553,7 +811,7 @@ typedef uint32_t        RTGID;
 typedef RTGID          *PRTGID;
 /** NIL group id.
  * @todo check this for portability! */
-#define NIL_RTGID       (~(RTGID)0);
+#define NIL_RTGID       (~(RTGID)0)
 
 /** I/O Port. */
 typedef uint16_t        RTIOPORT;
@@ -1187,6 +1445,19 @@ typedef RTCCINTREG const       *PCRTCCINTREG;
 /** @} */
 
 
+/** Pointer to a critical section. */
+typedef struct RTCRITSECT                          *PRTCRITSECT;
+/** Pointer to a const critical section. */
+typedef const struct RTCRITSECT                    *PCRTCRITSECT;
+
+
+/** Condition variable handle. */
+typedef R3PTRTYPE(struct RTCONDVARINTERNAL *)       RTCONDVAR;
+/** Pointer to a condition variable handle. */
+typedef RTCONDVAR                                  *PRTCONDVAR;
+/** Nil condition variable handle. */
+#define NIL_RTCONDVAR                               0
+
 /** File handle. */
 typedef RTUINT                                      RTFILE;
 /** Pointer to file handle. */
@@ -1336,6 +1607,13 @@ typedef RTSOCKET                                   *PRTSOCKET;
 /** Nil socket handle. */
 #define NIL_RTSOCKET                                ((RTSOCKET)0)
 
+/** Pointer to a RTTCPSERVER handle. */
+typedef struct RTTCPSERVER                         *PRTTCPSERVER;
+/** Pointer to a RTTCPSERVER handle. */
+typedef PRTTCPSERVER                               *PPRTTCPSERVER;
+/** Nil RTTCPSERVER handle. */
+#define NIL_RTTCPSERVER                            ((PRTTCPSERVER)0)
+
 /** Thread handle.*/
 typedef R3R0PTRTYPE(struct RTTHREADINT *)           RTTHREAD;
 /** Pointer to thread handle. */
@@ -1431,6 +1709,13 @@ typedef RTDBGMOD                                   *PRTDBGMOD;
 /** NIL debug module handle. */
 #define NIL_RTDBGMOD                                ((RTDBGMOD)0)
 
+/** Manifest handle. */
+typedef struct RTMANIFESTINT                       *RTMANIFEST;
+/** Pointer to a manifest handle. */
+typedef RTMANIFEST                                 *PRTMANIFEST;
+/** NIL manifest handle. */
+#define NIL_RTMANIFEST                              ((RTMANIFEST)~(uintptr_t)0)
+
 /** Memory pool handle. */
 typedef R3R0PTRTYPE(struct RTMEMPOOLINT *)          RTMEMPOOL;
 /** Pointer to a memory pool handle. */
@@ -1448,6 +1733,57 @@ typedef RTSTRCACHE                                 *PRTSTRCACHE;
 #define NIL_RTSTRCACHE                              ((RTSTRCACHE)0)
 /** The default string cache handle. */
 #define RTSTRCACHE_DEFAULT                          ((RTSTRCACHE)-2)
+
+
+/** Virtual Filesystem handle. */
+typedef struct RTVFSINTERNAL                       *RTVFS;
+/** Pointer to a VFS handle. */
+typedef RTVFS                                      *PRTVFS;
+/** A NIL VFS handle. */
+#define NIL_RTVFS                                   ((RTVFS)~(uintptr_t)0)
+
+/** Virtual Filesystem base object handle. */
+typedef struct RTVFSOBJINTERNAL                    *RTVFSOBJ;
+/** Pointer to a VFS base object handle. */
+typedef RTVFSOBJ                                   *PRTVFSOBJ;
+/** A NIL VFS base object handle. */
+#define NIL_RTVFSOBJ                                ((RTVFSOBJ)~(uintptr_t)0)
+
+/** Virtual Filesystem directory handle. */
+typedef struct RTVFSDIRINTERNAL                    *RTVFSDIR;
+/** Pointer to a VFS directory handle. */
+typedef RTVFSDIR                                   *PRTVFSDIR;
+/** A NIL VFS directory handle. */
+#define NIL_RTVFSDIR                                ((RTVFSDIR)~(uintptr_t)0)
+
+/** Virtual Filesystem filesystem stream handle. */
+typedef struct RTVFSFSSTREAMINTERNAL               *RTVFSFSSTREAM;
+/** Pointer to a VFS filesystem stream handle. */
+typedef RTVFSFSSTREAM                              *PRTVFSFSSTREAM;
+/** A NIL VFS filesystem stream handle. */
+#define NIL_RTVFSFSSTREAM                           ((RTVFSFSSTREAM)~(uintptr_t)0)
+
+/** Virtual Filesystem I/O stream handle. */
+typedef struct RTVFSIOSTREAMINTERNAL               *RTVFSIOSTREAM;
+/** Pointer to a VFS I/O stream handle. */
+typedef RTVFSIOSTREAM                              *PRTVFSIOSTREAM;
+/** A NIL VFS I/O stream handle. */
+#define NIL_RTVFSIOSTREAM                           ((RTVFSIOSTREAM)~(uintptr_t)0)
+
+/** Virtual Filesystem file handle. */
+typedef struct RTVFSFILEINTERNAL                   *RTVFSFILE;
+/** Pointer to a VFS file handle. */
+typedef RTVFSFILE                                  *PRTVFSFILE;
+/** A NIL VFS file handle. */
+#define NIL_RTVFSFILE                               ((RTVFSFILE)~(uintptr_t)0)
+
+/** Virtual Filesystem symbolic link handle. */
+typedef struct RTVFSSYMLINKINTERNAL                *RTVFSSYMLINK;
+/** Pointer to a VFS symbolic link handle. */
+typedef RTVFSSYMLINK                               *PRTVFSSYMLINK;
+/** A NIL VFS symbolic link handle. */
+#define NIL_RTVFSSYMLINK                            ((RTVFSSYMLINK)~(uintptr_t)0)
+
 
 /**
  * Handle type.
@@ -1512,12 +1848,74 @@ typedef RTHANDLE const *PCRTHANDLE;
 
 
 /**
+ * Standard handles.
+ *
+ * @remarks These have the correct file descriptor values for unixy systems and
+ *          can be used directly in code specific to those platforms.
+ */
+typedef enum RTHANDLESTD
+{
+    /** Invalid standard handle. */
+    RTHANDLESTD_INVALID = -1,
+    /** The standard input handle. */
+    RTHANDLESTD_INPUT = 0,
+    /** The standard output handle. */
+    RTHANDLESTD_OUTPUT,
+    /** The standard error handle. */
+    RTHANDLESTD_ERROR,
+    /** The typical 32-bit type hack. */
+    RTHANDLESTD_32BIT_HACK = 0x7fffffff
+} RTHANDLESTD;
+
+
+/**
+ * Error info.
+ *
+ * See RTErrInfo*.
+ */
+typedef struct RTERRINFO
+{
+    /** Flags, see RTERRINFO_FLAGS_XXX. */
+    uint32_t    fFlags;
+    /** The status code. */
+    int32_t     rc;
+    /** The size of the message  */
+    size_t      cbMsg;
+    /** The error buffer. */
+    char       *pszMsg;
+    /** Reserved for future use. */
+    void       *apvReserved[2];
+} RTERRINFO;
+/** Pointer to an error info structure. */
+typedef RTERRINFO *PRTERRINFO;
+/** Pointer to a const error info structure. */
+typedef RTERRINFO const *PCRTERRINFO;
+
+/**
+ * Static error info structure, see RTErrInfoInitStatic.
+ */
+typedef struct RTERRINFOSTATIC
+{
+    /** The core error info. */
+    RTERRINFO   Core;
+    /** The static message buffer. */
+    char        szMsg[3072];
+} RTERRINFOSTATIC;
+/** Pointer to a error info buffer. */
+typedef RTERRINFOSTATIC *PRTERRINFOSTATIC;
+/** Pointer to a const static error info buffer. */
+typedef RTERRINFOSTATIC const *PCRTERRINFOSTATIC;
+
+
+/**
  * UUID data type.
  *
- * @note IPRT defines that the first three integers in the @c Gen struct
- * interpretation are in little endian representation. This is different to
- * many other UUID implementation, and requires conversion if you need to
- * achieve consistent results.
+ * See RTUuid*.
+ *
+ * @remarks IPRT defines that the first three integers in the @c Gen struct
+ *          interpretation are in little endian representation.  This is
+ *          different to many other UUID implementation, and requires
+ *          conversion if you need to achieve consistent results.
  */
 typedef union RTUUID
 {
@@ -1545,15 +1943,12 @@ typedef RTUUID *PRTUUID;
 /** Pointer to readonly UUID data. */
 typedef const RTUUID *PCRTUUID;
 
-/**
- * UUID string maximum length.
- */
+/** UUID string maximum length. */
 #define RTUUID_STR_LENGTH       37
 
 
 /** Compression handle. */
 typedef struct RTZIPCOMP   *PRTZIPCOMP;
-
 /** Decompressor handle. */
 typedef struct RTZIPDECOMP *PRTZIPDECOMP;
 
@@ -1561,11 +1956,17 @@ typedef struct RTZIPDECOMP *PRTZIPDECOMP;
 /**
  * Unicode Code Point.
  */
-typedef uint32_t        RTUNICP;
+typedef uint32_t            RTUNICP;
 /** Pointer to an Unicode Code Point. */
-typedef RTUNICP        *PRTUNICP;
+typedef RTUNICP            *PRTUNICP;
 /** Pointer to an Unicode Code Point. */
-typedef const RTUNICP  *PCRTUNICP;
+typedef const RTUNICP      *PCRTUNICP;
+/** Max value a RTUNICP type can hold. */
+#define RTUNICP_MAX         ( ~(RTUNICP)0 )
+/** Invalid code point.
+ * This is returned when encountered invalid encodings or invalid
+ * unicode code points. */
+#define RTUNICP_INVALID     ( UINT32_C(0xfffffffe) )
 
 
 /**
@@ -1602,7 +2003,23 @@ typedef FNRTPROGRESS *PFNRTPROGRESS;
 
 
 /**
- * Rectangle data type.
+ * A point in a two dimentional coordinate system.
+ */
+typedef struct RTPOINT
+{
+    /** X coordinate. */
+    int32_t     x;
+    /** Y coordinate. */
+    int32_t     y;
+} RTPOINT;
+/** Pointer to a point. */
+typedef RTPOINT *PRTPOINT;
+/** Pointer to a const point. */
+typedef const RTPOINT *PCRTPOINT;
+
+
+/**
+ * Rectangle data type, double point.
  */
 typedef struct RTRECT
 {
@@ -1615,10 +2032,52 @@ typedef struct RTRECT
     /** bottom Y coordinate. (exclusive) */
     int32_t     yBottom;
 } RTRECT;
-/** Pointer to a rectangle. */
+/** Pointer to a double point rectangle. */
 typedef RTRECT *PRTRECT;
-/** Pointer to a const rectangle. */
+/** Pointer to a const double point rectangle. */
 typedef const RTRECT *PCRTRECT;
+
+
+/**
+ * Rectangle data type, point + size.
+ */
+typedef struct RTRECT2
+{
+    /** X coordinate.
+     * Unless stated otherwise, this is the top left corner. */
+    int32_t     x;
+    /** Y coordinate.
+     * Unless stated otherwise, this is the top left corner.  */
+    int32_t     y;
+    /** The width.
+     * Unless stated otherwise, this is to the right of (x,y) and will not
+     * be a negative number. */
+    int32_t     cx;
+    /** The height.
+     * Unless stated otherwise, this is down from (x,y) and will not be a
+     * negative number. */
+    int32_t     cy;
+} RTRECT2;
+/** Pointer to a point + size rectangle. */
+typedef RTRECT2 *PRTRECT2;
+/** Pointer to a const point + size rectangle. */
+typedef const RTRECT2 *PCRTRECT2;
+
+
+/**
+ * The size of a rectangle.
+ */
+typedef struct RTRECTSIZE
+{
+    /** The width (along the x-axis). */
+    uint32_t    cx;
+    /** The height (along the y-axis). */
+    uint32_t    cy;
+} RTRECTSIZE;
+/** Pointer to a rectangle size. */
+typedef RTRECTSIZE *PRTRECTSIZE;
+/** Pointer to a const rectangle size. */
+typedef const RTRECTSIZE *PCRTRECTSIZE;
 
 
 /**

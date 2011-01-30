@@ -1,4 +1,4 @@
-/* $Id: DevIchAc97.cpp $ */
+/* $Id: DevIchAc97.cpp 35487 2011-01-11 13:45:20Z vboxsync $ */
 /** @file
  * DevIchAc97 - VBox ICH AC97 Audio Controller.
  */
@@ -19,12 +19,12 @@
 *   Header Files                                                               *
 *******************************************************************************/
 #define LOG_GROUP LOG_GROUP_DEV_AUDIO
-#include <VBox/pdmdev.h>
+#include <VBox/vmm/pdmdev.h>
 #include <iprt/assert.h>
 #include <iprt/uuid.h>
 #include <iprt/string.h>
 
-#include "../Builtins.h"
+#include "VBoxDD.h"
 
 extern "C" {
 #include "audio.h"
@@ -788,6 +788,7 @@ static void transfer_audio (AC97LinkState *s, int index, int elapsed)
                 temp = write_audio (s, r, elapsed, &stop);
                 written += temp;
                 elapsed -= temp;
+                Assert((temp & 1) == 0);    /* Else the following shift won't work */
                 r->picb -= (temp >> 1);
                 break;
 
@@ -795,6 +796,7 @@ static void transfer_audio (AC97LinkState *s, int index, int elapsed)
             case MC_INDEX:
                 temp = read_audio (s, r, elapsed, &stop);
                 elapsed -= temp;
+                Assert((temp & 1) == 0);    /* Else the following shift won't work */
                 r->picb -= (temp >> 1);
                 break;
         }
@@ -1576,7 +1578,8 @@ static DECLCALLBACK(int) ichac97Construct (PPDMDEVINS pDevIns, int iInstance,
     PCIDevSetVendorId           (&pThis->dev, 0x8086); /* 00 ro - intel. */             Assert (pThis->dev.config[0x00] == 0x86); Assert (pThis->dev.config[0x01] == 0x80);
     PCIDevSetDeviceId           (&pThis->dev, 0x2415); /* 02 ro - 82801 / 82801aa(?). */Assert (pThis->dev.config[0x02] == 0x15); Assert (pThis->dev.config[0x03] == 0x24);
     PCIDevSetCommand            (&pThis->dev, 0x0000); /* 04 rw,ro - pcicmd. */         Assert (pThis->dev.config[0x04] == 0x00); Assert (pThis->dev.config[0x05] == 0x00);
-    PCIDevSetStatus             (&pThis->dev, 0x0280); /* 06 rwc?,ro? - pcists. */      Assert (pThis->dev.config[0x06] == 0x80); Assert (pThis->dev.config[0x07] == 0x02);
+    PCIDevSetStatus             (&pThis->dev,
+           VBOX_PCI_STATUS_DEVSEL_MEDIUM |  VBOX_PCI_STATUS_FAST_BACK); /* 06 rwc?,ro? - pcists. */      Assert (pThis->dev.config[0x06] == 0x80); Assert (pThis->dev.config[0x07] == 0x02);
     PCIDevSetRevisionId         (&pThis->dev, 0x01);   /* 08 ro - rid. */               Assert (pThis->dev.config[0x08] == 0x01);
     PCIDevSetClassProg          (&pThis->dev, 0x00);   /* 09 ro - pi. */                Assert (pThis->dev.config[0x09] == 0x00);
     PCIDevSetClassSub           (&pThis->dev, 0x01);   /* 0a ro - scc; 01 == Audio. */  Assert (pThis->dev.config[0x0a] == 0x01);
@@ -1630,14 +1633,16 @@ static DECLCALLBACK(int) ichac97Construct (PPDMDEVINS pDevIns, int iInstance,
 
     ac97Reset (pDevIns);
 
-    if (!s->voice_pi)
+    if (!AUD_is_host_voice_in_ok(s->voice_pi))
         LogRel (("AC97: WARNING: Unable to open PCM IN!\n"));
-    if (!s->voice_mc)
+    if (!AUD_is_host_voice_in_ok(s->voice_mc))
         LogRel (("AC97: WARNING: Unable to open PCM MC!\n"));
-    if (!s->voice_po)
+    if (!AUD_is_host_voice_out_ok(s->voice_po))
         LogRel (("AC97: WARNING: Unable to open PCM OUT!\n"));
 
-    if (!s->voice_pi && !s->voice_po && !s->voice_mc)
+    if (   !AUD_is_host_voice_in_ok(s->voice_pi)
+        && !AUD_is_host_voice_out_ok(s->voice_po)
+        && !AUD_is_host_voice_in_ok(s->voice_mc))
     {
         /* Was not able initialize *any* voice. Select the NULL audio driver instead */
         AUD_close_in  (&s->card, s->voice_pi);
@@ -1653,15 +1658,17 @@ static DECLCALLBACK(int) ichac97Construct (PPDMDEVINS pDevIns, int iInstance,
             N_ ("No audio devices could be opened. Selecting the NULL audio backend "
                 "with the consequence that no sound is audible"));
     }
-    else if (!s->voice_pi || !s->voice_po || !s->voice_mc)
+    else if (   !AUD_is_host_voice_in_ok(s->voice_pi)
+             || !AUD_is_host_voice_out_ok(s->voice_po)
+             || !AUD_is_host_voice_in_ok(s->voice_mc))
     {
         char   szMissingVoices[128];
         size_t len = 0;
-        if (!s->voice_pi)
+        if (!AUD_is_host_voice_in_ok(s->voice_pi))
             len = RTStrPrintf (szMissingVoices, sizeof(szMissingVoices), "PCM_in");
-        if (!s->voice_po)
+        if (!AUD_is_host_voice_out_ok(s->voice_po))
             len += RTStrPrintf (szMissingVoices + len, sizeof(szMissingVoices) - len, len ? ", PCM_out" : "PCM_out");
-        if (!s->voice_mc)
+        if (!AUD_is_host_voice_in_ok(s->voice_mc))
             len += RTStrPrintf (szMissingVoices + len, sizeof(szMissingVoices) - len, len ? ", PCM_mic" : "PCM_mic");
 
         PDMDevHlpVMSetRuntimeError (pDevIns, 0 /*fFlags*/, "HostAudioNotResponding",

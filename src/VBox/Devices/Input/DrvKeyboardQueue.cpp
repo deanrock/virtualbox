@@ -1,4 +1,4 @@
-/* $Id: DrvKeyboardQueue.cpp $ */
+/* $Id: DrvKeyboardQueue.cpp 35353 2010-12-27 17:25:52Z vboxsync $ */
 /** @file
  * VBox input devices: Keyboard queue driver
  */
@@ -20,11 +20,11 @@
 *   Header Files                                                               *
 *******************************************************************************/
 #define LOG_GROUP LOG_GROUP_DRV_KBD_QUEUE
-#include <VBox/pdmdrv.h>
+#include <VBox/vmm/pdmdrv.h>
 #include <iprt/assert.h>
 #include <iprt/uuid.h>
 
-#include "Builtins.h"
+#include "VBoxDD.h"
 
 
 
@@ -126,7 +126,7 @@ static DECLCALLBACK(int) drvKbdQueuePutEvent(PPDMIKEYBOARDPORT pInterface, uint8
 
 
 /**
- * Pass LED status changes from the guest thru to the frontent driver.
+ * Pass LED status changes from the guest thru to the frontend driver.
  *
  * @param   pInterface  Pointer to the keyboard connector interface structure.
  * @param   enmLeds     The new LED mask.
@@ -138,7 +138,7 @@ static DECLCALLBACK(void) drvKbdPassThruLedsChange(PPDMIKEYBOARDCONNECTOR pInter
 }
 
 /**
- * Pass keyboard state changes from the guest thru to the frontent driver.
+ * Pass keyboard state changes from the guest thru to the frontend driver.
  *
  * @param   pInterface  Pointer to the keyboard connector interface structure.
  * @param   fActive     The new active/inactive state.
@@ -146,6 +146,8 @@ static DECLCALLBACK(void) drvKbdPassThruLedsChange(PPDMIKEYBOARDCONNECTOR pInter
 static DECLCALLBACK(void) drvKbdPassThruSetActive(PPDMIKEYBOARDCONNECTOR pInterface, bool fActive)
 {
     PDRVKBDQUEUE pDrv = PPDMIKEYBOARDCONNECTOR_2_DRVKBDQUEUE(pInterface);
+
+    AssertPtr(pDrv->pDownConnector->pfnSetActive);
     pDrv->pDownConnector->pfnSetActive(pDrv->pDownConnector, fActive);
 }
 

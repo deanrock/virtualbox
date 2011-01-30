@@ -1,4 +1,4 @@
-/* $Id: DisplayImpl.cpp $ */
+/* $Id: DisplayImpl.cpp 35346 2010-12-27 16:13:13Z vboxsync $ */
 /** @file
  * VBox frontends: Basic Frontend (BFE):
  * Implementation of Display class
@@ -28,9 +28,9 @@
 #include <iprt/mem.h>
 #include <iprt/semaphore.h>
 #include <iprt/thread.h>
-#include <VBox/pdm.h>
+#include <VBox/vmm/pdm.h>
 #include <VBox/VMMDev.h>
-#include <VBox/cfgm.h>
+#include <VBox/vmm/cfgm.h>
 #include <VBox/err.h>
 #include <iprt/assert.h>
 #include <VBox/log.h>
@@ -209,6 +209,19 @@ STDMETHODIMP Display::GetScreenResolution(ULONG aScreenId, ULONG *aWidth, ULONG 
     if (aBitsPerPixel)
         *aBitsPerPixel = getBitsPerPixel();
     return S_OK;
+}
+
+void Display::getFramebufferDimensions(int32_t *px1, int32_t *py1,
+                                       int32_t *px2, int32_t *py2)
+{
+    AssertPtrReturnVoid(px1);
+    AssertPtrReturnVoid(py1);
+    AssertPtrReturnVoid(px2);
+    AssertPtrReturnVoid(py2);
+    *px1 = 0;
+    *py1 = 0;
+    *px2 = getWidth();
+    *py2 = getHeight();
 }
 
 static void checkCoordBounds (int *px, int *py, int *pw, int *ph, int cx, int cy)
@@ -614,7 +627,7 @@ void vbvaRgnDirtyRect (VBVADIRTYREGION *prgn, VBVACMDHDR *phdr)
     /*
      * Here update rectangles are accumulated to form an update area.
      * @todo
-     * Now the simplies method is used which builds one rectangle that
+     * Now the simplest method is used which builds one rectangle that
      * includes all update areas. A bit more advanced method can be
      * employed here. The method should be fast however.
      */
@@ -963,7 +976,7 @@ bool Display::vbvaFetchCmd (VBVACMDHDR **ppHdr, uint32_t *pcbCmd)
 
     /* Current record is complete. */
 
-    /* The size of largest contiguos chunk in the ring biffer. */
+    /* The size of largest contiguous chunk in the ring biffer. */
     uint32_t u32BytesTillBoundary = VBVA_RING_BUFFER_SIZE - mpVbvaMemory->off32Data;
 
     /* The ring buffer pointer. */

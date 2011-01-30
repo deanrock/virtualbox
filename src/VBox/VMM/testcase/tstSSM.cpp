@@ -1,4 +1,4 @@
-/* $Id: tstSSM.cpp $ */
+/* $Id: tstSSM.cpp 35346 2010-12-27 16:13:13Z vboxsync $ */
 /** @file
  * Saved State Manager Testcase.
  */
@@ -19,12 +19,12 @@
 /*******************************************************************************
 *   Header Files                                                               *
 *******************************************************************************/
-#include <VBox/ssm.h>
-#include "../VMInternal.h" /* createFakeVM */
-#include <VBox/vm.h>
-#include <VBox/uvm.h>
-#include <VBox/mm.h>
-#include <VBox/stam.h>
+#include <VBox/vmm/ssm.h>
+#include "VMInternal.h" /* createFakeVM */
+#include <VBox/vmm/vm.h>
+#include <VBox/vmm/uvm.h>
+#include <VBox/vmm/mm.h>
+#include <VBox/vmm/stam.h>
 
 #include <VBox/log.h>
 #include <VBox/sup.h>
@@ -744,7 +744,7 @@ int main(int argc, char **argv)
      * Attempt a save.
      */
     uint64_t u64Start = RTTimeNanoTS();
-    rc = SSMR3Save(pVM, pszFilename, SSMAFTER_DESTROY, NULL, NULL);
+    rc = SSMR3Save(pVM, pszFilename, NULL, NULL, SSMAFTER_DESTROY, NULL, NULL);
     if (RT_FAILURE(rc))
     {
         RTPrintf("SSMR3Save #1 -> %Rrc\n", rc);

@@ -1,7 +1,6 @@
+/* $Id: service.cpp 35346 2010-12-27 16:13:13Z vboxsync $ */
 /** @file
- *
- * Shared Clipboard:
- * Host service entry points.
+ * Shared Clipboard: Host service entry points.
  */
 
 /*
@@ -21,7 +20,7 @@
  *
  * The shared clipboard host service provides a proxy between the host's
  * clipboard and a similar proxy running on a guest.  The service is split
- * into a platform-independant core and platform-specific backends.  The
+ * into a platform-independent core and platform-specific backends.  The
  * service defines two communication protocols - one to communicate with the
  * clipboard service running on the guest, and one to communicate with the
  * backend.  These will be described in a very skeletal fashion here.
@@ -77,7 +76,7 @@
 #include <iprt/string.h>
 #include <iprt/assert.h>
 #include <iprt/critsect.h>
-#include <VBox/ssm.h>
+#include <VBox/vmm/ssm.h>
 
 #include "VBoxClipboard.h"
 
@@ -249,7 +248,7 @@ void vboxSvcClipboardReportMsg (VBOXCLIPBOARDCLIENTDATA *pClient, uint32_t u32Ms
 
         if (pClient->fAsync)
         {
-            /* The client waits for a responce. */
+            /* The client waits for a response. */
             bool fMessageReturned = vboxSvcClipboardReturnMsg (pClient, pClient->async.paParms);
 
             /* Make a copy of the handle. */
@@ -257,7 +256,7 @@ void vboxSvcClipboardReportMsg (VBOXCLIPBOARDCLIENTDATA *pClient, uint32_t u32Ms
 
             if (fMessageReturned)
             {
-                /* There is a responce. */
+                /* There is a response. */
                 pClient->fAsync = false;
             }
 

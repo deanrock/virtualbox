@@ -1,4 +1,4 @@
-/* $Id: ovfreader.cpp $ */
+/* $Id: ovfreader.cpp 35566 2011-01-14 14:16:22Z vboxsync $ */
 /** @file
  *
  * OVF reader declarations. Depends only on IPRT, including the iprt::MiniString
@@ -25,9 +25,27 @@ using namespace ovf;
 
 ////////////////////////////////////////////////////////////////////////////////
 //
-// OVF reader implemenation
+// OVF reader implementation
 //
 ////////////////////////////////////////////////////////////////////////////////
+
+/**
+ * Constructor. This parses the given XML file out of the memory. Throws lots of exceptions
+ * on XML or OVF invalidity.
+ * @param pvBuf  the memory buffer to parse
+ * @param cbSize the size of the memory buffer
+ * @param path   path to a filename for error messages.
+ */
+OVFReader::OVFReader(const void *pvBuf, size_t cbSize, const MiniString &path)
+    : m_strPath(path)
+{
+    xml::XmlMemParser parser;
+    parser.read(pvBuf, cbSize,
+                m_strPath,
+                m_doc);
+    /* Start the parsing */
+    parse();
+}
 
 /**
  * Constructor. This opens the given XML file and parses it. Throws lots of exceptions
@@ -40,7 +58,12 @@ OVFReader::OVFReader(const MiniString &path)
     xml::XmlFileParser parser;
     parser.read(m_strPath,
                 m_doc);
+    /* Start the parsing */
+    parse();
+}
 
+void OVFReader::parse()
+{
     const xml::ElementNode *pRootElem = m_doc.getRootElement();
     if (    !pRootElem
          || strcmp(pRootElem->getName(), "Envelope")
@@ -399,6 +422,13 @@ void OVFReader::HandleVirtualSystemContent(const xml::ElementNode *pelmVirtualSy
                         uint32_t ulType;
                         pelmItemChild->copyValue(ulType);
                         i.resourceType = (ResourceType_T)ulType;
+                        i.fResourceRequired = true;
+                        const char *pcszAttValue;
+                        if (pelmItem->getAttributeValue("required", pcszAttValue))
+                        {
+                            if (!strcmp(pcszAttValue, "false"))
+                                i.fResourceRequired = false;
+                        }
                     }
                     else if (!strcmp(pcszItemChildName, "OtherResourceType"))
                         i.strOtherResourceType = pelmItemChild->getValue();
@@ -667,10 +697,16 @@ void OVFReader::HandleVirtualSystemContent(const xml::ElementNode *pelmVirtualSy
                     break;
 
                     default:
-                        throw OVFLogicError(N_("Error reading \"%s\": Unknown resource type %d in hardware item, line %d"),
-                                            m_strPath.c_str(),
-                                            i.resourceType,
-                                            i.ulLineNumber);
+                    {
+                        /* If this unknown resource type isn't required, we simply skip it. */
+                        if (i.fResourceRequired)
+                        {
+                            throw OVFLogicError(N_("Error reading \"%s\": Unknown resource type %d in hardware item, line %d"),
+                                                m_strPath.c_str(),
+                                                i.resourceType,
+                                                i.ulLineNumber);
+                        }
+                    }
                 } // end switch
             }
 
@@ -714,11 +750,11 @@ void OVFReader::HandleVirtualSystemContent(const xml::ElementNode *pelmVirtualSy
                         i.strAddressOnParent.toInt(vd.ulAddressOnParent);
                         // ovf://disk/lamp
                         // 123456789012345
-                        if (i.strHostResource.substr(0, 11) == "ovf://disk/")
+                        if (i.strHostResource.startsWith("ovf://disk/"))
                             vd.strDiskId = i.strHostResource.substr(11);
-                        else if (i.strHostResource.substr(0, 10) == "ovf:/disk/")
+                        else if (i.strHostResource.startsWith("ovf:/disk/"))
                             vd.strDiskId = i.strHostResource.substr(10);
-                        else if (i.strHostResource.substr(0, 6) == "/disk/")
+                        else if (i.strHostResource.startsWith("/disk/"))
                             vd.strDiskId = i.strHostResource.substr(6);
 
                         if (    !(vd.strDiskId.length())
@@ -751,6 +787,11 @@ void OVFReader::HandleVirtualSystemContent(const xml::ElementNode *pelmVirtualSy
             const xml::ElementNode *pelmCIMOSDescription;
             if ((pelmCIMOSDescription = pelmThis->findChildElement("Description")))
                 vsys.strCimosDesc = pelmCIMOSDescription->getValue();
+
+            const xml::ElementNode *pelmVBoxOSType;
+            if ((pelmVBoxOSType = pelmThis->findChildElement("vbox",            // namespace
+                                                             "OSType")))        // element name
+                vsys.strTypeVbox = pelmVBoxOSType->getValue();
         }
         else if (    (!strcmp(pcszElemName, "AnnotationSection"))
                   || (!strcmp(pcszTypeAttr, "ovf:AnnotationSection_Type"))

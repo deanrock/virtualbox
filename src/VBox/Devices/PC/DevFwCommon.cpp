@@ -1,4 +1,4 @@
-/* $Id: DevFwCommon.cpp $ */
+/* $Id: DevFwCommon.cpp 35353 2010-12-27 17:25:52Z vboxsync $ */
 /** @file
  * FwCommon - Shared firmware code (used by DevPcBios & DevEFI).
  */
@@ -19,7 +19,7 @@
 *   Header Files                                                               *
 *******************************************************************************/
 #define LOG_GROUP LOG_GROUP_DEV
-#include <VBox/pdmdev.h>
+#include <VBox/vmm/pdmdev.h>
 
 #include <VBox/log.h>
 #include <VBox/err.h>
@@ -34,8 +34,8 @@
 #include <iprt/uuid.h>
 #include <iprt/system.h>
 
-#include "../Builtins.h"
-#include "../Builtins2.h"
+#include "VBoxDD.h"
+#include "VBoxDD2.h"
 #include "DevFwCommon.h"
 
 
@@ -824,7 +824,7 @@ AssertCompile(VBOX_DMI_TABLE_ENTR == 5);
  *
  * Only applicable if IOAPIC is active!
  *
- * See ``MultiProcessor Specificatiton Version 1.4 (May 1997)'':
+ * See ``MultiProcessor Specification Version 1.4 (May 1997)'':
  *   ``1.3 Scope
  *     ...
  *     The hardware required to implement the MP specification is kept to a
@@ -943,7 +943,7 @@ void FwCommonPlantMpsTable(PPDMDEVINS pDevIns, uint8_t *pTable, unsigned cbMax, 
         /* IRQ0 mapped to pin 2, other are identity mapped */
         /* If changing, also update PDMIsaSetIrq() and MADT */
         pIrqEntry->u8SrcBusIrq     = (iPin == 2) ? 0 : iPin; /* IRQ on the bus */
-        pIrqEntry->u8DstIOAPICId   = iApicId;        /* destintion IO-APIC */
+        pIrqEntry->u8DstIOAPICId   = iApicId;        /* destination IO-APIC */
         pIrqEntry->u8DstIOAPICInt  = iPin;           /* pin on destination IO-APIC */
     }
     /* Local delivery */

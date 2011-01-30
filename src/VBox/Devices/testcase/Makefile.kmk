@@ -1,4 +1,4 @@
-# $Id: Makefile.kmk $
+# $Id: Makefile.kmk 35353 2010-12-27 17:25:52Z vboxsync $
 ## @file
 # Sub-Makefile for the device testcases.
 #
@@ -35,9 +35,9 @@ VBOX_DEVICES_TESTS_FEATURES = \
 	$(if $(VBOX_WITH_SCSI),VBOX_WITH_SCSI,) \
 	$(if $(VBOX_WITH_BUSLOGIC),VBOX_WITH_BUSLOGIC,) \
 	$(if $(VBOX_WITH_LSILOGIC),VBOX_WITH_LSILOGIC,) \
-	$(if $(VBOX_WITH_HPET),VBOX_WITH_HPET,) \
 	$(if $(VBOX_WITH_HGSMI),VBOX_WITH_HGSMI,) \
-	$(if $(VBOX_WITH_VDMA),VBOXVDMA,) \
+	$(if $(VBOX_WITH_CRHGSMI),VBOX_WITH_CRHGSMI,) \
+	$(if $(VBOX_WITH_VDMA),VBOX_WITH_VDMA,) \
 	$(if $(VBOX_WITH_WDDM),VBOX_WITH_WDDM,) \
 	$(if $(VBOX_WITH_VIDEOHWACCEL),VBOX_WITH_VIDEOHWACCEL,)
 
@@ -65,7 +65,7 @@ ifdef VBOX_WITH_RAW_MODE
  tstDeviceStructSizeRC_DEFS      = $(VBOX_DEVICES_TESTS_FEATURES)
  tstDeviceStructSizeRC_SOURCES   = tstDeviceStructSizeRC.cpp
  tstDeviceStructSizeRC_INCS      = \
- 	$(VBOX_PATH_DEVICES_SRC) \
+ 	$(VBOX_PATH_DEVICES_SRC)/build \
  	$(VBOX_PATH_DEVICES_SRC)/Bus \
  	$(VBOX_DEVICES_TEST_OUT_DIR)
 endif # VBOX_WITH_RAW_MODE
@@ -77,7 +77,7 @@ PROGRAMS += tstDeviceStructSize
 tstDeviceStructSize_TEMPLATE = VBOXR3AUTOTST
 tstDeviceStructSize_DEFS     = $(VBOX_DEVICES_TESTS_FEATURES)
 tstDeviceStructSize_INCS     = \
-	$(VBOX_PATH_DEVICES_SRC) \
+	$(VBOX_PATH_DEVICES_SRC)/build \
 	$(VBOX_PATH_DEVICES_SRC)/Bus \
 	$(VBOX_DEVICES_TEST_OUT_DIR)
 tstDeviceStructSize_SOURCES  = tstDeviceStructSize.cpp

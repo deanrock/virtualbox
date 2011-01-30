@@ -1,4 +1,4 @@
-/* $Id: TRPMR0.cpp $ */
+/* $Id: TRPMR0.cpp 35346 2010-12-27 16:13:13Z vboxsync $ */
 /** @file
  * TRPM - The Trap Monitor - HC Ring 0
  */
@@ -20,10 +20,10 @@
 *   Header Files                                                               *
 *******************************************************************************/
 #define LOG_GROUP LOG_GROUP_TRPM
-#include <VBox/trpm.h>
+#include <VBox/vmm/trpm.h>
 #include "TRPMInternal.h"
-#include <VBox/vm.h>
-#include <VBox/vmm.h>
+#include <VBox/vmm/vm.h>
+#include <VBox/vmm/vmm.h>
 #include <VBox/err.h>
 #include <VBox/log.h>
 #include <iprt/assert.h>
@@ -77,7 +77,7 @@ VMMR0DECL(void) TRPMR0DispatchHostInterrupt(PVM pVM)
 # if HC_ARCH_BITS == 32
     PVBOXIDTE   pIdte = &((PVBOXIDTE)Idtr.pIdt)[uActiveVector];
 # else
-    PVBOXIDTE   pIdte = &((PVBOXIDTE)Idtr.pIdt)[uActiveVector * 2];
+    PVBOXIDTE64 pIdte = &((PVBOXIDTE64)Idtr.pIdt)[uActiveVector];
 # endif
     AssertMsgReturnVoid(pIdte->Gen.u1Present, ("The IDT entry (%d) is not present!\n", uActiveVector));
     AssertMsgReturnVoid(    pIdte->Gen.u3Type1 == VBOX_IDTE_TYPE1
@@ -93,12 +93,11 @@ VMMR0DECL(void) TRPMR0DispatchHostInterrupt(PVM pVM)
 
 # else /* 64-bit: */
     RTFAR64   pfnHandler;
-    pfnHandler.off = VBOXIDTE_OFFSET(*pIdte);
-    pfnHandler.off |= (uint64_t)(*(uint32_t *)(pIdte + 1)) << 32; //cleanup!
+    pfnHandler.off = VBOXIDTE64_OFFSET(*pIdte);
     pfnHandler.sel = pIdte->Gen.u16SegSel;
 
-    RTR0UINTREG uRSP = ~(RTR0UINTREG)0;
-    if (pIdte->au32[1] & 0x7 /*IST*/)
+    const RTR0UINTREG uRSP = ~(RTR0UINTREG)0;
+    if (pIdte->Gen.u3Ist)
     {
         trpmR0DispatchHostInterruptSimple(uActiveVector);
         return;

@@ -1,4 +1,4 @@
-/* $Id: DisplayImpl.h $ */
+/* $Id: DisplayImpl.h 35346 2010-12-27 16:13:13Z vboxsync $ */
 /** @file
  * VBox frontends: Basic Frontend (BFE):
  * Declaration of Display class
@@ -20,7 +20,7 @@
 #define ____H_DISPLAYIMPL
 
 #include <iprt/semaphore.h>
-#include <VBox/pdm.h>
+#include <VBox/vmm/pdm.h>
 
 #include "Framebuffer.h"
 struct VBVACMDHDR;
@@ -54,6 +54,8 @@ public:
     STDMETHODIMP InvalidateAndUpdate();
     STDMETHODIMP ResizeCompleted();
     STDMETHODIMP GetScreenResolution(ULONG aScreenId, ULONG *aWidth, ULONG *aHeight, ULONG *aBitsPerPixel);
+    void getFramebufferDimensions(int32_t *px1, int32_t *py1, int32_t *px2,
+                                  int32_t *py2);
 
     void resetFramebuffer();
 

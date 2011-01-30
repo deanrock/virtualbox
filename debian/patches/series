@@ -9,5 +9,6 @@
 22-no-static-libstdcpp.patch
 23-remove-invalid-chars-check.patch
 27-hide-host-cache-warning.patch
-ubuntu-01-fix-build-gcc45.patch
-ubuntu-02-fix-build-as-needed.patch
+28-no-selinux-fedora.patch
+29-fix-ftbfs-as-needed.patch
+30-kernel-2.6.38.diff

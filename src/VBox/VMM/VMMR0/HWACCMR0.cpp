@@ -1,4 +1,4 @@
-/* $Id: HWACCMR0.cpp $ */
+/* $Id: HWACCMR0.cpp 35346 2010-12-27 16:13:13Z vboxsync $ */
 /** @file
  * HWACCM - Host Context Ring 0.
  */
@@ -20,13 +20,13 @@
 *   Header Files                                                               *
 *******************************************************************************/
 #define LOG_GROUP LOG_GROUP_HWACCM
-#include <VBox/hwaccm.h>
-#include <VBox/pgm.h>
+#include <VBox/vmm/hwaccm.h>
+#include <VBox/vmm/pgm.h>
 #include "HWACCMInternal.h"
-#include <VBox/vm.h>
+#include <VBox/vmm/vm.h>
 #include <VBox/x86.h>
-#include <VBox/hwacc_vmx.h>
-#include <VBox/hwacc_svm.h>
+#include <VBox/vmm/hwacc_vmx.h>
+#include <VBox/vmm/hwacc_svm.h>
 #include <VBox/err.h>
 #include <VBox/log.h>
 #include <iprt/assert.h>
@@ -76,7 +76,7 @@ static struct
 
     struct
     {
-        /** Set by the ring-0 driver to indicate VMX is supported by the CPU. */
+        /** Set to by us to indicate VMX is supported by the CPU. */
         bool                        fSupported;
         /** Whether we're using SUPR0EnableVTx or not. */
         bool                        fUsingSUPR0EnableVTx;
@@ -123,7 +123,7 @@ static struct
         /** SVM feature bits from cpuid 0x8000000a */
         uint32_t                    u32Features;
 
-        /** Set by the ring-0 driver to indicate SVM is supported by the CPU. */
+        /** Set by us to indicate SVM is supported by the CPU. */
         bool                        fSupported;
     } svm;
     /** Saved error from detection */
@@ -1159,7 +1159,7 @@ VMMR0DECL(int) HWACCMR0Enter(PVM pVM, PVMCPU pVCpu)
     }
 
 #ifdef VBOX_WITH_2X_4GB_ADDR_SPACE
-    bool fStartedSet = PGMDynMapStartOrMigrateAutoSet(pVCpu);
+    bool fStartedSet = PGMR0DynMapStartOrMigrateAutoSet(pVCpu);
 #endif
 
     rc  = HWACCMR0Globals.pfnEnterSession(pVM, pVCpu, pCpu);
@@ -1172,7 +1172,7 @@ VMMR0DECL(int) HWACCMR0Enter(PVM pVM, PVMCPU pVCpu)
 
 #ifdef VBOX_WITH_2X_4GB_ADDR_SPACE
     if (fStartedSet)
-        PGMDynMapReleaseAutoSet(pVCpu);
+        PGMRZDynMapReleaseAutoSet(pVCpu);
 #endif
 
     /* keep track of the CPU owning the VMCS for debugging scheduling weirdness and ring-3 calls. */
@@ -1274,7 +1274,7 @@ VMMR0DECL(int) HWACCMR0RunGuestCode(PVM pVM, PVMCPU pVCpu)
     Assert(ASMAtomicReadBool(&pCpu->fInUse) == true);
 
 #ifdef VBOX_WITH_2X_4GB_ADDR_SPACE
-    PGMDynMapStartAutoSet(pVCpu);
+    PGMRZDynMapStartAutoSet(pVCpu);
 #endif
 
     pCtx = CPUMQueryGuestCtxPtr(pVCpu);
@@ -1282,7 +1282,7 @@ VMMR0DECL(int) HWACCMR0RunGuestCode(PVM pVM, PVMCPU pVCpu)
     rc = HWACCMR0Globals.pfnRunGuestCode(pVM, pVCpu, pCtx);
 
 #ifdef VBOX_WITH_2X_4GB_ADDR_SPACE
-    PGMDynMapReleaseAutoSet(pVCpu);
+    PGMRZDynMapReleaseAutoSet(pVCpu);
 #endif
     return rc;
 }
@@ -1299,6 +1299,7 @@ VMMR0DECL(int) HWACCMR0RunGuestCode(PVM pVM, PVMCPU pVCpu)
  */
 VMMR0DECL(int)   HWACCMR0SaveFPUState(PVM pVM, PVMCPU pVCpu, PCPUMCTX pCtx)
 {
+    STAM_COUNTER_INC(&pVCpu->hwaccm.s.StatFpu64SwitchBack);
     if (pVM->hwaccm.s.vmx.fSupported)
         return VMXR0Execute64BitsHandler(pVM, pVCpu, pCtx, pVM->hwaccm.s.pfnSaveGuestFPU64, 0, NULL);
 
@@ -1315,6 +1316,7 @@ VMMR0DECL(int)   HWACCMR0SaveFPUState(PVM pVM, PVMCPU pVCpu, PCPUMCTX pCtx)
  */
 VMMR0DECL(int)   HWACCMR0SaveDebugState(PVM pVM, PVMCPU pVCpu, PCPUMCTX pCtx)
 {
+    STAM_COUNTER_INC(&pVCpu->hwaccm.s.StatDebug64SwitchBack);
     if (pVM->hwaccm.s.vmx.fSupported)
         return VMXR0Execute64BitsHandler(pVM, pVCpu, pCtx, pVM->hwaccm.s.pfnSaveGuestDebug64, 0, NULL);
 
@@ -1432,7 +1434,7 @@ VMMR0DECL(void) HWACCMR0SavePendingIOPortWrite(PVMCPU pVCpu, RTGCPTR GCPtrRip, R
  */
 VMMR0DECL(int) HWACCMR0EnterSwitcher(PVM pVM, bool *pfVTxDisabled)
 {
-    Assert(!(ASMGetFlags() & X86_EFL_IF));
+    Assert(!(ASMGetFlags() & X86_EFL_IF) || !RTThreadPreemptIsEnabled(NIL_RTTHREAD));
 
     *pfVTxDisabled = false;
 
@@ -1471,7 +1473,7 @@ VMMR0DECL(int) HWACCMR0EnterSwitcher(PVM pVM, bool *pfVTxDisabled)
 }
 
 /**
- * Reeable VT-x if was active *and* the current switcher turned off paging
+ * Enable VT-x if was active *and* the current switcher turned off paging
  *
  * @returns VBox status code.
  * @param   pVM          VM handle.

@@ -41,6 +41,7 @@
 
 #ifdef VBOX
 # include <VBox/version.h>
+# include <iprt/log.h>
 #endif
 
 #ifdef HAVE_LOCALE_H
@@ -150,7 +151,9 @@ usage(char *program)
 {
 	fprintf(stderr, "rdesktop: A Remote Desktop Protocol client.\n");
 	fprintf(stderr, "Version " VERSION ". Copyright (C) 1999-2008 Matthew Chapman.\n");
-        fprintf(stderr, "Modified for VirtualBox by " VBOX_VENDOR "\n");
+#ifdef VBOX
+	fprintf(stderr, "Modified for VirtualBox by " VBOX_VENDOR "\n");
+#endif
 	fprintf(stderr, "See http://www.rdesktop.org/ for more information.\n\n");
 
 	fprintf(stderr, "Usage: %s [options] server[:port]\n", program);
@@ -429,6 +432,14 @@ parse_server_and_port(char *server)
 #endif /* IPv6 */
 
 }
+
+#ifdef VBOX
+/* This disables iprt logging */
+DECLEXPORT(PRTLOGGER) RTLogDefaultInit(void)
+{
+    return NULL;
+}
+#endif
 
 /* Client program */
 int
@@ -1591,7 +1602,11 @@ rd_pstcache_mkdir(void)
 	if (home == NULL)
 		return False;
 
+#ifdef VBOX
+	snprintf(bmpcache_dir, sizeof(bmpcache_dir), "%s/%s", home, ".rdesktop");
+#else
 	sprintf(bmpcache_dir, "%s/%s", home, ".rdesktop");
+#endif
 
 	if ((mkdir(bmpcache_dir, S_IRWXU) == -1) && errno != EEXIST)
 	{
@@ -1599,7 +1614,11 @@ rd_pstcache_mkdir(void)
 		return False;
 	}
 
+#ifdef VBOX
+	snprintf(bmpcache_dir, sizeof(bmpcache_dir), "%s/%s", home, ".rdesktop/cache");
+#else
 	sprintf(bmpcache_dir, "%s/%s", home, ".rdesktop/cache");
+#endif
 
 	if ((mkdir(bmpcache_dir, S_IRWXU) == -1) && errno != EEXIST)
 	{
@@ -1621,7 +1640,11 @@ rd_open_file(char *filename)
 	home = getenv("HOME");
 	if (home == NULL)
 		return -1;
+#ifdef VBOX
+	snprintf(fn, sizeof(fn), "%s/.rdesktop/%s", home, filename);
+#else
 	sprintf(fn, "%s/.rdesktop/%s", home, filename);
+#endif
 	fd = open(fn, O_RDWR | O_CREAT, S_IRUSR | S_IWUSR);
 	if (fd == -1)
 		perror(fn);

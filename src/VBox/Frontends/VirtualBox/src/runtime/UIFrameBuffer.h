@@ -5,7 +5,7 @@
  */
 
 /*
- * Copyright (C) 2010 Oracle Corporation
+ * Copyright (C) 2010-2011 Oracle Corporation
  *
  * This file is part of VirtualBox Open Source Edition (OSE), as
  * available from http://www.virtualbox.org. This file is free software;
@@ -155,7 +155,7 @@ public:
     STDMETHOD(COMGETTER(UsesGuestVRAM)) (BOOL *pbUsesGuestVRAM);
     STDMETHOD(COMGETTER(HeightReduction)) (ULONG *puHeightReduction);
     STDMETHOD(COMGETTER(Overlay)) (IFramebufferOverlay **ppOverlay);
-    STDMETHOD(COMGETTER(WinId)) (ULONG64 *pWinId);
+    STDMETHOD(COMGETTER(WinId)) (LONG64 *pWinId);
 
     STDMETHOD(Lock)();
     STDMETHOD(Unlock)();
@@ -175,6 +175,9 @@ public:
 
     ulong width() { return m_width; }
     ulong height() { return m_height; }
+
+    virtual QSize scaledSize() const { return m_scaledSize; }
+    virtual void setScaledSize(const QSize &size = QSize()) { m_scaledSize = size; }
 
     virtual ulong pixelFormat()
     {
@@ -232,9 +235,10 @@ protected:
 
     UIMachineView *m_pMachineView;
     RTCRITSECT m_critSect;
-    int m_width;
-    int m_height;
-    uint64_t m_uWinId;
+    ulong m_width;
+    ulong m_height;
+    QSize m_scaledSize;
+    int64_t m_WinId;
     bool m_fIsDeleted;
 
 #if defined (Q_OS_WIN32)
@@ -245,4 +249,3 @@ private:
 };
 
 #endif // !___UIFrameBuffer_h___
-

@@ -1,4 +1,4 @@
-# $Id: Config.kmk $
+# $Id: Config.kmk 35440 2011-01-09 23:43:10Z vboxsync $
 ## @file
 # XPCOM kBuild Configuration file.
 #
@@ -58,10 +58,14 @@ TEMPLATE_XPCOM_CFLAGS.freebsd      = -pthread
 TEMPLATE_XPCOM_CFLAGS.l4           = -nostdinc
 TEMPLATE_XPCOM_CFLAGS.linux        = -pthread -ansi
 TEMPLATE_XPCOM_CFLAGS.solaris      = -fno-omit-frame-pointer # for now anyway.
-TEMPLATE_XPCOM_DEFS                = MOZILLA_CLIENT=1 NDEBUG=1 _IMPL_NS_COM \
-                                     XPCOM_DLL_BASE=\"$(basename $(notdir $(LIB_XPCOM)))\" \
-                                     MOZ_DLL_SUFFIX=\"$(suffix $(LIB_XPCOM))\" \
-                                     IN_RING3
+TEMPLATE_XPCOM_DEFS                = \
+	MOZILLA_CLIENT=1 \
+	NDEBUG=1 \
+	_IMPL_NS_COM \
+	XPCOM_DLL_BASE=\"$(basename $(notdir $(LIB_XPCOM)))\" \
+	MOZ_DLL_SUFFIX=\"$(suffix $(LIB_XPCOM))\" \
+	IN_RING3 \
+	VBOX_USE_IPRT_IN_XPCOM
 ifdef VBOX_WITH_XPCOM_NAMESPACE_CLEANUP
  TEMPLATE_XPCOM_DEFS              += VBOX_WITH_XPCOM_NAMESPACE_CLEANUP
 endif
@@ -126,7 +130,7 @@ TEMPLATE_XPCOM_LDFLAGS.l4          = $(L4_DIR)/lib/x86_586/crt0.o \
                                      # -Wl,--whole-archive,--no-allow-shlib-undefined
 TEMPLATE_XPCOM_LIBS.l4             = $(VBOX_GCC_LIBGCC)
 TEMPLATE_XPCOM_LIBS.solaris        = sendfile
-TEMPLATE_XPCOM_ORDERDEPS           = $(foreach hdrinst, $(filter %-HEADERS, $(INSTALLS)), $(TARGET_$(hdrinst))) \
+TEMPLATE_XPCOM_ORDERDEPS           = $(foreach hdrinst, $(filter %-HEADERS, $(INSTALLS)), $($(hdrinst)_1_TARGET)) \
                                      $(PATH_TARGET)/VBox-xpcom-idl-timestamp
 ifeq ($(KBUILD_TARGET),os2)
  ifndef USE_OS2_TOOLKIT_HEADERS
@@ -157,8 +161,8 @@ TEMPLATE_XPCOMEXE_INCS             = ipc/ipcd/shared/src \
                                      $(VBOX_PATH_SDK)/bindings/xpcom/include/ipcd \
                                      .
 TEMPLATE_XPCOMEXE_LIBS             = \
-	$(TARGET_VBox-xpcom-ipcshared) \
-	$(TARGET_VBoxXPCOM) \
+	$(VBox-xpcom-ipcshared_1_TARGET) \
+	$(VBoxXPCOM_1_TARGET) \
 	$(TEMPLATE_XPCOM_LIBS)
 TEMPLATE_XPCOMEXE_LIBS.freebsd     = $(LIB_PTHREAD)
 TEMPLATE_XPCOMEXE_LIBS.linux       = dl $(LIB_PTHREAD)
@@ -190,7 +194,9 @@ TEMPLATE_XPCOMTSTEXE_CFLAGS        = $(TEMPLATE_XPCOMEXE_CFLAGS)   -Wno-format
 TEMPLATE_XPCOMBLDPROG                     = XPCOM Build programs executables
 TEMPLATE_XPCOMBLDPROG_EXTENDS             = VBOXBLDPROG
 ## @todo Verify that this doesn't blow up because of template inheriance ordering. (we're assuming XPCOMEXE is expanded when this is being used.)
-TEMPLATE_XPCOMBLDPROG_DEFS                = $(TEMPLATE_VBOXBLDPROG_DEFS)                $(TEMPLATE_XPCOMEXE_DEFS)
+TEMPLATE_XPCOMBLDPROG_DEFS                = \
+	$(TEMPLATE_VBOXBLDPROG_DEFS) \
+	$(filter-out VBOX_USE_IPRT_IN_XPCOM, $(TEMPLATE_XPCOMEXE_DEFS))
 TEMPLATE_XPCOMBLDPROG_DEFS.$(KBUILD_HOST) = $(TEMPLATE_VBOXBLDPROG_DEFS.$(KBUILD_HOST)) $(TEMPLATE_XPCOMEXE_DEFS.$(KBUILD_HOST))
 TEMPLATE_XPCOMBLDPROG_DEFS.x86            = $(TEMPLATE_VBOXBLDPROG_DEFS.x86)            $(TEMPLATE_XPCOMEXE_DEFS.x86)
 TEMPLATE_XPCOMBLDPROG_DEFS.amd64          = $(TEMPLATE_VBOXBLDPROG_DEFS.amd64)          $(TEMPLATE_XPCOMEXE_DEFS.amd64)
@@ -204,7 +210,7 @@ TEMPLATE_XPCOMBLDPROG_CFLAGS             = $(filter-out -pedantic -Wshadow, $(TE
 TEMPLATE_XPCOMBLDPROG_CXXFLAGS.darwin    = $(TEMPLATE_VBOXBLDPROG_CXXFLAGS.darwin)     -fpascal-strings -fshort-wchar -fno-common -fno-rtti
 TEMPLATE_XPCOMBLDPROG_CXXFLAGS.solaris   = $(TEMPLATE_VBOXBLDPROG_CXXFLAGS.solaris)    -fno-omit-frame-pointer # for now anyway.
 TEMPLATE_XPCOMBLDPROG_LDFLAGS.darwin     = $(TEMPLATE_VBOXBLDPROG_LDFLAGS.darwin)      -fpascal-strings -fshort-wchar -fno-rtti -fno-exceptions
-TEMPLATE_XPCOMBLDPROG_ORDERDEPS          = $(foreach hdrinst, $(filter %-HEADERS, $(INSTALLS)), $(TARGET_$(hdrinst)))
+TEMPLATE_XPCOMBLDPROG_ORDERDEPS          = $(foreach hdrinst, $(filter %-HEADERS, $(INSTALLS)), $($(hdrinst)_1_TARGET))
 
 
 ifeq ($(VBOX_DEF_MACOSX_VERSION_MIN),10.4)

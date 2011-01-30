@@ -1,10 +1,10 @@
-/* $Id: VBoxManageHostonly.cpp $ */
+/* $Id: VBoxManageHostonly.cpp 35330 2010-12-24 18:05:33Z vboxsync $ */
 /** @file
  * VBoxManage - Implementation of hostonlyif command.
  */
 
 /*
- * Copyright (C) 2006-2009 Oracle Corporation
+ * Copyright (C) 2006-2010 Oracle Corporation
  *
  * This file is part of VirtualBox Open Source Edition (OSE), as
  * available from http://www.virtualbox.org. This file is free software;
@@ -26,9 +26,6 @@
 #include <VBox/com/EventQueue.h>
 
 #include <VBox/com/VirtualBox.h>
-
-#include <vector>
-#include <list>
 #endif /* !VBOX_ONLY_DOCS */
 
 #include <iprt/cidr.h>
@@ -47,7 +44,7 @@
 #ifndef VBOX_ONLY_DOCS
 using namespace com;
 
-#if defined(RT_OS_WINDOWS) && defined(VBOX_WITH_NETFLT)
+#if defined(VBOX_WITH_NETFLT) && !defined(RT_OS_SOLARIS)
 static int handleCreate(HandlerArg *a, int iStart, int *pcProcessed)
 {
 //    if (a->argc - iStart < 1)
@@ -72,9 +69,9 @@ static int handleCreate(HandlerArg *a, int iStart, int *pcProcessed)
     {
         com::ProgressErrorInfo info(progress);
         if (info.isBasicAvailable())
-            RTPrintf("Error: failed to create the host-only adapter. Error message: %lS\n", info.getText().raw());
+            RTMsgError("Failed to create the host-only adapter. Error message: %lS", info.getText().raw());
         else
-            RTPrintf("Error: failed to create the host-only adapter. No error message available, HRESULT code: 0x%x\n", rc);
+            RTMsgError("Failed to create the host-only adapter. No error message available, code: %Rhrc", rc);
 
         return 1;
     }
@@ -99,16 +96,16 @@ static int handleRemove(HandlerArg *a, int iStart, int *pcProcessed)
     index++;
 
     ComPtr<IHost> host;
-    CHECK_ERROR(a->virtualBox, COMGETTER(Host)(host.asOutParam()));
+    CHECK_ERROR_RET(a->virtualBox, COMGETTER(Host)(host.asOutParam()), 1);
 
     ComPtr<IHostNetworkInterface> hif;
-    CHECK_ERROR(host, FindHostNetworkInterfaceByName(name, hif.asOutParam()));
+    CHECK_ERROR_RET(host, FindHostNetworkInterfaceByName(name.raw(), hif.asOutParam()), 1);
 
     Bstr guid;
-    CHECK_ERROR(hif, COMGETTER(Id)(guid.asOutParam()));
+    CHECK_ERROR_RET(hif, COMGETTER(Id)(guid.asOutParam()), 1);
 
     ComPtr<IProgress> progress;
-    CHECK_ERROR(host, RemoveHostOnlyNetworkInterface (guid, progress.asOutParam()));
+    CHECK_ERROR_RET(host, RemoveHostOnlyNetworkInterface(guid.raw(), progress.asOutParam()), 1);
 
     rc = showProgress(progress);
     *pcProcessed = index - iStart;
@@ -116,9 +113,9 @@ static int handleRemove(HandlerArg *a, int iStart, int *pcProcessed)
     {
         com::ProgressErrorInfo info(progress);
         if (info.isBasicAvailable())
-            RTPrintf("Error: failed to remove the host-only adapter. Error message: %lS\n", info.getText().raw());
+            RTMsgError("Failed to remove the host-only adapter. Error message: %lS", info.getText().raw());
         else
-            RTPrintf("Error: failed to remove the host-only adapter. No error message available, HRESULT code: 0x%x\n", rc);
+            RTMsgError("Failed to remove the host-only adapter. No error message available, code: %Rhrc", rc);
 
         return 1;
     }
@@ -236,7 +233,8 @@ static int handleIpconfig(HandlerArg *a, int iStart, int *pcProcessed)
     CHECK_ERROR(a->virtualBox, COMGETTER(Host)(host.asOutParam()));
 
     ComPtr<IHostNetworkInterface> hif;
-    CHECK_ERROR(host, FindHostNetworkInterfaceByName(name, hif.asOutParam()));
+    CHECK_ERROR(host, FindHostNetworkInterfaceByName(name.raw(),
+                                                     hif.asOutParam()));
 
     if (FAILED(rc))
         return errorArgument("Could not find interface '%s'", a->argv[iStart]);
@@ -250,7 +248,8 @@ static int handleIpconfig(HandlerArg *a, int iStart, int *pcProcessed)
         if (!pNetmask)
             pNetmask = "255.255.255.0"; /* ?? */
 
-        CHECK_ERROR(hif, EnableStaticIpConfig(Bstr(pIp), Bstr(pNetmask)));
+        CHECK_ERROR(hif, EnableStaticIpConfig(Bstr(pIp).raw(),
+                                              Bstr(pNetmask).raw()));
     }
     else if (pIpv6)
     {
@@ -261,13 +260,14 @@ static int handleIpconfig(HandlerArg *a, int iStart, int *pcProcessed)
         CHECK_ERROR(hif, COMGETTER(IPV6Supported)(&bIpV6Supported));
         if (!bIpV6Supported)
         {
-            RTPrintf("IPv6 setting is not supported for this adapter\n");
+            RTMsgError("IPv6 setting is not supported for this adapter");
             return 1;
         }
 
 
         Bstr ipv6str(pIpv6);
-        CHECK_ERROR(hif, EnableStaticIpConfigV6(ipv6str, (ULONG)uNetmasklengthv6));
+        CHECK_ERROR(hif, EnableStaticIpConfigV6(ipv6str.raw(),
+                                                (ULONG)uNetmasklengthv6));
     }
     else
     {
@@ -296,7 +296,7 @@ int handleHostonlyIf(HandlerArg *a)
 //            else
 //                break;
         }
-#if defined(RT_OS_WINDOWS) && defined(VBOX_WITH_NETFLT)
+#if defined(VBOX_WITH_NETFLT) && !defined(RT_OS_SOLARIS)
         else if (strcmp(a->argv[i], "create") == 0)
         {
             int cProcessed;
@@ -318,7 +318,7 @@ int handleHostonlyIf(HandlerArg *a)
 #endif
         else
         {
-            result = errorSyntax(USAGE_HOSTONLYIFS, "Invalid parameter '%s'", Utf8Str(a->argv[i]).raw());
+            result = errorSyntax(USAGE_HOSTONLYIFS, "Invalid parameter '%s'", Utf8Str(a->argv[i]).c_str());
             break;
         }
     }

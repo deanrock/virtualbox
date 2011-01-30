@@ -1,4 +1,4 @@
-/* $Id: DevPS2.cpp $ */
+/* $Id: DevPS2.cpp 35353 2010-12-27 17:25:52Z vboxsync $ */
 /** @file
  * DevPS2 - PS/2 keyboard & mouse controller device.
  */
@@ -46,11 +46,11 @@
 *******************************************************************************/
 #define LOG_GROUP LOG_GROUP_DEV_KBD
 #include "vl_vbox.h"
-#include <VBox/pdmdev.h>
+#include <VBox/vmm/pdmdev.h>
 #include <iprt/assert.h>
 #include <iprt/uuid.h>
 
-#include "../Builtins.h"
+#include "VBoxDD.h"
 
 #define PCKBD_SAVED_STATE_VERSION 5
 
@@ -281,8 +281,6 @@ static const unsigned char ps2_raw_keycode[128] = {
 #ifndef VBOX_DEVICE_STRUCT_TESTCASE
 
 /* update irq and KBD_STAT_[MOUSE_]OBF */
-/* XXX: not generating the irqs if KBD_MODE_DISABLE_KBD is set may be
-   incorrect, but it avoids having to simulate exact delays */
 static void kbd_update_irq(KBDState *s)
 {
     KBDQueue *q = &s->queue;
@@ -318,7 +316,7 @@ static void kbd_update_irq(KBDState *s)
         }
         else
         {   /* KBD_STAT_OBF set but KBD_STAT_MOUSE_OBF isn't. */
-            if ((s->mode & KBD_MODE_KBD_INT) && !(s->mode & KBD_MODE_DISABLE_KBD))
+            if (s->mode & KBD_MODE_KBD_INT)
                 irq1_level = 1;
         }
     }
@@ -494,7 +492,7 @@ static int kbd_write_command(void *opaque, uint32_t addr, uint32_t val)
         /* ignore that - I don't know what is its use */
         break;
     /* Make OS/2 happy. */
-    /* The 8042 RAM is readble using commands 0x20 thru 0x3f, and writable
+    /* The 8042 RAM is readable using commands 0x20 thru 0x3f, and writable
        by 0x60 thru 0x7f. Now days only the firs byte, the mode, is used.
        We'll ignore the writes (0x61..7f) and return 0 for all the reads
        just to make some OS/2 debug stuff a bit happier. */
@@ -1696,7 +1694,7 @@ static DECLCALLBACK(void)  kbdDetach(PPDMDEVINS pDevIns, unsigned iLUN, uint32_t
 /**
  * @copydoc FNPDMDEVRELOCATE
  */
-static DECLCALLBACK(void) kdbRelocate(PPDMDEVINS pDevIns, RTGCINTPTR offDelta)
+static DECLCALLBACK(void) kbdRelocate(PPDMDEVINS pDevIns, RTGCINTPTR offDelta)
 {
     KBDState   *pThis = PDMINS_2_DATA(pDevIns, KBDState *);
     pThis->pDevInsRC = PDMDEVINS_2_RCPTR(pDevIns);
@@ -1847,7 +1845,7 @@ const PDMDEVREG g_DevicePS2KeyboardMouse =
     /* pfnDestruct */
     kbdDestruct,
     /* pfnRelocate */
-    kdbRelocate,
+    kbdRelocate,
     /* pfnIOCtl */
     NULL,
     /* pfnPowerOn */

@@ -1,4 +1,4 @@
-/* $Id: VMAll.cpp $ */
+/* $Id: VMAll.cpp 35346 2010-12-27 16:13:13Z vboxsync $ */
 /** @file
  * VM - Virtual Machine All Contexts.
  */
@@ -21,9 +21,9 @@
 *******************************************************************************/
 #define LOG_GROUP LOG_GROUP_VM
 #include "VMInternal.h"
-#include <VBox/vmm.h>
-#include <VBox/mm.h>
-#include <VBox/vm.h>
+#include <VBox/vmm/vmm.h>
+#include <VBox/vmm/mm.h>
+#include <VBox/vmm/vm.h>
 #include <VBox/err.h>
 #include <VBox/log.h>
 
@@ -188,7 +188,7 @@ void vmSetErrorCopy(PVM pVM, int rc, RT_SRC_POS_DECL, const char *pszFormat, va_
  * @param   fFlags          Flags indicating which actions to take.
  *                          See VMSETRTERR_FLAGS_* for details on each flag.
  *
- * @param   pszErrorId      Unique error identificator string. This is used by
+ * @param   pszErrorId      Unique error identification string. This is used by
  *                          the frontends and maybe other devices or drivers, so
  *                          once an ID has been selected it's essentially
  *                          unchangable. Employ camelcase when constructing the

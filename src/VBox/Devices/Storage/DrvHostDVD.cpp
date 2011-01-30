@@ -1,4 +1,4 @@
-/* $Id: DrvHostDVD.cpp $ */
+/* $Id: DrvHostDVD.cpp 35560 2011-01-14 13:37:32Z vboxsync $ */
 /** @file
  * DrvHostDVD - Host DVD block driver.
  */
@@ -22,6 +22,7 @@
 #define LOG_GROUP LOG_GROUP_DRV_HOST_DVD
 #define __STDC_LIMIT_MACROS
 #define __STDC_CONSTANT_MACROS
+
 #ifdef RT_OS_DARWIN
 # include <mach/mach.h>
 # include <Carbon/Carbon.h>
@@ -73,9 +74,19 @@
 # define USE_MEDIA_POLLING
 
 #elif defined(RT_OS_WINDOWS)
+# pragma warning(disable : 4163)
+# define _interlockedbittestandset      they_messed_it_up_in_winnt_h_this_time_sigh__interlockedbittestandset
+# define _interlockedbittestandreset    they_messed_it_up_in_winnt_h_this_time_sigh__interlockedbittestandreset
+# define _interlockedbittestandset64    they_messed_it_up_in_winnt_h_this_time_sigh__interlockedbittestandset64
+# define _interlockedbittestandreset64  they_messed_it_up_in_winnt_h_this_time_sigh__interlockedbittestandreset64
 # include <Windows.h>
 # include <winioctl.h>
 # include <ntddscsi.h>
+# pragma warning(default : 4163)
+# undef _interlockedbittestandset
+# undef _interlockedbittestandreset
+# undef _interlockedbittestandset64
+# undef _interlockedbittestandreset64
 # undef USE_MEDIA_POLLING
 
 #elif defined(RT_OS_FREEBSD)
@@ -90,7 +101,8 @@
 # error "Unsupported Platform."
 #endif
 
-#include <VBox/pdmdrv.h>
+#include <iprt/asm.h>
+#include <VBox/vmm/pdmdrv.h>
 #include <iprt/asm.h>
 #include <iprt/assert.h>
 #include <iprt/file.h>
@@ -99,7 +111,7 @@
 #include <iprt/critsect.h>
 #include <VBox/scsi.h>
 
-#include "Builtins.h"
+#include "VBoxDD.h"
 #include "DrvHostBase.h"
 
 
@@ -114,101 +126,104 @@ static int solarisExitRootMode(uid_t *pEffUserID);
 
 
 /** @copydoc PDMIMOUNT::pfnUnmount */
-static DECLCALLBACK(int) drvHostDvdUnmount(PPDMIMOUNT pInterface, bool fForce)
+static DECLCALLBACK(int) drvHostDvdUnmount(PPDMIMOUNT pInterface, bool fForce, bool fEject)
 {
-     PDRVHOSTBASE pThis = PDMIMOUNT_2_DRVHOSTBASE(pInterface);
-     RTCritSectEnter(&pThis->CritSect);
+    PDRVHOSTBASE pThis = PDMIMOUNT_2_DRVHOSTBASE(pInterface);
+    RTCritSectEnter(&pThis->CritSect);
 
-     /*
-      * Validate state.
-      */
-     int rc = VINF_SUCCESS;
-     if (!pThis->fLocked || fForce)
-     {
+    /*
+     * Validate state.
+     */
+    int rc = VINF_SUCCESS;
+    if (!pThis->fLocked || fForce)
+    {
         /* Unlock drive if necessary. */
         if (pThis->fLocked)
             drvHostDvdDoLock(pThis, false);
 
-         /*
-          * Eject the disc.
-          */
+        if (fEject)
+        {
+            /*
+             * Eject the disc.
+             */
 #if defined(RT_OS_DARWIN) || defined(RT_OS_FREEBSD)
-         uint8_t abCmd[16] =
-         {
-             SCSI_START_STOP_UNIT, 0, 0, 0, 2 /*eject+stop*/, 0,
-             0,0,0,0,0,0,0,0,0,0
-         };
-         rc = DRVHostBaseScsiCmd(pThis, abCmd, 6, PDMBLOCKTXDIR_NONE, NULL, NULL, NULL, 0, 0);
+            uint8_t abCmd[16] =
+            {
+                SCSI_START_STOP_UNIT, 0, 0, 0, 2 /*eject+stop*/, 0,
+                0,0,0,0,0,0,0,0,0,0
+            };
+            rc = DRVHostBaseScsiCmd(pThis, abCmd, 6, PDMBLOCKTXDIR_NONE, NULL, NULL, NULL, 0, 0);
 
 #elif defined(RT_OS_LINUX)
-         rc = ioctl(pThis->FileDevice, CDROMEJECT, 0);
-         if (rc < 0)
-         {
-             if (errno == EBUSY)
-                 rc = VERR_PDM_MEDIA_LOCKED;
-             else if (errno == ENOSYS)
-                 rc = VERR_NOT_SUPPORTED;
-             else
-                 rc = RTErrConvertFromErrno(errno);
-         }
+            rc = ioctl(pThis->FileDevice, CDROMEJECT, 0);
+            if (rc < 0)
+            {
+                if (errno == EBUSY)
+                    rc = VERR_PDM_MEDIA_LOCKED;
+                else if (errno == ENOSYS)
+                    rc = VERR_NOT_SUPPORTED;
+                else
+                    rc = RTErrConvertFromErrno(errno);
+            }
 
 #elif defined(RT_OS_SOLARIS)
-        rc = ioctl(pThis->FileRawDevice, DKIOCEJECT, 0);
-        if (rc < 0)
-        {
-            if (errno == EBUSY)
-                rc = VERR_PDM_MEDIA_LOCKED;
-            else if (errno == ENOSYS || errno == ENOTSUP)
-                rc = VERR_NOT_SUPPORTED;
-            else if (errno == ENODEV)
-                rc = VERR_PDM_MEDIA_NOT_MOUNTED;
-            else
-                rc = RTErrConvertFromErrno(errno);
-        }
+            rc = ioctl(pThis->FileRawDevice, DKIOCEJECT, 0);
+            if (rc < 0)
+            {
+                if (errno == EBUSY)
+                    rc = VERR_PDM_MEDIA_LOCKED;
+                else if (errno == ENOSYS || errno == ENOTSUP)
+                    rc = VERR_NOT_SUPPORTED;
+                else if (errno == ENODEV)
+                    rc = VERR_PDM_MEDIA_NOT_MOUNTED;
+                else
+                    rc = RTErrConvertFromErrno(errno);
+            }
 
 #elif defined(RT_OS_WINDOWS)
-         RTFILE FileDevice = pThis->FileDevice;
-         if (FileDevice == NIL_RTFILE) /* obsolete crap */
-             rc = RTFileOpen(&FileDevice, pThis->pszDeviceOpen, RTFILE_O_READ | RTFILE_O_OPEN | RTFILE_O_DENY_NONE);
-         if (RT_SUCCESS(rc))
-         {
-             /* do ioctl */
-             DWORD cbReturned;
-             if (DeviceIoControl((HANDLE)FileDevice, IOCTL_STORAGE_EJECT_MEDIA,
-                                 NULL, 0,
-                                 NULL, 0, &cbReturned,
-                                 NULL))
-                 rc = VINF_SUCCESS;
-             else
-                 rc = RTErrConvertFromWin32(GetLastError());
+            RTFILE FileDevice = pThis->FileDevice;
+            if (FileDevice == NIL_RTFILE) /* obsolete crap */
+                rc = RTFileOpen(&FileDevice, pThis->pszDeviceOpen, RTFILE_O_READ | RTFILE_O_OPEN | RTFILE_O_DENY_NONE);
+            if (RT_SUCCESS(rc))
+            {
+                /* do ioctl */
+                DWORD cbReturned;
+                if (DeviceIoControl((HANDLE)FileDevice, IOCTL_STORAGE_EJECT_MEDIA,
+                                    NULL, 0,
+                                    NULL, 0, &cbReturned,
+                                    NULL))
+                    rc = VINF_SUCCESS;
+                else
+                    rc = RTErrConvertFromWin32(GetLastError());
 
-             /* clean up handle */
-             if (FileDevice != pThis->FileDevice)
-                 RTFileClose(FileDevice);
-         }
-         else
-             AssertMsgFailed(("Failed to open '%s' for ejecting this tray.\n",  rc));
+                /* clean up handle */
+                if (FileDevice != pThis->FileDevice)
+                    RTFileClose(FileDevice);
+            }
+            else
+                AssertMsgFailed(("Failed to open '%s' for ejecting this tray.\n",  rc));
 
 
 #else
-         AssertMsgFailed(("Eject is not implemented!\n"));
-         rc = VINF_SUCCESS;
+            AssertMsgFailed(("Eject is not implemented!\n"));
+            rc = VINF_SUCCESS;
 #endif
+        }
 
-         /*
-          * Media is no longer present.
-          */
-         DRVHostBaseMediaNotPresent(pThis);  /** @todo This isn't thread safe! */
-     }
-     else
-     {
-         Log(("drvHostDvdUnmount: Locked\n"));
-         rc = VERR_PDM_MEDIA_LOCKED;
-     }
+        /*
+         * Media is no longer present.
+         */
+        DRVHostBaseMediaNotPresent(pThis);  /** @todo This isn't thread safe! */
+    }
+    else
+    {
+        Log(("drvHostDvdUnmount: Locked\n"));
+        rc = VERR_PDM_MEDIA_LOCKED;
+    }
 
-     RTCritSectLeave(&pThis->CritSect);
-     LogFlow(("drvHostDvdUnmount: returns %Rrc\n", rc));
-     return rc;
+    RTCritSectLeave(&pThis->CritSect);
+    LogFlow(("drvHostDvdUnmount: returns %Rrc\n", rc));
+    return rc;
 }
 
 
@@ -221,7 +236,7 @@ static DECLCALLBACK(int) drvHostDvdUnmount(PPDMIMOUNT pInterface, bool fForce)
  */
 static DECLCALLBACK(int) drvHostDvdDoLock(PDRVHOSTBASE pThis, bool fLock)
 {
-#ifdef RT_OS_DARWIN
+#if defined(RT_OS_DARWIN) || defined(RT_OS_FREEBSD)
     uint8_t abCmd[16] =
     {
         SCSI_PREVENT_ALLOW_MEDIUM_REMOVAL, 0, 0, 0, fLock, 0,
@@ -330,7 +345,7 @@ DECLCALLBACK(int) drvHostDvdPoll(PDRVHOSTBASE pThis)
                  || (abSense[12] == 0x2a && abSense[13] == 0 /* parameters changed */)                        //???
                  || (abSense[12] == 0x3f && abSense[13] == 0 /* target operating conditions have changed */)  //???
                  || (abSense[12] == 0x3f && abSense[13] == 2 /* changed operating definition */)              //???
-                 || (abSense[12] == 0x3f && abSense[13] == 3 /* inquery parameters changed */)
+                 || (abSense[12] == 0x3f && abSense[13] == 3 /* inquiry parameters changed */)
                  || (abSense[12] == 0x3f && abSense[13] == 5 /* device identifier changed */)
                  )
             )
@@ -640,7 +655,7 @@ static int drvHostDvdSendCmd(PPDMIBLOCK pInterface, const uint8_t *pbCmd,
 
 
 #ifdef VBOX_WITH_SUID_WRAPPER
-/* These functions would have to go into a seperate solaris binary with
+/* These functions would have to go into a separate solaris binary with
  * the setuid permission set, which would run the user-SCSI ioctl and
  * return the value. BUT... this might be prohibitively slow.
  */
@@ -648,7 +663,7 @@ static int drvHostDvdSendCmd(PPDMIBLOCK pInterface, const uint8_t *pbCmd,
 
 /**
  * Checks if the current user is authorized using Solaris' role-based access control.
- * Made as a seperate function with so that it need not be invoked each time we need
+ * Made as a separate function with so that it need not be invoked each time we need
  * to gain root access.
  *
  * @returns VBox error code.

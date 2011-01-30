@@ -1,4 +1,4 @@
-/* $Id: MMAllPagePool.cpp $ */
+/* $Id: MMAllPagePool.cpp 35346 2010-12-27 16:13:13Z vboxsync $ */
 /** @file
  * MM - Memory Manager - Page Pool.
  *
@@ -21,11 +21,11 @@
 *   Header Files                                                               *
 *******************************************************************************/
 #define LOG_GROUP LOG_GROUP_MM_POOL
-#include <VBox/mm.h>
-#include <VBox/pgm.h>
-#include <VBox/stam.h>
+#include <VBox/vmm/mm.h>
+#include <VBox/vmm/pgm.h>
+#include <VBox/vmm/stam.h>
 #include "MMInternal.h"
-#include <VBox/vm.h>
+#include <VBox/vmm/vm.h>
 #include <VBox/param.h>
 #include <VBox/err.h>
 #include <VBox/log.h>
@@ -38,7 +38,7 @@
 #endif
 
 
-#ifndef VBOX_WITH_2X_4GB_ADDR_SPACE_IN_R0
+#if !defined(VBOX_WITH_2X_4GB_ADDR_SPACE_IN_R0) && !defined(IN_RC)
 
 /**
  * Converts a pool physical address to a linear address.

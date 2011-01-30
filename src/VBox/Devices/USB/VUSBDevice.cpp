@@ -1,4 +1,4 @@
-/* $Id: VUSBDevice.cpp $ */
+/* $Id: VUSBDevice.cpp 35346 2010-12-27 16:13:13Z vboxsync $ */
 /** @file
  * Virtual USB - Device.
  */
@@ -20,8 +20,8 @@
 *   Header Files                                                               *
 *******************************************************************************/
 #define LOG_GROUP LOG_GROUP_DRV_VUSB
-#include <VBox/pdm.h>
-#include <VBox/vmapi.h>
+#include <VBox/vmm/pdm.h>
+#include <VBox/vmm/vmapi.h>
 #include <VBox/err.h>
 #include <VBox/log.h>
 #include <iprt/alloc.h>
@@ -213,7 +213,7 @@ static void map_interface(PVUSBDEV pDev, PCVUSBDESCINTERFACEEX pIfDesc)
     for (unsigned i = 0; i < pIfDesc->Core.bNumEndpoints; i++)
     {
         if ((pIfDesc->paEndpoints[i].Core.bEndpointAddress & 0xF) == VUSB_PIPE_DEFAULT)
-            Log(("vusb: Endpoint 0x%x on interface %u.%u tried to overrride the default message pipe!!!\n",
+            Log(("vusb: Endpoint 0x%x on interface %u.%u tried to override the default message pipe!!!\n",
                 pIfDesc->paEndpoints[i].Core.bEndpointAddress, pIfDesc->Core.bInterfaceNumber, pIfDesc->Core.bAlternateSetting));
         else
             vusbDevMapEndpoint(pDev, &pIfDesc->paEndpoints[i]);
@@ -1301,7 +1301,7 @@ static DECLCALLBACK(int) vusbDevResetThread(RTTHREAD Thread, void *pvUser)
     int rc = pArgs->rc = vusbDevResetWorker(pArgs->pDev, pArgs->fResetOnLinux);
 
     /*
-     * We use a timer to commuicate the result back to EMT.
+     * We use a timer to communicate the result back to EMT.
      * This avoids suspend + poweroff issues, and it should give
      * us more accurate scheduling than making this thread sleep.
      */

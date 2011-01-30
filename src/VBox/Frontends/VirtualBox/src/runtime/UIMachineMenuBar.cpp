@@ -1,4 +1,4 @@
-/* $Id: UIMachineMenuBar.cpp $ */
+/* $Id: UIMachineMenuBar.cpp 35424 2011-01-07 13:05:41Z vboxsync $ */
 /** @file
  *
  * VBox frontends: Qt GUI ("VirtualBox"):
@@ -23,9 +23,14 @@
 #include "UIActionsPool.h"
 #include "VBoxGlobal.h"
 #include "VBoxProblemReporter.h"
+#include "UIExtraDataEventHandler.h"
+#include "UIImageTools.h"
 
 /* Global includes */
 #include <QMenuBar>
+#include <QPainter>
+#include <QPaintEvent>
+#include <QPixmapCache>
 
 /* Helper QMenu reimplementation which allows
  * to highlight first menu item for popped up menu: */
@@ -46,6 +51,46 @@ private slots:
 #endif
         QMenu::focusNextChild();
     }
+};
+
+class UIMenuBar: public QMenuBar
+{
+public:
+
+    UIMenuBar(QWidget *pParent = 0)
+      : QMenuBar(pParent)
+      , m_fShowBetaLabel(false)
+    {
+        /* Check for beta versions */
+        if (vboxGlobal().isBeta())
+            m_fShowBetaLabel = true;
+    }
+
+protected:
+
+    void paintEvent(QPaintEvent *pEvent)
+    {
+        QMenuBar::paintEvent(pEvent);
+        if (m_fShowBetaLabel)
+        {
+            QPixmap betaLabel;
+            const QString key("vbox:betaLabel");
+            if (!QPixmapCache::find(key, betaLabel))
+            {
+                betaLabel = ::betaLabel();
+                QPixmapCache::insert(key, betaLabel);
+            }
+            QSize s = size();
+            QPainter painter(this);
+            painter.setClipRect(pEvent->rect());
+            painter.drawPixmap(s.width() - betaLabel.width() - 10, (height() - betaLabel.height()) / 2, betaLabel);
+        }
+    }
+
+private:
+
+    /* Private member vars */
+    bool m_fShowBetaLabel;
 };
 
 UIMachineMenuBar::UIMachineMenuBar()
@@ -71,7 +116,7 @@ QMenu* UIMachineMenuBar::createMenu(UIActionsPool *pActionsPool, UIMainMenuType 
 QMenuBar* UIMachineMenuBar::createMenuBar(UIActionsPool *pActionsPool, UIMainMenuType fOptions /* = UIMainMenuType_All */)
 {
     /* Create empty menubar: */
-    QMenuBar *pMenuBar = new QMenuBar;
+    QMenuBar *pMenuBar = new UIMenuBar;
 
     /* Fill menubar with prepared items: */
     foreach (QMenu *pSubMenu, prepareSubMenus(pActionsPool, fOptions))
@@ -111,12 +156,16 @@ QList<QMenu*> UIMachineMenuBar::prepareSubMenus(UIActionsPool *pActionsPool, UIM
 
 #ifdef VBOX_WITH_DEBUGGER_GUI
     /* Debug submenu: */
-    if (   fOptions & UIMainMenuType_Debug
-        && vboxGlobal().isDebuggerEnabled())
+    if (fOptions & UIMainMenuType_Debug)
     {
-        QMenu *pMenuDebug = pActionsPool->action(UIActionIndex_Menu_Debug)->menu();
-        prepareMenuDebug(pMenuDebug, pActionsPool);
-        preparedSubMenus << pMenuDebug;
+        CMachine machine; /** @todo we should try get the machine here. But we'll
+                           *        probably be fine with the cached values. */
+        if (vboxGlobal().isDebuggerEnabled(machine))
+        {
+            QMenu *pMenuDebug = pActionsPool->action(UIActionIndex_Menu_Debug)->menu();
+            prepareMenuDebug(pMenuDebug, pActionsPool);
+            preparedSubMenus << pMenuDebug;
+        }
     }
 #endif
 
@@ -141,6 +190,7 @@ void UIMachineMenuBar::prepareMenuMachine(QMenu *pMenu, UIActionsPool *pActionsP
     /* Machine submenu: */
     pMenu->addAction(pActionsPool->action(UIActionIndex_Toggle_Fullscreen));
     pMenu->addAction(pActionsPool->action(UIActionIndex_Toggle_Seamless));
+    pMenu->addAction(pActionsPool->action(UIActionIndex_Toggle_Scale));
     pMenu->addAction(pActionsPool->action(UIActionIndex_Toggle_GuestAutoresize));
     pMenu->addAction(pActionsPool->action(UIActionIndex_Simple_AdjustWindow));
     pMenu->addSeparator();
@@ -160,10 +210,8 @@ void UIMachineMenuBar::prepareMenuMachine(QMenu *pMenu, UIActionsPool *pActionsP
     pMenu->addAction(pActionsPool->action(UIActionIndex_Simple_Shutdown));
 #ifndef Q_WS_MAC
     pMenu->addSeparator();
-#else /* Q_WS_MAC */
-    if (m_fIsFirstTime)
 #endif /* !Q_WS_MAC */
-        pMenu->addAction(pActionsPool->action(UIActionIndex_Simple_Close));
+    pMenu->addAction(pActionsPool->action(UIActionIndex_Simple_Close));
 }
 
 void UIMachineMenuBar::prepareMenuDevices(QMenu *pMenu, UIActionsPool *pActionsPool)
@@ -179,7 +227,7 @@ void UIMachineMenuBar::prepareMenuDevices(QMenu *pMenu, UIActionsPool *pActionsP
     pMenu->addAction(pActionsPool->action(UIActionIndex_Simple_NetworkAdaptersDialog));
     pMenu->addAction(pActionsPool->action(UIActionIndex_Simple_SharedFoldersDialog));
     pMenu->addSeparator();
-    pMenu->addAction(pActionsPool->action(UIActionIndex_Toggle_VRDP));
+    pMenu->addAction(pActionsPool->action(UIActionIndex_Toggle_VRDEServer));
     pMenu->addSeparator();
     pMenu->addAction(pActionsPool->action(UIActionIndex_Simple_InstallGuestTools));
 }
@@ -215,46 +263,47 @@ void UIMachineMenuBar::prepareMenuHelp(QMenu *pMenu, UIActionsPool *pActionsPool
     pMenu->addAction(pActionsPool->action(UIActionIndex_Simple_Register));
 #endif
 
-#ifdef Q_WS_MAC
+#if defined(Q_WS_MAC) && (QT_VERSION < 0x040700)
     if (m_fIsFirstTime)
-#endif /* Q_WS_MAC */
+# endif
         pMenu->addAction(pActionsPool->action(UIActionIndex_Simple_Update));
-
 #ifndef Q_WS_MAC
     pMenu->addSeparator();
-#else /* Q_WS_MAC */
-    if (m_fIsFirstTime)
 #endif /* !Q_WS_MAC */
+#if defined(Q_WS_MAC) && (QT_VERSION < 0x040700)
+    if (m_fIsFirstTime)
+# endif
         pMenu->addAction(pActionsPool->action(UIActionIndex_Simple_About));
 
+
+#if defined(Q_WS_MAC) && (QT_VERSION < 0x040700)
     /* Because this connections are done to VBoxGlobal, they are needed once only.
      * Otherwise we will get the slots called more than once. */
     if (m_fIsFirstTime)
     {
-        VBoxGlobal::connect(pActionsPool->action(UIActionIndex_Simple_Help), SIGNAL(triggered()),
-                            &vboxProblem(), SLOT(showHelpHelpDialog()));
-        VBoxGlobal::connect(pActionsPool->action(UIActionIndex_Simple_Web), SIGNAL(triggered()),
-                            &vboxProblem(), SLOT(showHelpWebDialog()));
-        VBoxGlobal::connect(pActionsPool->action(UIActionIndex_Simple_ResetWarnings), SIGNAL(triggered()),
-                            &vboxProblem(), SLOT(resetSuppressedMessages()));
-#ifdef VBOX_WITH_REGISTRATION
-        VBoxGlobal::connect(pActionsPool->action(UIActionIndex_Simple_Register), SIGNAL(triggered()),
-                            &vboxGlobal(), SLOT(showRegistrationDialog()));
-#endif /* VBOX_WITH_REGISTRATION */
-        VBoxGlobal::connect(pActionsPool->action(UIActionIndex_Simple_Update), SIGNAL(triggered()),
-                            &vboxGlobal(), SLOT(showUpdateDialog()));
+#endif
         VBoxGlobal::connect(pActionsPool->action(UIActionIndex_Simple_About), SIGNAL(triggered()),
                             &vboxProblem(), SLOT(showHelpAboutDialog()));
-
-#ifdef VBOX_WITH_REGISTRATION
-        VBoxGlobal::connect(&vboxGlobal(), SIGNAL (canShowRegDlg (bool)),
-                            pActionsPool->action(UIActionIndex_Simple_Register), SLOT(setEnabled(bool)));
-#endif /* VBOX_WITH_REGISTRATION */
-        VBoxGlobal::connect(&vboxGlobal(), SIGNAL (canShowUpdDlg (bool)),
-                            pActionsPool->action(UIActionIndex_Simple_Update), SLOT(setEnabled(bool)));
-
-        m_fIsFirstTime = false;
+        VBoxGlobal::connect(pActionsPool->action(UIActionIndex_Simple_Update), SIGNAL(triggered()),
+                            &vboxGlobal(), SLOT(showUpdateDialog()));
+#if defined(Q_WS_MAC) && (QT_VERSION < 0x040700)
     }
+#endif
+
+    VBoxGlobal::connect(pActionsPool->action(UIActionIndex_Simple_Help), SIGNAL(triggered()),
+                        &vboxProblem(), SLOT(showHelpHelpDialog()));
+    VBoxGlobal::connect(pActionsPool->action(UIActionIndex_Simple_Web), SIGNAL(triggered()),
+                        &vboxProblem(), SLOT(showHelpWebDialog()));
+    VBoxGlobal::connect(pActionsPool->action(UIActionIndex_Simple_ResetWarnings), SIGNAL(triggered()),
+                        &vboxProblem(), SLOT(resetSuppressedMessages()));
+#ifdef VBOX_WITH_REGISTRATION
+    VBoxGlobal::connect(pActionsPool->action(UIActionIndex_Simple_Register), SIGNAL(triggered()),
+                        &vboxGlobal(), SLOT(showRegistrationDialog()));
+    VBoxGlobal::connect(gEDataEvents, SIGNAL(sigCanShowRegistrationDlg(bool)),
+                        pActionsPool->action(UIActionIndex_Simple_Register), SLOT(setEnabled(bool)));
+#endif /* VBOX_WITH_REGISTRATION */
+
+    m_fIsFirstTime = false;
 }
 
 #include "UIMachineMenuBar.moc"

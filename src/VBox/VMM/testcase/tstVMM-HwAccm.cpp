@@ -1,4 +1,4 @@
-/* $Id: tstVMM-HwAccm.cpp $ */
+/* $Id: tstVMM-HwAccm.cpp 35346 2010-12-27 16:13:13Z vboxsync $ */
 /** @file
  * VMM Testcase.
  */
@@ -19,9 +19,9 @@
 /*******************************************************************************
 *   Header Files                                                               *
 *******************************************************************************/
-#include <VBox/vm.h>
-#include <VBox/vmm.h>
-#include <VBox/cpum.h>
+#include <VBox/vmm/vm.h>
+#include <VBox/vmm/vmm.h>
+#include <VBox/vmm/cpum.h>
 #include <VBox/err.h>
 #include <VBox/log.h>
 #include <iprt/assert.h>
@@ -81,7 +81,7 @@ int main(int argc, char **argv)
      */
     RTPrintf(TESTCASE ": Initializing...\n");
     PVM pVM;
-    int rc = VMR3Create(1, NULL, NULL, CFGMConstructor, NULL, &pVM);
+    int rc = VMR3Create(1, NULL, NULL, NULL, CFGMConstructor, NULL, &pVM);
     if (RT_SUCCESS(rc))
     {
         /*

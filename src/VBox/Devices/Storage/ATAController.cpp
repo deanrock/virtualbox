@@ -1,4 +1,4 @@
-/* $Id: ATAController.cpp $ */
+/* $Id: ATAController.cpp 35595 2011-01-17 20:05:15Z vboxsync $ */
 /** @file
  * DevATA, DevAHCI - Shared ATA/ATAPI controller code (disk and cdrom).
  *
@@ -21,7 +21,7 @@
 *   Header Files                                                               *
 *******************************************************************************/
 #define LOG_GROUP LOG_GROUP_DEV_IDE
-#include <VBox/pdmdev.h>
+#include <VBox/vmm/pdmdev.h>
 #include <iprt/assert.h>
 #include <iprt/string.h>
 #ifdef IN_RING3
@@ -33,9 +33,9 @@
 #endif /* IN_RING3 */
 #include <iprt/critsect.h>
 #include <iprt/asm.h>
-#include <VBox/stam.h>
-#include <VBox/mm.h>
-#include <VBox/pgm.h>
+#include <VBox/vmm/stam.h>
+#include <VBox/vmm/mm.h>
+#include <VBox/vmm/pgm.h>
 
 #include <VBox/scsi.h>
 
@@ -355,6 +355,9 @@ static bool ataAsyncIOIsIdle(PAHCIATACONTROLLER pCtl, bool fStrict)
     int rc;
     bool fIdle;
 
+    if (pCtl->AsyncIORequestMutex == NIL_RTSEMMUTEX)
+        return true;
+
     rc = RTSemMutexRequest(pCtl->AsyncIORequestMutex, RT_INDEFINITE_WAIT);
     AssertRC(rc);
     fIdle = pCtl->fRedoIdle;
@@ -465,7 +468,7 @@ static void ataSetIRQ(AHCIATADevState *s)
             pCtl->BmDma.u8Status |= BM_STATUS_INT;
         /* Only actually set the IRQ line if updating the currently selected drive. */
         if (s == &pCtl->aIfs[pCtl->iSelectedIf])
-            PDMDevHlpISASetIrqNoWait(pDevIns, pCtl->irq, 1);
+            PDMDevHlpISASetIrq(pDevIns, pCtl->irq, 1);
     }
     s->fIrqPending = true;
 }
@@ -482,7 +485,7 @@ static void ataUnsetIRQ(AHCIATADevState *s)
         Log2(("%s: LUN#%d deasserting IRQ\n", __FUNCTION__, s->iLUN));
         /* Only actually unset the IRQ line if updating the currently selected drive. */
         if (s == &pCtl->aIfs[pCtl->iSelectedIf])
-            PDMDevHlpISASetIrqNoWait(pDevIns, pCtl->irq, 0);
+            PDMDevHlpISASetIrq(pDevIns, pCtl->irq, 0);
     }
     s->fIrqPending = false;
 }
@@ -1535,7 +1538,7 @@ static bool atapiPassthroughSS(AHCIATADevState *s)
             uint8_t u8Cmd = s->aATAPICmd[0];
             do
             {
-                /* don't log superflous errors */
+                /* don't log superfluous errors */
                 if (    rc == VERR_DEV_IO_ERROR
                     && (   u8Cmd == SCSI_TEST_UNIT_READY
                         || u8Cmd == SCSI_READ_CAPACITY
@@ -1690,7 +1693,7 @@ static bool atapiGetEventStatusNotificationSS(AHCIATADevState *s)
                 /* mount */
                 ataH2BE_U16(pbBuf + 0, 6);
                 pbBuf[2] = 0x04; /* media */
-                pbBuf[3] = 0x5e; /* suppored = busy|media|external|power|operational */
+                pbBuf[3] = 0x5e; /* supported = busy|media|external|power|operational */
                 pbBuf[4] = 0x02; /* new medium */
                 pbBuf[5] = 0x02; /* medium present / door closed */
                 pbBuf[6] = 0x00;
@@ -1702,7 +1705,7 @@ static bool atapiGetEventStatusNotificationSS(AHCIATADevState *s)
                 /* umount */
                 ataH2BE_U16(pbBuf + 0, 6);
                 pbBuf[2] = 0x04; /* media */
-                pbBuf[3] = 0x5e; /* suppored = busy|media|external|power|operational */
+                pbBuf[3] = 0x5e; /* supported = busy|media|external|power|operational */
                 pbBuf[4] = 0x03; /* media removal */
                 pbBuf[5] = 0x00; /* medium absent / door closed */
                 pbBuf[6] = 0x00;
@@ -1725,7 +1728,7 @@ static bool atapiGetEventStatusNotificationSS(AHCIATADevState *s)
             default:
                 ataH2BE_U16(pbBuf + 0, 6);
                 pbBuf[2] = 0x01; /* operational change request / notification */
-                pbBuf[3] = 0x5e; /* suppored = busy|media|external|power|operational */
+                pbBuf[3] = 0x5e; /* supported = busy|media|external|power|operational */
                 pbBuf[4] = 0x00;
                 pbBuf[5] = 0x00;
                 pbBuf[6] = 0x00;
@@ -2284,7 +2287,8 @@ static void atapiParseCmdVirtualATAPI(AHCIATADevState *s)
 
                         PDMCritSectLeave(&pCtl->lock);
                         rc = VMR3ReqCallWait(PDMDevHlpGetVM(pDevIns), VMCPUID_ANY,
-                                             (PFNRT)s->pDrvMount->pfnUnmount, 2, s->pDrvMount, false);
+                                             (PFNRT)s->pDrvMount->pfnUnmount, 3, s->pDrvMount,
+                                             false /*=fForce*/, true /*=fEeject*/);
                         AssertReleaseRC(rc);
                         {
                             STAM_PROFILE_START(&pCtl->StatLockWait, a);
@@ -2917,7 +2921,7 @@ static void ataParseCmd(AHCIATADevState *s, uint8_t cmd)
             s->fLBA48 = true;
         case ATA_READ_SECTORS:
         case ATA_READ_SECTORS_WITHOUT_RETRIES:
-            if (!s->pDrvBlock)
+            if (!s->pDrvBlock || s->fATAPI)
                 goto abort_cmd;
             s->cSectorsPerIRQ = 1;
             ataStartTransfer(s, ataGetNSectors(s) * 512, PDMBLOCKTXDIR_FROM_DEVICE, ATAFN_BT_READ_WRITE_SECTORS, ATAFN_SS_READ_SECTORS, false);
@@ -2926,13 +2930,15 @@ static void ataParseCmd(AHCIATADevState *s, uint8_t cmd)
             s->fLBA48 = true;
         case ATA_WRITE_SECTORS:
         case ATA_WRITE_SECTORS_WITHOUT_RETRIES:
+            if (!s->pDrvBlock || s->fATAPI)
+                goto abort_cmd;
             s->cSectorsPerIRQ = 1;
             ataStartTransfer(s, ataGetNSectors(s) * 512, PDMBLOCKTXDIR_TO_DEVICE, ATAFN_BT_READ_WRITE_SECTORS, ATAFN_SS_WRITE_SECTORS, false);
             break;
         case ATA_READ_MULTIPLE_EXT:
             s->fLBA48 = true;
         case ATA_READ_MULTIPLE:
-            if (!s->cMultSectors)
+            if (!s->pDrvBlock || !s->cMultSectors || s->fATAPI)
                 goto abort_cmd;
             s->cSectorsPerIRQ = s->cMultSectors;
             ataStartTransfer(s, ataGetNSectors(s) * 512, PDMBLOCKTXDIR_FROM_DEVICE, ATAFN_BT_READ_WRITE_SECTORS, ATAFN_SS_READ_SECTORS, false);
@@ -2940,7 +2946,7 @@ static void ataParseCmd(AHCIATADevState *s, uint8_t cmd)
         case ATA_WRITE_MULTIPLE_EXT:
             s->fLBA48 = true;
         case ATA_WRITE_MULTIPLE:
-            if (!s->cMultSectors)
+            if (!s->pDrvBlock || !s->cMultSectors || s->fATAPI)
                 goto abort_cmd;
             s->cSectorsPerIRQ = s->cMultSectors;
             ataStartTransfer(s, ataGetNSectors(s) * 512, PDMBLOCKTXDIR_TO_DEVICE, ATAFN_BT_READ_WRITE_SECTORS, ATAFN_SS_WRITE_SECTORS, false);
@@ -2949,7 +2955,7 @@ static void ataParseCmd(AHCIATADevState *s, uint8_t cmd)
             s->fLBA48 = true;
         case ATA_READ_DMA:
         case ATA_READ_DMA_WITHOUT_RETRIES:
-            if (!s->pDrvBlock)
+            if (!s->pDrvBlock || s->fATAPI)
                 goto abort_cmd;
             s->cSectorsPerIRQ = ATA_MAX_MULT_SECTORS;
             s->fDMA = true;
@@ -2959,7 +2965,7 @@ static void ataParseCmd(AHCIATADevState *s, uint8_t cmd)
             s->fLBA48 = true;
         case ATA_WRITE_DMA:
         case ATA_WRITE_DMA_WITHOUT_RETRIES:
-            if (!s->pDrvBlock)
+            if (!s->pDrvBlock || s->fATAPI)
                 goto abort_cmd;
             s->cSectorsPerIRQ = ATA_MAX_MULT_SECTORS;
             s->fDMA = true;
@@ -3224,17 +3230,17 @@ static int ataIOPortWriteU8(PAHCIATACONTROLLER pCtl, uint32_t addr, uint32_t val
                          * for a rising edge. */
                         pCtl->BmDma.u8Status |= BM_STATUS_INT;
                         if (pCtl->irq == 16)
-                            PDMDevHlpPCISetIrqNoWait(pDevIns, 0, 1);
+                            PDMDevHlpPCISetIrq(pDevIns, 0, 1);
                         else
-                            PDMDevHlpISASetIrqNoWait(pDevIns, pCtl->irq, 1);
+                            PDMDevHlpISASetIrq(pDevIns, pCtl->irq, 1);
                     }
                     else
                     {
                         Log2(("%s: LUN#%d deasserting IRQ (drive select change)\n", __FUNCTION__, pCtl->aIfs[pCtl->iSelectedIf].iLUN));
                         if (pCtl->irq == 16)
-                            PDMDevHlpPCISetIrqNoWait(pDevIns, 0, 0);
+                            PDMDevHlpPCISetIrq(pDevIns, 0, 0);
                         else
-                            PDMDevHlpISASetIrqNoWait(pDevIns, pCtl->irq, 0);
+                            PDMDevHlpISASetIrq(pDevIns, pCtl->irq, 0);
                     }
                 }
             }
@@ -3472,17 +3478,17 @@ static int ataControlWrite(PAHCIATACONTROLLER pCtl, uint32_t addr, uint32_t val)
              * edge. */
             pCtl->BmDma.u8Status |= BM_STATUS_INT;
             if (pCtl->irq == 16)
-                PDMDevHlpPCISetIrqNoWait(CONTROLLER_2_DEVINS(pCtl), 0, 1);
+                PDMDevHlpPCISetIrq(CONTROLLER_2_DEVINS(pCtl), 0, 1);
             else
-                PDMDevHlpISASetIrqNoWait(CONTROLLER_2_DEVINS(pCtl), pCtl->irq, 1);
+                PDMDevHlpISASetIrq(CONTROLLER_2_DEVINS(pCtl), pCtl->irq, 1);
         }
         else
         {
             Log2(("%s: LUN#%d deasserting IRQ (interrupt disable change)\n", __FUNCTION__, pCtl->aIfs[pCtl->iSelectedIf].iLUN));
             if (pCtl->irq == 16)
-                PDMDevHlpPCISetIrqNoWait(CONTROLLER_2_DEVINS(pCtl), 0, 0);
+                PDMDevHlpPCISetIrq(CONTROLLER_2_DEVINS(pCtl), 0, 0);
             else
-                PDMDevHlpISASetIrqNoWait(CONTROLLER_2_DEVINS(pCtl), pCtl->irq, 0);
+                PDMDevHlpISASetIrq(CONTROLLER_2_DEVINS(pCtl), pCtl->irq, 0);
         }
     }
 
@@ -3881,7 +3887,7 @@ static void ataAsyncSignalIdle(PAHCIATACONTROLLER pCtl)
 }
 
 
-/** Asynch I/O thread for an interface. Once upon a time this was readable
+/** Async I/O thread for an interface. Once upon a time this was readable
  * code with several loops and a different semaphore for each purpose. But
  * then came the "how can one save the state in the middle of a PIO transfer"
  * question. The solution was to use an ASM, which is what's there now. */
@@ -4562,7 +4568,7 @@ static DECLCALLBACK(int) ataBMDMAIORangeMap(PPCIDEVICE pPciDev, /*unsigned*/ int
 #endif
 
 /**
- * Reset the controller to an intial state.
+ * Reset the controller to an initial state.
  *
  * @returns VBox status.
  * @param   pDevIns     The device instance data.
@@ -4705,7 +4711,17 @@ int ataControllerIOPortReadStr1(PAHCIATACONTROLLER pCtl, RTIOPORT Port, RTGCPTR 
 
         PPDMDEVINS pDevIns = pCtl->CTX_SUFF(pDevIns);
         rc = PGMPhysSimpleDirtyWriteGCPtr(PDMDevHlpGetVMCPU(pDevIns), GCDst, s->CTX_SUFF(pbIOBuffer) + s->iIOBufferPIODataStart, cbTransfer);
+#ifndef IN_RING3
+        /* Paranoia. */
+        if (RT_FAILURE(rc))
+        {
+            PDMCritSectLeave(&pCtl->lock);
+            AssertFailed();
+            return VINF_IOM_HC_IOPORT_READ;
+        }
+#else
         Assert(rc == VINF_SUCCESS);
+#endif
 
         if (cbTransfer)
             Log3(("%s: addr=%#x val=%.*Rhxs\n", __FUNCTION__, Port, cbTransfer, s->CTX_SUFF(pbIOBuffer) + s->iIOBufferPIODataStart));
@@ -4757,7 +4773,17 @@ int ataControllerIOPortWriteStr1(PAHCIATACONTROLLER pCtl, RTIOPORT Port, RTGCPTR
 
         PPDMDEVINS pDevIns = pCtl->CTX_SUFF(pDevIns);
         rc = PGMPhysSimpleReadGCPtr(PDMDevHlpGetVMCPU(pDevIns), s->CTX_SUFF(pbIOBuffer) + s->iIOBufferPIODataStart, GCSrc, cbTransfer);
+#ifndef IN_RING3
+        /* Paranoia. */
+        if (RT_FAILURE(rc))
+        {
+            PDMCritSectLeave(&pCtl->lock);
+            AssertFailed();
+            return VINF_IOM_HC_IOPORT_WRITE;
+        }
+#else
         Assert(rc == VINF_SUCCESS);
+#endif
 
         if (cbTransfer)
             Log3(("%s: addr=%#x val=%.*Rhxs\n", __FUNCTION__, Port, cbTransfer, s->CTX_SUFF(pbIOBuffer) + s->iIOBufferPIODataStart));
@@ -5258,7 +5284,10 @@ int ataControllerSaveExec(PAHCIATACONTROLLER pCtl, PSSMHANDLE pSSM)
         SSMR3PutMem(pSSM, &pCtl->aIfs[j].abATAPISense, sizeof(pCtl->aIfs[j].abATAPISense));
         SSMR3PutU8(pSSM, pCtl->aIfs[j].cNotifiedMediaChange);
         SSMR3PutU32(pSSM, pCtl->aIfs[j].MediaEventStatus);
-        SSMR3PutMem(pSSM, pCtl->aIfs[j].pLed, sizeof(PDMLED));
+
+        PDMLED Led;
+        memset(&Led, 0, sizeof(PDMLED));
+        SSMR3PutMem(pSSM, &Led, sizeof(PDMLED));
         SSMR3PutU32(pSSM, pCtl->aIfs[j].cbIOBuffer);
         if (pCtl->aIfs[j].cbIOBuffer)
             SSMR3PutMem(pSSM, pCtl->aIfs[j].CTX_SUFF(pbIOBuffer), pCtl->aIfs[j].cbIOBuffer);
@@ -5416,11 +5445,12 @@ int ataControllerLoadExec(PAHCIATACONTROLLER pCtl, PSSMHANDLE pSSM)
     return VINF_SUCCESS;
 }
 
-DECLCALLBACK(int) ataControllerInit(PPDMDEVINS pDevIns, PAHCIATACONTROLLER pCtl,
-                                    unsigned iLUNMaster, PPDMIBASE pDrvBaseMaster,
-                                    unsigned iLUNSlave, PPDMIBASE pDrvBaseSlave,
-                                    uint32_t *pcbSSMState, const char *szName, PPDMLED pLed,
-                                    PSTAMCOUNTER pStatBytesRead, PSTAMCOUNTER pStatBytesWritten)
+int ataControllerInit(PPDMDEVINS pDevIns, PAHCIATACONTROLLER pCtl,
+                      unsigned iLUNMaster, PPDMIBASE pDrvBaseMaster, PPDMLED pLedMaster,
+                      PSTAMCOUNTER pStatBytesReadMaster, PSTAMCOUNTER pStatBytesWrittenMaster,
+                      unsigned iLUNSlave, PPDMIBASE pDrvBaseSlave, PPDMLED pLedSlave,
+                      PSTAMCOUNTER pStatBytesReadSlave, PSTAMCOUNTER pStatBytesWrittenSlave,
+                      uint32_t *pcbSSMState, const char *szName)
 {
     int      rc;
 
@@ -5443,9 +5473,9 @@ DECLCALLBACK(int) ataControllerInit(PPDMDEVINS pDevIns, PAHCIATACONTROLLER pCtl,
         pCtl->aIfs[j].pControllerR3     = pCtl;
         pCtl->aIfs[j].pControllerR0     = MMHyperR3ToR0(PDMDevHlpGetVM(pDevIns), pCtl);
         pCtl->aIfs[j].pControllerRC     = MMHyperR3ToRC(PDMDevHlpGetVM(pDevIns), pCtl);
-        pCtl->aIfs[j].pLed              = pLed;
-        pCtl->aIfs[j].pStatBytesRead    = pStatBytesRead;
-        pCtl->aIfs[j].pStatBytesWritten = pStatBytesWritten;
+        pCtl->aIfs[j].pLed              = j == 0 ? pLedMaster : pLedSlave;
+        pCtl->aIfs[j].pStatBytesRead    = j == 0 ? pStatBytesReadMaster : pStatBytesReadSlave;
+        pCtl->aIfs[j].pStatBytesWritten = j == 0 ? pStatBytesWrittenMaster : pStatBytesWrittenSlave;
     }
 
     /* Initialize per-controller critical section */

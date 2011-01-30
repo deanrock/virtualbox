@@ -1,4 +1,4 @@
-/* $Id: main.cpp $ */
+/* $Id: main.cpp 35564 2011-01-14 13:52:02Z vboxsync $ */
 /** @file
  *
  * VBox frontends: Qt GUI ("VirtualBox"):
@@ -18,17 +18,17 @@
  */
 
 #ifdef VBOX_WITH_PRECOMPILED_HEADERS
-# include "precomp.h"
-# ifdef QT_MAC_USE_COCOA
-#  include "darwin/VBoxCocoaApplication.h"
-# endif
+#include "precomp.h"
+#ifdef Q_WS_MAC
+# include "UICocoaApplication.h"
+#endif /* Q_WS_MAC */
 #else /* !VBOX_WITH_PRECOMPILED_HEADERS */
 #include "VBoxGlobal.h"
 #include "VBoxProblemReporter.h"
 #include "VBoxSelectorWnd.h"
 #include "VBoxUtils.h"
-#ifdef QT_MAC_USE_COCOA
-# include "darwin/VBoxCocoaApplication.h"
+#ifdef Q_WS_MAC
+# include "UICocoaApplication.h"
 #endif
 
 #ifdef Q_WS_X11
@@ -65,7 +65,7 @@
 
 #include <cstdio>
 
-/* XXX Temporarily. Don't rely on ther user to hack the Makefile himsef! */
+/* XXX Temporarily. Don't rely on the user to hack the Makefile himself! */
 QString g_QStrHintLinuxNoMemory = QApplication::tr(
   "This error means that the kernel driver was either not able to "
   "allocate enough memory or that some mapping operation failed."
@@ -249,7 +249,7 @@ static void showHelp()
     dflt = "image";
 #endif
 
-    RTPrintf(VBOX_PRODUCT " Graphical User Interface %s\n"
+    RTPrintf(VBOX_PRODUCT " Manager %s\n"
             "(C) 2005-" VBOX_C_YEAR " " VBOX_VENDOR "\n"
             "All rights reserved.\n"
             "\n"
@@ -259,6 +259,9 @@ static void showHelp()
             "  --fullscreen               switch to fullscreen mode during startup\n"
             "  --rmode %-18s select different render mode (default is %s)\n"
             "  --no-startvm-errormsgbox   do not show a message box for VM start errors\n"
+# ifdef VBOX_GUI_WITH_PIDFILE
+            "  --pid-file file            create a pidfile file when a VM is up and running\n"
+# endif
 # ifdef VBOX_WITH_DEBUGGER_GUI
             "  --dbg                      enable the GUI debug menu\n"
             "  --debug                    like --dbg and show debug windows at VM startup\n"
@@ -324,7 +327,7 @@ extern "C" DECLEXPORT(int) TrustedMain (int argc, char **argv, char ** /*envp*/)
 #ifdef QT_MAC_USE_COCOA
     /* Instantiate our NSApplication derivative before QApplication
      * forces NSApplication to be instantiated. */
-    VBoxCocoaApplication_sharedApplication();
+    UICocoaApplication::instance();
 #endif
 
     qInstallMsgHandler (QtMessageOutput);
@@ -472,13 +475,9 @@ extern "C" DECLEXPORT(int) TrustedMain (int argc, char **argv, char ** /*envp*/)
             if (!vboxGlobal().isValid())
                 break;
 
-#ifndef VBOX_OSE
-#ifdef Q_WS_X11
-            /* show the user license file */
-            if (!vboxGlobal().showVirtualBoxLicense())
-                break;
-#endif
-#endif
+
+            if (vboxGlobal().processArgs())
+                return 0;
 
             vboxProblem().checkForMountedWrongUSB();
 

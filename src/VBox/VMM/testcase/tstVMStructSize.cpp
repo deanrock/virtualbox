@@ -1,4 +1,4 @@
-/* $Id: tstVMStructSize.cpp $ */
+/* $Id: tstVMStructSize.cpp 35346 2010-12-27 16:13:13Z vboxsync $ */
 /** @file
  * tstVMStructSize - testcase for check structure sizes/alignment
  *                   and to verify that HC and GC uses the same
@@ -20,16 +20,16 @@
 /*******************************************************************************
 *   Header Files                                                               *
 *******************************************************************************/
-#include <VBox/cfgm.h>
-#include <VBox/cpum.h>
-#include <VBox/mm.h>
-#include <VBox/pgm.h>
-#include <VBox/selm.h>
-#include <VBox/trpm.h>
-#include <VBox/vmm.h>
-#include <VBox/stam.h>
+#include <VBox/vmm/cfgm.h>
+#include <VBox/vmm/cpum.h>
+#include <VBox/vmm/mm.h>
+#include <VBox/vmm/pgm.h>
+#include <VBox/vmm/selm.h>
+#include <VBox/vmm/trpm.h>
+#include <VBox/vmm/vmm.h>
+#include <VBox/vmm/stam.h>
 #include "PDMInternal.h"
-#include <VBox/pdm.h>
+#include <VBox/vmm/pdm.h>
 #include "CFGMInternal.h"
 #include "CPUMInternal.h"
 #include "MMInternal.h"
@@ -49,11 +49,11 @@
 #include "CSAMInternal.h"
 #include "EMInternal.h"
 #include "REMInternal.h"
-#include "VMMR0/GMMR0Internal.h"
-#include "VMMR0/GVMMR0Internal.h"
-#include <VBox/vm.h>
-#include <VBox/uvm.h>
-#include <VBox/gvm.h>
+#include "../VMMR0/GMMR0Internal.h"
+#include "../VMMR0/GVMMR0Internal.h"
+#include <VBox/vmm/vm.h>
+#include <VBox/vmm/uvm.h>
+#include <VBox/vmm/gvm.h>
 #include <VBox/param.h>
 #include <VBox/x86.h>
 
@@ -74,7 +74,7 @@ int main()
     { \
         CHECK_PADDING(VM, member, align); \
         CHECK_MEMBER_ALIGNMENT(VM, member, align); \
-        VM *p; \
+        VM *p = NULL; NOREF(p); \
         if (sizeof(p->member.padding) >= (ssize_t)sizeof(p->member.s) + 128 + sizeof(p->member.s) / 20) \
             printf("warning: VM::%-8s: padding=%-5d s=%-5d -> %-4d  suggest=%-5u\n", \
                    #member, (int)sizeof(p->member.padding), (int)sizeof(p->member.s), \
@@ -88,7 +88,7 @@ int main()
     { \
         CHECK_PADDING(VMCPU, member, align); \
         CHECK_MEMBER_ALIGNMENT(VMCPU, member, align); \
-        VMCPU *p; \
+        VMCPU *p = NULL; NOREF(p); \
         if (sizeof(p->member.padding) >= (ssize_t)sizeof(p->member.s) + 128 + sizeof(p->member.s) / 20) \
             printf("warning: VMCPU::%-8s: padding=%-5d s=%-5d -> %-4d  suggest=%-5u\n", \
                    #member, (int)sizeof(p->member.padding), (int)sizeof(p->member.s), \
@@ -110,7 +110,7 @@ int main()
     { \
         CHECK_PADDING(UVM, member, align); \
         CHECK_MEMBER_ALIGNMENT(UVM, member, align); \
-        UVM *p; \
+        UVM *p = NULL; NOREF(p); \
         if (sizeof(p->member.padding) >= (ssize_t)sizeof(p->member.s) + 128 + sizeof(p->member.s) / 20) \
             printf("warning: UVM::%-8s: padding=%-5d s=%-5d -> %-4d  suggest=%-5u\n", \
                    #member, (int)sizeof(p->member.padding), (int)sizeof(p->member.s), \
@@ -123,7 +123,7 @@ int main()
     { \
         CHECK_PADDING(UVMCPU, member, align); \
         CHECK_MEMBER_ALIGNMENT(UVMCPU, member, align); \
-        UVMCPU *p; \
+        UVMCPU *p = NULL; NOREF(p); \
         if (sizeof(p->member.padding) >= (ssize_t)sizeof(p->member.s) + 128 + sizeof(p->member.s) / 20) \
             printf("warning: UVMCPU::%-8s: padding=%-5d s=%-5d -> %-4d  suggest=%-5u\n", \
                    #member, (int)sizeof(p->member.padding), (int)sizeof(p->member.s), \
@@ -136,7 +136,7 @@ int main()
     { \
         CHECK_PADDING(GVM, member, align); \
         CHECK_MEMBER_ALIGNMENT(GVM, member, align); \
-        GVM *p; \
+        GVM *p = NULL; NOREF(p); \
         if (sizeof(p->member.padding) >= (ssize_t)sizeof(p->member.s) + 128 + sizeof(p->member.s) / 20) \
             printf("warning: GVM::%-8s: padding=%-5d s=%-5d -> %-4d  suggest=%-5u\n", \
                    #member, (int)sizeof(p->member.padding), (int)sizeof(p->member.s), \
@@ -149,7 +149,7 @@ int main()
     { \
         CHECK_PADDING(GVMCPU, member, align); \
         CHECK_MEMBER_ALIGNMENT(GVMCPU, member, align); \
-        GVMCPU *p; \
+        GVMCPU *p = NULL; NOREF(p); \
         if (sizeof(p->member.padding) >= (ssize_t)sizeof(p->member.s) + 128 + sizeof(p->member.s) / 20) \
             printf("warning: GVMCPU::%-8s: padding=%-5d s=%-5d -> %-4d  suggest=%-5u\n", \
                    #member, (int)sizeof(p->member.padding), (int)sizeof(p->member.s), \
@@ -227,6 +227,10 @@ int main()
     CHECK_PADDING_VMCPU(64, pdm);
     CHECK_PADDING_VMCPU(64, iom);
     CHECK_PADDING_VMCPU(64, dbgf);
+#if 0
+    PRINT_OFFSET(VMCPU, abAlignment2);
+#endif
+    PRINT_OFFSET(VMCPU, pgm);
     CHECK_PADDING_VMCPU(4096, pgm);
 #ifdef VBOX_WITH_STATISTICS
     PRINT_OFFSET(VMCPU, pgm.s.pStatTrap0eAttributionRC);
@@ -234,7 +238,7 @@ int main()
 
     CHECK_MEMBER_ALIGNMENT(VM, selm.s.Tss, 16);
     PRINT_OFFSET(VM, selm.s.Tss);
-    PVM pVM;
+    PVM pVM = NULL; NOREF(pVM);
     if ((RT_OFFSETOF(VM, selm.s.Tss) & PAGE_OFFSET_MASK) > PAGE_SIZE - sizeof(pVM->selm.s.Tss))
     {
         printf("error! SELM:Tss is crossing a page!\n");
@@ -272,7 +276,7 @@ int main()
     CHECK_MEMBER_ALIGNMENT(VM, rem.s.StatsInQEMU, 8);
     CHECK_MEMBER_ALIGNMENT(VM, rem.s.Env, 64);
 
-    /* the VMCPUs are page aligned TLB hit reassons. */
+    /* the VMCPUs are page aligned TLB hit reasons. */
     CHECK_MEMBER_ALIGNMENT(VM, aCpus, 4096);
     CHECK_SIZE_ALIGNMENT(VMCPU, 4096);
 
@@ -334,17 +338,13 @@ int main()
     CHECK_PADDING2(PDMCRITSECT);
 
     /* pgm */
-#ifdef VBOX_WITH_2X_4GB_ADDR_SPACE
+#if defined(VBOX_WITH_2X_4GB_ADDR_SPACE)  || defined(VBOX_WITH_RAW_MODE)
     CHECK_MEMBER_ALIGNMENT(PGMCPU, AutoSet, 8);
 #endif
     CHECK_MEMBER_ALIGNMENT(PGMCPU, GCPhysCR3, sizeof(RTGCPHYS));
     CHECK_MEMBER_ALIGNMENT(PGMCPU, aGCPhysGstPaePDs, sizeof(RTGCPHYS));
     CHECK_MEMBER_ALIGNMENT(PGMCPU, DisState, 8);
     CHECK_MEMBER_ALIGNMENT(PGMCPU, cPoolAccessHandler, 8);
-#ifdef VBOX_WITH_STATISTICS
-    CHECK_MEMBER_ALIGNMENT(PGMCPU, StatSyncPtPD, 8);
-    CHECK_MEMBER_ALIGNMENT(PGMCPU, StatR3Prefetch, 8);
-#endif
     CHECK_MEMBER_ALIGNMENT(PGMPOOLPAGE, idx, sizeof(uint16_t));
     CHECK_MEMBER_ALIGNMENT(PGMPOOLPAGE, pvPageR3, sizeof(RTHCPTR));
     CHECK_MEMBER_ALIGNMENT(PGMPOOLPAGE, GCPhys, sizeof(RTGCPHYS));

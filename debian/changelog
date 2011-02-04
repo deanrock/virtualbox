@@ -1,3 +1,10 @@
+virtualbox-ose (4.0.2-dfsg-1ubuntu2) natty; urgency=low
+
+  * Support the current snapshot of X.Org Server 1.10. (LP: #712385)
+    - Add ubuntu-01-xserver-1.10.diff.
+
+ -- Felix Geyer <debfx-pkg@fobos.de>  Fri, 04 Feb 2011 23:27:19 +0100
+
 virtualbox-ose (4.0.2-dfsg-1ubuntu1) natty; urgency=low
 
   * Merge from Debian unstable, remaining changes:

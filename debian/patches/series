@@ -12,3 +12,4 @@
 28-no-selinux-fedora.patch
 29-fix-ftbfs-as-needed.patch
 30-kernel-2.6.38.diff
+ubuntu-01-xserver-1.10.diff

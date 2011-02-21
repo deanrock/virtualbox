@@ -1,3 +1,14 @@
+virtualbox-ose (4.0.4-dfsg-1ubuntu1) natty; urgency=low
+
+  * Merge from Debian unstable, remaining changes:
+    - Add Apport hook.
+      - debian/virtualbox-ose.files/source_virtualbox-ose.py
+      - debian/virtualbox-ose.install
+    - Drop *-source packages.
+  * Drop ubuntu-01-xserver-1.10.diff, fixed upstream.
+
+ -- Felix Geyer <debfx-pkg@fobos.de>  Mon, 21 Feb 2011 17:45:23 +0100
+
 virtualbox-ose (4.0.4-dfsg-1) unstable; urgency=low
 
   [ Felix Geyer ]

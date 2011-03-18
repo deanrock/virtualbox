@@ -1,3 +1,9 @@
+virtualbox-ose (4.0.4-dfsg-1ubuntu3) natty; urgency=low
+
+  * Rebuild to pick up new xserver-xorg-core dependencies.
+
+ -- Felix Geyer <debfx-pkg@fobos.de>  Fri, 18 Mar 2011 22:06:00 +0100
+
 virtualbox-ose (4.0.4-dfsg-1ubuntu2) natty; urgency=low
 
   * Rebuild to pick up new xserver-xorg-core dependencies.

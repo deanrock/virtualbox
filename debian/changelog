@@ -1,3 +1,9 @@
+virtualbox-ose (4.0.4-dfsg-2~bpo60+1) squeeze-backports; urgency=low
+
+  * Rebuild for squeeze-backports.
+
+ -- intrigeri <intrigeri@boum.org>  Fri, 27 May 2011 14:50:50 +0200
+
 virtualbox-ose (4.0.4-dfsg-2) unstable; urgency=low
 
   * Fix FTBFS with gcc 4.6. (Closes: #625658, #626148)

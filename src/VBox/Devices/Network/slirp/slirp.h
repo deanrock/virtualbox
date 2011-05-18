@@ -343,8 +343,6 @@ struct tcpcb *tcp_drop(PNATState, struct tcpcb *tp, int err);
 
 /*slirp.c*/
 void slirp_arp_who_has(PNATState pData, uint32_t dst);
-int slirp_arp_cache_update(PNATState pData, uint32_t dst, const uint8_t *mac);
-void slirp_arp_cache_add(PNATState pData, uint32_t ip, const uint8_t *ether);
 int slirp_arp_cache_update_or_add(PNATState pData, uint32_t dst, const uint8_t *mac);
 int slirp_init_dns_list(PNATState pData);
 void slirp_release_dns_list(PNATState pData);
@@ -473,6 +471,47 @@ static inline size_t slirp_size(PNATState pData)
         else
             AssertMsgFailed(("Unsupported size"));
         return 0;
+}
+
+static inline bool slirpMbufTagService(PNATState pData, struct mbuf *m, uint8_t u8ServiceId)
+{
+    struct m_tag * t = NULL;
+    /* if_encap assumes that all packets goes through aliased address(gw) */
+    if (u8ServiceId == CTL_ALIAS)
+        return true;
+    t = m_tag_get(PACKET_SERVICE, sizeof(uint8_t), 0);
+    if (!t)
+        return false;
+    *(uint8_t *)&t[1] = u8ServiceId;
+    m_tag_prepend(m, t);
+    return true;
+}
+
+/**
+ * This function tags mbuf allocated for special services.
+ * @todo: add service id verification.
+ */
+static inline struct mbuf *slirpServiceMbufAlloc(PNATState pData, uint8_t u8ServiceId)
+{
+    struct mbuf *m = NULL;
+    m = m_getcl(pData, M_DONTWAIT, MT_HEADER, M_PKTHDR);
+    if (!m)
+        return m;
+    if(!slirpMbufTagService(pData, m, u8ServiceId))
+    {
+        m_freem(pData, m);
+        return NULL;
+    }
+    return m;
+}
+
+static inline struct mbuf *slirpTftpMbufAlloc(PNATState pData)
+{
+    return slirpServiceMbufAlloc(pData, CTL_TFTP);
+}
+static inline struct mbuf *slirpDnsMbufAlloc(PNATState pData)
+{
+    return slirpServiceMbufAlloc(pData, CTL_DNS);
 }
 #endif
 

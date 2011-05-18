@@ -111,185 +111,6 @@
     </message>
 </context>
 <context>
-    <name>QIHotKeyEdit</name>
-    <message>
-        <source>Left </source>
-        <translation>Kairėn </translation>
-    </message>
-    <message>
-        <source>Right </source>
-        <translation>Dešinėn </translation>
-    </message>
-    <message>
-        <source>Left Shift</source>
-        <translation>Kairysis Lyg2</translation>
-    </message>
-    <message>
-        <source>Right Shift</source>
-        <translation>Dešinysis Lyg2</translation>
-    </message>
-    <message>
-        <source>Left Ctrl</source>
-        <translation>Kairysis Vald</translation>
-    </message>
-    <message>
-        <source>Right Ctrl</source>
-        <translation>Dešinysis Vald</translation>
-    </message>
-    <message>
-        <source>Left Alt</source>
-        <translation>Kairysis Alt</translation>
-    </message>
-    <message>
-        <source>Right Alt</source>
-        <translation>Dešinysis Alt</translation>
-    </message>
-    <message>
-        <source>Left WinKey</source>
-        <translation>Kairysis Win</translation>
-    </message>
-    <message>
-        <source>Right WinKey</source>
-        <translation>Dešinysis Win</translation>
-    </message>
-    <message>
-        <source>Menu key</source>
-        <translation>Meniu klavišas</translation>
-    </message>
-    <message>
-        <source>Alt Gr</source>
-        <translation>Lyg3</translation>
-    </message>
-    <message>
-        <source>Caps Lock</source>
-        <translation>Didž(iosios)</translation>
-    </message>
-    <message>
-        <source>Scroll Lock</source>
-        <translation>Slinkti</translation>
-    </message>
-    <message>
-        <source>&lt;key_%1&gt;</source>
-        <translation>&lt;%1_klavišas&gt;</translation>
-    </message>
-    <message>
-        <source>Pause</source>
-        <translation>Pauzė</translation>
-    </message>
-    <message>
-        <source>Print Screen</source>
-        <translation>Ekrano nuotrauka</translation>
-    </message>
-    <message>
-        <source>F1</source>
-        <translation>F1</translation>
-    </message>
-    <message>
-        <source>F2</source>
-        <translation>F2</translation>
-    </message>
-    <message>
-        <source>F3</source>
-        <translation>F3</translation>
-    </message>
-    <message>
-        <source>F4</source>
-        <translation>F4</translation>
-    </message>
-    <message>
-        <source>F5</source>
-        <translation>F5</translation>
-    </message>
-    <message>
-        <source>F6</source>
-        <translation>F6</translation>
-    </message>
-    <message>
-        <source>F7</source>
-        <translation>F7</translation>
-    </message>
-    <message>
-        <source>F8</source>
-        <translation>F8</translation>
-    </message>
-    <message>
-        <source>F9</source>
-        <translation>F9</translation>
-    </message>
-    <message>
-        <source>F10</source>
-        <translation>F10</translation>
-    </message>
-    <message>
-        <source>F11</source>
-        <translation>F11</translation>
-    </message>
-    <message>
-        <source>F12</source>
-        <translation>F12</translation>
-    </message>
-    <message>
-        <source>F13</source>
-        <translation>F13</translation>
-    </message>
-    <message>
-        <source>F14</source>
-        <translation>F14</translation>
-    </message>
-    <message>
-        <source>F15</source>
-        <translation>F15</translation>
-    </message>
-    <message>
-        <source>F16</source>
-        <translation>F16</translation>
-    </message>
-    <message>
-        <source>F17</source>
-        <translation>F17</translation>
-    </message>
-    <message>
-        <source>F18</source>
-        <translation>F18</translation>
-    </message>
-    <message>
-        <source>F19</source>
-        <translation>F19</translation>
-    </message>
-    <message>
-        <source>F20</source>
-        <translation>F20</translation>
-    </message>
-    <message>
-        <source>F21</source>
-        <translation>F21</translation>
-    </message>
-    <message>
-        <source>F22</source>
-        <translation>F22</translation>
-    </message>
-    <message>
-        <source>F23</source>
-        <translation>F23</translation>
-    </message>
-    <message>
-        <source>F24</source>
-        <translation>F24</translation>
-    </message>
-    <message>
-        <source>Num Lock</source>
-        <translation>Skaitm(enys)</translation>
-    </message>
-    <message>
-        <source>Forward</source>
-        <translation>Toliau</translation>
-    </message>
-    <message>
-        <source>Back</source>
-        <translation>Atgal</translation>
-    </message>
-</context>
-<context>
     <name>QIHttp</name>
     <message>
         <source>Connection timed out</source>
@@ -426,7 +247,7 @@
     </message>
     <message>
         <source>Send the Ctrl-Alt-Del sequence to the virtual machine</source>
-        <translation>Mašinai nusiųsti klavišų kombinaciją Vald+Alt+Šalinti(Delete)</translation>
+        <translation>Mašinai nusiųsti klavišų kombinaciją Vald(Ctrl)+Alt+Šalinti(Delete)</translation>
     </message>
     <message>
         <source>&amp;Insert Ctrl-Alt-Backspace</source>
@@ -434,7 +255,7 @@
     </message>
     <message>
         <source>Send the Ctrl-Alt-Backspace sequence to the virtual machine</source>
-        <translation>Mašinai nusiųsti klavišų kombinaciją Vald+Alt+Naikinti(Backspace)</translation>
+        <translation>Mašinai nusiųsti klavišų kombinaciją Vald(Ctrl)+Alt+Naikinti(Backspace)</translation>
     </message>
     <message>
         <source>Take &amp;Snapshot...</source>
@@ -470,11 +291,11 @@
     </message>
     <message>
         <source>&amp;Reset</source>
-        <translation>&amp;Perkrauti</translation>
+        <translation>&amp;Paleisti iš naujo</translation>
     </message>
     <message>
         <source>Reset the virtual machine</source>
-        <translation>Perkrauti virtualią mašiną</translation>
+        <translation>Iš naujo paleisti virtualią mašiną</translation>
     </message>
     <message>
         <source>ACPI Sh&amp;utdown</source>
@@ -482,7 +303,7 @@
     </message>
     <message>
         <source>ACPI S&amp;hutdown</source>
-        <translation>Išjunti per &amp;ACPI</translation>
+        <translation type="obsolete">Išjunti per &amp;ACPI</translation>
     </message>
     <message>
         <source>Send the ACPI Power Button press event to the virtual machine</source>
@@ -1321,7 +1142,7 @@
     <name>UIGlobalSettingsExtension</name>
     <message>
         <source>&amp;Extension Packages:</source>
-        <translation>&amp;Papildinių paketai</translation>
+        <translation>&amp;Papildinių paketai:</translation>
     </message>
     <message>
         <source>Lists all installed packages.</source>
@@ -1354,6 +1175,10 @@
     <message>
         <source>Extension package files (%1)</source>
         <translation>Papildinių paketų rinkmennos (%1)</translation>
+    </message>
+    <message>
+        <source>Extensions</source>
+        <translation>Papildiniai</translation>
     </message>
 </context>
 <context>
@@ -1399,19 +1224,19 @@
     <name>UIGlobalSettingsInput</name>
     <message>
         <source>Host &amp;Key:</source>
-        <translation>Pagrindinis &amp;klavišas:</translation>
+        <translation>Pagr. kompiuterio &amp;klavišas:</translation>
     </message>
     <message>
         <source>Displays the key used as a Host Key in the VM window. Activate the entry field and press a new Host Key. Note that alphanumeric, cursor movement and editing keys cannot be used.</source>
-        <translation>Rodo klavišą, naudojamą kaip pagrindinį klavišą VM lange. Aktyvuokite įvedimo laukelį ir nuspauskite būsimą pagrindinį klavišą. Atminkite, kad negalima priskirti raidžių, skaičių, žymeklio perkėlimo, redagavimo klavišų.</translation>
+        <translation>Rodo klavišą, naudojamą kaip pagrindinio kompiuterio klavišą VM lange. Aktyvuokite įvedimo laukelį ir nuspauskite būsimą pagrindinį klavišą. Atminkite, kad negalima priskirti raidžių, skaičių, žymeklio perkėlimo, redagavimo klavišų.</translation>
     </message>
     <message>
         <source>Reset Host Key</source>
-        <translation>Atstatyti pagrindinį klavišą</translation>
+        <translation type="obsolete">Atstatyti pagrindinį klavišą</translation>
     </message>
     <message>
         <source>Resets the key used as a Host Key in the VM window.</source>
-        <translation>Klavišą atstato į numatytąjį pagrindinį klavišą VM lange.</translation>
+        <translation type="obsolete">Klavišą atstato į numatytąjį pagrindinį klavišą VM lange.</translation>
     </message>
     <message>
         <source>When checked, the keyboard is automatically captured every time the VM window is activated. When the keyboard is captured, all keystrokes (including system ones like Alt-Tab) are directed to the VM.</source>
@@ -1420,6 +1245,14 @@
     <message>
         <source>&amp;Auto Capture Keyboard</source>
         <translation>&amp;Automatiškai reaguoti į klaviatūrą</translation>
+    </message>
+    <message>
+        <source>Reset host combination</source>
+        <translation>Atstatyti pagr. kompiuterio kombinaciją</translation>
+    </message>
+    <message>
+        <source>Resets the key combination used as the host combination in the VM window.</source>
+        <translation>Atstatyti klavišų kombinaciją, kuri naudojama kaip pagrindinio kompiuterio kombinacija VM lange.</translation>
     </message>
 </context>
 <context>
@@ -1612,8 +1445,8 @@
         <translation>&amp;Keisti tinklą prie pagr. kompiuterio</translation>
     </message>
     <message>
-        <source>New Host-Only Interface</source>
-        <translation type="unfinished"></translation>
+        <source>Networking</source>
+        <translation>Tinklas</translation>
     </message>
 </context>
 <context>
@@ -1767,6 +1600,189 @@
     <message>
         <source>&amp;Help</source>
         <translation>&amp;Pagalba</translation>
+    </message>
+</context>
+<context>
+    <name>UIHotKeyEditor</name>
+    <message>
+        <source>Left </source>
+        <translation>Kairėn </translation>
+    </message>
+    <message>
+        <source>Right </source>
+        <translation>Dešinėn </translation>
+    </message>
+    <message>
+        <source>Left Shift</source>
+        <translation>Kairysis Lyg2</translation>
+    </message>
+    <message>
+        <source>Right Shift</source>
+        <translation>Dešinysis Lyg2</translation>
+    </message>
+    <message>
+        <source>Left Ctrl</source>
+        <translation>Kairysis Vald</translation>
+    </message>
+    <message>
+        <source>Right Ctrl</source>
+        <translation>Dešinysis Vald</translation>
+    </message>
+    <message>
+        <source>Left Alt</source>
+        <translation>Kairysis Alt</translation>
+    </message>
+    <message>
+        <source>Right Alt</source>
+        <translation>Dešinysis Alt</translation>
+    </message>
+    <message>
+        <source>Left WinKey</source>
+        <translation>Kairysis Win</translation>
+    </message>
+    <message>
+        <source>Right WinKey</source>
+        <translation>Dešinysis Win</translation>
+    </message>
+    <message>
+        <source>Menu key</source>
+        <translation>Meniu klavišas</translation>
+    </message>
+    <message>
+        <source>Alt Gr</source>
+        <translation>Lyg3</translation>
+    </message>
+    <message>
+        <source>Caps Lock</source>
+        <translation>Didž(iosios)</translation>
+    </message>
+    <message>
+        <source>Scroll Lock</source>
+        <translation>Slinkti</translation>
+    </message>
+    <message>
+        <source>&lt;key_%1&gt;</source>
+        <translation>&lt;%1_klavišas&gt;</translation>
+    </message>
+    <message>
+        <source>Pause</source>
+        <translation type="obsolete">Pauzė</translation>
+    </message>
+    <message>
+        <source>Print Screen</source>
+        <translation type="obsolete">Ekrano nuotrauka</translation>
+    </message>
+    <message>
+        <source>F1</source>
+        <translation type="obsolete">F1</translation>
+    </message>
+    <message>
+        <source>F2</source>
+        <translation type="obsolete">F2</translation>
+    </message>
+    <message>
+        <source>F3</source>
+        <translation type="obsolete">F3</translation>
+    </message>
+    <message>
+        <source>F4</source>
+        <translation type="obsolete">F4</translation>
+    </message>
+    <message>
+        <source>F5</source>
+        <translation type="obsolete">F5</translation>
+    </message>
+    <message>
+        <source>F6</source>
+        <translation type="obsolete">F6</translation>
+    </message>
+    <message>
+        <source>F7</source>
+        <translation type="obsolete">F7</translation>
+    </message>
+    <message>
+        <source>F8</source>
+        <translation type="obsolete">F8</translation>
+    </message>
+    <message>
+        <source>F9</source>
+        <translation type="obsolete">F9</translation>
+    </message>
+    <message>
+        <source>F10</source>
+        <translation type="obsolete">F10</translation>
+    </message>
+    <message>
+        <source>F11</source>
+        <translation type="obsolete">F11</translation>
+    </message>
+    <message>
+        <source>F12</source>
+        <translation type="obsolete">F12</translation>
+    </message>
+    <message>
+        <source>F13</source>
+        <translation type="obsolete">F13</translation>
+    </message>
+    <message>
+        <source>F14</source>
+        <translation type="obsolete">F14</translation>
+    </message>
+    <message>
+        <source>F15</source>
+        <translation type="obsolete">F15</translation>
+    </message>
+    <message>
+        <source>F16</source>
+        <translation type="obsolete">F16</translation>
+    </message>
+    <message>
+        <source>F17</source>
+        <translation type="obsolete">F17</translation>
+    </message>
+    <message>
+        <source>F18</source>
+        <translation type="obsolete">F18</translation>
+    </message>
+    <message>
+        <source>F19</source>
+        <translation type="obsolete">F19</translation>
+    </message>
+    <message>
+        <source>F20</source>
+        <translation type="obsolete">F20</translation>
+    </message>
+    <message>
+        <source>F21</source>
+        <translation type="obsolete">F21</translation>
+    </message>
+    <message>
+        <source>F22</source>
+        <translation type="obsolete">F22</translation>
+    </message>
+    <message>
+        <source>F23</source>
+        <translation type="obsolete">F23</translation>
+    </message>
+    <message>
+        <source>F24</source>
+        <translation type="obsolete">F24</translation>
+    </message>
+    <message>
+        <source>Num Lock</source>
+        <translation type="obsolete">Skaitm(enys)</translation>
+    </message>
+    <message>
+        <source>Forward</source>
+        <translation type="obsolete">Toliau</translation>
+    </message>
+    <message>
+        <source>Back</source>
+        <translation type="obsolete">Atgal</translation>
+    </message>
+    <message>
+        <source>None</source>
+        <translation>Nėra</translation>
     </message>
 </context>
 <context>
@@ -2035,7 +2051,7 @@
     <name>UIMachineLogic</name>
     <message>
         <source>VirtualBox OSE</source>
-        <translation>VirtualBox OSE</translation>
+        <translation type="obsolete">VirtualBox OSE</translation>
     </message>
     <message>
         <source> EXPERIMENTAL build %1r%2 - %3</source>
@@ -2217,7 +2233,7 @@
     </message>
     <message>
         <source>You have 3D Acceleration enabled for a operation system which uses the WDDM video driver. For maximal performance set the guest VRAM to at least &lt;b&gt;%1&lt;/b&gt;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Įgalinote 3D spartinimą operacinei sistemai, kuri naudoja WDDM vaizdo tvarkyklę. Didžiausią našumą pasieksite, jei vaizdo laisvosios prieigos atminčiai paskirsite bent &lt;b&gt;%1&lt;/b&gt;. </translation>
     </message>
     <message>
         <source>&lt;qt&gt;%1&amp;nbsp;MB&lt;/qt&gt;</source>
@@ -2993,7 +3009,7 @@
     </message>
     <message>
         <source>&amp;Chipset:</source>
-        <translation>&amp;Lustų rinkinys</translation>
+        <translation>&amp;Lustų rinkinys:</translation>
     </message>
     <message>
         <source>Defines chipset type used in this VM.</source>
@@ -3245,6 +3261,10 @@
         <comment>USB filter tooltip</comment>
         <translation>&lt;nobr&gt;Būsena: %1&lt;/nobr&gt;</translation>
     </message>
+    <message>
+        <source>USB 2.0 is currently enabled for this virtual machine. However this requires the &lt;b&gt;%1&lt;/b&gt; to be installed. Please install the Extension Pack from the VirtualBox download site. After this you will be able to re-enable USB 2.0. It will be disabled in the meantime unless you cancel the current settings changes.</source>
+        <translation>Šioje virtualioje mašinoje įgalintas USB 2.0. Tačiau tam turi įdiegtas &lt;b&gt;%1&lt;/b&gt;. Įdiegike papildinių paketą, kurį rasite VirtualBox svetainėje. Tuomet vėl galėsite įgalite USB 2.0. Iki tol ši funkcija bus uždrausta, nebent atsisakysite dabartinių nuostatų pakeitimų.</translation>
+    </message>
 </context>
 <context>
     <name>UIMachineSettingsUSBFilterDetails</name>
@@ -3352,7 +3372,7 @@
     <name>UIMachineWindowNormal</name>
     <message>
         <source>Shows the currently assigned Host key.&lt;br&gt;This key, when pressed alone, toggles the keyboard and mouse capture state. It can also be used in combination with other keys to quickly perform actions from the main menu.</source>
-        <translation>Rodo pasirinktą pagrindinį klavišą. &lt;br&gt;Pavieniui nuspaustas, šis klavišas perjungia įvedimo klaviatūra veikseną. Jis taip pat gali būti naudojamas kartu su kitais klavišais norint greitai įvykdyti pagrindinio meniu komandas.</translation>
+        <translation>Rodo pasirinktą pagrindinio kompiuterio klavišą. &lt;br&gt;Pavieniui nuspaustas, šis klavišas perjungia įvedimo klaviatūra veikseną. Jis taip pat gali būti naudojamas kartu su kitais klavišais norint greitai įvykdyti pagrindinio meniu komandas.</translation>
     </message>
 </context>
 <context>
@@ -3695,7 +3715,7 @@
     <message>
         <source>Boot Hard Disk</source>
         <comment>summary</comment>
-        <translation>Paleidžiamas standusis diskas</translation>
+        <translation>Standusis diskas, iš kurio paleidžiama</translation>
     </message>
 </context>
 <context>
@@ -3706,7 +3726,7 @@
     </message>
     <message>
         <source>Protocol</source>
-        <translation>Protolkolas</translation>
+        <translation>Protokolas</translation>
     </message>
     <message>
         <source>Host IP</source>
@@ -6888,7 +6908,7 @@ IPv6.</translation>
     <name>VBoxGlobalSettings</name>
     <message>
         <source>&apos;%1 (0x%2)&apos; is an invalid host key code.</source>
-        <translation>„%1 (0x%2)“ nėra tinkamas rakto kodas.</translation>
+        <translation type="obsolete">„%1 (0x%2)“ nėra tinkamas rakto kodas.</translation>
     </message>
     <message>
         <source>The value &apos;%1&apos; of the key &apos;%2&apos; doesn&apos;t match the regexp constraint &apos;%3&apos;.</source>
@@ -6897,6 +6917,10 @@ IPv6.</translation>
     <message>
         <source>Cannot delete the key &apos;%1&apos;.</source>
         <translation>Nepavyksta pašalinti rakto „%1“.</translation>
+    </message>
+    <message>
+        <source>&apos;%1&apos; is an invalid host-combination code-sequence.</source>
+        <translation>„%1“ yra netinkama pagr. kompiuterio kombinacijos kodo seka.</translation>
     </message>
 </context>
 <context>
@@ -7366,7 +7390,7 @@ IPv6.</translation>
     </message>
     <message>
         <source>&lt;p&gt;The Virtual Machine reports that the guest OS does not support &lt;b&gt;mouse pointer integration&lt;/b&gt; in the current video mode. You need to capture the mouse (by clicking over the VM display or pressing the host key) in order to use the mouse inside the guest OS.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Virtuali mašina pranešė, kad svečio OS nepalaiko &lt;b&gt;pelės žymeklio integravimo&lt;/b&gt; šioje vaizdo veiksenoje. Jei norite, kad virtuali mašina reaguotų į pelę, spragtelėkite pele svečio OS lange arba nuspauskite pagrindinį kompiuterio klavišą (host).&lt;/p&gt;</translation>
+        <translation>&lt;p&gt;Virtuali mašina pranešė, kad svečio OS nepalaiko &lt;b&gt;pelės žymeklio integravimo&lt;/b&gt; šioje vaizdo veiksenoje. Jei norite, kad virtuali mašina reaguotų į pelę, spragtelėkite pele svečio OS lange arba nuspauskite pagrindinio kompiuterio klavišą.&lt;/p&gt;</translation>
     </message>
     <message>
         <source>&lt;p&gt;The Virtual Machine is currently in the &lt;b&gt;Paused&lt;/b&gt; state and not able to see any keyboard or mouse input. If you want to continue to work inside the VM, you need to resume it by selecting the corresponding action from the menu bar.&lt;/p&gt;</source>
@@ -7496,7 +7520,7 @@ IPv6.</translation>
     </message>
     <message>
         <source>&lt;p&gt;You didn&apos;t attach a hard disk to the new virtual machine. The machine will not be able to boot unless you attach a hard disk with a guest operating system or some other bootable media to it later using the machine settings dialog or the First Run Wizard.&lt;/p&gt;&lt;p&gt;Do you wish to continue?&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Naujai virtualiai mašinai nepriskyrėte jokio standžiojo disko. Mašina negalės įsikrauti, jei nepriskirsite standžiojo disko su svečio operacine sistema arba kitos įkraunamos laikmenos, kuri būtų naudojama mašinos nuostatų lange arba pirmojo paleidimo vediklyje.&lt;/p&gt;&lt;p&gt;Tęsti?&lt;/p&gt;</translation>
+        <translation>&lt;p&gt;Naujai virtualiai mašinai nepriskyrėte jokio standžiojo disko. Jei nepriskirsite standžiojo disko su svečio operacine sistema arba kitos įkraunamos laikmenos, kuri būtų naudojama mašinos nuostatų lange arba pirmojo paleidimo vediklyje, mašinos nebus galima paleisti.&lt;/p&gt;&lt;p&gt;Tęsti?&lt;/p&gt;</translation>
     </message>
     <message>
         <source>Failed to find license files in &lt;nobr&gt;&lt;b&gt;%1&lt;/b&gt;&lt;/nobr&gt;.</source>
@@ -7572,7 +7596,7 @@ IPv6.</translation>
     <message>
         <source>&lt;p&gt;The host key is currently defined as &lt;b&gt;%1&lt;/b&gt;.&lt;/p&gt;</source>
         <comment>additional message box paragraph</comment>
-        <translation>&lt;p&gt;Šiuo metu pagrindinis kompiuterio klavišas yra &lt;b&gt;%1&lt;/b&gt;.&lt;/p&gt;</translation>
+        <translation>&lt;p&gt;Šiuo metu pagrindinio kompiuterio klavišas yra &lt;b&gt;%1&lt;/b&gt;.&lt;/p&gt;</translation>
     </message>
     <message>
         <source>Capture</source>
@@ -7599,7 +7623,7 @@ IPv6.</translation>
     </message>
     <message>
         <source>&lt;p&gt;Do you really want to reset the virtual machine?&lt;/p&gt;&lt;p&gt;This will cause any unsaved data in applications running inside it to be lost.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Tikrai norite perkrauti virtualią mašiną?&lt;/p&gt;&lt;p&gt;Prarasite visus neišsaugotus duomenis.&lt;/p&gt;</translation>
+        <translation>&lt;p&gt;Tikrai norite iš naujo paleisti virtualią mašiną?&lt;/p&gt;&lt;p&gt;Prarasite visus neišsaugotus duomenis.&lt;/p&gt;</translation>
     </message>
     <message>
         <source>Reset</source>
@@ -7637,11 +7661,11 @@ IPv6.</translation>
     </message>
     <message>
         <source>&lt;p&gt;You have &lt;b&gt;clicked the mouse&lt;/b&gt; inside the Virtual Machine display or pressed the &lt;b&gt;host key&lt;/b&gt;. This will cause the Virtual Machine to &lt;b&gt;capture&lt;/b&gt; the host mouse pointer (only if the mouse pointer integration is not currently supported by the guest OS) and the keyboard, which will make them unavailable to other applications running on your host machine.&lt;/p&gt;&lt;p&gt;You can press the &lt;b&gt;host key&lt;/b&gt; at any time to &lt;b&gt;uncapture&lt;/b&gt; the keyboard and mouse (if it is captured) and return them to normal operation. The currently assigned host key is shown on the status bar at the bottom of the Virtual Machine window, next to the&amp;nbsp;&lt;img src=:/hostkey_16px.png/&gt;&amp;nbsp;icon. This icon, together with the mouse icon placed nearby, indicate the current keyboard and mouse capture state.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;&lt;b&gt;Spragtelėjote pele&lt;/b&gt; virtualios mašinos lange arba nuspaudėte kompiuterio &lt;b&gt;pagrindinį klavišą (Host)&lt;/b&gt;. Todėl virtuali mašina ims &lt;b&gt;reaguoti&lt;/b&gt; į pagrindinio kompiuterio pelės žymeklį (tik jei svečio operacinė sistema nepalaiko pelės žymeklio integravimo) ir į klaviatūrą; į pelę ir klaiviatūrą nebereaguos jokios kitos pagrindinio kompiuterio programos.&lt;/p&gt;&lt;p&gt;Nuspaudus kompiuterio &lt;b&gt;pagrindinį klavišą (host)&lt;/b&gt; bus &lt;b&gt;nebereaguojama&lt;/b&gt; automatiškai į pelę ir klaviatūrą (jei buvo reaguojama) ir darbas vyks įprastu būdu. Šiuo metu kaip pagrindnis klavišas yra naudojamas tas, kuris rodomas virtualios mašinos lango apatiniame kampe ties&amp;nbsp;&lt;img src=:/hostkey_16px.png/&gt;&amp;nbsp;ženkliuku. Šis ir pelės ženkliukas rodo reagavimo į klaviatūrą ir pelę būseną.&lt;/p&gt;</translation>
+        <translation>&lt;p&gt;&lt;b&gt;Spragtelėjote pele&lt;/b&gt; virtualios mašinos lange arba nuspaudėte &lt;b&gt;pagrindinio kompiuterio klavišą&lt;/b&gt;. Todėl virtuali mašina ims &lt;b&gt;reaguoti&lt;/b&gt; į pagrindinio kompiuterio pelės žymeklį (tik jei svečio operacinė sistema nepalaiko pelės žymeklio integravimo) ir į klaviatūrą; į pelę ir klaiviatūrą nebereaguos jokios kitos pagrindinio kompiuterio programos.&lt;/p&gt;&lt;p&gt;Nuspaudus &lt;b&gt;pagrindinio kompiuterio klavišą&lt;/b&gt; bus &lt;b&gt;nebereaguojama&lt;/b&gt; automatiškai į pelę ir klaviatūrą (jei buvo reaguojama) ir darbas vyks įprastu būdu. Šiuo metu pagrindinio kompiuterio klavišas yra tas, kuris rodomas virtualios mašinos lango apatiniame kampe ties&amp;nbsp;&lt;img src=:/hostkey_16px.png/&gt;&amp;nbsp;ženkliuku. Šis ir pelės ženkliukas rodo reagavimo į klaviatūrą ir pelę būseną.&lt;/p&gt;</translation>
     </message>
     <message>
         <source>&lt;p&gt;You have the &lt;b&gt;Auto capture keyboard&lt;/b&gt; option turned on. This will cause the Virtual Machine to automatically &lt;b&gt;capture&lt;/b&gt; the keyboard every time the VM window is activated and make it unavailable to other applications running on your host machine: when the keyboard is captured, all keystrokes (including system ones like Alt-Tab) will be directed to the VM.&lt;/p&gt;&lt;p&gt;You can press the &lt;b&gt;host key&lt;/b&gt; at any time to &lt;b&gt;uncapture&lt;/b&gt; the keyboard and mouse (if it is captured) and return them to normal operation. The currently assigned host key is shown on the status bar at the bottom of the Virtual Machine window, next to the&amp;nbsp;&lt;img src=:/hostkey_16px.png/&gt;&amp;nbsp;icon. This icon, together with the mouse icon placed nearby, indicate the current keyboard and mouse capture state.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Įgalinta &lt;b&gt;Automatinio reagavimo į klaviatūrą&lt;/b&gt; parinktis. Todėl virtuali mašina automatiškai &lt;b&gt;reaguos&lt;/b&gt; į klaviatūros paspaudimus, jei virtualios mašinos langas bus aktyvus; tuomet į klaviatūrą nereaguos jokios kitos pagrindiniame kompiuteryje paleistos programos; netgi dauguma sparčiųjų klavišų (įskaitant Alt+Tab) bus tiesiogiai perduoti virtualiai mašinai.&lt;/p&gt;&lt;p&gt;Nuspaudus kompiuterio &lt;b&gt;pagrindinį klavišą&lt;/b&gt; bus &lt;b&gt;nebereaguojama&lt;/b&gt; automatiškai į pelę ir klaviatūrą (jei buvo reaguojama) ir darbas vyks įprastu būdu. Šiuo metu kaip pagrindnis klavišas yra naudojamas tas, kuris rodomas virtualios mašinos lango apatiniame kampe ties&amp;nbsp;&lt;img src=:/hostkey_16px.png/&gt;&amp;nbsp;ženkliuku. Šis ir pelės ženkliukas rodo reagavimo į klaviatūrą ir pelę būseną.&lt;/p&gt;</translation>
+        <translation>&lt;p&gt;Įgalinta &lt;b&gt;Automatinio reagavimo į klaviatūrą&lt;/b&gt; parinktis. Todėl virtuali mašina automatiškai &lt;b&gt;reaguos&lt;/b&gt; į klaviatūros paspaudimus, jei virtualios mašinos langas bus aktyvus; tuomet į klaviatūrą nereaguos jokios kitos pagrindiniame kompiuteryje paleistos programos; netgi dauguma sparčiųjų klavišų (įskaitant Alt+Tab) bus tiesiogiai perduoti virtualiai mašinai.&lt;/p&gt;&lt;p&gt;Nuspaudus &lt;b&gt;pagrindinio kompiuterio klavišą&lt;/b&gt; bus &lt;b&gt;nebereaguojama&lt;/b&gt; automatiškai į pelę ir klaviatūrą (jei buvo reaguojama) ir darbas vyks įprastu būdu. Šiuo metu pagrindinio kompiuterio klavišas yra tas, kuris rodomas virtualios mašinos lango apatiniame kampe ties&amp;nbsp;&lt;img src=:/hostkey_16px.png/&gt;&amp;nbsp;ženkliuku. Šis ir pelės ženkliukas rodo reagavimo į klaviatūrą ir pelę būseną.&lt;/p&gt;</translation>
     </message>
     <message>
         <source>&lt;p&gt;The Virtual Machine reports that the guest OS supports &lt;b&gt;mouse pointer integration&lt;/b&gt;. This means that you do not need to &lt;i&gt;capture&lt;/i&gt; the mouse pointer to be able to use it in your guest OS -- all mouse actions you perform when the mouse pointer is over the Virtual Machine&apos;s display are directly sent to the guest OS. If the mouse is currently captured, it will be automatically uncaptured.&lt;/p&gt;&lt;p&gt;The mouse icon on the status bar will look like&amp;nbsp;&lt;img src=:/mouse_seamless_16px.png/&gt;&amp;nbsp;to inform you that mouse pointer integration is supported by the guest OS and is currently turned on.&lt;/p&gt;&lt;p&gt;&lt;b&gt;Note&lt;/b&gt;: Some applications may behave incorrectly in mouse pointer integration mode. You can always disable it for the current session (and enable it again) by selecting the corresponding action from the menu bar.&lt;/p&gt;</source>
@@ -8278,7 +8302,7 @@ IPv6.</translation>
     <message>
         <source>Reset</source>
         <comment>machine</comment>
-        <translation>Atstatyti</translation>
+        <translation>Paleisti iš naujo</translation>
     </message>
     <message>
         <source>Continue</source>
@@ -8376,7 +8400,7 @@ IPv6.</translation>
     </message>
     <message>
         <source>Sorry, some generic error happens.</source>
-        <translation>Atleiskite, būna daugybinių klaidų.</translation>
+        <translation type="obsolete">Atleiskite, būna daugybinių klaidų.</translation>
     </message>
     <message>
         <source>Failed to attach the hard disk (&lt;nobr&gt;&lt;b&gt;%1&lt;/b&gt;&lt;/nobr&gt;) to the slot &lt;i&gt;%2&lt;/i&gt; of the machine &lt;b&gt;%3&lt;/b&gt;.</source>
@@ -8415,15 +8439,15 @@ IPv6.</translation>
     </message>
     <message>
         <source>&lt;p&gt;The virtual machine window will be now switched to &lt;b&gt;fullscreen&lt;/b&gt; mode. You can go back to windowed mode at any time by pressing &lt;b&gt;%1&lt;/b&gt;.&lt;/p&gt;&lt;p&gt;Note that the &lt;i&gt;Host&lt;/i&gt; key is currently defined as &lt;b&gt;%2&lt;/b&gt;.&lt;/p&gt;&lt;p&gt;Note that the main menu bar is hidden in fullscreen mode. You can access it by pressing &lt;b&gt;Host+Home&lt;/b&gt;.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Virtualios mašinos langas netrukus pereis į &lt;b&gt;viso ekrano&lt;/b&gt; veikseną. Į įprastą lango veikseną sugrįšite nuspaudę &lt;b&gt;%1&lt;/b&gt;.&lt;/p&gt;&lt;p&gt;Atminkite, kad &lt;i&gt;Pagrindinis&lt;/i&gt; klavišas šiuo metu yra &lt;b&gt;%2&lt;/b&gt;.&lt;/p&gt;&lt;p&gt;Be to, viso ekrano veiksenoje meniu juosta yra paslėpta. Ją pasieksite nuspaudę &lt;b&gt;Pagrindinis + Prad&lt;/b&gt;.&lt;/p&gt;</translation>
+        <translation>&lt;p&gt;Virtualios mašinos langas netrukus pereis į &lt;b&gt;viso ekrano&lt;/b&gt; veikseną. Į įprastą lango veikseną sugrįšite nuspaudę &lt;b&gt;%1&lt;/b&gt;.&lt;/p&gt;&lt;p&gt;Atminkite, kad &lt;i&gt;pagrindinio kompiuterio&lt;/i&gt; klavišas šiuo metu yra &lt;b&gt;%2&lt;/b&gt;.&lt;/p&gt;&lt;p&gt;Be to, viso ekrano veiksenoje meniu juosta yra paslėpta. Ją pasieksite nuspaudę &lt;b&gt;(pagr. komp. klavišas) + Prad&lt;/b&gt;.&lt;/p&gt;</translation>
     </message>
     <message>
         <source>&lt;p&gt;The virtual machine window will be now switched to &lt;b&gt;Seamless&lt;/b&gt; mode. You can go back to windowed mode at any time by pressing &lt;b&gt;%1&lt;/b&gt;.&lt;/p&gt;&lt;p&gt;Note that the &lt;i&gt;Host&lt;/i&gt; key is currently defined as &lt;b&gt;%2&lt;/b&gt;.&lt;/p&gt;&lt;p&gt;Note that the main menu bar is hidden in seamless mode. You can access it by pressing &lt;b&gt;Host+Home&lt;/b&gt;.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Virtualios mašinos langas netrukus pereis į &lt;b&gt;integruoto darbalaukio&lt;/b&gt; veikseną. Į įprastą lango veikseną sugrįšite nuspaudę &lt;b&gt;%1&lt;/b&gt;.&lt;/p&gt;&lt;p&gt;Atminkite, kad &lt;i&gt;Pagrindinis&lt;/i&gt; klavišas šiuo metu yra &lt;b&gt;%2&lt;/b&gt;.&lt;/p&gt;&lt;p&gt;Be to, integruotoje veiksenoje meniu juosta yra paslėpta. Ją pasieksite nuspaudę &lt;b&gt;Pagrindinis+Prad&lt;/b&gt;.&lt;/p&gt;</translation>
+        <translation>&lt;p&gt;Virtualios mašinos langas netrukus pereis į &lt;b&gt;integruoto darbalaukio&lt;/b&gt; veikseną. Į įprastą lango veikseną sugrįšite nuspaudę &lt;b&gt;%1&lt;/b&gt;.&lt;/p&gt;&lt;p&gt;Atminkite, kad &lt;i&gt;pagrindinio kompiuterio&lt;/i&gt; klavišas šiuo metu yra &lt;b&gt;%2&lt;/b&gt;.&lt;/p&gt;&lt;p&gt;Be to, integruotoje veiksenoje meniu juosta yra paslėpta. Ją pasieksite nuspaudę &lt;b&gt;(pagr. komp. klav.) + Prad&lt;/b&gt;.&lt;/p&gt;</translation>
     </message>
     <message>
         <source>&lt;p&gt;The virtual machine window will be now switched to &lt;b&gt;Scale&lt;/b&gt; mode. You can go back to windowed mode at any time by pressing &lt;b&gt;%1&lt;/b&gt;.&lt;/p&gt;&lt;p&gt;Note that the &lt;i&gt;Host&lt;/i&gt; key is currently defined as &lt;b&gt;%2&lt;/b&gt;.&lt;/p&gt;&lt;p&gt;Note that the main menu bar is hidden in scale mode. You can access it by pressing &lt;b&gt;Host+Home&lt;/b&gt;.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Virtualios mašinos langas netrukus pereis į &lt;b&gt;keičiamo lango dydžio&lt;/b&gt; veikseną. Į įprastą lango veikseną sugrįšite nuspaudę &lt;b&gt;%1&lt;/b&gt;.&lt;/p&gt;&lt;p&gt;Atminkite, kad &lt;i&gt;Pagrindinis&lt;/i&gt; klavišas šiuo metu yra &lt;b&gt;%2&lt;/b&gt;.&lt;/p&gt;&lt;p&gt;Be to, keičiamo lango dydžio veiksenoje meniu juosta yra paslėpta. Ją pasieksite nuspaudę &lt;b&gt;Pagrindinis + Prad&lt;/b&gt;.&lt;/p&gt;</translation>
+        <translation>&lt;p&gt;Virtualios mašinos langas netrukus pereis į &lt;b&gt;keičiamo lango dydžio&lt;/b&gt; veikseną. Į įprastą lango veikseną sugrįšite nuspaudę &lt;b&gt;%1&lt;/b&gt;.&lt;/p&gt;&lt;p&gt;Atminkite, kad &lt;i&gt;pagrindinio kompiuterio&lt;/i&gt; klavišas šiuo metu yra &lt;b&gt;%2&lt;/b&gt;.&lt;/p&gt;&lt;p&gt;Be to, keičiamo lango dydžio veiksenoje meniu juosta yra paslėpta. Ją pasieksite nuspaudę &lt;b&gt;(pagr. komp. klav.) + Prad&lt;/b&gt;.&lt;/p&gt;</translation>
     </message>
     <message>
         <source>Switch</source>
@@ -8477,6 +8501,18 @@ IPv6.</translation>
     <message>
         <source>The extension pack &lt;br&gt;&lt;nobr&gt;&lt;b&gt;%1&lt;/b&gt;&lt;nobr&gt;&lt;br&gt; was installed successfully.</source>
         <translation>Papildinių paketas &lt;br&gt;&lt;nobr&gt;&lt;b&gt;%1&lt;/b&gt;&lt;nobr&gt;&lt;br&gt; įdiegtas.</translation>
+    </message>
+    <message>
+        <source>Deletion of all files belonging to the VM is currently disabled on Windows/x64 to prevent a crash. That will be fixed in the next release.</source>
+        <translation>Visų virtuliai mašinai rinkmenų pašalinimas uždraustas Windows/x64 sistemoje tam, kad būtų išvengta strigio. Tai bus ištaisyta sekančiame leidime.</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;Cannot create the machine folder &lt;b&gt;%1&lt;/b&gt; in the parent folder &lt;nobr&gt;&lt;b&gt;%2&lt;/b&gt;.&lt;/nobr&gt;&lt;/p&gt;&lt;p&gt;Please check that the parent really exists and that you have permissions to create the machine folder.&lt;/p&gt;</source>
+        <translation>&lt;p&gt;Viršaplankyje &lt;nobr&gt;&lt;b&gt;%2&lt;/b&gt;&lt;/nobr&gt; nepavyksta sukurti mašinos aplanko &lt;b&gt;%1&lt;/b&gt;.&lt;/p&gt;&lt;p&gt;Patikrinkite, ar viršaplankis iš tiesų yra ir ar turite leidimą kurti mašinos aplanką.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;USB 2.0 is currently enabled for this virtual machine. However this requires the &lt;b&gt;&lt;nobr&gt;%1&lt;/nobr&gt;&lt;/b&gt; to be installed.&lt;/p&gt;&lt;p&gt;Please install the Extension Pack from the VirtualBox download site. After this you will be able to re-enable USB 2.0. It will be disabled in the meantime unless you cancel the current settings changes.&lt;/p&gt;</source>
+        <translation>&lt;p&gt;Šioje virtualioje mašinoje įgalintas USB 2.0. Tačiau tam turi įdiegtas &lt;b&gt;&lt;nobr&gt;%1&lt;/nobr&gt;&lt;/b&gt;. &lt;nobr&gt;Įdiegike papildinių paketą, kurį rasite VirtualBox svetainėje. Tuomet vėl galėsite įgalite USB 2.0. Iki tol ši funkcija bus uždrausta, nebent atsisakysite dabartinių nuostatų pakeitimų.&lt;/p&gt;</translation>
     </message>
 </context>
 <context>
@@ -8536,7 +8572,7 @@ IPv6.</translation>
     <name>VBoxSelectorWnd</name>
     <message>
         <source>VirtualBox OSE</source>
-        <translation>VirtualBox OSE</translation>
+        <translation type="obsolete">VirtualBox OSE</translation>
     </message>
     <message>
         <source>&amp;Details</source>
@@ -8642,7 +8678,7 @@ IPv6.</translation>
     </message>
     <message>
         <source>R&amp;esume</source>
-        <translation>&amp;Tęsti</translation>
+        <translation type="obsolete">&amp;Tęsti</translation>
     </message>
     <message>
         <source>Resume the execution of the virtual machine</source>
@@ -8716,6 +8752,7 @@ IPv6.</translation>
     </message>
     <message>
         <source>Manager</source>
+        <comment>Note: main window title which is pretended by the product name.</comment>
         <translation>Tvarkytuvė</translation>
     </message>
     <message>
@@ -8774,7 +8811,7 @@ IPv6.</translation>
     </message>
     <message>
         <source>Creates an Shortcut file to the VirtualBox Machine Definition file on your Desktop.</source>
-        <translation>Darbalaukyje sukuriama šaukinio rinkmeną  į VirtualBox mašinos apibrėžties rinkmeną.</translation>
+        <translation>Darbalaukyje sukuriama šaukinio rinkmena į VirtualBox mašinos apibrėžties rinkmeną.</translation>
     </message>
     <message>
         <source>Show in File Manager</source>

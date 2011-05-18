@@ -189,39 +189,52 @@ public:
 
                     if (fProcessDisconnectOnGuestLogout)
                     {
+                        bool fDropConnection = false;
+
                         Bstr value;
                         gpcev->COMGETTER(Value)(value.asOutParam());
                         Utf8Str utf8Value = value;
-                        if (utf8Value == "true")
+
+                        if (!mfNoLoggedInUsers) /* Only if the property really changes. */
                         {
-                            if (!mfNoLoggedInUsers) /* Only if the property really changes. */
+                            if (   utf8Value == "true"
+                                /* Guest property got deleted due to reset,
+                                 * so it has no value anymore. */
+                                || utf8Value.isEmpty())
                             {
                                 mfNoLoggedInUsers = true;
+                                fDropConnection = true;
+                            }
+                        }
+                        else if (utf8Value == "false")
+                            mfNoLoggedInUsers = false;
+                        /* Guest property got deleted due to reset,
+                         * take the shortcut without touching the mfNoLoggedInUsers
+                         * state. */
+                        else if (utf8Value.isEmpty())
+                            fDropConnection = true;
 
-                                /* If there is a connection, drop it. */
-                                ComPtr<IVRDEServerInfo> info;
-                                hrc = gConsole->COMGETTER(VRDEServerInfo)(info.asOutParam());
-                                if (SUCCEEDED(hrc) && info)
+                        if (fDropConnection)
+                        {
+                            /* If there is a connection, drop it. */
+                            ComPtr<IVRDEServerInfo> info;
+                            hrc = gConsole->COMGETTER(VRDEServerInfo)(info.asOutParam());
+                            if (SUCCEEDED(hrc) && info)
+                            {
+                                ULONG cClients = 0;
+                                hrc = info->COMGETTER(NumberOfClients)(&cClients);
+                                if (SUCCEEDED(hrc) && cClients > 0)
                                 {
-                                    ULONG cClients = 0;
-                                    hrc = info->COMGETTER(NumberOfClients)(&cClients);
-                                    if (SUCCEEDED(hrc) && cClients > 0)
+                                    ComPtr <IVRDEServer> vrdeServer;
+                                    hrc = machine->COMGETTER(VRDEServer)(vrdeServer.asOutParam());
+                                    if (SUCCEEDED(hrc) && vrdeServer)
                                     {
-                                        ComPtr <IVRDEServer> vrdeServer;
-                                        hrc = machine->COMGETTER(VRDEServer)(vrdeServer.asOutParam());
-                                        if (SUCCEEDED(hrc) && vrdeServer)
-                                        {
-                                            LogRel(("VRDE: the guest user has logged out, disconnecting remote clients.\n"));
-                                            vrdeServer->COMSETTER(Enabled)(FALSE);
-                                            vrdeServer->COMSETTER(Enabled)(TRUE);
-                                        }
+                                        LogRel(("VRDE: the guest user has logged out, disconnecting remote clients.\n"));
+                                        vrdeServer->COMSETTER(Enabled)(FALSE);
+                                        vrdeServer->COMSETTER(Enabled)(TRUE);
                                     }
                                 }
                             }
-                        }
-                        else
-                        {
-                            mfNoLoggedInUsers = false;
                         }
                     }
                 }
@@ -504,6 +517,11 @@ static void parse_environ(unsigned long *pulFrameWidth, unsigned long *pulFrameH
 }
 #endif /* VBOX_FFMPEG defined */
 
+#ifdef RT_OS_WINDOWS 
+// Required for ATL
+static CComModule _Module;
+#endif
+
 /**
  *  Entry point.
  */
@@ -531,6 +549,7 @@ extern "C" DECLEXPORT(int) TrustedMain(int argc, char **argv, char **envp)
     char pszMPEGFile[RTPATH_MAX];
     const char *pszFileNameParam = "VBox-%d.vob";
 #endif /* VBOX_FFMPEG */
+
 
     /* Make sure that DISPLAY is unset, so that X11 bits do not get initialised
      * on X11-using OSes. */
@@ -1284,7 +1303,8 @@ extern "C" DECLEXPORT(int) TrustedMain(int argc, char **argv, char **envp)
     session.setNull();
     virtualBox.setNull();
     pVirtualBoxClient.setNull();
-
+    machine.setNull();
+  
     com::Shutdown();
 
     LogFlow(("VBoxHeadless FINISHED.\n"));

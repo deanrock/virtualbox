@@ -17,7 +17,15 @@
  * hope that it will be useful, but WITHOUT ANY WARRANTY of any kind.
  */
 
+/* DEBUG is defined in ../rdesktop.h */
+#ifdef DEBUG
+# define VBOX_DEBUG DEBUG
+#endif
 #include "../rdesktop.h"
+#undef DEBUG
+#ifdef VBOX_DEBUG
+# define DEBUG VBOX_DEBUG
+#endif
 
 #include "vrdpusb.h"
 #include "USBProxyDevice.h"
@@ -220,7 +228,8 @@ static void fillWireListEntry(char *pBuf, PUSBDEVICE pDevice,
 
 /** Allocate (and return) a buffer for a device list in VRDP wire format,
  * and populate from a PUSBDEVICE linked list.  @a pLen takes the length of
- * the new list. */
+ * the new list.
+ * See @a Console::processRemoteUSBDevices for the receiving end. */
 static void *buildWireListFromDevices(PUSBDEVICE pDevices, int *pLen)
 {
     char *pBuf;
@@ -237,8 +246,8 @@ static void *buildWireListFromDevices(PUSBDEVICE pDevices, int *pLen)
     {
         unsigned i, cZeros;
 
-        AssertReturnVoidStmt(iCurrent + DEV_ENTRY_SIZE + 2 <= cbBuf,
-                             free(pBuf));
+        AssertReturnStmt(iCurrent + DEV_ENTRY_SIZE + 2 <= cbBuf,
+                         free(pBuf), NULL);
         fillWireListEntry(pBuf + iCurrent, pCurrent, &iNext);
             DevListEntry *pEntry = (DevListEntry *)(pBuf + iCurrent);
         /* Sanity tests */
@@ -246,21 +255,12 @@ static void *buildWireListFromDevices(PUSBDEVICE pDevices, int *pLen)
              i < iCurrent + iNext; ++i)
              if (pBuf[i] == 0)
                  ++cZeros;
-        AssertReturnVoidStmt(cZeros ==   RT_BOOL(pEntry->oManufacturer)
-                                       + RT_BOOL(pEntry->oProduct)
-                                       + RT_BOOL(pEntry->oSerialNumber),
-                             free(pBuf));
-        AssertReturnVoidStmt(   pEntry->oManufacturer == 0
-                             || pBuf[pEntry->oManufacturer] != '\0',
-                             free(pBuf));
-        AssertReturnVoidStmt(   pEntry->oProduct == 0
-                             || pBuf[pEntry->oProduct] != '\0',
-                             free(pBuf));
-        AssertReturnVoidStmt(   pEntry->oSerialNumber == 0
-                             || pBuf[pEntry->oSerialNumber] != '\0',
-                             free(pBuf));
-        AssertReturnVoidStmt(cZeros == 0 || pBuf[iCurrent + iNext - 1] == '\0',
-                             free(pBuf));
+        AssertReturnStmt(cZeros ==   RT_BOOL(pEntry->oManufacturer)
+                                   + RT_BOOL(pEntry->oProduct)
+                                   + RT_BOOL(pEntry->oSerialNumber),
+                         free(pBuf), NULL);
+        AssertReturnStmt(cZeros == 0 || pBuf[iCurrent + iNext - 1] == '\0',
+                         free(pBuf), NULL);
     }
     *pLen = iCurrent + iNext + 2;
     Assert(cDevs == 0);
@@ -884,9 +884,17 @@ rdpusb_check_fds(fd_set * rfds, fd_set * wfds)
 RD_BOOL
 rdpusb_init(void)
 {
-	PCUSBDEVTREELOCATION pcLocation = USBProxyLinuxGetDeviceRoot(false);
-	g_fUseSysfs       = pcLocation->fUseSysfs;
-	g_pcszDevicesRoot = pcLocation->szDevicesRoot;
+    /** @todo re-use the proxy service code */
+	if (USBProxyLinuxCheckDeviceRoot("/dev/vboxusb", true))
+	{
+	    g_fUseSysfs       = true;
+	    g_pcszDevicesRoot = "/dev/vboxusb";
+	}
+	else
+	{
+	    g_fUseSysfs       = false;
+	    g_pcszDevicesRoot = "/proc/bus/usb";
+	}
 	rdpusb_channel =
 		channel_register("vrdpusb", CHANNEL_OPTION_INITIALIZED | CHANNEL_OPTION_ENCRYPT_RDP,
 				 rdpusb_process);

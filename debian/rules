@@ -54,7 +54,7 @@ endif
 
 
 %:
-	dh $@ --with python_central,dkms
+	dh $@ --with python_central,dkms,modaliases
 
 override_dh_auto_configure:
 	@echo Building for $(DIST_RELEASE)

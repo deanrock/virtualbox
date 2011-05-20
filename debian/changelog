@@ -6,6 +6,8 @@ virtualbox (4.0.8-dfsg-1ubuntu1) UNRELEASED; urgency=low
       - debian/virtualbox-ose.install
     - Drop *-source packages.
   * Drop 30-kernel-2.6.39.patch, fixed upstream.
+  * Write vboxguest modalias the to the package header.
+    - Use modaliases dh sequence.
 
  -- Felix Geyer <debfx-pkg@fobos.de>  Wed, 18 May 2011 11:42:42 +0200
 

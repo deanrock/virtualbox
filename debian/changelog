@@ -1,4 +1,4 @@
-virtualbox (4.0.8-dfsg-2ubuntu1) UNRELEASED; urgency=low
+virtualbox (4.0.8-dfsg-2ubuntu1) oneiric; urgency=low
 
   * Merge from Debian unstable, remaining changes:
     - Add Apport hook.
@@ -9,7 +9,7 @@ virtualbox (4.0.8-dfsg-2ubuntu1) UNRELEASED; urgency=low
   * Write vboxguest modalias the to the package header.
     - Use modaliases dh sequence.
 
- -- Felix Geyer <debfx-pkg@fobos.de>  Wed, 18 May 2011 11:42:42 +0200
+ -- Felix Geyer <debfx-pkg@fobos.de>  Fri, 03 Jun 2011 17:31:34 +0200
 
 virtualbox (4.0.8-dfsg-2) unstable; urgency=low
 

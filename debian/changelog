@@ -1,4 +1,4 @@
-virtualbox (4.0.8-dfsg-2~bpo60+1) unstable; urgency=low
+virtualbox (4.0.8-dfsg-2~bpo60+1) squeeze-backport; urgency=low
 
   * Rebuild for squeeze-backports.
 

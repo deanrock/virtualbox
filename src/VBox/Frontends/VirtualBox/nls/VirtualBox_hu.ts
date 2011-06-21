@@ -179,185 +179,6 @@
     </message>
 </context>
 <context>
-    <name>QIHotKeyEdit</name>
-    <message>
-        <source>Left </source>
-        <translation>Bal </translation>
-    </message>
-    <message>
-        <source>Right </source>
-        <translation>Jobb </translation>
-    </message>
-    <message>
-        <source>Left Shift</source>
-        <translation>Bal Shift</translation>
-    </message>
-    <message>
-        <source>Right Shift</source>
-        <translation>Jobb Shift</translation>
-    </message>
-    <message>
-        <source>Left Ctrl</source>
-        <translation>Bal Ctrl</translation>
-    </message>
-    <message>
-        <source>Right Ctrl</source>
-        <translation>Jobb Ctrl</translation>
-    </message>
-    <message>
-        <source>Left Alt</source>
-        <translation>Bal Alt</translation>
-    </message>
-    <message>
-        <source>Right Alt</source>
-        <translation>Jobb Alt</translation>
-    </message>
-    <message>
-        <source>Left WinKey</source>
-        <translation>Bal Windows</translation>
-    </message>
-    <message>
-        <source>Right WinKey</source>
-        <translation>Jobb Windows</translation>
-    </message>
-    <message>
-        <source>Menu key</source>
-        <translation>Menü gomb</translation>
-    </message>
-    <message>
-        <source>Alt Gr</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Caps Lock</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Scroll Lock</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>&lt;key_%1&gt;</source>
-        <translation>&lt;key_%1&gt;</translation>
-    </message>
-    <message>
-        <source>Pause</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Print Screen</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>F1</source>
-        <translation>F1</translation>
-    </message>
-    <message>
-        <source>F2</source>
-        <translation>F2</translation>
-    </message>
-    <message>
-        <source>F3</source>
-        <translation>F3</translation>
-    </message>
-    <message>
-        <source>F4</source>
-        <translation>F4</translation>
-    </message>
-    <message>
-        <source>F5</source>
-        <translation>F5</translation>
-    </message>
-    <message>
-        <source>F6</source>
-        <translation>F6</translation>
-    </message>
-    <message>
-        <source>F7</source>
-        <translation>F7</translation>
-    </message>
-    <message>
-        <source>F8</source>
-        <translation>F8</translation>
-    </message>
-    <message>
-        <source>F9</source>
-        <translation>F9</translation>
-    </message>
-    <message>
-        <source>F10</source>
-        <translation>F10</translation>
-    </message>
-    <message>
-        <source>F11</source>
-        <translation>F11</translation>
-    </message>
-    <message>
-        <source>F12</source>
-        <translation>F12</translation>
-    </message>
-    <message>
-        <source>F13</source>
-        <translation>F13</translation>
-    </message>
-    <message>
-        <source>F14</source>
-        <translation>F14</translation>
-    </message>
-    <message>
-        <source>F15</source>
-        <translation>F15</translation>
-    </message>
-    <message>
-        <source>F16</source>
-        <translation>F16</translation>
-    </message>
-    <message>
-        <source>F17</source>
-        <translation>F17</translation>
-    </message>
-    <message>
-        <source>F18</source>
-        <translation>F18</translation>
-    </message>
-    <message>
-        <source>F19</source>
-        <translation>F19</translation>
-    </message>
-    <message>
-        <source>F20</source>
-        <translation>F20</translation>
-    </message>
-    <message>
-        <source>F21</source>
-        <translation>F21</translation>
-    </message>
-    <message>
-        <source>F22</source>
-        <translation>F22</translation>
-    </message>
-    <message>
-        <source>F23</source>
-        <translation>F23</translation>
-    </message>
-    <message>
-        <source>F24</source>
-        <translation>F24</translation>
-    </message>
-    <message>
-        <source>Num Lock</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Forward</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Back</source>
-        <translation>Vissza</translation>
-    </message>
-</context>
-<context>
     <name>QIHttp</name>
     <message>
         <source>Connection timed out</source>
@@ -564,7 +385,7 @@
     </message>
     <message>
         <source>ACPI S&amp;hutdown</source>
-        <translation>A&amp;CPI leállítás</translation>
+        <translation type="obsolete">A&amp;CPI leállítás</translation>
     </message>
     <message>
         <source>Send the ACPI Power Button press event to the virtual machine</source>
@@ -1748,6 +1569,10 @@ p, li { white-space: pre-wrap; }
         <source>Extension package files (%1)</source>
         <translation>Kiterjesztő csomag (%1)</translation>
     </message>
+    <message>
+        <source>Extensions</source>
+        <translation>Kiterjesztők</translation>
+    </message>
 </context>
 <context>
     <name>UIGlobalSettingsGeneral</name>
@@ -1824,11 +1649,11 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Reset Host Key</source>
-        <translation>Gazda-billentyű visszaállítása</translation>
+        <translation type="obsolete">Gazda-billentyű visszaállítása</translation>
     </message>
     <message>
         <source>Resets the key used as a Host Key in the VM window.</source>
-        <translation>A VM ablakban Gazda-billentyűként használt gomb visszaállítása.</translation>
+        <translation type="obsolete">A VM ablakban Gazda-billentyűként használt gomb visszaállítása.</translation>
     </message>
     <message>
         <source>When checked, the keyboard is automatically captured every time the VM window is activated. When the keyboard is captured, all keystrokes (including system ones like Alt-Tab) are directed to the VM.</source>
@@ -1837,6 +1662,14 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>&amp;Auto Capture Keyboard</source>
         <translation>&amp;Automata billentyűzet-elkapás</translation>
+    </message>
+    <message>
+        <source>Reset host combination</source>
+        <translation>Gazda-kombináció visszaállítása</translation>
+    </message>
+    <message>
+        <source>Resets the key combination used as the host combination in the VM window.</source>
+        <translation>A virtuális gép ablakában gazda-kombinációként használt billentyűkombináció vsszaállítása.</translation>
     </message>
 </context>
 <context>
@@ -2040,7 +1873,11 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>New Host-Only Interface</source>
-        <translation>Új host-only interfész</translation>
+        <translation type="obsolete">Új host-only interfész</translation>
+    </message>
+    <message>
+        <source>Networking</source>
+        <translation>Hálózat</translation>
     </message>
 </context>
 <context>
@@ -2194,6 +2031,173 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>&amp;Help</source>
         <translation>Sú&amp;gó</translation>
+    </message>
+</context>
+<context>
+    <name>UIHotKeyEditor</name>
+    <message>
+        <source>Left </source>
+        <translation>Bal </translation>
+    </message>
+    <message>
+        <source>Right </source>
+        <translation>Jobb </translation>
+    </message>
+    <message>
+        <source>Left Shift</source>
+        <translation>Bal Shift</translation>
+    </message>
+    <message>
+        <source>Right Shift</source>
+        <translation>Jobb Shift</translation>
+    </message>
+    <message>
+        <source>Left Ctrl</source>
+        <translation>Bal Ctrl</translation>
+    </message>
+    <message>
+        <source>Right Ctrl</source>
+        <translation>Jobb Ctrl</translation>
+    </message>
+    <message>
+        <source>Left Alt</source>
+        <translation>Bal Alt</translation>
+    </message>
+    <message>
+        <source>Right Alt</source>
+        <translation>Jobb Alt</translation>
+    </message>
+    <message>
+        <source>Left WinKey</source>
+        <translation>Bal Windows</translation>
+    </message>
+    <message>
+        <source>Right WinKey</source>
+        <translation>Jobb Windows</translation>
+    </message>
+    <message>
+        <source>Menu key</source>
+        <translation>Menü gomb</translation>
+    </message>
+    <message>
+        <source>Alt Gr</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Caps Lock</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Scroll Lock</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>&lt;key_%1&gt;</source>
+        <translation>&lt;key_%1&gt;</translation>
+    </message>
+    <message>
+        <source>F1</source>
+        <translation type="obsolete">F1</translation>
+    </message>
+    <message>
+        <source>F2</source>
+        <translation type="obsolete">F2</translation>
+    </message>
+    <message>
+        <source>F3</source>
+        <translation type="obsolete">F3</translation>
+    </message>
+    <message>
+        <source>F4</source>
+        <translation type="obsolete">F4</translation>
+    </message>
+    <message>
+        <source>F5</source>
+        <translation type="obsolete">F5</translation>
+    </message>
+    <message>
+        <source>F6</source>
+        <translation type="obsolete">F6</translation>
+    </message>
+    <message>
+        <source>F7</source>
+        <translation type="obsolete">F7</translation>
+    </message>
+    <message>
+        <source>F8</source>
+        <translation type="obsolete">F8</translation>
+    </message>
+    <message>
+        <source>F9</source>
+        <translation type="obsolete">F9</translation>
+    </message>
+    <message>
+        <source>F10</source>
+        <translation type="obsolete">F10</translation>
+    </message>
+    <message>
+        <source>F11</source>
+        <translation type="obsolete">F11</translation>
+    </message>
+    <message>
+        <source>F12</source>
+        <translation type="obsolete">F12</translation>
+    </message>
+    <message>
+        <source>F13</source>
+        <translation type="obsolete">F13</translation>
+    </message>
+    <message>
+        <source>F14</source>
+        <translation type="obsolete">F14</translation>
+    </message>
+    <message>
+        <source>F15</source>
+        <translation type="obsolete">F15</translation>
+    </message>
+    <message>
+        <source>F16</source>
+        <translation type="obsolete">F16</translation>
+    </message>
+    <message>
+        <source>F17</source>
+        <translation type="obsolete">F17</translation>
+    </message>
+    <message>
+        <source>F18</source>
+        <translation type="obsolete">F18</translation>
+    </message>
+    <message>
+        <source>F19</source>
+        <translation type="obsolete">F19</translation>
+    </message>
+    <message>
+        <source>F20</source>
+        <translation type="obsolete">F20</translation>
+    </message>
+    <message>
+        <source>F21</source>
+        <translation type="obsolete">F21</translation>
+    </message>
+    <message>
+        <source>F22</source>
+        <translation type="obsolete">F22</translation>
+    </message>
+    <message>
+        <source>F23</source>
+        <translation type="obsolete">F23</translation>
+    </message>
+    <message>
+        <source>F24</source>
+        <translation type="obsolete">F24</translation>
+    </message>
+    <message>
+        <source>Back</source>
+        <translation type="obsolete">Vissza</translation>
+    </message>
+    <message>
+        <source>None</source>
+        <translation>Nincs</translation>
     </message>
 </context>
 <context>
@@ -2430,7 +2434,7 @@ p, li { white-space: pre-wrap; }
     <name>UIMachineLogic</name>
     <message>
         <source>VirtualBox OSE</source>
-        <translation>VirtualBox OSE</translation>
+        <translation type="obsolete">VirtualBox OSE</translation>
     </message>
     <message>
         <source> EXPERIMENTAL build %1r%2 - %3</source>
@@ -4073,6 +4077,10 @@ p, li { white-space: pre-wrap; }
         <comment>USB filter tooltip</comment>
         <translation>&lt;nobr&gt;Állapot: %1&lt;/nobr&gt;</translation>
     </message>
+    <message>
+        <source>USB 2.0 is currently enabled for this virtual machine. However this requires the &lt;b&gt;%1&lt;/b&gt; to be installed. Please install the Extension Pack from the VirtualBox download site. After this you will be able to re-enable USB 2.0. It will be disabled in the meantime unless you cancel the current settings changes.</source>
+        <translation>Az USB 2.0 jelenleg be van kapcsolva a virtuális gépen. Azonban ehhez a következőnek telepítve kell lennie: &lt;b&gt;&lt;nobr&gt;%1&lt;/nobr&gt;&lt;/b&gt;.&lt;/p&gt;&lt;p&gt;A VirtualBox oldaláról letöltve telepítsd fel a Kiterjesztő csomagot. Ezután újra be engedélyezni tudod az USB 2.0-t. Addig ki lesz kapcsolva, hacsak meg nem szakítod a beállítások módosítását.</translation>
+    </message>
 </context>
 <context>
     <name>UIMachineSettingsUSBFilterDetails</name>
@@ -5012,7 +5020,7 @@ esetleg a &lt;b&gt;Létező&lt;/b&gt; gombbal a Virtuális lemezkezelőből.&lt;
     </message>
     <message>
         <source>On the &lt;b&gt;%1&lt;/b&gt; page, %2</source>
-        <translation>A(z) &lt;b&gt;%1&lt;/b&gt;. oldalon, %2</translation>
+        <translation>A(z) &lt;b&gt;%1&lt;/b&gt; oldalon, %2</translation>
     </message>
     <message>
         <source>Invalid settings detected</source>
@@ -7857,37 +7865,37 @@ Verzió %1</translation>
     <message numerus="yes">
         <source>%n year(s)</source>
         <translation>
-            <numerusform>%n éve</numerusform>
+            <numerusform>%n év</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <source>%n month(s)</source>
         <translation>
-            <numerusform>%n hónapja</numerusform>
+            <numerusform>%n hónap</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <source>%n day(s)</source>
         <translation>
-            <numerusform>%n napja</numerusform>
+            <numerusform>%n nap</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <source>%n hour(s)</source>
         <translation>
-            <numerusform>%n órája</numerusform>
+            <numerusform>%n óra</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <source>%n minute(s)</source>
         <translation>
-            <numerusform>%n perce</numerusform>
+            <numerusform>%n perc</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <source>%n second(s)</source>
         <translation>
-            <numerusform>%n másodperce</numerusform>
+            <numerusform>%n másodperc</numerusform>
         </translation>
     </message>
     <message>
@@ -8102,19 +8110,19 @@ Verzió %1</translation>
     <message>
         <source>Readonly</source>
         <comment>DiskType</comment>
-        <translation type="unfinished"></translation>
+        <translation>Írásvédett</translation>
     </message>
     <message>
         <source>Multi-attach</source>
         <comment>DiskType</comment>
-        <translation type="unfinished"></translation>
+        <translation>Többszörös csatolás</translation>
     </message>
 </context>
 <context>
     <name>VBoxGlobalSettings</name>
     <message>
         <source>&apos;%1 (0x%2)&apos; is an invalid host key code.</source>
-        <translation>&apos;%1 (0x%2)&apos; érvénytelen billentyűzet kód.</translation>
+        <translation type="obsolete">&apos;%1 (0x%2)&apos; érvénytelen billentyűzet kód.</translation>
     </message>
     <message>
         <source>The value &apos;%1&apos; of the key &apos;%2&apos; doesn&apos;t match the regexp constraint &apos;%3&apos;.</source>
@@ -8123,6 +8131,10 @@ Verzió %1</translation>
     <message>
         <source>Cannot delete the key &apos;%1&apos;.</source>
         <translation>Nem lehet törölni a &apos;%1&apos; kulcsot.</translation>
+    </message>
+    <message>
+        <source>&apos;%1&apos; is an invalid host-combination code-sequence.</source>
+        <translation>&apos;%1&apos; egy érvénytelen gazda-kombinációs kódsor.</translation>
     </message>
 </context>
 <context>
@@ -9290,11 +9302,11 @@ to the system default language.&lt;/qt&gt;
     </message>
     <message>
         <source>&lt;p&gt;The virtual machine window will be now switched to &lt;b&gt;fullscreen&lt;/b&gt; mode. You can go back to windowed mode at any time by pressing &lt;b&gt;%1&lt;/b&gt;. Note that the &lt;i&gt;Host&lt;/i&gt; key is currently defined as &lt;b&gt;%2&lt;/b&gt;.&lt;/p&gt;&lt;p&gt;Note that the main menu bar is hidden in fullscreen mode. You can access it by pressing &lt;b&gt;Host+Home&lt;/b&gt;.&lt;/p&gt;</source>
-        <translation type="obsolete">&lt;p&gt;A virtuális gép ablaka most &lt;b&gt;teljesképernyős&lt;/b&gt; módra vált. Bármikor visszaléphetsz ablakos módba a(z) &lt;b&gt;%1&lt;/b&gt; gomb megnyomásával. Ne feledd, hogy a &lt;i&gt;gazda&lt;/i&gt; gomb jelenleg ez: &lt;b&gt;%2&lt;/b&gt;.&lt;/p&gt;&lt;p&gt;Ne feledd, hogy a főmenü eltűnik teljesképernyős módnál. A &lt;b&gt;gazda+Home&lt;/b&gt; gombok megnyomásával férhetsz hozzá.&lt;/p&gt;</translation>
+        <translation type="obsolete">&lt;p&gt;A virtuális gép ablaka most &lt;b&gt;teljesképernyős&lt;/b&gt; módra vált. Bármikor visszaléphetsz ablakos módba a(z) &lt;b&gt;%1&lt;/b&gt; gomb megnyomásával. Ne feledd, hogy a &lt;i&gt;gazda&lt;/i&gt; gomb jelenleg ez: &lt;b&gt;%2&lt;/b&gt;.&lt;/p&gt;&lt;p&gt;Ne feledd, hogy a főmenü eltűnik teljesképernyős módnál. A &lt;b&gt;gazda+Home&lt;/b&gt; gombok megnyomásával érheted el.&lt;/p&gt;</translation>
     </message>
     <message>
         <source>&lt;p&gt;The virtual machine window will be now switched to &lt;b&gt;Seamless&lt;/b&gt; mode. You can go back to windowed mode at any time by pressing &lt;b&gt;%1&lt;/b&gt;. Note that the &lt;i&gt;Host&lt;/i&gt; key is currently defined as &lt;b&gt;%2&lt;/b&gt;.&lt;/p&gt;&lt;p&gt;Note that the main menu bar is hidden in seamless mode. You can access it by pressing &lt;b&gt;Host+Home&lt;/b&gt;.&lt;/p&gt;</source>
-        <translation type="obsolete">&lt;p&gt;A virtuális gép ablaka most &lt;b&gt;asztal-integrációs&lt;/b&gt; módra vált. Bármikor visszaléphetsz ablakos módba a(z) &lt;b&gt;%1&lt;/b&gt; gomb megnyomásával. Ne feledd, hogy a &lt;i&gt;gazda&lt;/i&gt; gomb jelenleg ez: &lt;b&gt;%2&lt;/b&gt;.&lt;/p&gt;&lt;p&gt;Ne feledd, hogy a főmenü eltűnik asztal-integrációs módnál. A &lt;b&gt;gazda+Home&lt;/b&gt; gombok megnyomásával férhetsz hozzá.&lt;/p&gt;</translation>
+        <translation type="obsolete">&lt;p&gt;A virtuális gép ablaka most &lt;b&gt;asztal-integrációs&lt;/b&gt; módra vált. Bármikor visszaléphetsz ablakos módba a(z) &lt;b&gt;%1&lt;/b&gt; gomb megnyomásával. Ne feledd, hogy a &lt;i&gt;gazda&lt;/i&gt; gomb jelenleg ez: &lt;b&gt;%2&lt;/b&gt;.&lt;/p&gt;&lt;p&gt;Ne feledd, hogy a főmenü eltűnik asztal-integrációs módnál. A &lt;b&gt;gazda+Home&lt;/b&gt; gombok megnyomásával érheted el.&lt;/p&gt;</translation>
     </message>
     <message>
         <source>&amp;Contents...</source>
@@ -9893,7 +9905,7 @@ to the system default language.&lt;/qt&gt;
     </message>
     <message>
         <source>&lt;p&gt;The VirtualBox Guest Additions do not appear to be available on this virtual machine, and shared folders cannot be used without them. To use shared folders inside the virtual machine, please install the Guest Additions if they are not installed, or re-install them if they are not working correctly, by selecting &lt;b&gt;Install Guest Additions&lt;/b&gt; from the &lt;b&gt;Machine&lt;/b&gt; menu. If they are installed but the machine is not yet fully started then shared folders will be available once it is.&lt;/p&gt;</source>
-        <translation type="obsolete">&lt;p&gt;Úgy tűnik a VirtualBox Integrációs szolgáltatások nem érhetők el a virtuális gépen, és nélküle a megosztott mappák nem használhatók. A virtuális gépen belüli megosztott mappák használatához telepítsd fel az Integrációs szolgáltatásokat, ha nincsenek telepítve, vagy ha csak nem működnek helyesen, az &lt;b&gt;Ezsközök&lt;/b&gt; menüben az &lt;b&gt;Integrciós szolgáltatások telepítése...&lt;/b&gt; választásával. Ha telepítve vannak, de a gép nem teljesen indult még el, a megosztott mappák elérhetők lesznek.&lt;/p&gt;</translation>
+        <translation type="obsolete">&lt;p&gt;Úgy tűnik a VirtualBox Integrációs szolgáltatások nem érhetők el a virtuális gépen, és nélküle a megosztott mappák nem használhatók. A virtuális gépen belüli megosztott mappák használatához telepítsd fel az Integrációs szolgáltatásokat, ha nincsenek telepítve, vagy ha csak nem működnek helyesen, az &lt;b&gt;Eszközök&lt;/b&gt; menüben az &lt;b&gt;Integrációs szolgáltatások telepítése...&lt;/b&gt; választásával. Ha telepítve vannak, de a gép nem teljesen indult még el, a megosztott mappák elérhetők lesznek.&lt;/p&gt;</translation>
     </message>
     <message numerus="yes">
         <source>&lt;p&gt;The virtual machine(s) &lt;b&gt;%1&lt;/b&gt; are currently in a saved state.&lt;/p&gt;&lt;p&gt;If you continue the runtime state of the exported machine(s) will be discarded. Note that the existing machine(s) are not changed.&lt;/p&gt;</source>
@@ -9931,7 +9943,7 @@ to the system default language.&lt;/qt&gt;
     </message>
     <message>
         <source>Sorry, some generic error happens.</source>
-        <translation>Sajnálom, véletlen hiba lépett fel.</translation>
+        <translation type="obsolete">Sajnálom, véletlen hiba lépett fel.</translation>
     </message>
     <message>
         <source>Failed to attach the hard disk (&lt;nobr&gt;&lt;b&gt;%1&lt;/b&gt;&lt;/nobr&gt;) to the slot &lt;i&gt;%2&lt;/i&gt; of the machine &lt;b&gt;%3&lt;/b&gt;.</source>
@@ -9947,76 +9959,88 @@ to the system default language.&lt;/qt&gt;
     </message>
     <message>
         <source>&lt;p&gt;Note that the storage unit of this medium will not be deleted and that it will be possible to use it later again.&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;Ne feledd, hogy ezen médium tárolóegysége nem lesz törölve és így később is hozzá lehet adni a listához.&lt;/p&gt;</translation>
     </message>
     <message>
         <source>&lt;p&gt;The VirtualBox Guest Additions do not appear to be available on this virtual machine, and shared folders cannot be used without them. To use shared folders inside the virtual machine, please install the Guest Additions if they are not installed, or re-install them if they are not working correctly, by selecting &lt;b&gt;Install Guest Additions&lt;/b&gt; from the &lt;b&gt;Devices&lt;/b&gt; menu. If they are installed but the machine is not yet fully started then shared folders will be available once it is.&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;Úgy tűnik a VirtualBox Integrációs szolgáltatások nem érhetők el a virtuális gépen, és nélküle a megosztott mappák nem használhatók. A virtuális gépen belüli megosztott mappák használatához telepítsd fel az Integrációs szolgáltatásokat, ha nincsenek telepítve, vagy ha csak nem működnek helyesen, az &lt;b&gt;Eszközök&lt;/b&gt; menüben az &lt;b&gt;Integrációs szolgáltatások telepítése...&lt;/b&gt; választásával. Ha telepítve vannak, de a gép nem teljesen indult még el, a megosztott mappák elérhetők lesznek.&lt;/p&gt;</translation>
     </message>
     <message>
         <source>&lt;p&gt;The virtual machine window will be now switched to &lt;b&gt;fullscreen&lt;/b&gt; mode. You can go back to windowed mode at any time by pressing &lt;b&gt;%1&lt;/b&gt;.&lt;/p&gt;&lt;p&gt;Note that the &lt;i&gt;Host&lt;/i&gt; key is currently defined as &lt;b&gt;%2&lt;/b&gt;.&lt;/p&gt;&lt;p&gt;Note that the main menu bar is hidden in fullscreen mode. You can access it by pressing &lt;b&gt;Host+Home&lt;/b&gt;.&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;A virtuális gép ablaka most &lt;b&gt;teljes képernyős&lt;/b&gt; módra vált. Bármikor visszaléphetsz az ablakos módba a(z) &lt;b&gt;%1&lt;/b&gt; gomb megnyomásával. Ne feledd, hogy a &lt;i&gt;gazda&lt;/i&gt; gomb jelenleg ez: &lt;b&gt;%2&lt;/b&gt;.&lt;/p&gt;&lt;p&gt;Ne feledd, hogy a főmenü eltűnik a teljes képernyős módnál. A &lt;b&gt;gazda+Home&lt;/b&gt; gombok megnyomásával érheted el.&lt;/p&gt;</translation>
     </message>
     <message>
         <source>&lt;p&gt;The virtual machine window will be now switched to &lt;b&gt;Seamless&lt;/b&gt; mode. You can go back to windowed mode at any time by pressing &lt;b&gt;%1&lt;/b&gt;.&lt;/p&gt;&lt;p&gt;Note that the &lt;i&gt;Host&lt;/i&gt; key is currently defined as &lt;b&gt;%2&lt;/b&gt;.&lt;/p&gt;&lt;p&gt;Note that the main menu bar is hidden in seamless mode. You can access it by pressing &lt;b&gt;Host+Home&lt;/b&gt;.&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;A virtuális gép ablaka most &lt;b&gt;asztal-integrációs&lt;/b&gt; módra vált. Bármikor visszaléphetsz az ablakos módba a(z) &lt;b&gt;%1&lt;/b&gt; gomb megnyomásával. Ne feledd, hogy a &lt;i&gt;gazda&lt;/i&gt; gomb jelenleg ez: &lt;b&gt;%2&lt;/b&gt;.&lt;/p&gt;&lt;p&gt;Ne feledd, hogy a főmenü eltűnik asztal-integrációs módnál. A &lt;b&gt;gazda+Home&lt;/b&gt; gombok megnyomásával érheted el.&lt;/p&gt;</translation>
     </message>
     <message>
         <source>&lt;p&gt;The virtual machine window will be now switched to &lt;b&gt;Scale&lt;/b&gt; mode. You can go back to windowed mode at any time by pressing &lt;b&gt;%1&lt;/b&gt;.&lt;/p&gt;&lt;p&gt;Note that the &lt;i&gt;Host&lt;/i&gt; key is currently defined as &lt;b&gt;%2&lt;/b&gt;.&lt;/p&gt;&lt;p&gt;Note that the main menu bar is hidden in scale mode. You can access it by pressing &lt;b&gt;Host+Home&lt;/b&gt;.&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;A virtuális gép ablaka most &lt;b&gt;átméretezhető&lt;/b&gt; módra vált. Bármikor visszaléphetsz az ablakos módba a(z) &lt;b&gt;%1&lt;/b&gt; gomb megnyomásával. Ne feledd, hogy a &lt;i&gt;gazda&lt;/i&gt; gomb jelenleg ez: &lt;b&gt;%2&lt;/b&gt;.&lt;/p&gt;&lt;p&gt;Ne feledd, hogy a főmenü eltűnik átméretezhető módnál. A &lt;b&gt;gazda+Home&lt;/b&gt; gombok megnyomásával érheted el.&lt;/p&gt;</translation>
     </message>
     <message>
         <source>Switch</source>
         <comment>scale</comment>
-        <translation type="unfinished">Átváltás</translation>
+        <translation>Átváltás</translation>
     </message>
     <message>
         <source>Failed to open the Extension Pack &lt;b&gt;%1&lt;/b&gt;.</source>
-        <translation type="unfinished"></translation>
+        <translation>A Kiterjesztő csomag megnyitása sikertelen: &lt;b&gt;%1&lt;/b&gt;.</translation>
     </message>
     <message>
         <source>&lt;p&gt;You are about to install a VirtualBox extension pack. Extension packs complement the functionality of VirtualBox and can contain system level software that could be potentially harmful to your system. Please review the description below and only proceed if you have obtained the extension pack from a trusted source.&lt;/p&gt;&lt;p&gt;&lt;table cellpadding=0 cellspacing=0&gt;&lt;tr&gt;&lt;td&gt;&lt;b&gt;Name:&amp;nbsp;&amp;nbsp;&lt;/b&gt;&lt;/td&gt;&lt;td&gt;%1&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;b&gt;Version:&amp;nbsp;&amp;nbsp;&lt;/b&gt;&lt;/td&gt;&lt;td&gt;%2&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;b&gt;Description:&amp;nbsp;&amp;nbsp;&lt;/b&gt;&lt;/td&gt;&lt;td&gt;%3&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;Egy VirtualBox kiterjesztő csomagot telepítesz. A kiterjesztő csomagok kiegészítik a VirtualBox képességeit és rendszerszintű szoftvert tartalmaznak, mely teljesen ártalmatlan a rendszeredre. Nézd át a lenti leírást és csak akkor folytasd, ha megbízható forásból származik a kiterjesztő csomag.&lt;/p&gt;&lt;p&gt;&lt;table cellpadding=0 cellspacing=0&gt;&lt;tr&gt;&lt;td&gt;&lt;b&gt;Név:&amp;nbsp;&amp;nbsp;&lt;/b&gt;&lt;/td&gt;&lt;td&gt;%1&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;b&gt;Verzió:&amp;nbsp;&amp;nbsp;&lt;/b&gt;&lt;/td&gt;&lt;td&gt;%2&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;b&gt;Leírás:&amp;nbsp;&amp;nbsp;&lt;/b&gt;&lt;/td&gt;&lt;td&gt;%3&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/p&gt;</translation>
     </message>
     <message>
         <source>&amp;Install</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Telepítés</translation>
     </message>
     <message>
         <source>Extension packs complement the functionality of VirtualBox and can contain system level software that could be potentially harmful to your system. Please review the description below and only proceed if you have obtained the extension pack from a trusted source.</source>
-        <translation type="unfinished"></translation>
+        <translation>A kiterjesztő csomagok kiegészítik a VirtualBox képességeit és rendszerszintű szoftvert tartalmaznak, mely teljesen ártalmatlan a rendszeredre. Nézd át a lenti leírást és csak akkor folytasd, ha megbízható forásból származik a kiterjesztő csomag.</translation>
     </message>
     <message>
         <source>&lt;p&gt;An older version of the extension pack is already installed, would you like to upgrade? &lt;p&gt;%1&lt;/p&gt;&lt;p&gt;&lt;table cellpadding=0 cellspacing=0&gt;&lt;tr&gt;&lt;td&gt;&lt;b&gt;Name:&amp;nbsp;&amp;nbsp;&lt;/b&gt;&lt;/td&gt;&lt;td&gt;%2&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;b&gt;New Version:&amp;nbsp;&amp;nbsp;&lt;/b&gt;&lt;/td&gt;&lt;td&gt;%3&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;b&gt;Current Version:&amp;nbsp;&amp;nbsp;&lt;/b&gt;&lt;/td&gt;&lt;td&gt;%4&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;b&gt;Description:&amp;nbsp;&amp;nbsp;&lt;/b&gt;&lt;/td&gt;&lt;td&gt;%5&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;Egy régi kiterjesztő csomag van telepítve. Szeretnéd frissíteni? &lt;p&gt;%1&lt;/p&gt;&lt;p&gt;&lt;table cellpadding=0 cellspacing=0&gt;&lt;tr&gt;&lt;td&gt;&lt;b&gt;Név:&amp;nbsp;&amp;nbsp;&lt;/b&gt;&lt;/td&gt;&lt;td&gt;%2&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;b&gt;Új verzió:&amp;nbsp;&amp;nbsp;&lt;/b&gt;&lt;/td&gt;&lt;td&gt;%3&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;b&gt;Jelenlegi verzió:&amp;nbsp;&amp;nbsp;&lt;/b&gt;&lt;/td&gt;&lt;td&gt;%4&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;b&gt;Leírás:&amp;nbsp;&amp;nbsp;&lt;/b&gt;&lt;/td&gt;&lt;td&gt;%5&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/p&gt;</translation>
     </message>
     <message>
         <source>&amp;Upgrade</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Frissítés</translation>
     </message>
     <message>
         <source>&lt;p&gt;An newer version of the extension pack is already installed, would you like to downgrade? &lt;p&gt;%1&lt;/p&gt;&lt;p&gt;&lt;table cellpadding=0 cellspacing=0&gt;&lt;tr&gt;&lt;td&gt;&lt;b&gt;Name:&amp;nbsp;&amp;nbsp;&lt;/b&gt;&lt;/td&gt;&lt;td&gt;%2&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;b&gt;New Version:&amp;nbsp;&amp;nbsp;&lt;/b&gt;&lt;/td&gt;&lt;td&gt;%3&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;b&gt;Current Version:&amp;nbsp;&amp;nbsp;&lt;/b&gt;&lt;/td&gt;&lt;td&gt;%4&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;b&gt;Description:&amp;nbsp;&amp;nbsp;&lt;/b&gt;&lt;/td&gt;&lt;td&gt;%5&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;Egy régebbi kiterjesztő csomag van telepítve. Szeretnéd visszabutítani? &lt;p&gt;%1&lt;/p&gt;&lt;p&gt;&lt;table cellpadding=0 cellspacing=0&gt;&lt;tr&gt;&lt;td&gt;&lt;b&gt;Név:&amp;nbsp;&amp;nbsp;&lt;/b&gt;&lt;/td&gt;&lt;td&gt;%2&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;b&gt;Új verzió:&amp;nbsp;&amp;nbsp;&lt;/b&gt;&lt;/td&gt;&lt;td&gt;%3&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;b&gt;Jelenlegi verzió:&amp;nbsp;&amp;nbsp;&lt;/b&gt;&lt;/td&gt;&lt;td&gt;%4&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;b&gt;Leírás:&amp;nbsp;&amp;nbsp;&lt;/b&gt;&lt;/td&gt;&lt;td&gt;%5&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/p&gt;</translation>
     </message>
     <message>
         <source>&amp;Downgrade</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Lebutítás</translation>
     </message>
     <message>
         <source>&lt;p&gt;The extension pack is already installed with the same version, would you like reinstall it? &lt;p&gt;%1&lt;/p&gt;&lt;p&gt;&lt;table cellpadding=0 cellspacing=0&gt;&lt;tr&gt;&lt;td&gt;&lt;b&gt;Name:&amp;nbsp;&amp;nbsp;&lt;/b&gt;&lt;/td&gt;&lt;td&gt;%2&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;b&gt;Version:&amp;nbsp;&amp;nbsp;&lt;/b&gt;&lt;/td&gt;&lt;td&gt;%3&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;b&gt;Description:&amp;nbsp;&amp;nbsp;&lt;/b&gt;&lt;/td&gt;&lt;td&gt;%4&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;A kiterjesztő csomag ezen verziója már telepítve vav. Szeretnéd ismét feltelepíteni? &lt;p&gt;%1&lt;/p&gt;&lt;p&gt;&lt;table cellpadding=0 cellspacing=0&gt;&lt;tr&gt;&lt;td&gt;&lt;b&gt;Név:&amp;nbsp;&amp;nbsp;&lt;/b&gt;&lt;/td&gt;&lt;td&gt;%2&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;b&gt;Verzió:&amp;nbsp;&amp;nbsp;&lt;/b&gt;&lt;/td&gt;&lt;td&gt;%3&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;b&gt;Leírás:&amp;nbsp;&amp;nbsp;&lt;/b&gt;&lt;/td&gt;&lt;td&gt;%4&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/p&gt;</translation>
     </message>
     <message>
         <source>&amp;Reinstall</source>
-        <translation type="unfinished"></translation>
+        <translation>Új&amp;ratelepítés</translation>
     </message>
     <message>
         <source>&lt;p&gt;You are about to remove the VirtualBox extension pack &lt;b&gt;%1&lt;/b&gt;.&lt;/p&gt;&lt;p&gt;Are you sure you want to proceed?&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;Eltávolítod a VirtualBox kiterjesztő scomagot: &lt;b&gt;%1&lt;/b&gt;.&lt;/p&gt;&lt;p&gt;Biztos folytatni akarod?&lt;/p&gt;</translation>
     </message>
     <message>
         <source>The extension pack &lt;br&gt;&lt;nobr&gt;&lt;b&gt;%1&lt;/b&gt;&lt;nobr&gt;&lt;br&gt; was installed successfully.</source>
-        <translation type="unfinished"></translation>
+        <translation>A kiterjesztő csomag sikeresen telepítve: &lt;br&gt;&lt;nobr&gt;&lt;b&gt;%1&lt;/b&gt;&lt;nobr&gt;&lt;br&gt;.</translation>
+    </message>
+    <message>
+        <source>Deletion of all files belonging to the VM is currently disabled on Windows/x64 to prevent a crash. That will be fixed in the next release.</source>
+        <translation>A virtuális géphez tartozó fájlok fájlok törlése jelenleg le van tiltva Windows/x64 rendszeren az összeomlás elkerülése miatt. Ez a következő kiadásban kerül javításra.</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;Cannot create the machine folder &lt;b&gt;%1&lt;/b&gt; in the parent folder &lt;nobr&gt;&lt;b&gt;%2&lt;/b&gt;.&lt;/nobr&gt;&lt;/p&gt;&lt;p&gt;Please check that the parent really exists and that you have permissions to create the machine folder.&lt;/p&gt;</source>
+        <translation>&lt;p&gt;A(z) &lt;nobr&gt;&lt;b&gt;%2&lt;/b&gt; szülő mappában nem tudod létrehozni a gép mappáját: &lt;b&gt;%1&lt;/b&gt;.&lt;/nobr&gt;&lt;/p&gt;&lt;p&gt;Ellenőrizd, hogy a szülő mappa tényleg létezik és hogy van jogod ott mappát létrehozni.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;USB 2.0 is currently enabled for this virtual machine. However this requires the &lt;b&gt;&lt;nobr&gt;%1&lt;/nobr&gt;&lt;/b&gt; to be installed.&lt;/p&gt;&lt;p&gt;Please install the Extension Pack from the VirtualBox download site. After this you will be able to re-enable USB 2.0. It will be disabled in the meantime unless you cancel the current settings changes.&lt;/p&gt;</source>
+        <translation>&lt;p&gt;Az USB 2.0 jelenleg be van kapcsolva a virtuális gépen. Azonban ehhez a következőnek telepítve kell lennie: &lt;b&gt;&lt;nobr&gt;%1&lt;/nobr&gt;&lt;/b&gt;.&lt;/p&gt;&lt;p&gt;A VirtualBox oldaláról letöltve telepítsd fel a Kiterjesztő csomagot. Ezután újra be engedélyezni tudod az USB 2.0-t. Addig ki lesz kapcsolva, hacsak meg nem szakítod a beállítások módosítását.&lt;/p&gt;</translation>
     </message>
 </context>
 <context>
@@ -10188,7 +10212,7 @@ to the system default language.&lt;/qt&gt;
     <name>VBoxSelectorWnd</name>
     <message>
         <source>VirtualBox OSE</source>
-        <translation>VirtualBox OSE</translation>
+        <translation type="obsolete">VirtualBox OSE</translation>
     </message>
     <message>
         <source>innotek VirtualBox</source>
@@ -10421,7 +10445,7 @@ to the system default language.&lt;/qt&gt;
     </message>
     <message>
         <source>R&amp;esume</source>
-        <translation>&amp;Folytat</translation>
+        <translation type="obsolete">&amp;Folytat</translation>
     </message>
     <message>
         <source>Resume the execution of the virtual machine</source>
@@ -10492,6 +10516,7 @@ to the system default language.&lt;/qt&gt;
     </message>
     <message>
         <source>Manager</source>
+        <comment>Note: main window title which is pretended by the product name.</comment>
         <translation>Kezelő</translation>
     </message>
     <message>

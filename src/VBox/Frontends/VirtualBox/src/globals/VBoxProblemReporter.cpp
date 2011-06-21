@@ -38,7 +38,7 @@
 #include "UIDownloaderUserManual.h"
 #include "UIMachine.h"
 #include "VBoxAboutDlg.h"
-#include "QIHotKeyEdit.h"
+#include "UIHotKeyEditor.h"
 #ifdef Q_WS_MAC
 # include "VBoxUtils-darwin.h"
 #endif
@@ -532,22 +532,6 @@ void VBoxProblemReporter::cannotAccessUSB (const COMBaseWithEI &aObj)
     if (res.rc() == E_NOTIMPL)
         return;
 
-#ifdef RT_OS_LINUX
-    /* xxx There is no macro to turn an error into a warning, but we need
-     *     to do that here. */
-    if (res.rc() == (VBOX_E_HOST_ERROR & ~0x80000000))
-    {
-        message (mainWindowShown(), VBoxProblemReporter::Warning,
-                 tr ("Could not access USB on the host system, because "
-                     "neither the USB file system (usbfs) nor the DBus "
-                     "and hal services are currently available. If you "
-                     "wish to use host USB devices inside guest systems, "
-                     "you must correct this and restart VirtualBox."),
-                 formatErrorInfo (res),
-                 "cannotAccessUSB" /* aAutoConfirmId */);
-        return;
-    }
-#endif
     message (mainWindowShown(), res.isWarning() ? Warning : Error,
              tr ("Failed to access the USB subsystem."),
              formatErrorInfo (res),
@@ -1684,7 +1668,7 @@ bool VBoxProblemReporter::confirmInputCapture (bool *aAutoConfirmed /* = NULL */
             "</p>") +
         tr ("<p>The host key is currently defined as <b>%1</b>.</p>",
             "additional message box paragraph")
-            .arg (QIHotKeyEdit::keyName (vboxGlobal().settings().hostKey())),
+            .arg (UIHotKeyCombination::toReadableString (vboxGlobal().settings().hostCombo())),
         "confirmInputCapture",
         QIMessageBox::Ok | QIMessageBox::Default,
         QIMessageBox::Cancel | QIMessageBox::Escape,
@@ -1717,7 +1701,7 @@ void VBoxProblemReporter::remindAboutAutoCapture()
             "</p>") +
         tr ("<p>The host key is currently defined as <b>%1</b>.</p>",
             "additional message box paragraph")
-            .arg (QIHotKeyEdit::keyName (vboxGlobal().settings().hostKey())),
+            .arg (UIHotKeyCombination::toReadableString (vboxGlobal().settings().hostCombo())),
         "remindAboutAutoCapture");
 }
 
@@ -1885,7 +1869,7 @@ bool VBoxProblemReporter::confirmGoingFullscreen (const QString &aHotKey)
             "<p>Note that the main menu bar is hidden in fullscreen mode. "
             "You can access it by pressing <b>Host+Home</b>.</p>")
             .arg (aHotKey)
-            .arg (QIHotKeyEdit::keyName (vboxGlobal().settings().hostKey())),
+            .arg (UIHotKeyCombination::toReadableString (vboxGlobal().settings().hostCombo())),
         "confirmGoingFullscreen",
         tr ("Switch", "fullscreen"));
 }
@@ -1905,7 +1889,7 @@ bool VBoxProblemReporter::confirmGoingSeamless (const QString &aHotKey)
             "<p>Note that the main menu bar is hidden in seamless mode. "
             "You can access it by pressing <b>Host+Home</b>.</p>")
             .arg (aHotKey)
-            .arg (QIHotKeyEdit::keyName (vboxGlobal().settings().hostKey())),
+            .arg (UIHotKeyCombination::toReadableString (vboxGlobal().settings().hostCombo())),
         "confirmGoingSeamless",
         tr ("Switch", "seamless"));
 }
@@ -1925,7 +1909,7 @@ bool VBoxProblemReporter::confirmGoingScale (const QString &aHotKey)
             "<p>Note that the main menu bar is hidden in scale mode. "
             "You can access it by pressing <b>Host+Home</b>.</p>")
             .arg (aHotKey)
-            .arg (QIHotKeyEdit::keyName (vboxGlobal().settings().hostKey())),
+            .arg (UIHotKeyCombination::toReadableString (vboxGlobal().settings().hostCombo())),
         "confirmGoingScale",
         tr ("Switch", "scale"));
 }
@@ -1981,10 +1965,11 @@ bool VBoxProblemReporter::confirmVMReset (QWidget *aParent)
 
 void VBoxProblemReporter::warnAboutCannotCreateMachineFolder(QWidget *pParent, const QString &strFolderName)
 {
+    QFileInfo fi(strFolderName);
     message(pParent ? pParent : mainWindowShown(), Critical,
-            tr("<p>Cannot create the machine folder:</p>"
-               "<p><b>%1</b></p>"
-               "<p>Please check you have the permissions required to do so.</p>").arg(strFolderName));
+            tr("<p>Cannot create the machine folder <b>%1</b> in the parent folder <nobr><b>%2</b>.</nobr></p>"
+               "<p>Please check that the parent really exists and that you have permissions to create the machine folder.</p>")
+               .arg(fi.fileName()).arg(fi.absolutePath()));
 }
 
 /**
@@ -2555,6 +2540,11 @@ void VBoxProblemReporter::remindAboutWrongColorDepth(ulong uRealBPP, ulong uWant
     emit sigRemindAboutWrongColorDepth(uRealBPP, uWantedBPP);
 }
 
+void VBoxProblemReporter::remindAboutUnsupportedUSB2(const QString &strExtPackName, QWidget *pParent)
+{
+    emit sigRemindAboutUnsupportedUSB2(strExtPackName, pParent);
+}
+
 void VBoxProblemReporter::showHelpWebDialog()
 {
     vboxGlobal().openURL ("http://www.virtualbox.org");
@@ -2787,6 +2777,23 @@ void VBoxProblemReporter::sltRemindAboutWrongColorDepth(ulong uRealBPP, ulong uW
             kName);
 }
 
+void VBoxProblemReporter::sltRemindAboutUnsupportedUSB2(const QString &strExtPackName, QWidget *pParent)
+{
+    if (isAlreadyShown("sltRemindAboutUnsupportedUSB2"))
+        return;
+    setShownStatus("sltRemindAboutUnsupportedUSB2");
+
+    message(pParent ? pParent : mainMachineWindowShown(), Warning,
+            tr("<p>USB 2.0 is currently enabled for this virtual machine. "
+               "However this requires the <b><nobr>%1</nobr></b> to be installed.</p>"
+               "<p>Please install the Extension Pack from the VirtualBox download site. "
+               "After this you will be able to re-enable USB 2.0. "
+               "It will be disabled in the meantime unless you cancel the current settings changes.</p>")
+               .arg(strExtPackName));
+
+    clearShownStatus("sltRemindAboutUnsupportedUSB2");
+}
+
 VBoxProblemReporter::VBoxProblemReporter()
 {
     /* Register required objects as meta-types: */
@@ -2828,6 +2835,16 @@ VBoxProblemReporter::VBoxProblemReporter()
             Qt::BlockingQueuedConnection);
     connect(this, SIGNAL(sigRemindAboutWrongColorDepth(ulong, ulong)),
             this, SLOT(sltRemindAboutWrongColorDepth(ulong, ulong)), Qt::QueuedConnection);
+    connect(this, SIGNAL(sigRemindAboutUnsupportedUSB2(const QString&, QWidget*)),
+            this, SLOT(sltRemindAboutUnsupportedUSB2(const QString&, QWidget*)), Qt::QueuedConnection);
+
+    /* Translations for Main.
+     * Please make sure they corresponds to the strings coming from Main one-by-one symbol! */
+    tr("Could not load the Host USB Proxy Service (VERR_FILE_NOT_FOUND). The service might not be installed on the host computer");
+    tr("VirtualBox is not currently allowed to access USB devices.  You can change this by adding your user to the 'vboxusers' group.  Please see the user manual for a more detailed explanation");
+    tr("VirtualBox is not currently allowed to access USB devices.  You can change this by allowing your user to access the 'usbfs' folder and files.  Please see the user manual for a more detailed explanation");
+    tr("The USB Proxy Service has not yet been ported to this host");
+    tr("Could not load the Host USB Proxy service");
 }
 
 /* Returns a reference to the global VirtualBox problem reporter instance: */
@@ -2845,8 +2862,17 @@ QString VBoxProblemReporter::doFormatErrorInfo (const COMErrorInfo &aInfo,
      * be used separately in QIMessageBox */
     QString formatted;
 
-    if (!aInfo.text().isEmpty())
-        formatted += QString ("<p>%1.</p>").arg (vboxGlobal().emphasize (aInfo.text()));
+    /* Check if details text is NOT empty: */
+    QString strDetailsInfo = aInfo.text();
+    if (!strDetailsInfo.isEmpty())
+    {
+        /* Check if details text written in English (latin1) and translated: */
+        if (strDetailsInfo == QString::fromLatin1(strDetailsInfo.toLatin1()) &&
+            strDetailsInfo != tr(strDetailsInfo.toLatin1().constData()))
+            formatted += QString("<p>%1.</p>").arg(vboxGlobal().emphasize(tr(strDetailsInfo.toLatin1().constData())));
+        else
+            formatted += QString("<p>%1.</p>").arg(vboxGlobal().emphasize(strDetailsInfo));
+    }
 
     formatted += "<!--EOM--><table bgcolor=#EEEEEE border=0 cellspacing=0 "
                  "cellpadding=0 width=100%>";

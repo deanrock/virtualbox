@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.0" language="pt_BR">
+<!DOCTYPE TS><TS>
 <context>
     <name>@@@</name>
     <message>
@@ -175,185 +173,6 @@
     <message>
         <source>&amp;Help</source>
         <translation type="obsolete">Ajuda (&amp;H)</translation>
-    </message>
-</context>
-<context>
-    <name>QIHotKeyEdit</name>
-    <message>
-        <source>Left </source>
-        <translation>Esquerda </translation>
-    </message>
-    <message>
-        <source>Right </source>
-        <translation>Direita </translation>
-    </message>
-    <message>
-        <source>Left Shift</source>
-        <translation>Shift Esquerdo</translation>
-    </message>
-    <message>
-        <source>Right Shift</source>
-        <translation>Shift Direito</translation>
-    </message>
-    <message>
-        <source>Left Ctrl</source>
-        <translation>Ctrl Esquerdo</translation>
-    </message>
-    <message>
-        <source>Right Ctrl</source>
-        <translation>Ctrl Direito</translation>
-    </message>
-    <message>
-        <source>Left Alt</source>
-        <translation>Alt Esquerdo</translation>
-    </message>
-    <message>
-        <source>Right Alt</source>
-        <translation>Alt Direito</translation>
-    </message>
-    <message>
-        <source>Left WinKey</source>
-        <translation>Tecla Windows Esquerda</translation>
-    </message>
-    <message>
-        <source>Right WinKey</source>
-        <translation>Tecla Windows Direita</translation>
-    </message>
-    <message>
-        <source>Menu key</source>
-        <translation>Tecla Menu</translation>
-    </message>
-    <message>
-        <source>Alt Gr</source>
-        <translation>Alt Gr</translation>
-    </message>
-    <message>
-        <source>Caps Lock</source>
-        <translation>Caps Lock</translation>
-    </message>
-    <message>
-        <source>Scroll Lock</source>
-        <translation>Scroll Lock</translation>
-    </message>
-    <message>
-        <source>&lt;key_%1&gt;</source>
-        <translation>&lt;key_%1&gt;</translation>
-    </message>
-    <message>
-        <source>Pause</source>
-        <translation>Pause</translation>
-    </message>
-    <message>
-        <source>Print Screen</source>
-        <translation>Print Screen</translation>
-    </message>
-    <message>
-        <source>F1</source>
-        <translation>F1</translation>
-    </message>
-    <message>
-        <source>F2</source>
-        <translation>F2</translation>
-    </message>
-    <message>
-        <source>F3</source>
-        <translation>F3</translation>
-    </message>
-    <message>
-        <source>F4</source>
-        <translation>F4</translation>
-    </message>
-    <message>
-        <source>F5</source>
-        <translation>F5</translation>
-    </message>
-    <message>
-        <source>F6</source>
-        <translation>F6</translation>
-    </message>
-    <message>
-        <source>F7</source>
-        <translation>F7</translation>
-    </message>
-    <message>
-        <source>F8</source>
-        <translation>F8</translation>
-    </message>
-    <message>
-        <source>F9</source>
-        <translation>F9</translation>
-    </message>
-    <message>
-        <source>F10</source>
-        <translation>F10</translation>
-    </message>
-    <message>
-        <source>F11</source>
-        <translation>F11</translation>
-    </message>
-    <message>
-        <source>F12</source>
-        <translation>F12</translation>
-    </message>
-    <message>
-        <source>F13</source>
-        <translation>F13</translation>
-    </message>
-    <message>
-        <source>F14</source>
-        <translation>F14</translation>
-    </message>
-    <message>
-        <source>F15</source>
-        <translation>F15</translation>
-    </message>
-    <message>
-        <source>F16</source>
-        <translation>F16</translation>
-    </message>
-    <message>
-        <source>F17</source>
-        <translation>F17</translation>
-    </message>
-    <message>
-        <source>F18</source>
-        <translation>F18</translation>
-    </message>
-    <message>
-        <source>F19</source>
-        <translation>F19</translation>
-    </message>
-    <message>
-        <source>F20</source>
-        <translation>F20</translation>
-    </message>
-    <message>
-        <source>F21</source>
-        <translation>F21</translation>
-    </message>
-    <message>
-        <source>F22</source>
-        <translation>F22</translation>
-    </message>
-    <message>
-        <source>F23</source>
-        <translation>F23</translation>
-    </message>
-    <message>
-        <source>F24</source>
-        <translation>F24</translation>
-    </message>
-    <message>
-        <source>Num Lock</source>
-        <translation>Num Lock</translation>
-    </message>
-    <message>
-        <source>Forward</source>
-        <translation>Avançar</translation>
-    </message>
-    <message>
-        <source>Back</source>
-        <translation>Voltar</translation>
     </message>
 </context>
 <context>
@@ -563,7 +382,7 @@
     </message>
     <message>
         <source>ACPI S&amp;hutdown</source>
-        <translation>Desligamento por ACPI (&amp;H)</translation>
+        <translation type="obsolete">Desligamento por ACPI (&amp;H)</translation>
     </message>
     <message>
         <source>Send the ACPI Power Button press event to the virtual machine</source>
@@ -1215,7 +1034,6 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Please complete the additional fields like the username, password and the bucket, and provide a filename for the OVF target.</source>
-        <translatorcomment>Bucket = serviço de armazenamento no estilo Amazon S3</translatorcomment>
         <translation type="obsolete">Por favor complete os campos adicionais, tais como nome de usuário, senha e o nome do &apos;bucket&apos;. Finalmente, forneça o nome do arquivo OVF de destino.</translation>
     </message>
     <message>
@@ -1302,7 +1120,6 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>&amp;Simple Storage System (S3)</source>
-        <translatorcomment>O nome do serviço é este, não seria produtivo traduzi-lo.</translatorcomment>
         <translation>&amp;Simple Storage System (S3)</translation>
     </message>
 </context>
@@ -1409,7 +1226,6 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>&amp;Bucket:</source>
-        <translatorcomment>O termo em inglês é mais apropriado neste caso.</translatorcomment>
         <translation type="obsolete">&amp;Bucket:</translation>
     </message>
     <message>
@@ -1430,7 +1246,6 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Appliance</source>
-        <translatorcomment>O termo em inglês é mais apropriado neste caso.</translatorcomment>
         <translation type="obsolete">Appliance</translation>
     </message>
     <message>
@@ -1773,6 +1588,10 @@ p, li { white-space: pre-wrap; }
         <source>Extension package files (%1)</source>
         <translation>Arquivos de pacote de extensão (%1)</translation>
     </message>
+    <message>
+        <source>Extensions</source>
+        <translation>Extensões</translation>
+    </message>
 </context>
 <context>
     <name>UIGlobalSettingsGeneral</name>
@@ -1822,7 +1641,6 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>&amp;Auto show Dock and Menubar in fullscreen</source>
-        <translatorcomment>Mostrar Dock e Barra de Menus &amp;automaticamente em tela cheia</translatorcomment>
         <translation></translation>
     </message>
     <message>
@@ -1846,11 +1664,11 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Reset Host Key</source>
-        <translation>Resetar Tecla de Hospedeiro</translation>
+        <translation type="obsolete">Resetar Tecla de Hospedeiro</translation>
     </message>
     <message>
         <source>Resets the key used as a Host Key in the VM window.</source>
-        <translation>Reseta a tecla utilizada como Tecla de Hospedeiro na tela de uma VM.</translation>
+        <translation type="obsolete">Reseta a tecla utilizada como Tecla de Hospedeiro na tela de uma VM.</translation>
     </message>
     <message>
         <source>When checked, the keyboard is automatically captured every time the VM window is activated. When the keyboard is captured, all keystrokes (including system ones like Alt-Tab) are directed to the VM.</source>
@@ -1859,6 +1677,14 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>&amp;Auto Capture Keyboard</source>
         <translation>Capturar teclado &amp;automaticamente</translation>
+    </message>
+    <message>
+        <source>Reset host combination</source>
+        <translation>Resetar combinação de hospedeiro</translation>
+    </message>
+    <message>
+        <source>Resets the key combination used as the host combination in the VM window.</source>
+        <translation>Reseta a combinação de teclas utilizada para ativar funções na janela da VM.</translation>
     </message>
 </context>
 <context>
@@ -2062,7 +1888,11 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>New Host-Only Interface</source>
-        <translation>Acrescentar Placa de Rede Exclusiva de Hospedeiro</translation>
+        <translation type="obsolete">Acrescentar Placa de Rede Exclusiva de Hospedeiro</translation>
+    </message>
+    <message>
+        <source>Networking</source>
+        <translation>Rede</translation>
     </message>
 </context>
 <context>
@@ -2219,6 +2049,189 @@ p, li { white-space: pre-wrap; }
     </message>
 </context>
 <context>
+    <name>UIHotKeyEditor</name>
+    <message>
+        <source>Left </source>
+        <translation>Esquerda </translation>
+    </message>
+    <message>
+        <source>Right </source>
+        <translation>Direita </translation>
+    </message>
+    <message>
+        <source>Left Shift</source>
+        <translation>Shift Esquerdo</translation>
+    </message>
+    <message>
+        <source>Right Shift</source>
+        <translation>Shift Direito</translation>
+    </message>
+    <message>
+        <source>Left Ctrl</source>
+        <translation>Ctrl Esquerdo</translation>
+    </message>
+    <message>
+        <source>Right Ctrl</source>
+        <translation>Ctrl Direito</translation>
+    </message>
+    <message>
+        <source>Left Alt</source>
+        <translation>Alt Esquerdo</translation>
+    </message>
+    <message>
+        <source>Right Alt</source>
+        <translation>Alt Direito</translation>
+    </message>
+    <message>
+        <source>Left WinKey</source>
+        <translation>Tecla Windows Esquerda</translation>
+    </message>
+    <message>
+        <source>Right WinKey</source>
+        <translation>Tecla Windows Direita</translation>
+    </message>
+    <message>
+        <source>Menu key</source>
+        <translation>Tecla Menu</translation>
+    </message>
+    <message>
+        <source>Alt Gr</source>
+        <translation>Alt Gr</translation>
+    </message>
+    <message>
+        <source>Caps Lock</source>
+        <translation>Caps Lock</translation>
+    </message>
+    <message>
+        <source>Scroll Lock</source>
+        <translation>Scroll Lock</translation>
+    </message>
+    <message>
+        <source>&lt;key_%1&gt;</source>
+        <translation>&lt;key_%1&gt;</translation>
+    </message>
+    <message>
+        <source>Pause</source>
+        <translation type="obsolete">Pause</translation>
+    </message>
+    <message>
+        <source>Print Screen</source>
+        <translation type="obsolete">Print Screen</translation>
+    </message>
+    <message>
+        <source>F1</source>
+        <translation type="obsolete">F1</translation>
+    </message>
+    <message>
+        <source>F2</source>
+        <translation type="obsolete">F2</translation>
+    </message>
+    <message>
+        <source>F3</source>
+        <translation type="obsolete">F3</translation>
+    </message>
+    <message>
+        <source>F4</source>
+        <translation type="obsolete">F4</translation>
+    </message>
+    <message>
+        <source>F5</source>
+        <translation type="obsolete">F5</translation>
+    </message>
+    <message>
+        <source>F6</source>
+        <translation type="obsolete">F6</translation>
+    </message>
+    <message>
+        <source>F7</source>
+        <translation type="obsolete">F7</translation>
+    </message>
+    <message>
+        <source>F8</source>
+        <translation type="obsolete">F8</translation>
+    </message>
+    <message>
+        <source>F9</source>
+        <translation type="obsolete">F9</translation>
+    </message>
+    <message>
+        <source>F10</source>
+        <translation type="obsolete">F10</translation>
+    </message>
+    <message>
+        <source>F11</source>
+        <translation type="obsolete">F11</translation>
+    </message>
+    <message>
+        <source>F12</source>
+        <translation type="obsolete">F12</translation>
+    </message>
+    <message>
+        <source>F13</source>
+        <translation type="obsolete">F13</translation>
+    </message>
+    <message>
+        <source>F14</source>
+        <translation type="obsolete">F14</translation>
+    </message>
+    <message>
+        <source>F15</source>
+        <translation type="obsolete">F15</translation>
+    </message>
+    <message>
+        <source>F16</source>
+        <translation type="obsolete">F16</translation>
+    </message>
+    <message>
+        <source>F17</source>
+        <translation type="obsolete">F17</translation>
+    </message>
+    <message>
+        <source>F18</source>
+        <translation type="obsolete">F18</translation>
+    </message>
+    <message>
+        <source>F19</source>
+        <translation type="obsolete">F19</translation>
+    </message>
+    <message>
+        <source>F20</source>
+        <translation type="obsolete">F20</translation>
+    </message>
+    <message>
+        <source>F21</source>
+        <translation type="obsolete">F21</translation>
+    </message>
+    <message>
+        <source>F22</source>
+        <translation type="obsolete">F22</translation>
+    </message>
+    <message>
+        <source>F23</source>
+        <translation type="obsolete">F23</translation>
+    </message>
+    <message>
+        <source>F24</source>
+        <translation type="obsolete">F24</translation>
+    </message>
+    <message>
+        <source>Num Lock</source>
+        <translation type="obsolete">Num Lock</translation>
+    </message>
+    <message>
+        <source>Forward</source>
+        <translation type="obsolete">Avançar</translation>
+    </message>
+    <message>
+        <source>Back</source>
+        <translation type="obsolete">Voltar</translation>
+    </message>
+    <message>
+        <source>None</source>
+        <translation>Nenhum</translation>
+    </message>
+</context>
+<context>
     <name>UIImportApplianceWzd</name>
     <message>
         <source>Select an appliance to import</source>
@@ -2285,7 +2298,6 @@ p, li { white-space: pre-wrap; }
     <name>UIImportApplianceWzdPage1</name>
     <message>
         <source>Select an appliance to import</source>
-        <translatorcomment>O termo em inglês é mais apropriado neste caso.</translatorcomment>
         <translation>Selecione um appliance para importar</translation>
     </message>
     <message>
@@ -2453,7 +2465,7 @@ p, li { white-space: pre-wrap; }
     <name>UIMachineLogic</name>
     <message>
         <source>VirtualBox OSE</source>
-        <translation>VirtualBox OSE</translation>
+        <translation type="obsolete">VirtualBox OSE</translation>
     </message>
     <message>
         <source> EXPERIMENTAL build %1r%2 - %3</source>
@@ -3793,7 +3805,6 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>&amp;Passthrough</source>
-        <translatorcomment>é mais simples explicar o passthrough do que criar uma tradução sem sentido.</translatorcomment>
         <translation>&amp;Passthrough</translation>
     </message>
     <message>
@@ -4221,6 +4232,10 @@ p, li { white-space: pre-wrap; }
         <source>&lt;nobr&gt;State: %1&lt;/nobr&gt;</source>
         <comment>USB filter tooltip</comment>
         <translation>&lt;nobr&gt;Estado: %1&lt;/nobr&gt;</translation>
+    </message>
+    <message>
+        <source>USB 2.0 is currently enabled for this virtual machine. However this requires the &lt;b&gt;%1&lt;/b&gt; to be installed. Please install the Extension Pack from the VirtualBox download site. After this you will be able to re-enable USB 2.0. It will be disabled in the meantime unless you cancel the current settings changes.</source>
+        <translation>USB 2.0 está habilitado para esta máquina virtual, mas para esta funcionalidade é necessário instalar &lt;b&gt;%1&lt;/b&gt;. Instale o Pacote de Extensão a partir do site do VirtualBox. Após instalar este componente, você poderá habilitar novamente o suporte a USB 2.0. Por enquanto, o suporte a USB 2.0 será desligado, a menos que você cancele as mudanças atuais.</translation>
     </message>
 </context>
 <context>
@@ -6338,12 +6353,10 @@ Versão %1</translation>
     </message>
     <message>
         <source>Session I&amp;nformation Dialog</source>
-        <translatorcomment>A tradução precisa ser curta e concisa para este item.</translatorcomment>
         <translation type="obsolete">I&amp;nformações sobre a Sessão</translation>
     </message>
     <message>
         <source>Show Session Information Dialog</source>
-        <translatorcomment>Tradução precisa ser curta e concisa.</translatorcomment>
         <translation type="obsolete">Exibe Informações Sobre a Sessão</translation>
     </message>
     <message>
@@ -6497,7 +6510,6 @@ Versão %1</translation>
     </message>
     <message>
         <source>Show Monitor Preview</source>
-        <translatorcomment>Neste caso, o termo em inglês é mais coerente.</translatorcomment>
         <translation type="obsolete">Exibir Preview do Monitor</translation>
     </message>
     <message>
@@ -8001,7 +8013,6 @@ Versão %1</translation>
     <message>
         <source>Guru Meditation</source>
         <comment>MachineState</comment>
-        <translatorcomment>Nem precisa traduzir....</translatorcomment>
         <translation>Guru Meditation</translation>
     </message>
     <message>
@@ -8157,46 +8168,34 @@ Versão %1</translation>
         <comment>medium</comment>
         <translation>Este disco rígido de base está indiretamente conectado através do seguinte disco rígido diferencial:</translation>
     </message>
-    <message numerus="yes">
+    <message>
         <source>%n year(s)</source>
-        <translation>
-            <numerusform>%n ano(s)</numerusform>
-            <numerusform>%n anos</numerusform>
+        <translation>%n anos
         </translation>
     </message>
-    <message numerus="yes">
+    <message>
         <source>%n month(s)</source>
-        <translation>
-            <numerusform>%n mês(meses)</numerusform>
-            <numerusform>%n meses</numerusform>
+        <translation>%n meses
         </translation>
     </message>
-    <message numerus="yes">
+    <message>
         <source>%n day(s)</source>
-        <translation>
-            <numerusform>%n dia(s)</numerusform>
-            <numerusform>%n dias</numerusform>
+        <translation>%n dias
         </translation>
     </message>
-    <message numerus="yes">
+    <message>
         <source>%n hour(s)</source>
-        <translation>
-            <numerusform>%n hora(s)</numerusform>
-            <numerusform>%n horas</numerusform>
+        <translation>%n horas
         </translation>
     </message>
-    <message numerus="yes">
+    <message>
         <source>%n minute(s)</source>
-        <translation>
-            <numerusform>%n minuto(s)</numerusform>
-            <numerusform>%n minuto(s)</numerusform>
+        <translation>%n minuto(s)
         </translation>
     </message>
-    <message numerus="yes">
+    <message>
         <source>%n second(s)</source>
-        <translation>
-            <numerusform>%n segundo(s)</numerusform>
-            <numerusform>%n segundos</numerusform>
+        <translation>%n segundos
         </translation>
     </message>
     <message>
@@ -8423,7 +8422,7 @@ Versão %1</translation>
     <name>VBoxGlobalSettings</name>
     <message>
         <source>&apos;%1 (0x%2)&apos; is an invalid host key code.</source>
-        <translation>&apos;%1 (0x%2)&apos; é uma chave de hospedeiro inválida.</translation>
+        <translation type="obsolete">&apos;%1 (0x%2)&apos; é uma chave de hospedeiro inválida.</translation>
     </message>
     <message>
         <source>The value &apos;%1&apos; of the key &apos;%2&apos; doesn&apos;t match the regexp constraint &apos;%3&apos;.</source>
@@ -8432,6 +8431,10 @@ Versão %1</translation>
     <message>
         <source>Cannot delete the key &apos;%1&apos;.</source>
         <translation>Não foi possível apagar a chave &apos;%1&apos;.</translation>
+    </message>
+    <message>
+        <source>&apos;%1&apos; is an invalid host-combination code-sequence.</source>
+        <translation>&apos;%1&apos; é uma combinação de teclas de hospedeiro inválida.</translation>
     </message>
 </context>
 <context>
@@ -10568,11 +10571,9 @@ to the system default language.&lt;/qt&gt;
         <source>&lt;p&gt;The VirtualBox Guest Additions do not appear to be available on this virtual machine, and shared folders cannot be used without them. To use shared folders inside the virtual machine, please install the Guest Additions if they are not installed, or re-install them if they are not working correctly, by selecting &lt;b&gt;Install Guest Additions&lt;/b&gt; from the &lt;b&gt;Machine&lt;/b&gt; menu. If they are installed but the machine is not yet fully started then shared folders will be available once it is.&lt;/p&gt;</source>
         <translation type="obsolete">&lt;p&gt;Os Adicionais para Convidado não estão disponíveis nesta máquina virtual, e portanto não é possível utilizar o recurso de pastas compartilhadas. Para utilizar pastas compartilhadas dentro da máquina virtual, instale os Adicionais para Convidado, ou instale-os novamente caso não estejam funcionando corretamente. Para fazer isto, selecione a opção &lt;b&gt;Instalar Adicionais para Convidado&lt;/b&gt; no menu &lt;b&gt;Máquina&lt;/b&gt;. Caso já esteja instalado mas a máquina esteja em processo de inicialização, aguarde até que esteja totalmente ativa e a opção de pastas compartilhadas estará disponível.&lt;/p&gt;</translation>
     </message>
-    <message numerus="yes">
+    <message>
         <source>&lt;p&gt;The virtual machine(s) &lt;b&gt;%1&lt;/b&gt; are currently in a saved state.&lt;/p&gt;&lt;p&gt;If you continue the runtime state of the exported machine(s) will be discarded. Note that the existing machine(s) are not changed.&lt;/p&gt;</source>
-        <translation>
-            <numerusform>&lt;p&gt;A máquina virtual &lt;b&gt;%1&lt;/b&gt; possui estado de execução salvo. &lt;/p&gt;&lt;p&gt;Se você continuar, o estado atual desta máquina será descartado. A máquina existente não será afetada.&lt;/p&gt;</numerusform>
-            <numerusform>&lt;p&gt;As máquinas virtuais &lt;b&gt;%1&lt;/b&gt; possuem estado de execução salvo. &lt;/p&gt;&lt;p&gt;Se você continuar, o estado atual de execução destas máquinas será descartado. As máquinas existentes não serão afetadas.&lt;/p&gt;</numerusform>
+        <translation>&lt;p&gt;As máquinas virtuais &lt;b&gt;%1&lt;/b&gt; possuem estado de execução salvo. &lt;/p&gt;&lt;p&gt;Se você continuar, o estado atual de execução destas máquinas será descartado. As máquinas existentes não serão afetadas.&lt;/p&gt;
         </translation>
     </message>
     <message>
@@ -10605,7 +10606,7 @@ to the system default language.&lt;/qt&gt;
     </message>
     <message>
         <source>Sorry, some generic error happens.</source>
-        <translation>Desculpe, aconteceu um erro genérico (sério!).</translation>
+        <translation type="obsolete">Desculpe, aconteceu um erro genérico (sério!).</translation>
     </message>
     <message>
         <source>Failed to attach the hard disk (&lt;nobr&gt;&lt;b&gt;%1&lt;/b&gt;&lt;/nobr&gt;) to the slot &lt;i&gt;%2&lt;/i&gt; of the machine &lt;b&gt;%3&lt;/b&gt;.</source>
@@ -10691,6 +10692,14 @@ to the system default language.&lt;/qt&gt;
     <message>
         <source>The extension pack &lt;br&gt;&lt;nobr&gt;&lt;b&gt;%1&lt;/b&gt;&lt;nobr&gt;&lt;br&gt; was installed successfully.</source>
         <translation>O pacote de extensão &lt;br&gt;&lt;nobr&gt;&lt;b&gt;%1&lt;/b&gt;&lt;nobr&gt;&lt;br&gt; foi instalado com sucesso.</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;Cannot create the machine folder &lt;b&gt;%1&lt;/b&gt; in the parent folder &lt;nobr&gt;&lt;b&gt;%2&lt;/b&gt;.&lt;/nobr&gt;&lt;/p&gt;&lt;p&gt;Please check that the parent really exists and that you have permissions to create the machine folder.&lt;/p&gt;</source>
+        <translation>&lt;p&gt;Não foi possível criar a pasta da máquina &lt;b&gt;%1&lt;/b&gt; em &lt;nobr&gt;&lt;b&gt;%2&lt;/b&gt;.&lt;/nobr&gt;&lt;/p&gt;&lt;p&gt;Verifique se a pasta de destino realmente existe e que você tem permissões para criar a pasta da máquina neste local.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;USB 2.0 is currently enabled for this virtual machine. However this requires the &lt;b&gt;&lt;nobr&gt;%1&lt;/nobr&gt;&lt;/b&gt; to be installed.&lt;/p&gt;&lt;p&gt;Please install the Extension Pack from the VirtualBox download site. After this you will be able to re-enable USB 2.0. It will be disabled in the meantime unless you cancel the current settings changes.&lt;/p&gt;</source>
+        <translation>&lt;p&gt;USB 2.0 está habilitado para esta máquina virtual, mas para esta funcionalidade é necessário instalar &lt;b&gt;&lt;nobr&gt;%1&lt;/nobr&gt;&lt;/b&gt;.&lt;/p&gt;&lt;p&gt; Instale o Pacote de Extensão a partir do site do VirtualBox. Após instalar este componente, você poderá habilitar novamente o suporte a USB 2.0. Por enquanto, o suporte a USB 2.0 será desligado, a menos que você cancele as mudanças atuais.&lt;/p&gt;</translation>
     </message>
 </context>
 <context>
@@ -10862,7 +10871,7 @@ to the system default language.&lt;/qt&gt;
     <name>VBoxSelectorWnd</name>
     <message>
         <source>VirtualBox OSE</source>
-        <translation>VirtualBox OSE</translation>
+        <translation type="obsolete">VirtualBox OSE</translation>
     </message>
     <message>
         <source>innotek VirtualBox</source>
@@ -11095,7 +11104,7 @@ to the system default language.&lt;/qt&gt;
     </message>
     <message>
         <source>R&amp;esume</source>
-        <translation>Continuar (&amp;E)</translation>
+        <translation type="obsolete">Continuar (&amp;E)</translation>
     </message>
     <message>
         <source>Resume</source>
@@ -11182,6 +11191,7 @@ to the system default language.&lt;/qt&gt;
     </message>
     <message>
         <source>Manager</source>
+        <comment>Note: main window title which is pretended by the product name.</comment>
         <translation>Gerenciador</translation>
     </message>
     <message>
@@ -11648,32 +11658,24 @@ para acessá-lo de um sistema operacional Linux. Este recurso requer a instalaç
         <source> (%1)</source>
         <translation> (%1)</translation>
     </message>
-    <message numerus="yes">
+    <message>
         <source> (%n day(s) ago)</source>
-        <translation type="obsolete">
-            <numerusform> (%n dia atrás)</numerusform>
-            <numerusform> (%n dias atrás)</numerusform>
+        <translation type="obsolete"> (%n dias atrás)
         </translation>
     </message>
-    <message numerus="yes">
+    <message>
         <source> (%n hour(s) ago)</source>
-        <translation type="obsolete">
-            <numerusform> (%n hora atrás)</numerusform>
-            <numerusform> (%n horas atrás)</numerusform>
+        <translation type="obsolete"> (%n horas atrás)
         </translation>
     </message>
-    <message numerus="yes">
+    <message>
         <source> (%n minute(s) ago)</source>
-        <translation type="obsolete">
-            <numerusform> (%n minuto atrás)</numerusform>
-            <numerusform> (%n minutos atrás)</numerusform>
+        <translation type="obsolete"> (%n minutos atrás)
         </translation>
     </message>
-    <message numerus="yes">
+    <message>
         <source> (%n second(s) ago)</source>
-        <translation type="obsolete">
-            <numerusform> (%n segundo atrás)</numerusform>
-            <numerusform> (%n segundos atrás)</numerusform>
+        <translation type="obsolete"> (%n segundos atrás)
         </translation>
     </message>
     <message>
@@ -11746,11 +11748,9 @@ para acessá-lo de um sistema operacional Linux. Este recurso requer a instalaç
         <source>Cancel</source>
         <translation type="obsolete">Cancelar</translation>
     </message>
-    <message numerus="yes">
+    <message>
         <source>Warning: You are taking a snapshot of a running machine which has %n immutable image(s) attached to it. As long as you are working from this snapshot the immutable image(s) will not be reset to avoid loss of data.</source>
-        <translation>
-            <numerusform>Aviso: Você está criando um snapshot de uma máquina em execução que possui %n imagem imutável associada a ela. Enquanto você estiver trabalhando a partir deste snapshot, a imagem imutável não será reestabelecida para evitar perda de dados.</numerusform>
-            <numerusform>Aviso: Você está criando um snapshot de uma máquina em execução que possui %n imagens imutáveis associadas a ela. Enquanto você estiver trabalhando a partir deste snapshot, as imagens imutáveis não serão reestabelecidas para evitar perda de dados.</numerusform>
+        <translation>Aviso: Você está criando um snapshot de uma máquina em execução que possui %n imagens imutáveis associadas a ela. Enquanto você estiver trabalhando a partir deste snapshot, as imagens imutáveis não serão reestabelecidas para evitar perda de dados.
         </translation>
     </message>
 </context>

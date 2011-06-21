@@ -1,41 +1,32 @@
 #!/usr/bin/make -f
 
 # Name of the source packages
-psource:=virtualbox-ose-source
-gsource:=virtualbox-ose-guest-source
-pdkms:=virtualbox-ose-dkms
-gdkms:=virtualbox-ose-guest-dkms
+psource:=virtualbox-source
+gsource:=virtualbox-guest-source
+pdkms:=virtualbox-dkms
+gdkms:=virtualbox-guest-dkms
 
 # The short upstream name
-sname:=virtualbox-ose
-sxname:=virtualbox-ose-qt
-gname:=virtualbox-ose-guest
-uname:=virtualbox-ose-guest-utils
-uxname:=virtualbox-ose-guest-x11
-fname:=virtualbox-ose-fuse
+sname:=virtualbox
+sxname:=virtualbox-qt
+gname:=virtualbox-guest
+uname:=virtualbox-guest-utils
+uxname:=virtualbox-guest-x11
+fname:=virtualbox-fuse
 
 INSTALL_PATH:=/usr/lib/virtualbox
 MAKE:=kmk
 
 upstreamversion := $(shell dpkg-parsechangelog | sed -n 's/^Version: *\([^-]\+\)-.\+/\1/p')
 
-X11_BACKPORT = 
+DIST_NAME := $(shell lsb_release -si)
+DIST_RELEASE := $(DIST_NAME)/$(shell lsb_release -sc)
 
 XSERVER_VERSION = 17
-INSTALL_X11_PCI_ID = 0
-INSTALL_X11_HAL = 0
-INSTALL_X11_UDEV = 1
 INSTALL_XORGCONFD = new
 XORG_PKG_ABI = new
 
-ifeq ($(X11_BACKPORT),lenny)
-	XSERVER_VERSION = 14
-	INSTALL_X11_PCI_ID = 1
-	INSTALL_X11_HAL = 1
-	INSTALL_X11_UDEV = 0
-	INSTALL_XORGCONFD = no
-	XORG_PKG_ABI = old
-else ifeq ($(X11_BACKPORT),lucid)
+ifeq ($(DIST_RELEASE),Ubuntu/lucid)
 	INSTALL_XORGCONFD = old
 	XORG_PKG_ABI = old
 endif
@@ -63,9 +54,11 @@ endif
 
 
 %:
-	dh $@ --with quilt,python_central,dkms
+	dh $@ --with python_central,dkms
 
 override_dh_auto_configure:
+	@echo Building for $(DIST_RELEASE)
+
 	mkdir -p out
 	./configure \
 	    --ose \
@@ -73,7 +66,8 @@ override_dh_auto_configure:
 	    --with-linux="/usr" \
 	    --disable-kmods \
 	    --enable-webservice \
-	    --enable-vde
+	    --enable-vde \
+	    --enable-vnc
 
 override_dh_auto_build:
 	# Building package
@@ -83,24 +77,25 @@ override_dh_auto_build:
 	    PATH_OUT=$(abspath out) \
 	    TOOL_YASM_AS=yasm \
 	    XSERVER_VERSION=$(XSERVER_VERSION) \
+	    VBOX_VERSION_STRING='$$(VBOX_VERSION_MAJOR).$$(VBOX_VERSION_MINOR).$$(VBOX_VERSION_BUILD)'_$(DIST_NAME) \
 	    VBOX_WITH_REGISTRATION_REQUEST= \
 	    VBOX_WITH_UPDATE_REQUEST= \
 	    $(if $(DH_VERBOSE),KBUILD_VERBOSE=2,)
 
 	mkdir -p out/vdfuse
-	gcc debian/vdfuse/vdfuse.c -o out/vdfuse/vdfuse -pipe -Wl,--as-needed -Wl,--rpath,$(INSTALL_PATH) -Wall \
+	gcc debian/vdfuse/vdfuse.c -o out/vdfuse/vdfuse -pipe -g -Wl,--as-needed -Wl,--rpath,$(INSTALL_PATH) -Wall \
 	    $(shell pkg-config --cflags --libs fuse) -Iinclude $(addprefix out/bin/, \
 	    VBoxDD.so VBoxDD2.so VBoxDDU.so VBoxVMM.so VBoxREM.so VBoxRT.so)
 
 	xsltproc --nonet --stringparam section.autolabel 1 \
 	    -o debian/README.Debian.html \
 	    /usr/share/xml/docbook/stylesheet/nwalsh/html/docbook.xsl \
-	    debian/virtualbox-ose.files/README.Debian.xml
+	    debian/virtualbox.files/README.Debian.xml
 
 	chmod 755 debian/lynx-dump-postprocess
 	export LC_ALL=C; lynx -force_html -dump debian/README.Debian.html | \
-	    ./debian/lynx-dump-postprocess > debian/virtualbox-ose.README.Debian.tmp
-	mv debian/virtualbox-ose.README.Debian.tmp debian/virtualbox-ose.README.Debian
+	    ./debian/lynx-dump-postprocess > debian/virtualbox.README.Debian.tmp
+	mv debian/virtualbox.README.Debian.tmp debian/virtualbox.README.Debian
 
 override_dh_auto_install:
 	dh_auto_install
@@ -147,39 +142,18 @@ endif # ifeq ($(XORG_PKG_ABI),new)
 override_dh_install:
 	dh_install
 
-ifeq ($(INSTALL_X11_PCI_ID),1)
-	dh_install -p$(uxname) --ignore debian/$(uxname).install \
-	    src/VBox/Additions/x11/Installer/vboxvideo.ids \
-	    /usr/share/xserver-xorg/pci
-endif
-
-ifeq ($(INSTALL_X11_HAL),1)
-	dh_install -p$(uxname) --ignore debian/$(uxname).install \
-	    src/VBox/Additions/linux/installer/90-vboxguest.fdi \
-	    /usr/share/hal/fdi/policy/20thirdparty
-endif
-
 ifeq ($(INSTALL_XORGCONFD),new)
 	dh_install -p$(uxname) --ignore debian/$(uxname).install \
 	    src/VBox/Additions/x11/Installer/50-vboxmouse.conf \
 	    /usr/share/X11/xorg.conf.d
-else ifeq ($(INSTALL_XORGCONFD),old)
+else
 	dh_install -p$(uxname) --ignore debian/$(uxname).install \
 	    src/VBox/Additions/x11/Installer/50-vboxmouse.conf \
 	    /usr/lib/X11/xorg.conf.d
 endif
 
-	cp src/VBox/Frontends/VirtualBox/images/OSE/VirtualBox_16px.png \
-	    debian/$(sxname)/usr/share/icons/hicolor/16x16/apps/virtualbox-ose.png
-	cp src/VBox/Frontends/VirtualBox/images/OSE/VirtualBox_32px.png \
-	    debian/$(sxname)/usr/share/icons/hicolor/32x32/apps/virtualbox-ose.png
-	cp src/VBox/Frontends/VirtualBox/images/OSE/VirtualBox_48px.png \
-	    debian/$(sxname)/usr/share/icons/hicolor/48x48/apps/virtualbox-ose.png
-	cp src/VBox/Frontends/VirtualBox/images/OSE/VirtualBox_64px.png \
-	    debian/$(sxname)/usr/share/icons/hicolor/64x64/apps/virtualbox-ose.png
-
-	convert debian/$(sxname)/usr/share/icons/hicolor/32x32/apps/virtualbox-ose.png \
-	    debian/$(sxname)/usr/share/pixmaps/virtualbox-ose.xpm
+	convert debian/$(sxname)/usr/share/icons/hicolor/32x32/apps/virtualbox.png \
+	    debian/$(sxname)/usr/share/pixmaps/virtualbox.xpm
 
 override_dh_fixperms:
 	dh_fixperms
@@ -189,6 +163,9 @@ override_dh_fixperms:
 	chmod +s debian/$(sname)$(INSTALL_PATH)/VBoxNetDHCP
 	chmod +s debian/$(sname)$(INSTALL_PATH)/VBoxNetAdpCtl
 	chmod +s debian/$(sxname)$(INSTALL_PATH)/VirtualBox
+
+	chmod 644 debian/$(sname)$(INSTALL_PATH)/*.gc
+	chmod 644 debian/$(sname)$(INSTALL_PATH)/*.r0
 
 	chmod 644 debian/$(sname)$(INSTALL_PATH)/sdk/bindings/xpcom/python/xpcom/*.py
 	chmod 644 debian/$(sname)$(INSTALL_PATH)/sdk/bindings/xpcom/python/xpcom/server/*.py
@@ -214,12 +191,8 @@ ifneq (,$(filter $(psource), $(shell dh_listpackages)))
 endif
 
 override_dh_installudev:
-ifeq ($(INSTALL_X11_UDEV),1)
 	dh_installudev -p$(uxname) --priority=69
 	dh_installudev --remaining-packages
-else
-	dh_installudev -N$(uxname)
-endif
 
 override_dh_installinit:
 	dh_installinit --no-start
@@ -229,6 +202,13 @@ override_dh_dkms:
 
 override_dh_strip:
 	dh_strip --dbg-package=$(sname)-dbg
+
+	# strip files not handled by dh_strip
+ifeq (,$(filter nostrip,$(DEB_BUILD_OPTIONS)))
+	set -e && for file in debian/$(sname)/usr/lib/virtualbox/*.gc debian/$(sname)/usr/lib/virtualbox/*.r0; do \
+	    strip --strip-debug --remove-section=.comment --remove-section=.note $${file}; \
+	done
+endif
 
 override_dh_shlibdeps:
 	dh_shlibdeps -p$(sname) -X debian/$(sname)$(INSTALL_PATH)/VBoxTestOGL -- \
@@ -244,7 +224,7 @@ override_dh_auto_clean:
 	# Cleaning package
 	rm -rf out
 	rm -f build-stamp
-	rm -f debian/virtualbox-ose.README.Debian debian/README.Debian.html
+	rm -f debian/virtualbox.README.Debian debian/README.Debian.html
 	rm -f debian/$(pdkms).install
 	rm -f debian/$(gdkms).install
 	rm -f debian/$(pdkms).links
@@ -270,13 +250,8 @@ dfsg-free: clean
 	rm -rf ./src/libs/zlib*
 	rm -rf ./src/VBox/Additions/linux/selinux-fedora
 	find src/VBox/Additions/x11/x11include -mindepth 1 -maxdepth 1 \
-	    -type d ! -name '*mesa-*' ! -name '1.4' -exec rm -rf {} \;
-	# x11include/1.4/xorg/Pci.h is required for lenny backports
-	find src/VBox/Additions/x11/x11include/1.4 -mindepth 1 \
-	    -type f ! -wholename '*/xorg/Pci.h' -exec rm -rf {} \;
-	find src/VBox/Additions/x11/x11include/1.4 -mindepth 1 \
-	    -depth -type d -empty -exec rmdir {} \;
-	cd ..; mv $(CURDIR) virtualbox-ose-$(upstreamversion)-dfsg; \
+	    -type d ! -name '*mesa-*' -exec rm -rf {} \;
+	cd ..; mv $(CURDIR) virtualbox-$(upstreamversion)-dfsg; \
 	    tar --exclude .svn --exclude '.git*' --exclude debian \
-	        -czf virtualbox-ose_$(upstreamversion)-dfsg.orig.tar.gz \
-	        virtualbox-ose-$(upstreamversion)-dfsg
+	        -cjf virtualbox_$(upstreamversion)-dfsg.orig.tar.bz2 \
+	        virtualbox-$(upstreamversion)-dfsg

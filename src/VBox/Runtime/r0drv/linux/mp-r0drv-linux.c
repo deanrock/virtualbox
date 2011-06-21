@@ -47,7 +47,7 @@ RT_EXPORT_SYMBOL(RTMpCpuId);
 
 RTDECL(int) RTMpCpuIdToSetIndex(RTCPUID idCpu)
 {
-    return idCpu < NR_CPUS ? (int)idCpu : -1;
+    return idCpu < RTCPUSET_MAX_CPUS && idCpu < NR_CPUS ? (int)idCpu : -1;
 }
 RT_EXPORT_SYMBOL(RTMpCpuIdToSetIndex);
 
@@ -361,6 +361,7 @@ RTDECL(int) RTMpPokeCpu(RTCPUID idCpu)
 # else  /* older kernels */
 #  error oops
 # endif /* older kernels */
+    NOREF(rc);
     Assert(rc == 0);
     return VINF_SUCCESS;
 

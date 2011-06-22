@@ -10,7 +10,6 @@ Build-Depends: bcc,
                bzip2,
                debhelper (>= 7.2.7~),
                default-jdk,
-               dh-modaliases,
                dkms (>= 2.1.1.1),
                docbook-xml,
                docbook-xsl,
@@ -149,7 +148,7 @@ Depends: ${misc:Depends},
 Breaks: virtualbox-ose-guest-dkms (<< 4.0.6-dfsg-1~)
 Replaces: virtualbox-ose-guest-dkms (<< 4.0.6-dfsg-1~),
           virtualbox-ose-guest-source (<< 3.1.0-dfsg-1~)
-XB-Modaliases: ${modaliases}
+XB-Modaliases: vboxguest(pci:v000080EEd0000CAFEsv00000000sd00000000bc*sc*i*)
 Description: x86 virtualization solution - guest addition module source for dkms
  VirtualBox is a free x86 virtualization solution allowing a wide range
  of x86 operating systems such as Windows, DOS, BSD or Linux to run on a

@@ -1,4 +1,4 @@
-virtualbox (4.0.10-dfsg-1~bpo60+1) squeeze-backport; urgency=low
+virtualbox (4.0.10-dfsg-1~bpo60+1) squeeze-backports; urgency=low
 
   * Rebuild for squeeze-backports.
 
@@ -19,7 +19,7 @@ virtualbox (4.0.10-dfsg-1) unstable; urgency=low
 
  -- Felix Geyer <debfx-pkg@fobos.de>  Sun, 03 Jul 2011 18:43:49 +0200
 
-virtualbox (4.0.8-dfsg-2~bpo60+1) squeeze-backport; urgency=low
+virtualbox (4.0.8-dfsg-2~bpo60+1) squeeze-backports; urgency=low
 
   * Rebuild for squeeze-backports.
 

@@ -1,3 +1,24 @@
+virtualbox (4.0.10-dfsg-1~bpo60+1) squeeze-backport; urgency=low
+
+  * Rebuild for squeeze-backports.
+
+ -- Michael Meskes <meskes@debian.org>  Wed, 27 Jul 2011 11:00:54 +0200
+
+virtualbox (4.0.10-dfsg-1) unstable; urgency=low
+
+  * New upstream release.
+    - Fixes VT-x detection on Linux 3.0 hosts. (LP: #799253)
+  * Don't disable the hardware performance counter in the init script, not
+    needed anymore since VirtualBox 4.0.0.
+  * Add 31-multiarch-dri-path.patch to fix 3d guest acceleration with the
+    multiarched mesa package.
+  * Use new Provides scheme for xorg video and input drivers. (Closes: #631612)
+  * Add 32-disable-guest-version-check.patch to disable notifications about
+    outdated guest additions.
+  * Link against the static gsoap++ library to fix FTBFS. (Closes: #632368)
+
+ -- Felix Geyer <debfx-pkg@fobos.de>  Sun, 03 Jul 2011 18:43:49 +0200
+
 virtualbox (4.0.8-dfsg-2~bpo60+1) squeeze-backport; urgency=low
 
   * Rebuild for squeeze-backports.

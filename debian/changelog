@@ -1,4 +1,4 @@
-virtualbox (4.0.10-dfsg-1ubuntu1) UNRELEASED; urgency=low
+virtualbox (4.0.10-dfsg-1ubuntu1) oneiric; urgency=low
 
   * Merge from Debian unstable, remaining changes:
     - Add Apport hook.
@@ -7,7 +7,7 @@ virtualbox (4.0.10-dfsg-1ubuntu1) UNRELEASED; urgency=low
     - Drop *-source packages.
   * Add the Modaliases control field manually for maximum backportability.
 
- -- Felix Geyer <debfx-pkg@fobos.de>  Sun, 19 Jun 2011 22:31:27 +0200
+ -- Felix Geyer <debfx-pkg@fobos.de>  Mon, 04 Jul 2011 13:02:31 +0200
 
 virtualbox (4.0.10-dfsg-1) unstable; urgency=low
 

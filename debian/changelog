@@ -1,3 +1,29 @@
+virtualbox (4.1.0-dfsg-2) unstable; urgency=low
+
+  * Install vboxpci module in virtualbox-modules packages, thanks to
+    YOSHINO Yoshihito. (Closes: #637177)
+  * Add 36-fix-kernel-panic-suspend.patch from upstream SVN to fix a kernel
+    panic on suspend caused by the vboxdrv module.
+    (Closes: #637226; LP: #814323)
+
+ -- Felix Geyer <debfx-pkg@fobos.de>  Wed, 10 Aug 2011 14:09:43 +0200
+
+virtualbox (4.1.0-dfsg-1) unstable; urgency=low
+
+  * New upstream release.
+  * Use VBOX_BUILD_PUBLISHER instead of VBOX_VERSION_STRING to set the
+    version suffix.
+  * Refresh patches.
+  * Drop 22-no-static-libstdcpp.patch and 31-multiarch-dri-path.patch,
+    applied upstream.
+  * Add 34-fix-vboxpci-build.patch to fix a VBoxPCI build failure.
+  * Add vboxpci kernel module to virtualbox-dkms and virtualbox-source.
+  * Update package names in 04-vboxdrv-references.patch.
+  * Add 35-libvdeplug-soname.patch to fix VDE networking. (Closes: #636335)
+  * Drop broken "alloc" symlink in virtualbox-dkms and virtualbox-source.
+
+ -- Felix Geyer <debfx-pkg@fobos.de>  Mon, 08 Aug 2011 16:39:11 +0200
+
 virtualbox (4.0.10-dfsg-1ubuntu1) oneiric; urgency=low
 
   * Merge from Debian unstable, remaining changes:

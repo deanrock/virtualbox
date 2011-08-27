@@ -1,3 +1,14 @@
+virtualbox (4.1.2-dfsg-1ubuntu1) UNRELEASED; urgency=low
+
+  * Merge from Debian unstable, remaining changes:
+    - Add Apport hook.
+      - debian/virtualbox.files/source_virtualbox.py
+      - debian/virtualbox.install
+    - Drop *-source packages.
+    - Add vboxguest modalias the to the package control field.
+
+ -- Felix Geyer <debfx-pkg@fobos.de>  Sat, 27 Aug 2011 15:39:57 +0200
+
 virtualbox (4.1.2-dfsg-1) unstable; urgency=low
 
   [ Michael Meskes ]

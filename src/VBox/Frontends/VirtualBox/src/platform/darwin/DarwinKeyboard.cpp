@@ -22,7 +22,7 @@
 *******************************************************************************/
 #define LOG_GROUP LOG_GROUP_GUI
 
-#define VBOX_WITH_KBD_LEDS_SYNC
+//#define VBOX_WITH_KBD_LEDS_SYNC
 //#define VBOX_WITH_KBD_SCROLL_LED_SYNC
 //#define VBOX_WITHOUT_KBD_LEDS_SYNC_FILTERING
 
@@ -321,7 +321,6 @@ typedef struct VBoxKbdEvent_t {
     VBoxKbdState_t *pKbd;
     uint32_t        iKeyCode;
     uint64_t        tsKeyDown;
-    uint64_t        tsKeyUp;
 } VBoxKbdEvent_t;
 
 /* HID LEDs synchronization data: IOKit specific data. */
@@ -504,11 +503,11 @@ void DarwinDisableGlobalHotKeys(bool fDisable)
     {
         if (enmMode != kCGSGlobalHotKeyEnable)
             return;
-        enmMode = kCGSGlobalHotKeyDisable;
+        enmMode = kCGSGlobalHotKeyDisableExceptUniversalAccess;
     }
     else
     {
-        if (enmMode != kCGSGlobalHotKeyDisable)
+        if (enmMode != kCGSGlobalHotKeyDisableExceptUniversalAccess)
             return;
         enmMode = kCGSGlobalHotKeyEnable;
     }
@@ -1472,6 +1471,116 @@ static bool darwinHidDeviceSupported(IOHIDDeviceRef pHidDeviceRef)
 #endif
 }
 
+/** IOKit key press callback helper: take care about key-down event.
+ * This code should be executed within a critical section under pHidState->fifoEventQueueLock. */
+static void darwinHidInputCbKeyDown(VBoxKbdState_t *pKbd, uint32_t iKeyCode, VBoxHidsState_t *pHidState)
+{
+    VBoxKbdEvent_t *pEvent = (VBoxKbdEvent_t *)malloc(sizeof(VBoxKbdEvent_t));
+
+    if (pEvent)
+    {
+        /* Queue Key-Down event. */
+        pEvent->tsKeyDown = RTTimeSystemMilliTS();
+        pEvent->pKbd      = pKbd;
+        pEvent->iKeyCode  = iKeyCode;
+
+        CFArrayAppendValue(pHidState->pFifoEventQueue, (void *)pEvent);
+
+        LogRel2(("IOHID: KBD %d: Modifier Key-Down event\n", (int)pKbd->idxPosition));
+    }
+    else
+        LogRel2(("IOHID: Modifier Key-Up event. Unable to find memory for KBD %d event\n", (int)pKbd->idxPosition));
+}
+
+/** IOkit and Carbon key press callbacks helper: CapsLock timeout checker.
+ *
+ * Returns FALSE if CAPS LOCK timeout not occurred and its state still was not switched (Apple kbd).
+ * Returns TRUE if CAPS LOCK timeout occurred and its state was switched (Apple kbd).
+ * Returns TRUE for non-Apple kbd. */
+static bool darwinKbdCapsEventMatches(VBoxKbdEvent_t *pEvent, bool fCapsLed)
+{
+    /* CapsLock timeout is only applicable if conditions
+     * below are satisfied:
+     *
+     * a) Key pressed on Apple keyboard
+     * b) CapsLed is OFF at the moment when CapsLock key is pressed
+     */
+
+    bool fAppleKeyboard = (pEvent->pKbd->cCapsLockTimeout > 0);
+
+    /* Apple keyboard */
+    if (fAppleKeyboard && !fCapsLed)
+    {
+        uint64_t tsDiff = RTTimeSystemMilliTS() - pEvent->tsKeyDown;
+        if (tsDiff < pEvent->pKbd->cCapsLockTimeout)
+            return false;
+    }
+
+    return true;
+}
+
+/** IOKit key press callback helper: take care about key-up event.
+ * This code should be executed within a critical section under pHidState->fifoEventQueueLock. */
+static void darwinHidInputCbKeyUp(VBoxKbdState_t *pKbd, uint32_t iKeyCode, VBoxHidsState_t *pHidState)
+{
+    CFIndex         iQueue = 0;
+    VBoxKbdEvent_t *pEvent = NULL;
+
+    /* Key-up event assumes that key-down event occured previously. If so, an event
+     * data should be in event queue. Attempt to find it. */
+    for (CFIndex i = 0; i < CFArrayGetCount(pHidState->pFifoEventQueue); i++)
+    {
+        VBoxKbdEvent_t *pCachedEvent = (VBoxKbdEvent_t *)CFArrayGetValueAtIndex(pHidState->pFifoEventQueue, i);
+
+        if (pCachedEvent && pCachedEvent->pKbd == pKbd && pCachedEvent->iKeyCode == iKeyCode)
+        {
+            pEvent = pCachedEvent;
+            iQueue = i;
+            break;
+        }
+    }
+
+    /* Event found. */
+    if (pEvent)
+    {
+        /* NUM LOCK should not have timeout and its press should immidiately trigger Carbon callback.
+         * Therefore, if it is still in queue this is a problem because it was not handled by Carbon callback.
+         * This mean that NUM LOCK is most likely out of sync. */
+        if (iKeyCode == kHIDUsage_KeypadNumLock)
+        {
+            LogRel2(("IOHID: KBD %d: Modifier Key-Up event. Key-Down event was not habdled by Carbon callback. "
+                "NUM LOCK is most likely out of sync\n", (int)pKbd->idxPosition));
+        }
+        else if (iKeyCode == kHIDUsage_KeyboardCapsLock)
+        {
+            /* If CAPS LOCK key-press event still not match CAPS LOCK timeout criteria, Carbon callback
+             * should not be triggered for this event at all. Threfore, event should be removed from queue. */
+            if (!darwinKbdCapsEventMatches(pEvent, pHidState->guestState.fCapsLockOn))
+            {
+                free(pEvent);
+                CFArrayRemoveValueAtIndex(pHidState->pFifoEventQueue, iQueue);
+
+                LogRel2(("IOHID: KBD %d: Modifier Key-Up event on Apple keyboard. Key-Down event was triggered %llu ms "
+                    "ago. Carbon event should not be triggered, removed from queue\n", (int)pKbd->idxPosition,
+                    RTTimeSystemMilliTS() - pEvent->tsKeyDown));
+            }
+            else
+            {
+                /* CAPS LOCK key-press event matches to CAPS LOCK timeout criteria and still present in queue.
+                 * This might mean that Carbon callback was triggered for this event, but cached keyboard state was not updated.
+                 * It also might mean that Carbon callback still was not triggered, but it will be soon.
+                 * Threfore, CAPS LOCK might be out of sync. */
+                LogRel2(("IOHID: KBD %d: Modifier Key-Up event. Key-Down event was triggered %llu ms "
+                    "ago and still was not handled by Carbon callback. CAPS LOCK might out of sync if "
+                    "Carbon will not handle this\n", (int)pKbd->idxPosition, RTTimeSystemMilliTS() - pEvent->tsKeyDown));
+            }
+        }
+    }
+    else
+        LogRel2(("IOHID: KBD %d: Modifier Key-Up event. Modifier state change was "
+            "successfully handled by Carbon callback\n", (int)pKbd->idxPosition));
+}
+
 /** IOKit key press callback. Triggered before Carbon callback. We remember which keyboard produced a keypress here. */
 static void darwinHidInputCallback(void *pData, IOReturn unused, void *unused1, IOHIDValueRef pValueRef)
 {
@@ -1493,75 +1602,19 @@ static void darwinHidInputCallback(void *pData, IOReturn unused, void *unused1, 
 
             if (pKbd && pKbd->pParentContainer)
             {
-                bool fKeyDown = (IOHIDValueGetIntegerValue(pValueRef) == 1);
-
+                bool             fKeyDown  = (IOHIDValueGetIntegerValue(pValueRef) == 1);
                 VBoxHidsState_t *pHidState = (VBoxHidsState_t *)pKbd->pParentContainer;
-                VBoxKbdEvent_t  *pEvent = NULL;;
-                CFIndex          iQueue = 0;
 
                 AssertReturnVoid(pHidState);
 
                 if (RT_FAILURE(RTSemMutexRequest(pHidState->fifoEventQueueLock, RT_INDEFINITE_WAIT)))
                     return ;
 
-                /* Allocate new event data on Key-Down, find a cached one on Key-Up */
+                /* Handle corresponding event. */
                 if (fKeyDown)
-                    pEvent = (VBoxKbdEvent_t *)malloc(sizeof(VBoxKbdEvent_t));
+                    darwinHidInputCbKeyDown(pKbd, usage, pHidState);
                 else
-                {
-                    for (CFIndex i = 0; i < CFArrayGetCount(pHidState->pFifoEventQueue); i++)
-                    {
-                        VBoxKbdEvent_t *pCachedEvent = (VBoxKbdEvent_t *)CFArrayGetValueAtIndex(pHidState->pFifoEventQueue, i);
-                        if (pCachedEvent && pCachedEvent->pKbd == pKbd && pCachedEvent->iKeyCode == usage)
-                        {
-                            pEvent = pCachedEvent;
-                            iQueue = i;
-                            break;
-                        }
-                    }
-                }
-
-                if (pEvent)
-                {
-                    if (usage == kHIDUsage_KeyboardCapsLock && pKbd->cCapsLockTimeout)
-                    {
-                        if (fKeyDown)
-                            pEvent->tsKeyDown = RTTimeSystemMilliTS();
-                        else
-                            pEvent->tsKeyUp = RTTimeSystemMilliTS();
-                    }
-
-                    if (fKeyDown)
-                    {
-                        LogRel2(("IOHID: KBD %d: Modifier Key-Down\n", (int)pKbd->idxPosition));
-
-                        pEvent->pKbd = pKbd;
-                        pEvent->iKeyCode = usage;
-                        pEvent->tsKeyUp = 0;
-
-                        /* Append FIFO event queue */
-                        CFArrayAppendValue(pHidState->pFifoEventQueue, (void *)pEvent);
-                    }
-                    else
-                    {
-                        uint64_t tsDiff = pEvent->tsKeyUp - pEvent->tsKeyDown;
-                        if (tsDiff < pKbd->cCapsLockTimeout)
-                        {
-                            free(pEvent);
-                            CFArrayRemoveValueAtIndex(pHidState->pFifoEventQueue, iQueue);
-                            LogRel2(("IOHID: KBD %d: Modifier Key-Up (Key-Down %llu ms ago). Apple keyboard, removed from queue\n", (int)pKbd->idxPosition, tsDiff));
-                        }
-                        else
-                            LogRel2(("IOHID: KBD %d: Modifier Key-Up (Key-Down %llu ms ago)\n", (int)pKbd->idxPosition, tsDiff));
-                    }
-                }
-                else
-                {
-                    if (fKeyDown)
-                        LogRel2(("IOHID: unable to find memory to queue KBD %d event\n", (int)pKbd->idxPosition));
-                    else
-                        LogRel2(("IOHID: unable to find KBD %d event in queue\n", (int)pKbd->idxPosition));
-                }
+                    darwinHidInputCbKeyUp(pKbd, usage, pHidState);
 
                 RTSemMutexRelease(pHidState->fifoEventQueueLock);
             }
@@ -1570,8 +1623,44 @@ static void darwinHidInputCallback(void *pData, IOReturn unused, void *unused1, 
         }
 }
 
-/** Carbon key press callback. Triggered after IOKit callback. We update keyboard (catched in darwinHidInputCallback()) internal state here. */
-static CGEventRef darwinCarbonGlobalKeyPressCallback(CGEventTapProxy unused, CGEventType unused1, CGEventRef pEventRef, void *pData)
+/** Carbon key press callback helper: find last occured KBD event in queue
+ * (ignoring those events which do not match CAPS LOCK timeout criteria).
+ * Once event found, it is removed from queue. This code should be executed
+ * within a critical section under pHidState->fifoEventQueueLock. */
+static VBoxKbdEvent_t *darwinCarbonCbFindEvent(VBoxHidsState_t *pHidState)
+{
+    VBoxKbdEvent_t *pEvent = NULL;
+
+    for (CFIndex i = 0; i < CFArrayGetCount(pHidState->pFifoEventQueue); i++)
+    {
+        pEvent = (VBoxKbdEvent_t *)CFArrayGetValueAtIndex(pHidState->pFifoEventQueue, i);
+
+        /* Paranoia: skip potentially dangerous data items. */
+        if (!pEvent || !pEvent->pKbd) continue;
+
+        if ( pEvent->iKeyCode == kHIDUsage_KeypadNumLock
+         || (pEvent->iKeyCode == kHIDUsage_KeyboardCapsLock && darwinKbdCapsEventMatches(pEvent, pHidState->guestState.fCapsLockOn)))
+        {
+            /* Found one. Remove it from queue. */
+            CFArrayRemoveValueAtIndex(pHidState->pFifoEventQueue, i);
+
+            LogRel2(("CARBON: Found event in queue: %d (KBD %d, tsKeyDown=%llu, pressed %llu ms ago)\n", (int)i,
+                (int)pEvent->pKbd->idxPosition, pEvent->tsKeyDown, RTTimeSystemMilliTS() - pEvent->tsKeyDown));
+
+            break;
+        }
+        else
+            LogRel2(("CARBON: Skip keyboard event from KBD %d, key pressed %llu ms ago\n",
+                (int)pEvent->pKbd->idxPosition, RTTimeSystemMilliTS() - pEvent->tsKeyDown));
+
+        pEvent = NULL;
+    }
+
+    return pEvent;
+}
+
+/** Carbon key press callback. Triggered after IOKit callback. */
+static CGEventRef darwinCarbonCallback(CGEventTapProxy unused, CGEventType unused1, CGEventRef pEventRef, void *pData)
 {
     (void)unused;
     (void)unused1;
@@ -1590,38 +1679,15 @@ static CGEventRef darwinCarbonGlobalKeyPressCallback(CGEventTapProxy unused, CGE
     if (key == kHIDUsage_KeyboardCapsLock ||
         key == kHIDUsage_KeypadNumLock)
     {
-        /* Extract last touched state from FIFO event queue */
-        VBoxKbdEvent_t *pEvent = NULL;
-        CFIndex         iEvent = 0;
-
-        /* Find last occured KBD event in queue (ignoring those events which not match CAPS LOCK timeout criteria). */
-        for (CFIndex i = 0; i < CFArrayGetCount(pHidState->pFifoEventQueue); i++)
-        {
-            pEvent = (VBoxKbdEvent_t *)CFArrayGetValueAtIndex(pHidState->pFifoEventQueue, i);
-            if (!pEvent) continue;
-            if (!pEvent->pKbd) continue;
-
-            if (pEvent->iKeyCode == kHIDUsage_KeypadNumLock
-             || pEvent->iKeyCode == kHIDUsage_KeyboardCapsLock)
-            {
-                /* Found one. Keep its index in queue in order to remove it later. */
-                iEvent = i;
-                LogRel2(("CARBON: Found event in queue: %d (KBD %d, tsKeyDown=%llu, pressed %llu ms ago)\n", (int)i, (int)pEvent->pKbd->idxPosition, pEvent->tsKeyDown, RTTimeSystemMilliTS() - pEvent->tsKeyDown));
-                break;
-            }
-            else
-                LogRel2(("CARBON: skip CAPS LOCK event %d (KBD %d) (tsKeyDown=%llu, pressed %llu ms ago)\n", (int)i, (int)pEvent->pKbd->idxPosition, pEvent->tsKeyDown, RTTimeSystemMilliTS() - pEvent->tsKeyDown));
-
-            pEvent = NULL;
-        }
-
+        /* Attempt to find an event queued by IOKit callback. */
+        VBoxKbdEvent_t *pEvent = darwinCarbonCbFindEvent(pHidState);
         if (pEvent)
         {
             VBoxKbdState_t *pKbd = pEvent->pKbd;
 
             LogRel2(("CARBON: KBD %d: caps=%s, num=%s. tsKeyDown=%llu, tsKeyUp=%llu [tsDiff=%llu ms]. %d events in queue.\n",
                 (int)pKbd->idxPosition, VBOX_BOOL_TO_STR_STATE(fCaps), VBOX_BOOL_TO_STR_STATE(fNum),
-                pEvent->tsKeyDown, pEvent->tsKeyUp, pEvent->tsKeyUp - pEvent->tsKeyDown,
+                pEvent->tsKeyDown, RTTimeSystemMilliTS(), RTTimeSystemMilliTS() - pEvent->tsKeyDown,
                 CFArrayGetCount(pHidState->pFifoEventQueue)));
 
             pKbd->LED.fCapsLockOn = fCaps;
@@ -1640,12 +1706,11 @@ static CGEventRef darwinCarbonGlobalKeyPressCallback(CGEventTapProxy unused, CGE
                 }
             }
 
-            /* Forget event */
-            CFArrayRemoveValueAtIndex(pHidState->pFifoEventQueue, iEvent);
             free(pEvent);
         }
         else
-            LogRel2(("CARBON: No KBD to take care when modifier key has been pressed: caps=%s, num=%s\n", VBOX_BOOL_TO_STR_STATE(fCaps), VBOX_BOOL_TO_STR_STATE(fNum)));
+            LogRel2(("CARBON: No KBD to take care when modifier key has been pressed: caps=%s, num=%s (%d events in queue)\n",
+                VBOX_BOOL_TO_STR_STATE(fCaps), VBOX_BOOL_TO_STR_STATE(fNum), CFArrayGetCount(pHidState->pFifoEventQueue)));
     }
 
     RTSemMutexRelease(pHidState->fifoEventQueueLock);
@@ -1744,6 +1809,7 @@ static void darwinHidAddDevice(VBoxHidsState_t *pHidState, IOHIDDeviceRef pDevic
                     LogRel2(("Saved LEDs for KBD %d (%p): fNumLockOn=%s, fCapsLockOn=%s, fScrollLockOn=%s\n",
                          (int)pKbd->idxPosition, pKbd, VBOX_BOOL_TO_STR_STATE(pKbd->LED.fNumLockOn), VBOX_BOOL_TO_STR_STATE(pKbd->LED.fCapsLockOn),
                          VBOX_BOOL_TO_STR_STATE(pKbd->LED.fScrollLockOn)));
+
                     if (fApplyLedState)
                     {
                         rc = darwinSetDeviceLedsState(pKbd->pDevice, elementMatchingDict, pHidState->guestState.fNumLockOn,
@@ -1778,7 +1844,7 @@ static void darwinHidMatchingCallback(void *pData, IOReturn unused, void *unused
 }
 
 /** Register Carbon key press callback. */
-static int darwinAddCarbonGlobalKeyPressHandler(VBoxHidsState_t *pHidState)
+static int darwinAddCarbonHandler(VBoxHidsState_t *pHidState)
 {
     CFMachPortRef pTapRef;
     CGEventMask   fMask = CGEventMaskBit(kCGEventFlagsChanged);
@@ -1798,7 +1864,7 @@ static int darwinAddCarbonGlobalKeyPressHandler(VBoxHidsState_t *pHidState)
         return kIOReturnError;
     }
 
-    pTapRef = CGEventTapCreate(kCGSessionEventTap, kCGTailAppendEventTap, 0, fMask, darwinCarbonGlobalKeyPressCallback, (void *)pHidState);
+    pTapRef = CGEventTapCreate(kCGSessionEventTap, kCGTailAppendEventTap, 0, fMask, darwinCarbonCallback, (void *)pHidState);
     if (pTapRef)
     {
         CFRunLoopSourceRef pLoopSourceRef;
@@ -1825,7 +1891,7 @@ static int darwinAddCarbonGlobalKeyPressHandler(VBoxHidsState_t *pHidState)
 }
 
 /** Remove Carbon key press callback. */
-static void darwinRemoveCarbonGlobalKeyPressHandler(VBoxHidsState_t *pHidState)
+static void darwinRemoveCarbonHandler(VBoxHidsState_t *pHidState)
 {
     AssertReturnVoid(pHidState);
     AssertReturnVoid(pHidState->pTapRef);
@@ -1871,7 +1937,7 @@ void * DarwinHidDevicesKeepLedsState(void)
                 pHidState->pDeviceCollection = CFArrayCreateMutable(kCFAllocatorDefault, 0, NULL);
                 if (pHidState->pDeviceCollection)
                 {
-                    if (darwinAddCarbonGlobalKeyPressHandler(pHidState) == 0)
+                    if (darwinAddCarbonHandler(pHidState) == 0)
                     {
                         /* Populate cache with HID devices */
                         CFSetRef pDevicesSet = IOHIDManagerCopyDevices(pHidState->hidManagerRef);
@@ -1940,7 +2006,7 @@ int DarwinHidDevicesApplyAndReleaseLedsState(void *pState)
     AssertReturn(pHidState, kIOReturnError);
 
     /* Need to unregister Carbon stuff first */
-    darwinRemoveCarbonGlobalKeyPressHandler(pHidState);
+    darwinRemoveCarbonHandler(pHidState);
 
     CFDictionaryRef elementMatchingDict = darwinQueryLedElementMatchingDictionary();
     if (elementMatchingDict)

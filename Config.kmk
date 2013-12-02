@@ -4,7 +4,7 @@
 #
 # This file gets included by all makefiles through the
 # include $(KBUILD_PATH)/header.kmk statement.
-#
+# 
 
 #
 # Copyright (C) 2006-2013 Oracle Corporation
@@ -162,7 +162,7 @@ if  $(KBUILD_VERSION_MAJOR) == 0 \
  && (   $(KBUILD_VERSION_MINOR) >= 2 \
      || (   $(KBUILD_VERSION_MINOR) == 1 \
          && $(KBUILD_VERSION_PATCH) >= 999))
- if $(KMK_REVISION) >= 2577
+ if $(KMK_REVISION) >= 2689
   # OK.
  else
   $(error You must update kBuild! Requires kBuild revision 2577 or later, found $(KMK_REVISION) ($(KBUILD_VERSION)))
@@ -206,7 +206,7 @@ VBOX_VERSION_MINOR = 3
 # This is the current build number. It should be increased every time we publish a
 # new build. The define is available in every source file. Only even build numbers
 # will be published, odd numbers are set during development.
-VBOX_VERSION_BUILD = 2
+VBOX_VERSION_BUILD = 4
 # The raw version string. This *must not* contain any other information/fields than
 # major, minor and build revision (as it is now) -- also will be used for host/guest version
 # comparison.
@@ -5587,7 +5587,7 @@ endif
 SVN                    ?= svn$(HOSTSUFF_EXE)
 VBOX_SVN_REV_KMK        = $(PATH_OUT)/revision.kmk
 ifndef VBOX_SVN_REV
- VBOX_SVN_REV_FALLBACK := $(patsubst %:,,  $Rev: 90405 $  )
+ VBOX_SVN_REV_FALLBACK := $(patsubst %:,,  $Rev: 91027 $  )
  VBOX_SVN_DEP          := $(firstword $(wildcard $(PATH_ROOT)/.svn/wc.db $(abspath $(PATH_ROOT)/../.svn/wc.db) $(abspath $(PATH_ROOT)/../../.svn/wc.db) $(PATH_ROOT)/.svn/entries))
  ifeq ($(which $(SVN)),)
   VBOX_SVN_DEP         :=

@@ -1,8 +1,6 @@
 /* $Id: UIMachineLogic.cpp $ */
 /** @file
- *
- * VBox frontends: Qt GUI ("VirtualBox"):
- * UIMachineLogic class implementation
+ * VBox Qt GUI - UIMachineLogic class implementation.
  */
 
 /*
@@ -32,8 +30,10 @@
 /* GUI includes: */
 #include "QIFileDialog.h"
 #include "UIActionPoolRuntime.h"
-#include "UINetworkManager.h"
-#include "UIDownloaderAdditions.h"
+#ifdef VBOX_GUI_WITH_NETWORK_MANAGER
+# include "UINetworkManager.h"
+# include "UIDownloaderAdditions.h"
+#endif /* VBOX_GUI_WITH_NETWORK_MANAGER */
 #include "UIIconPool.h"
 #include "UIKeyboardHandler.h"
 #include "UIMouseHandler.h"
@@ -248,6 +248,8 @@ void UIMachineLogic::cleanup()
     /* Cleanup handlers: */
     cleanupHandlers();
 
+    /* Cleanup action connections: */
+    cleanupActionConnections();
     /* Cleanup action groups: */
     cleanupActionGroups();
 }
@@ -708,8 +710,8 @@ void UIMachineLogic::prepareRequiredFeatures()
 void UIMachineLogic::prepareSessionConnections()
 {
     /* We should check for entering/exiting requested modes: */
-    connect(uisession(), SIGNAL(sigMachineStarted()), this, SLOT(sltCheckRequestedModes()));
-    connect(uisession(), SIGNAL(sigAdditionsStateChange()), this, SLOT(sltCheckRequestedModes()));
+    connect(uisession(), SIGNAL(sigMachineStarted()), this, SLOT(sltCheckForRequestedVisualStateType()));
+    connect(uisession(), SIGNAL(sigAdditionsStateChange()), this, SLOT(sltCheckForRequestedVisualStateType()));
 
     /* Machine state-change updater: */
     connect(uisession(), SIGNAL(sigMachineStateChange()), this, SLOT(sltMachineStateChanged()));
@@ -1089,34 +1091,6 @@ bool UIMachineLogic::eventFilter(QObject *pWatched, QEvent *pEvent)
     }
     /* Call to base-class: */
     return QIWithRetranslateUI3<QObject>::eventFilter(pWatched, pEvent);
-}
-
-void UIMachineLogic::sltCheckRequestedModes()
-{
-    /* Do not try to enter extended mode if machine was not started yet: */
-    if (!uisession()->isRunning() && !uisession()->isPaused())
-        return;
-
-    /* If seamless mode is requested, supported and we are NOT currently in seamless mode: */
-    if (uisession()->isSeamlessModeRequested() &&
-        uisession()->isGuestSupportsSeamless() &&
-        visualStateType() != UIVisualStateType_Seamless)
-    {
-        uisession()->setSeamlessModeRequested(false);
-        QAction *pSeamlessModeAction = gActionPool->action(UIActionIndexRuntime_Toggle_Seamless);
-        AssertMsg(!pSeamlessModeAction->isChecked(), ("Seamless action should not be triggered before us!\n"));
-        QTimer::singleShot(0, pSeamlessModeAction, SLOT(trigger()));
-    }
-    /* If seamless mode is NOT requested, NOT supported and we are currently in seamless mode: */
-    else if (!uisession()->isSeamlessModeRequested() &&
-             !uisession()->isGuestSupportsSeamless() &&
-             visualStateType() == UIVisualStateType_Seamless)
-    {
-        uisession()->setSeamlessModeRequested(true);
-        QAction *pSeamlessModeAction = gActionPool->action(UIActionIndexRuntime_Toggle_Seamless);
-        AssertMsg(pSeamlessModeAction->isChecked(), ("Seamless action should not be triggered before us!\n"));
-        QTimer::singleShot(0, pSeamlessModeAction, SLOT(trigger()));
-    }
 }
 
 void UIMachineLogic::sltToggleGuestAutoresize(bool fEnabled)
@@ -2190,6 +2164,7 @@ void UIMachineLogic::sltInstallGuestAdditions()
             return uisession()->sltInstallGuestAdditionsFrom(path);
     }
 
+#ifdef VBOX_GUI_WITH_NETWORK_MANAGER
     /* If downloader is running already: */
     if (UIDownloaderAdditions::current())
     {
@@ -2206,6 +2181,7 @@ void UIMachineLogic::sltInstallGuestAdditions()
         /* Start downloading: */
         pDl->start();
     }
+#endif /* VBOX_GUI_WITH_NETWORK_MANAGER */
 }
 
 #ifdef VBOX_WITH_DEBUGGER_GUI

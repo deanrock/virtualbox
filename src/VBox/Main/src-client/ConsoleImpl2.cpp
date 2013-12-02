@@ -1037,7 +1037,7 @@ int Console::configConstructorInner(PUVM pUVM, PVM pVM, AutoWriteLock *pAlock)
         /* /HM/xzy */
         PCFGMNODE pHM;
         InsertConfigNode(pRoot, "HM", &pHM);
-        InsertConfigInteger(pRoot, "HMForced", fHMForced);
+        InsertConfigInteger(pHM, "HMForced", fHMForced);
         if (fHMEnabled)
         {
             /* Indicate whether 64-bit guests are supported or not. */
@@ -1049,8 +1049,7 @@ int Console::configConstructorInner(PUVM pUVM, PVM pVM, AutoWriteLock *pAlock)
 #endif
 
             /** @todo Not exactly pretty to check strings; VBOXOSTYPE would be better, but that requires quite a bit of API change in Main. */
-            if (    !fIsGuest64Bit
-                &&  fIOAPIC
+            if (    fIOAPIC
                 &&  (   osTypeId == "WindowsNT4"
                      || osTypeId == "Windows2000"
                      || osTypeId == "WindowsXP"
@@ -2509,33 +2508,17 @@ int Console::configConstructorInner(PUVM pUVM, PVM pVM, AutoWriteLock *pAlock)
 
             /* Virtual USB Mouse/Tablet */
             if (   aPointingHID == PointingHIDType_USBMouse
-                || aPointingHID == PointingHIDType_ComboMouse
                 || aPointingHID == PointingHIDType_USBTablet
                 || aPointingHID == PointingHIDType_USBMultiTouch)
-                InsertConfigNode(pUsbDevices, "HidMouse", &pDev);
-            if (aPointingHID == PointingHIDType_USBMouse)
             {
+                InsertConfigNode(pUsbDevices, "HidMouse", &pDev);
                 InsertConfigNode(pDev,     "0", &pInst);
                 InsertConfigNode(pInst,    "Config", &pCfg);
 
-                InsertConfigString(pCfg,   "Mode", "relative");
-                InsertConfigNode(pInst,    "LUN#0", &pLunL0);
-                InsertConfigString(pLunL0, "Driver",        "MouseQueue");
-                InsertConfigNode(pLunL0,   "Config", &pCfg);
-                InsertConfigInteger(pCfg,  "QueueSize",            128);
-
-                InsertConfigNode(pLunL0,   "AttachedDriver", &pLunL1);
-                InsertConfigString(pLunL1, "Driver",        "MainMouse");
-                InsertConfigNode(pLunL1,   "Config", &pCfg);
-                InsertConfigInteger(pCfg,  "Object",     (uintptr_t)pMouse);
-            }
-            if (   aPointingHID == PointingHIDType_USBTablet
-                || aPointingHID == PointingHIDType_USBMultiTouch)
-            {
-                InsertConfigNode(pDev,     "1", &pInst);
-                InsertConfigNode(pInst,    "Config", &pCfg);
-
-                InsertConfigString(pCfg,   "Mode", "absolute");
+                if (aPointingHID == PointingHIDType_USBMouse)
+                    InsertConfigString(pCfg,   "Mode", "relative");
+                else
+                    InsertConfigString(pCfg,   "Mode", "absolute");
                 InsertConfigNode(pInst,    "LUN#0", &pLunL0);
                 InsertConfigString(pLunL0, "Driver",        "MouseQueue");
                 InsertConfigNode(pLunL0,   "Config", &pCfg);
@@ -2548,7 +2531,7 @@ int Console::configConstructorInner(PUVM pUVM, PVM pVM, AutoWriteLock *pAlock)
             }
             if (aPointingHID == PointingHIDType_USBMultiTouch)
             {
-                InsertConfigNode(pDev,     "2", &pInst);
+                InsertConfigNode(pDev,     "1", &pInst);
                 InsertConfigNode(pInst,    "Config", &pCfg);
 
                 InsertConfigString(pCfg,   "Mode", "multitouch");
@@ -4992,7 +4975,11 @@ int Console::configNetwork(const char *pszDevice,
                         /* Stop the hostonly DHCP Server */
                     }
 
-                    if (!networkName.isEmpty())
+                    /*
+                     * NAT networks start their DHCP server theirself, see NATNetwork::Start()
+                     */
+                    if (   !networkName.isEmpty()
+                        && eAttachmentType != NetworkAttachmentType_NATNetwork)
                     {
                         /*
                          * Until we implement service reference counters DHCP Server will be stopped

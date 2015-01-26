@@ -1,3 +1,12 @@
+virtualbox (4.1.18-dfsg-2+deb7u4) wheezy-security; urgency=medium
+
+  [ Frank Mehnert ]
+  * fix security vulnerabilities (Closes: #775888)
+     CVE-2015-0377, CVE-2015-0418
+     - debian/patches/CVE-2015-0{377,418}.patch
+
+ -- Gianfranco Costamagna <costamagnagianfranco@yahoo.it>  Thu, 22 Jan 2015 14:21:14 +0100
+
 virtualbox (4.1.18-dfsg-2+deb7u3) wheezy-security; urgency=high
 
   * Fix memory corruption vulnerabilities in 3D acceleration. (Closes: #741602)

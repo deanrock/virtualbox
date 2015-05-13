@@ -1,4 +1,4 @@
-virtualbox (4.3.18-dfsg-4) jessie; urgency=medium
+virtualbox (4.3.18-dfsg-3+deb8u1) jessie; urgency=medium
 
   [ Moritz Mühlenhoff ]
   * d/p/37-disable-smap.patch, cherry-pick upstream patch to fix a kernel

@@ -1,10 +1,10 @@
-virtualbox (4.3.18-dfsg-4) UNRELEASED; urgency=medium
+virtualbox (4.3.18-dfsg-4) jessie; urgency=medium
 
   [ Moritz Mühlenhoff ]
   * d/p/37-disable-smap.patch, cherry-pick upstream patch to fix a kernel
     paging issue (LP: #1437845, Closes: #783142).
 
- -- Gianfranco Costamagna <costamagnagianfranco@yahoo.it>  Thu, 23 Apr 2015 09:26:50 +0200
+ -- Ritesh Raj Sarraf <rrs@debian.org>  Wed, 13 May 2015 13:53:36 +0530
 
 virtualbox (4.3.18-dfsg-3) unstable; urgency=medium
 

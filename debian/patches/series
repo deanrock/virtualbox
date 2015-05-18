@@ -15,3 +15,4 @@
 35-libvdeplug-soname.patch
 36-fix-vnc-version-string.patch
 37-disable-smap.patch
+CVE-2015-3456.patch

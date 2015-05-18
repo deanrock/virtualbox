@@ -1,3 +1,10 @@
+virtualbox (4.1.18-dfsg-2+deb7u5) wheezy-security; urgency=medium
+
+  * d/p/CVE-2015-3456.patch fix for CVE-2015-3456 a.k.a. VENOM
+    (Closes: #785424)
+
+ -- Gianfranco Costamagna <costamagnagianfranco@yahoo.it>  Mon, 18 May 2015 18:32:20 +0200
+
 virtualbox (4.1.18-dfsg-2+deb7u4) wheezy-security; urgency=medium
 
   [ Frank Mehnert ]

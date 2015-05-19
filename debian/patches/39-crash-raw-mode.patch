@@ -1,0 +1,10 @@
+Index: trunk/src/VBox/Devices/PC/DevACPI.cpp
+===================================================================
+--- a/src/VBox/Devices/PC/DevACPI.cpp
++++ b/src/VBox/Devices/PC/DevACPI.cpp
+@@ -2936,4 +2936,5 @@
+ {
+     ACPIState *pThis = PDMINS_2_DATA(pDevIns, ACPIState *);
++    pThis->pDevInsRC = PDMDEVINS_2_RCPTR(pDevIns);
+     pThis->pPmTimerRC = TMTimerRCPtr(pThis->pPmTimerR3);
+     NOREF(offDelta);

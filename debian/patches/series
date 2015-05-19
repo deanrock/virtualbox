@@ -16,3 +16,4 @@
 36-fix-vnc-version-string.patch
 37-disable-smap.patch
 CVE-2015-3456.patch
+39-crash-raw-mode.patch

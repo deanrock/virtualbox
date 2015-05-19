@@ -1,3 +1,11 @@
+virtualbox (4.3.18-dfsg-3+deb8u3) jessie; urgency=medium
+
+  * d/p/39-crash-raw-mode.patch fix crash in raw mode.
+    (Closes: #785689) from upstream changeset 53083
+    thanks Frank for the hint!
+
+ -- Gianfranco Costamagna <costamagnagianfranco@yahoo.it>  Tue, 19 May 2015 10:22:10 +0200
+
 virtualbox (4.3.18-dfsg-3+deb8u2) jessie-security; urgency=high
 
   * d/p/CVE-2015-3456.patch fix for CVE-2015-3456 a.k.a. VENOM
